@@ -3,14 +3,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class CalendarTile extends StatefulWidget {
-  const CalendarTile({super.key});
+class ExpenseManagerTile extends StatefulWidget {
+  const ExpenseManagerTile({super.key});
 
   @override
-  State<CalendarTile> createState() => _CalendarTileState();
+  State<ExpenseManagerTile> createState() => _ExpenseManagerTileState();
 }
 
-class _CalendarTileState extends State<CalendarTile> {
+class _ExpenseManagerTileState extends State<ExpenseManagerTile> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -19,7 +19,7 @@ class _CalendarTileState extends State<CalendarTile> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text('Calendar tile')
+          Text('Expense manager tile')
         ],
       ),
     );
