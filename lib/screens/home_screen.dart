@@ -1,11 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:project_n2/screens/settings_screen.dart';
+
+import 'package:provider/provider.dart';
+
 import 'package:reorderables/reorderables.dart';
 
+import '../models/module.dart';
+
 import './settings_screen.dart';
-import '../widgets/expenseManager_tile.dart';
-import '../widgets/calendar_tile.dart';
-import '../widgets/notebook_tile.dart';
+
+import '../widgets/home_screen_tile.dart';
+
+final _scaffoldKey = GlobalKey<ScaffoldState>();
+
+const List<Widget> _widgetOptions = <Widget>[
+  Text('Index 0: Home', key: ValueKey(0)),
+  Text('Index 1: Menu', key: ValueKey(1)),
+];
+int _selectedIndex = 0;
+
+List<String> _moduleList = [
+  // 'Expense Manager',
+  // 'Calendar',
+  // 'Notebook',
+];
+List<Widget> _rows = [];
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -27,19 +45,13 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
+  // static const TextStyle optionStyle =
+  //     TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
 
-  int _selectedIndex = 0;
-
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text('Index 0: Home', style: optionStyle, key: ValueKey(0)),
-    Text('Index 1: Menu', style: optionStyle, key: ValueKey(1)),
-  ];
-
-  List<Widget> _rows = [];
+  // static const List<Widget> _widgetOptions = <Widget>[
+  //   Text('Index 0: Home', style: optionStyle, key: ValueKey(0)),
+  //   Text('Index 1: Menu', style: optionStyle, key: ValueKey(1)),
+  // ];
 
   @override
   void initState() {
@@ -48,25 +60,62 @@ class _HomeScreenState extends State<HomeScreen> {
     //     50,
     //     (int index) => Text('This is row $index',
     //         key: ValueKey(index), textScaleFactor: 1.5));
-    _rows.add(ExpenseManagerTile(key: ValueKey(0)));
-    _rows.add(CalendarTile(key: ValueKey(1)));
-    _rows.add(NotebookTile(key: ValueKey(1)));
+
+    // _rows.add(SmartTile('Expense Manager', key: ValueKey(0)));
+    // _rows.add(SmartTile('Calendar', key: ValueKey(1)));
+    // _rows.add(SmartTile('Notebook', key: ValueKey(2)));
+
+    // _rows = List<Widget>.generate(
+    //   modules.moduleList.length,
+    //   (int index) => SmartTile(
+    //     modules.moduleList[index],
+    //     key: ValueKey(index),
+    //   ),
+    // );
   }
 
   @override
   Widget build(BuildContext context) {
+    final modules = Provider.of<CustomModules>(context);
+    _rows = List<Widget>.generate(
+      modules.moduleList!.length,
+      (int index) => SmartTile(
+        modules.moduleList![index],
+        key: ValueKey(index),
+      ),
+    );
+    _moduleList = modules.moduleList!;
+    //final modules = Provider.of<CustomModules>(context);
     return Scaffold(
       key: _scaffoldKey,
       body: SafeArea(
-        child: ReorderableColumn(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: _rows,
-            onReorder: (int oldIndex, int newIndex) {
-              setState(() {
-                Widget row = _rows.removeAt(oldIndex);
-                _rows.insert(newIndex, row);
-              });
-            }),
+        child: _rows.isNotEmpty
+            ? ReorderableColumn(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: _rows,
+                onReorder: (int oldIndex, int newIndex) {
+                  setState(
+                    () {
+                      Widget row = _rows.removeAt(oldIndex);
+                      String moduleList = _moduleList.removeAt(oldIndex);
+                      _rows.insert(newIndex, row);
+                      _moduleList.insert(newIndex, moduleList);
+                      modules.prefs.setStringList('moduleList', _moduleList);
+                    },
+                  );
+                },
+              )
+            : Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text('No modules enabled', textAlign: TextAlign.center),
+                  TextButton(
+                      onPressed: () =>
+                          pageNavigation(context, SettingsScreen()),
+                      child: Text('You can enable them in settings'))
+                ],
+              ),
       ),
       endDrawer: Drawer(
         child: ListView(
