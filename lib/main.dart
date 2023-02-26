@@ -23,8 +23,6 @@ import './screens/home_screen.dart';
 
 //////////////////////////////////////////////////////////////////////////
 
-//CustomTheme theme = CustomTheme();
-
 loadBundle(FirebaseFirestore db) async {
   print('Loading Data Bundle');
   ByteData bytes = await rootBundle.load("assets/dataBundle.txt");
@@ -76,7 +74,7 @@ void main() async {
     cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED,
   );
 
-  db.disableNetwork();
+  //db.disableNetwork();
 
   //////////////////////////////////////////////////////////////////////////
 
