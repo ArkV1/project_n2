@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class CustomUser {
   SharedPreferences prefs;
-  String? username;
+  // String? username;
   FirebaseAuth auth;
 
   /////////////////////
@@ -12,14 +12,14 @@ class CustomUser {
   /////////////////////
 
   CustomUser(this.prefs, this.auth) {
-    usernameInit(auth);
+    //usernameInit(auth);
   }
 
-  void usernameInit(FirebaseAuth auth) async {
-    if (auth.currentUser != null) {
-      username = prefs.getString('username');
-    } else {
-      prefs.remove('username');
-    }
-  }
+  // void usernameInit(FirebaseAuth auth) async {
+  //   if (auth.currentUser != null) {
+  //     username = prefs.getString('username');
+  //   } else {
+  //     prefs.remove('username');
+  //   }
+  // }
 }

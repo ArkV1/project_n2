@@ -1,29 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:provider/provider.dart';
-
-import 'package:reorderables/reorderables.dart';
-
-import '../models/module.dart';
-
-import './settings_screen.dart';
-
-import '../widgets/home_screen_tile.dart';
-
 final _scaffoldKey = GlobalKey<ScaffoldState>();
-
-const List<Widget> _widgetOptions = <Widget>[
-  Text('Index 0: Home', key: ValueKey(0)),
-  Text('Index 1: Menu', key: ValueKey(1)),
-];
-int _selectedIndex = 0;
-
-List<String> _moduleList = [
-  // 'Expense Manager',
-  // 'Calendar',
-  // 'Notebook',
-];
-List<Widget> _rows = [];
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -33,157 +10,146 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  void pageNavigation(BuildContext ctx, screen) async {
-    await Navigator.of(ctx).push(
-      MaterialPageRoute(
-        builder: (_) {
-          return screen;
-        },
-      ),
-    ).then((value) {
-      setState(() {});
-    });
-  }
-
-  // static const TextStyle optionStyle =
-  //     TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-
-  // static const List<Widget> _widgetOptions = <Widget>[
-  //   Text('Index 0: Home', style: optionStyle, key: ValueKey(0)),
-  //   Text('Index 1: Menu', style: optionStyle, key: ValueKey(1)),
+  // final List<Widget> _widgetOptions = <Widget>[
+  //   const Text('Index 0: Empty', key: ValueKey(0)),
+  //   const Text('Index 1: Menu', key: ValueKey(1)),
+  //   const Text('Index 2: Empty', key: ValueKey(2)),
   // ];
+  // int _selectedIndex = 0;
 
-  @override
-  void initState() {
-    super.initState();
-    // _rows = List<Widget>.generate(
-    //     50,
-    //     (int index) => Text('This is row $index',
-    //         key: ValueKey(index), textScaleFactor: 1.5));
-
-    // _rows.add(SmartTile('Expense Manager', key: ValueKey(0)));
-    // _rows.add(SmartTile('Calendar', key: ValueKey(1)));
-    // _rows.add(SmartTile('Notebook', key: ValueKey(2)));
-
-    // _rows = List<Widget>.generate(
-    //   modules.moduleList.length,
-    //   (int index) => SmartTile(
-    //     modules.moduleList[index],
-    //     key: ValueKey(index),
-    //   ),
-    // );
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
-    final modules = Provider.of<CustomModules>(context);
-    _rows = List<Widget>.generate(
-      modules.moduleList!.length,
-      (int index) => SmartTile(
-        modules.moduleList![index],
-        key: ValueKey(index),
-      ),
-    );
-    _moduleList = modules.moduleList!;
-    //final modules = Provider.of<CustomModules>(context);
+    final List<Widget> tiles = [];
     return Scaffold(
       key: _scaffoldKey,
       body: SafeArea(
-        child: _rows.isNotEmpty
-            ? ReorderableColumn(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: _rows,
-                onReorder: (int oldIndex, int newIndex) {
-                  setState(
-                    () {
-                      Widget row = _rows.removeAt(oldIndex);
-                      String moduleList = _moduleList.removeAt(oldIndex);
-                      _rows.insert(newIndex, row);
-                      _moduleList.insert(newIndex, moduleList);
-                      modules.prefs.setStringList('moduleList', _moduleList);
-                    },
-                  );
-                },
+          child: Center(
+        child: tiles.isNotEmpty
+            ? ListView(
+                children: const [],
               )
-            : Column(
+            : const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Text('No modules enabled', textAlign: TextAlign.center),
-                  TextButton(
-                      onPressed: () =>
-                          pageNavigation(context, SettingsScreen()),
-                      child: Text('You can enable them in settings'))
+                  Text('No widgets chosen'),
+                  // TextButton(
+                  //   onPressed: () {
+                  //     Navigator.pushNamed(context, '/settings');
+                  //   },
+                  //   child: Row(
+                  //     mainAxisSize: MainAxisSize.min,
+                  //     children: [
+                  //       const Text('Settings'),
+                  //       Container(
+                  //         padding: const EdgeInsets.only(left: 8.0),
+                  //         child: const Icon(Icons.settings),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
                 ],
               ),
-      ),
+      )),
       endDrawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.amber,
-              ),
-              child: Text(
-                'Drawer Header',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                DrawerHeader(
+                  decoration: BoxDecoration(
+                    color: Theme.of(context)
+                        .colorScheme
+                        .secondary
+                        .withOpacity(0.80),
+                  ),
+                  child: const Text(
+                    'Wallet',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                    ),
+                  ),
                 ),
-              ),
+              ],
             ),
-            ListTile(
-              leading: Icon(Icons.settings),
-              title: Text('Settings'),
-              onTap: () => {
-                Navigator.pop(context),
-                pageNavigation(context, SettingsScreen()),
-              },
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  ListTile(
+                    leading: const Icon(Icons.settings),
+                    title: const Text('Settings'),
+                    onTap: () => Navigator.pushNamed(context, '/settings'),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
+      persistentFooterAlignment: AlignmentDirectional.center,
+      persistentFooterButtons: [
+        ElevatedButton(
+          onPressed: () => _scaffoldKey.currentState!.openEndDrawer(),
+          child: const Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text('Menu'),
+              Padding(
+                padding: EdgeInsets.only(left: 8),
+                child: Icon(Icons.menu),
+              ),
+            ],
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.menu),
-            label: 'Menu',
-          ),
-          // BottomNavigationBarItem(
-          //   icon: Icon(Icons.home),
-          //   label: 'Home',
-          // ),
-          // BottomNavigationBarItem(
-          //   icon: Icon(Icons.business),
-          //   label: 'Business',
-          // ),
-          // BottomNavigationBarItem(
-          //   icon: Icon(Icons.school),
-          //   label: 'School',
-          // ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
-        onTap: (int index) {
-          if (index == 1) {
-            _scaffoldKey.currentState!.openEndDrawer();
-          }
-          setState(() {
-            _selectedIndex = index;
-            print(_widgetOptions.elementAt(
-              _selectedIndex,
-            ));
-          });
-        },
-      ),
+        ),
+      ],
+      //bottomNavigationBar: ,
+      // bottomNavigationBar: BottomNavigationBar(
+      //   items: <BottomNavigationBarItem>[
+      //     BottomNavigationBarItem(
+      //       icon: Container(),
+      //       label: '',
+      //     ),
+      //     const BottomNavigationBarItem(
+      //       icon: Icon(Icons.menu),
+      //       label: 'Menu',
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Container(),
+      //       label: '',
+      //     ),
+      //   ],
+      //   currentIndex: _selectedIndex,
+      //   selectedItemColor:
+      //       Theme.of(context).colorScheme.secondary.withOpacity(0.80),
+      //   onTap: (int index) {
+      //     if (index == 1) {
+      //       _scaffoldKey.currentState!.openEndDrawer();
+      //     }
+      //     setState(() {
+      //       _selectedIndex = index;
+      //       debugPrint(_widgetOptions
+      //           .elementAt(
+      //             _selectedIndex,
+      //           )
+      //           .toString());
+      //     });
+      //   },
+      // ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
+        heroTag: "home_screen",
+        child: const Icon(Icons.add),
         onPressed: () {},
       ),
     );
