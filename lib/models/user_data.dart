@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'wallet.dart';
+import 'wallet/wallet.dart';
 
 class UserData extends ChangeNotifier {
   List<Wallet> wallets = [];

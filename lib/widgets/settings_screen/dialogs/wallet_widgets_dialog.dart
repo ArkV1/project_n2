@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../providers/user_data_providers.dart';
+import 'package:project_n2/models/wallet/wallet_widget.dart';
+import 'package:project_n2/providers/providers.dart';
+import 'package:project_n2/providers/providers.dart';
 import 'package:project_n2/tools/enums/currencies.dart';
 
-import '../../../models/wallet.dart';
+import 'package:project_n2/models/wallet/wallet.dart';
 
 // import '../../../models/wallet.dart';
 
@@ -18,14 +20,14 @@ class WalletWidgetsDialog extends ConsumerStatefulWidget {
 }
 
 class _WalletWidgetsDialogState extends ConsumerState<WalletWidgetsDialog> {
-  bool widgetsSettings = false;
+  bool widgetsSettings = true;
   //bool listViewActions = false;
 
   @override
   Widget build(BuildContext context) {
-    final userData = ref.watch(userDataProvider);
-    final walletWidgets = ref.watch(walletWidgetsProvider);
-    final wallets = userData.wallets;
+    final dataManager = ref.watch(dataManagerProvider);
+    final wallets = dataManager.wallets;
+    final appWidgets = dataManager.appWidgets;
     return AlertDialog(
         title: Row(
           children: [
@@ -73,29 +75,62 @@ class _WalletWidgetsDialogState extends ConsumerState<WalletWidgetsDialog> {
                   ListView(
                     shrinkWrap: true,
                     children: [
+                      if (wallets.isEmpty)
+                        const Padding(
+                          padding: EdgeInsets.only(top: 48.0),
+                          child: Text(
+                            'No wallets to be enabled',
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
                       for (var i = 0; i < wallets.length; i++)
                         ListTile(
-                          title: Text(wallets[i].walletName),
-                          subtitle: Text(wallets[i].defaultCurrency),
+                          title: Text(wallets[i].name),
+                          //subtitle: Text(wallets[i].defaultCurrency),А
                           trailing: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Switch(
-                                value:
-                                    walletWidgets.containsKey(i) ? true : false,
+                                value: appWidgets.any((appWidget) =>
+                                    appWidget.id == wallets[i].id),
                                 onChanged: (value) {
                                   setState(() {
                                     if (value) {
                                       ref
-                                          .read(walletWidgetsProvider)
-                                          .addEntries(<int, dynamic>{
-                                            i: true,
-                                          }.entries);
+                                          .read(dataManagerProvider)
+                                          .insertAppWidget(WalletWidget(
+                                              id: (wallets[i].id).toString(),
+                                              wallet: wallets[i]));
+                                      print('ENABLED');
+                                      // ref
+                                      //     .read(containerListProvider.notifier)
+                                      //     .addWidget(WalletWidget(
+                                      //       id: wallets[i].id!,
+                                      //       wallet: wallets[i],
+                                      //     ));
+                                      // refF
+                                      //     .read(walletWidgetsProvider.notifier)
+                                      //     .state
+                                      //     .addEntries(<int, dynamic>{
+                                      //       i: true,
+                                      //     }.entries);
                                     } else {
                                       ref
-                                          .read(walletWidgetsProvider)
-                                          .removeWhere(
-                                              (key, value) => key == i);
+                                          .read(dataManagerProvider)
+                                          .deleteAppWidget(wallets[i].id!);
+                                      print('REMOVED');
+
+                                      // ref
+                                      //     .read(containerListProvider.notifier)
+                                      //     .removeWidget(WalletWidget(
+                                      //       id: wallets[i].id!,
+                                      //       wallet: wallets[i],
+                                      //     ));
+                                      //   ref
+                                      //       .read(walletWidgetsProvider.notifier)
+                                      //       .state
+                                      //       .removeWhere(
+                                      //           (key, value) => key == i);
                                     }
                                   });
                                 },
@@ -109,9 +144,7 @@ class _WalletWidgetsDialogState extends ConsumerState<WalletWidgetsDialog> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       ElevatedButton(
-                        onPressed: () => setState(() {
-                          widgetsSettings = false;
-                        }),
+                        onPressed: () => Navigator.pop(context),
                         child: const Row(
                           children: [
                             Text('Return'),
@@ -134,22 +167,22 @@ class _WalletWidgetsDialogState extends ConsumerState<WalletWidgetsDialog> {
                   ListView(
                     shrinkWrap: true,
                     children: [
-                      if (walletWidgets.isEmpty)
-                        const ListTile(
-                          title: Padding(
-                            padding: EdgeInsets.only(top: 48.0),
-                            child: Text(
-                              'No widgets chosen',
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        ),
-                      for (var i = 0; i < wallets.length; i++)
-                        if (walletWidgets.containsKey(i))
-                          ListTile(
-                            title: Text(wallets[i].walletName),
-                            subtitle: Text(wallets[i].defaultCurrency),
-                          ),
+                      // if (walletWidgets.isEmpty)
+                      //   const ListTile(
+                      //     title: Padding(
+                      //       padding: EdgeInsets.only(top: 48.0),
+                      //       child: Text(
+                      //         'No widgets chosen',
+                      //         textAlign: TextAlign.center,
+                      //       ),
+                      //     ),
+                      //   ),
+                      // for (var i = 0; i < wallets.length; i++)
+                      //   if (walletWidgets.containsKey(i))
+                      //     ListTile(
+                      //       title: Text(wallets[i].name),
+                      //       //subtitle: Text(wallets[i].defaultCurrency),
+                      //     ),
                     ],
                   ),
                   Padding(

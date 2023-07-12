@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../providers/user_data_providers.dart';
+import 'package:project_n2/providers/providers.dart';
 import 'package:project_n2/tools/enums/currencies.dart';
 
-import '../../../models/wallet.dart';
+import '../../../models/wallet/wallet.dart';
 
 // import '../../../models/wallet.dart';
 
@@ -19,12 +19,12 @@ class WalletsDialog extends ConsumerStatefulWidget {
 class _WalletsDialogState extends ConsumerState<WalletsDialog> {
   Wallet? wallet;
   bool walletCreation = false;
-  bool listViewActions = false;
+  bool listViewActions = true;
 
   @override
   Widget build(BuildContext context) {
-    final userData = ref.watch(userDataProvider);
-    final wallets = userData.wallets;
+    //final userData = ref.watch(userDataProvider);
+    final wallets = ref.watch(walletsProvider);
     return AlertDialog(
       title: Row(
         children: [
@@ -62,235 +62,250 @@ class _WalletsDialogState extends ConsumerState<WalletsDialog> {
           ),
         ],
       ),
-      content: Container(
-        width: double.maxFinite,
-        constraints: const BoxConstraints(minHeight: 200),
-        child: () {
-          if (walletCreation) {
-            return Form(
-              key: _formKey,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  IntrinsicWidth(
-                    child: Container(
-                      margin: const EdgeInsets.only(bottom: 12),
-                      constraints: const BoxConstraints(minWidth: 225),
-                      child: Column(
-                        children: [
-                          TextFormField(
-                            decoration: const InputDecoration(
-                              labelText: "Wallet's name",
-                              errorMaxLines: 3,
-                              errorStyle: TextStyle(
-                                overflow: TextOverflow.visible,
-                              ),
-                            ),
-                          ),
-                          DropdownButtonFormField<Currencies>(
-                            focusNode: FocusNode(canRequestFocus: false),
-                            //isExpanded: true,
-                            decoration: const InputDecoration(
-                              labelText: 'Currencies:',
-                              prefixIcon: Icon(Icons.attach_money),
-                            ),
-                            value: Currencies.usd,
-                            icon: const Icon(
-                              Icons.arrow_drop_down,
-                            ),
-                            onChanged: (Currencies? category) {
-                              //This is called when the user selects an item.
-                              // setState(() {
-                              //   ref.read(creationQuizProvider.notifier).category = category;
-                              // });
-                            },
-                            items: Currencies.values
-                                .map<DropdownMenuItem<Currencies>>(
-                                    (Currencies currencie) {
-                              return DropdownMenuItem<Currencies>(
-                                value: currencie,
-                                child: Text(
-                                  currencie.name,
+      content: wallets.when(
+        data: (wallets) {
+          return Container(
+            width: double.maxFinite,
+            constraints: const BoxConstraints(minHeight: 200),
+            child: () {
+              if (walletCreation) {
+                return Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      IntrinsicWidth(
+                        child: Container(
+                          margin: const EdgeInsets.only(bottom: 12),
+                          constraints: const BoxConstraints(minWidth: 225),
+                          child: Column(
+                            children: [
+                              TextFormField(
+                                decoration: const InputDecoration(
+                                  labelText: "Wallet's name",
+                                  errorMaxLines: 3,
+                                  errorStyle: TextStyle(
+                                    overflow: TextOverflow.visible,
+                                  ),
                                 ),
-                              );
-                            }).toList(),
-                          ),
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: TextButton(
-                              onPressed: () {},
-                              child: const Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text('Advanced settings'),
-                                  Icon(Icons.arrow_drop_down),
-                                ],
                               ),
+                              DropdownButtonFormField<Currencies>(
+                                focusNode: FocusNode(canRequestFocus: false),
+                                //isExpanded: true,
+                                decoration: const InputDecoration(
+                                  labelText: 'Currencies:',
+                                  prefixIcon: Icon(Icons.attach_money),
+                                ),
+                                value: Currencies.usd,
+                                icon: const Icon(
+                                  Icons.arrow_drop_down,
+                                ),
+                                onChanged: (Currencies? category) {
+                                  //This is called when the user selects an item.
+                                  // setState(() {
+                                  //   ref.read(creationQuizProvider.notifier).category = category;
+                                  // });
+                                },
+                                items: Currencies.values
+                                    .map<DropdownMenuItem<Currencies>>(
+                                        (Currencies currencie) {
+                                  return DropdownMenuItem<Currencies>(
+                                    value: currencie,
+                                    child: Text(
+                                      currencie.name,
+                                    ),
+                                  );
+                                }).toList(),
+                              ),
+                              Align(
+                                alignment: Alignment.centerRight,
+                                child: TextButton(
+                                  onPressed: () {},
+                                  child: const Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text('Advanced settings'),
+                                      Icon(Icons.arrow_drop_down),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+
+                      ///////////////////////////////////////////////////////////////////////////
+                      // const Padding(
+                      //   padding: EdgeInsets.only(top: 48.0),
+                      //   child: Text(
+                      //     'Adding wallet',
+                      //     textAlign: TextAlign.center,
+                      //   ),
+                      // ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          ElevatedButton(
+                            onPressed: () => setState(() {
+                              walletCreation = false;
+                            }),
+                            child: const Row(
+                              children: [
+                                Text('Return'),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 8.0),
+                                  child: Icon(Icons.keyboard_return),
+                                )
+                              ],
+                            ),
+                          ),
+                          ElevatedButton(
+                            onPressed: () => setState(() {
+                              walletCreation = false;
+                            }),
+                            child: const Row(
+                              children: [
+                                Text('Add wallet'),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 6.0),
+                                  child: Icon(Icons.add_box_outlined),
+                                )
+                              ],
                             ),
                           ),
                         ],
                       ),
-                    ),
-                  ),
-
-                  ///////////////////////////////////////////////////////////////////////////
-                  // const Padding(
-                  //   padding: EdgeInsets.only(top: 48.0),
-                  //   child: Text(
-                  //     'Adding wallet',
-                  //     textAlign: TextAlign.center,
-                  //   ),
-                  // ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      ElevatedButton(
-                        onPressed: () => setState(() {
-                          walletCreation = false;
-                        }),
-                        child: const Row(
-                          children: [
-                            Text('Return'),
-                            Padding(
-                              padding: EdgeInsets.only(left: 8.0),
-                              child: Icon(Icons.keyboard_return),
-                            )
-                          ],
-                        ),
-                      ),
-                      ElevatedButton(
-                        onPressed: () => setState(() {
-                          ref.read(userDataProvider).addWallet(
-                              Wallet('Wallet ${wallets.length + 1}', 'USD'));
-                          walletCreation = false;
-                        }),
-                        child: const Row(
-                          children: [
-                            Text('Add wallet'),
-                            Padding(
-                              padding: EdgeInsets.only(left: 6.0),
-                              child: Icon(Icons.add_box_outlined),
-                            )
-                          ],
-                        ),
-                      ),
                     ],
                   ),
-                ],
-              ),
-            );
-          } else {
-            return Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                if (wallets.isEmpty)
-                  const Padding(
-                    padding: EdgeInsets.only(top: 48.0),
-                    child: Text(
-                      'No wallets added yet',
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                ListView(
-                  shrinkWrap: true,
+                );
+              } else {
+                return Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    for (var wallet in wallets)
-                      ListTile(
-                        title: Text(wallet.walletName),
-                        subtitle: Text(wallet.defaultCurrency),
-                        trailing: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            if (listViewActions)
-                              InkWell(
-                                child: Container(
-                                  padding: const EdgeInsets.all(3),
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: Colors.grey,
-                                      width: 1,
-                                    ),
-                                  ),
-                                  child: const Icon(Icons.edit),
-                                ),
-                                onTap: () {
-                                  setState(() {
-                                    this.wallet = wallet;
-                                    walletCreation = true;
-                                    listViewActions = false;
-                                  });
-                                },
-                              ),
-                            if (listViewActions)
-                              InkWell(
-                                child: Container(
-                                  margin: const EdgeInsets.only(left: 3),
-                                  padding: const EdgeInsets.all(3),
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: Colors.grey,
-                                      width: 1,
-                                    ),
-                                  ),
-                                  child: const Icon(Icons.remove),
-                                ),
-                                onTap: () {
-                                  ref
-                                      .read(userDataProvider)
-                                      .removeWallet(wallet);
-                                },
-                              ),
-                          ],
+                    if (wallets.isEmpty)
+                      const Padding(
+                        padding: EdgeInsets.only(top: 48.0),
+                        child: Text(
+                          'No wallets added yet',
+                          textAlign: TextAlign.center,
                         ),
                       ),
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 12.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      ElevatedButton(
-                        onPressed: () => Navigator.pop(context),
-                        child: const Row(
-                          children: [
-                            Text('Return'),
-                            Padding(
-                              padding: EdgeInsets.only(left: 8.0),
-                              child: Icon(Icons.keyboard_return),
-                            )
-                          ],
-                        ),
-                      ),
-                      if (listViewActions)
-                        ElevatedButton(
-                          onPressed: () {
-                            setState(() {
-                              walletCreation = true;
-                              listViewActions = false;
-                            });
-                            // ref.read(walletsProvider).addWallet(
-                            //     Wallet('Wallet ${wallets.length + 1}', 'USD'));
-                          },
-                          child: const Row(
-                            children: [
-                              Text('Add wallet'),
-                              Padding(
-                                padding: EdgeInsets.only(left: 6.0),
-                                child: Icon(Icons.add_box_outlined),
-                              )
-                            ],
+                    ListView(
+                      shrinkWrap: true,
+                      children: [
+                        for (var wallet in wallets)
+                          ListTile(
+                            title: Text(wallet.name),
+                            //subtitle: Text(wallet.defaultCurrency),
+                            trailing: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                if (listViewActions)
+                                  InkWell(
+                                    child: Container(
+                                      padding: const EdgeInsets.all(3),
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          color: Colors.grey,
+                                          width: 1,
+                                        ),
+                                      ),
+                                      child: const Icon(Icons.edit),
+                                    ),
+                                    onTap: () {
+                                      setState(() {
+                                        this.wallet = wallet;
+                                        walletCreation = true;
+                                        // listViewActions = false;
+                                      });
+                                    },
+                                  ),
+                                if (listViewActions)
+                                  InkWell(
+                                    child: Container(
+                                      margin: const EdgeInsets.only(left: 3),
+                                      padding: const EdgeInsets.all(3),
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          color: Colors.grey,
+                                          width: 1,
+                                        ),
+                                      ),
+                                      child: const Icon(Icons.remove),
+                                    ),
+                                    onTap: () {
+                                      ref
+                                          .read(dataManagerProvider)
+                                          .deleteWallet(wallet.id!);
+                                      ref
+                                          .read(dataManagerProvider)
+                                          .deleteAppWidget(wallet.id!);
+                                    },
+                                  ),
+                              ],
+                            ),
                           ),
-                        ),
-                    ],
-                  ),
-                )
-              ],
-            );
-          }
-        }(),
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 12.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          ElevatedButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: const Row(
+                              children: [
+                                Text('Return'),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 8.0),
+                                  child: Icon(Icons.keyboard_return),
+                                )
+                              ],
+                            ),
+                          ),
+                          if (listViewActions)
+                            ElevatedButton(
+                              onPressed: () {
+                                setState(() {
+                                  walletCreation = true;
+                                  // listViewActions = false;
+                                });
+                                ref.read(dataManagerProvider).insertWallet(
+                                    Wallet(
+                                        id: (wallets.length + 1).toString(),
+                                        name: 'Wallet ${wallets.length + 1}'));
+                                // ref.read(walletsProvider).addWallet(
+                                //     Wallet('Wallet ${wallets.length + 1}', 'USD'));
+                              },
+                              child: const Row(
+                                children: [
+                                  Text('Add wallet'),
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 6.0),
+                                    child: Icon(Icons.add_box_outlined),
+                                  )
+                                ],
+                              ),
+                            ),
+                        ],
+                      ),
+                    )
+                  ],
+                );
+              }
+            }(),
+          );
+        },
+        error: (error, stackTrace) {
+          return Center(
+            child: Text(error.toString()),
+          );
+        },
+        loading: () => const Center(child: CircularProgressIndicator()),
       ),
     );
   }

@@ -13,7 +13,6 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  bool showTotal = false;
   bool showBugBounty = false;
   bool showDevInfo = false;
 

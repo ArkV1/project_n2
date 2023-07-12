@@ -6,6 +6,9 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+
+import 'package:project_n2/models/data_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:firebase_core/firebase_core.dart';
@@ -128,53 +131,84 @@ class _MyAppState extends ConsumerState<MyApp> {
     final themeMode = ref.watch(themeModeProvider);
     final primaryColor = ref.watch(primaryColorProvider);
     final secondaryColor = ref.watch(secondaryColorProvider);
-    return Platform.isIOS
-        ?
-        // IOS
-        CupertinoApp(
-            title: 'project_n2',
-            theme: CupertinoThemeData(
-              brightness: Brightness.light,
-              primaryColor: Color(primaryColor['num']),
-              primaryContrastingColor: Color(secondaryColor['num']),
+    ///////////////////////////////////////////////////////////////////////////////
+    // MATERIAL THEME
+    final materialLightTheme = ThemeData(
+      brightness: Brightness.light,
+      // LIGHT
+      colorScheme: ColorScheme.light(
+        primary: Color(primaryColor['num']),
+        secondary: Color(secondaryColor['num']),
+      ),
+      fontFamily: 'Quicksand',
+    );
+    final materialDarkTheme = ThemeData(
+      brightness: Brightness.dark,
+      // DARK
+      colorScheme: ColorScheme.dark(
+        primary: Color(primaryColor['num']),
+        secondary: Color(secondaryColor['num']),
+      ),
+      fontFamily: 'Quicksand',
+    );
+    // CUPERTINO THEME
+    final cupertinoLightTheme =
+        MaterialBasedCupertinoThemeData(materialTheme: materialLightTheme);
+    const darkDefaultCupertinoTheme =
+        CupertinoThemeData(brightness: Brightness.dark);
+    final cupertinoDarkTheme = MaterialBasedCupertinoThemeData(
+      materialTheme: materialDarkTheme.copyWith(
+        cupertinoOverrideTheme: CupertinoThemeData(
+          brightness: Brightness.dark,
+          barBackgroundColor: darkDefaultCupertinoTheme.barBackgroundColor,
+          textTheme: CupertinoTextThemeData(
+            primaryColor: Colors.white,
+            navActionTextStyle:
+                darkDefaultCupertinoTheme.textTheme.navActionTextStyle.copyWith(
+              color: const Color(0xF0F9F9F9),
             ),
-            initialRoute: '/',
-            routes: {
-              '/': (context) => const HomeScreen(),
-              '/settings': (context) => SettingsScreen(),
-            },
-          )
-        :
-        // ANDROID
-        MaterialApp(
-            title: 'project_n2',
-            theme: ThemeData(
-              brightness: Brightness.light,
-              // LIGHT
-              colorScheme: ColorScheme.light(
-                primary: Color(primaryColor['num']),
-                secondary: Color(secondaryColor['num']),
-              ),
-              fontFamily: 'Quicksand',
-            ),
-            darkTheme: ThemeData(
-              brightness: Brightness.dark,
-              // DARK
-              colorScheme: ColorScheme.dark(
-                primary: Color(primaryColor['num']),
-                secondary: Color(secondaryColor['num']),
-              ),
-              fontFamily: 'Quicksand',
-            ),
-            themeMode: themeMode,
-            debugShowCheckedModeBanner: false,
-            initialRoute: '/',
-            routes: {
-              '/': (context) => const HomeScreen(),
-              '/settings': (context) => SettingsScreen(),
-              '/settings/personalization': (context) => PersonalizationSettingsScreen(),
-            },
-          );
+            navLargeTitleTextStyle: darkDefaultCupertinoTheme
+                .textTheme.navLargeTitleTextStyle
+                .copyWith(color: const Color(0xF0F9F9F9)),
+          ),
+        ),
+      ),
+    );
+    ///////////////////////////////////////////////////////////////////////////////
+    return PlatformProvider(
+      initialPlatform: TargetPlatform.android,
+      settings: PlatformSettingsData(
+        iosUsesMaterialWidgets: true,
+        iosUseZeroPaddingForAppbarPlatformIcon: true,
+      ),
+      builder: (context) => PlatformTheme(
+        themeMode: themeMode,
+        materialLightTheme: materialLightTheme,
+        materialDarkTheme: materialDarkTheme,
+        cupertinoLightTheme: cupertinoLightTheme,
+        cupertinoDarkTheme: cupertinoDarkTheme,
+        matchCupertinoSystemChromeBrightness: true,
+        // onThemeModeChanged: (themeMode) {
+        //   this.themeMode = themeMode; /* you can save to storage */
+        // },
+        builder: (context) => PlatformApp(
+          title: 'project_n2',
+          initialRoute: '/',
+          routes: {
+            '/': (context) => const HomeScreen(),
+            '/settings': (context) => SettingsScreen(),
+            '/settings/personalization': (context) =>
+                PersonalizationSettingsScreen(),
+          },
+          localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
+            DefaultMaterialLocalizations.delegate,
+            DefaultWidgetsLocalizations.delegate,
+            DefaultCupertinoLocalizations.delegate,
+          ],
+          debugShowCheckedModeBanner: true,
+        ),
+      ),
+    );
   }
 
   @override

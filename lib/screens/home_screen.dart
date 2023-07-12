@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:project_n2/providers/providers.dart';
 
 final _scaffoldKey = GlobalKey<ScaffoldState>();
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends ConsumerState<HomeScreen> {
   // final List<Widget> _widgetOptions = <Widget>[
   //   const Text('Index 0: Empty', key: ValueKey(0)),
   //   const Text('Index 1: Menu', key: ValueKey(1)),
@@ -25,33 +27,50 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final List<Widget> tiles = [];
+    final dataManager = ref.watch(dataManagerProvider);
+    final wallets = dataManager.wallets;
+    final appWidgets = dataManager.appWidgets;
     return Scaffold(
       key: _scaffoldKey,
       body: SafeArea(
           child: Center(
-        child: tiles.isNotEmpty
-            ? ListView(
-                children: const [],
+        child: appWidgets.isNotEmpty
+            ? Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  //const Spacer(),
+                  for (var i = 0; i < wallets.length; i++)
+                    if (appWidgets
+                        .any((appWidget) => appWidget.id == wallets[i].id))
+                      // ignore: avoid_unnecessary_containers
+                      Container(
+                        // decoration: const BoxDecoration(
+                        //   border: Border(
+                        //     bottom: BorderSide(color: Colors.grey),
+                        //   ),
+                        // ),
+                        child: Card(
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(top: 4.0),
+                                child: Text(wallets[i].name),
+                              ),
+                              const ListTile(
+                                title: Text('Title'),
+                                subtitle: Text('Subtitle'),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                  //const Spacer(),
+                ],
               )
             : const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text('No widgets chosen'),
-                  // TextButton(
-                  //   onPressed: () {
-                  //     Navigator.pushNamed(context, '/settings');
-                  //   },
-                  //   child: Row(
-                  //     mainAxisSize: MainAxisSize.min,
-                  //     children: [
-                  //       const Text('Settings'),
-                  //       Container(
-                  //         padding: const EdgeInsets.only(left: 8.0),
-                  //         child: const Icon(Icons.settings),
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
                 ],
               ),
       )),
