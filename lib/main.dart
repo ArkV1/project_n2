@@ -9,6 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import 'package:project_n2/models/data_manager.dart';
+import 'package:project_n2/widgets/main_layout.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:firebase_core/firebase_core.dart';
@@ -23,9 +24,10 @@ import 'providers/store_providers.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 // import 'package:google_mobile_ads/google_mobile_ads.dart';
 
-import 'screens/home_screen.dart';
-import 'screens/settings_screen.dart';
-import 'screens/personalization_settings_screen.dart';
+import 'package:project_n2/screens/home_screen.dart';
+import 'package:project_n2/screens/settings_screen.dart';
+import 'package:project_n2/screens/personalization_settings_screen.dart';
+import 'package:project_n2/screens/wallets_screen.dart';
 
 //////////////////////////////////////////////////////////////////////////
 
@@ -195,10 +197,11 @@ class _MyAppState extends ConsumerState<MyApp> {
           title: 'project_n2',
           initialRoute: '/',
           routes: {
-            '/': (context) => const HomeScreen(),
+            '/': (context) => const MainLayout(),
             '/settings': (context) => SettingsScreen(),
             '/settings/personalization': (context) =>
                 PersonalizationSettingsScreen(),
+            '/wallets': (context) => WalletsScreen(),
           },
           localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
             DefaultMaterialLocalizations.delegate,

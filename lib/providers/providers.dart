@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:project_n2/tools/enums/screens.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:project_n2/models/user_data.dart';
@@ -21,6 +22,8 @@ final walletsProvider = FutureProvider<List<Wallet>>(
 
 final appWidgetsProvider = FutureProvider<List<AppWidget>>(
     (ref) => ref.watch(dataManagerProvider).appWidgets);
+
+final currentScreenProvider = StateProvider<Screen>((ref) => Screen.home); 
 
 // final containerListProvider =
 //     StateNotifierProvider<ContainerListState, List<AppWidget>>((ref) {
