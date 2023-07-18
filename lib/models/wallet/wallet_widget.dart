@@ -1,17 +1,17 @@
-import 'dart:convert';
+// import 'dart:convert';
 
 import '../app_widget.dart';
 
-import 'package:project_n2/models/wallet/wallet.dart';
+// import 'package:project_n2/models/wallet/wallet.dart';
 import 'package:project_n2/tools/enums/widget_types.dart';
 
 class WalletWidget extends AppWidget {
-  Wallet wallet;
+  String walletId;
   WalletWidgetType widgetType;
 
   WalletWidget({
     required super.id,
-    required this.wallet,
+    required this.walletId,
     this.widgetType = WalletWidgetType.total,
   });
 
@@ -20,7 +20,7 @@ class WalletWidget extends AppWidget {
   ) {
     return WalletWidget(
       id: data['id'],
-      wallet: Wallet.fromText(data['widgetDataJSON']),
+      walletId: data['objectId'],
       widgetType: WalletWidgetType.values[data['widgetType']],
     );
   }
@@ -40,7 +40,7 @@ class WalletWidget extends AppWidget {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'widgetDataJSON': wallet.toText(),
+      'objectId': walletId,
       'widgetType': widgetType.index,
     };
   }

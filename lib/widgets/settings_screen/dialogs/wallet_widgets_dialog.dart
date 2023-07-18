@@ -2,14 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:project_n2/models/wallet/wallet_widget.dart';
 import 'package:project_n2/providers/providers.dart';
-import 'package:project_n2/providers/providers.dart';
-import 'package:project_n2/tools/enums/currencies.dart';
-
-import 'package:project_n2/models/wallet/wallet.dart';
-
-// import '../../../models/wallet.dart';
-
-final _formKey = GlobalKey<FormState>();
+// import 'package:project_n2/tools/enums/currencies.dart';
+// import 'package:project_n2/models/wallet/wallet.dart';
 
 class WalletWidgetsDialog extends ConsumerStatefulWidget {
   const WalletWidgetsDialog({super.key});
@@ -100,8 +94,8 @@ class _WalletWidgetsDialogState extends ConsumerState<WalletWidgetsDialog> {
                                           .read(dataManagerProvider)
                                           .insertAppWidget(WalletWidget(
                                               id: (wallets[i].id).toString(),
-                                              wallet: wallets[i]));
-                                      print('ENABLED');
+                                              walletId: wallets[i].id!));
+                                      debugPrint('ENABLED');
                                       // ref
                                       //     .read(containerListProvider.notifier)
                                       //     .addWidget(WalletWidget(
@@ -118,7 +112,7 @@ class _WalletWidgetsDialogState extends ConsumerState<WalletWidgetsDialog> {
                                       ref
                                           .read(dataManagerProvider)
                                           .deleteAppWidget(wallets[i].id!);
-                                      print('REMOVED');
+                                      debugPrint('REMOVED');
 
                                       // ref
                                       //     .read(containerListProvider.notifier)
@@ -167,22 +161,21 @@ class _WalletWidgetsDialogState extends ConsumerState<WalletWidgetsDialog> {
                   ListView(
                     shrinkWrap: true,
                     children: [
-                      // if (walletWidgets.isEmpty)
-                      //   const ListTile(
-                      //     title: Padding(
-                      //       padding: EdgeInsets.only(top: 48.0),
-                      //       child: Text(
-                      //         'No widgets chosen',
-                      //         textAlign: TextAlign.center,
-                      //       ),
-                      //     ),
-                      //   ),
-                      // for (var i = 0; i < wallets.length; i++)
-                      //   if (walletWidgets.containsKey(i))
-                      //     ListTile(
-                      //       title: Text(wallets[i].name),
-                      //       //subtitle: Text(wallets[i].defaultCurrency),
-                      //     ),
+                      if (appWidgets.isEmpty)
+                        const ListTile(
+                          title: Padding(
+                            padding: EdgeInsets.only(top: 48.0),
+                            child: Text(
+                              'No widgets chosen',
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ),
+                      for (var i = 0; i < wallets.length; i++)
+                        ListTile(
+                          title: Text(wallets[i].name),
+                          //subtitle: Text(wallets[i].defaultCurrency),
+                        ),
                     ],
                   ),
                   Padding(

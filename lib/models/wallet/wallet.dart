@@ -7,11 +7,12 @@ class Wallet {
 
   final String name;
   //final String defaultCurrency;
-  //final List<Transaction>? transactions;
+  final List<Transaction>? transactions;
 
   Wallet({
     required this.id,
     required this.name,
+    this.transactions,
     //this.defaultCurrency, [
     //this.transactions,
     //]

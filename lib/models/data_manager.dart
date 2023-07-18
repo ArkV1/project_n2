@@ -12,7 +12,7 @@ Wallet defaultWallet = Wallet(id: 'defaultWallet', name: 'Default');
 
 WalletWidget defaultWalletWidget = WalletWidget(
   id: 'defaultWallet',
-  wallet: defaultWallet,
+  walletId: defaultWallet.id!,
   widgetType: WalletWidgetType.total,
 );
 
@@ -31,9 +31,12 @@ class DataManager extends ChangeNotifier {
       onCreate: (db, version) async {
         Batch batch = db.batch();
         batch.execute(
-            'CREATE TABLE appWidgets(id TEXT PRIMARY KEY, widgetDataJSON TEXT, widgetType INTEGER)');
+            'CREATE TABLE appWidgets(id TEXT PRIMARY KEY, objectId TEXT, widgetType INTEGER)');
         batch.execute(
-            'CREATE TABLE wallets(id TEXT PRIMARY KEY, name TEXT, transactionsJSON TEXT)');
+            //'CREATE TABLE wallets(id TEXT PRIMARY KEY, name TEXT, transactionsJSON TEXT)');
+            'CREATE TABLE wallets(id TEXT PRIMARY KEY, name TEXT)');
+        batch.execute(
+            'CREATE TABLE transactions(id TEXT PRIMARY KEY, walletId TEXT, name TEXT, amount TEXT)');
         batch.insert('wallets', defaultWallet.toMap());
         batch.insert('appWidgets', defaultWalletWidget.toMap());
         await batch.commit(noResult: true);

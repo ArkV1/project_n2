@@ -28,7 +28,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final List<Widget> tiles = [];
     final dataManager = ref.watch(dataManagerProvider);
     final wallets = dataManager.wallets;
     final appWidgets = dataManager.appWidgets;
@@ -63,6 +62,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         ),
                       ),
                     ),
+                ElevatedButton(
+                  onPressed: () {},
+                  child: const Text('Add transaction[default wallet]'),
+                ),
                 //const Spacer(),
               ],
             )

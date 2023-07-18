@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'dart:io';
 import 'dart:async';
 
 import 'package:flutter/services.dart';
@@ -8,8 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
-import 'package:project_n2/models/data_manager.dart';
-import 'package:project_n2/widgets/main_layout.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:firebase_core/firebase_core.dart';
@@ -24,7 +21,7 @@ import 'providers/store_providers.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 // import 'package:google_mobile_ads/google_mobile_ads.dart';
 
-import 'package:project_n2/screens/home_screen.dart';
+import 'package:project_n2/widgets/main_layout.dart';
 import 'package:project_n2/screens/settings_screen.dart';
 import 'package:project_n2/screens/personalization_settings_screen.dart';
 import 'package:project_n2/screens/wallets_screen.dart';
@@ -153,7 +150,6 @@ class _MyAppState extends ConsumerState<MyApp> {
       ),
       fontFamily: 'Quicksand',
     );
-    
     // CUPERTINO THEME
     final cupertinoLightTheme =
         MaterialBasedCupertinoThemeData(materialTheme: materialLightTheme);

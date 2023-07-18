@@ -1,5 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:project_n2/tools/enums/screens.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:project_n2/models/user_data.dart';
@@ -7,6 +6,8 @@ import 'package:project_n2/models/user_data.dart';
 import 'package:project_n2/models/data_manager.dart';
 import 'package:project_n2/models/wallet/wallet.dart';
 import 'package:project_n2/models/app_widget.dart';
+
+import 'package:project_n2/tools/enums/screens.dart';
 
 // INIT
 final prefsProvider =

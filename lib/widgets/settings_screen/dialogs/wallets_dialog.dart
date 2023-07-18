@@ -17,9 +17,12 @@ class WalletsDialog extends ConsumerStatefulWidget {
 }
 
 class _WalletsDialogState extends ConsumerState<WalletsDialog> {
+  TextEditingController walletsNameController = TextEditingController();
+
   Wallet? wallet;
   bool walletCreation = false;
   bool listViewActions = true;
+  bool advancedSettings = false;
 
   @override
   Widget build(BuildContext context) {
@@ -89,6 +92,7 @@ class _WalletsDialogState extends ConsumerState<WalletsDialog> {
                                     overflow: TextOverflow.visible,
                                   ),
                                 ),
+                                controller: walletsNameController,
                               ),
                               DropdownButtonFormField<Currencies>(
                                 focusNode: FocusNode(canRequestFocus: false),
@@ -121,16 +125,26 @@ class _WalletsDialogState extends ConsumerState<WalletsDialog> {
                               Align(
                                 alignment: Alignment.centerRight,
                                 child: TextButton(
-                                  onPressed: () {},
-                                  child: const Row(
+                                  onPressed: () {
+                                    setState(() {
+                                      advancedSettings = !advancedSettings;
+                                    });
+                                  },
+                                  child: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      Text('Advanced settings'),
-                                      Icon(Icons.arrow_drop_down),
+                                      const Text('Advanced settings'),
+                                      Icon(
+                                        advancedSettings
+                                            ? Icons.arrow_drop_up
+                                            : Icons.arrow_drop_down,
+                                      ),
                                     ],
                                   ),
                                 ),
                               ),
+                              if (advancedSettings)
+                                const Text('Advanced settings enabled'),
                             ],
                           ),
                         ),
@@ -149,6 +163,7 @@ class _WalletsDialogState extends ConsumerState<WalletsDialog> {
                         children: [
                           ElevatedButton(
                             onPressed: () => setState(() {
+                              advancedSettings = false;
                               walletCreation = false;
                             }),
                             child: const Row(
@@ -163,6 +178,13 @@ class _WalletsDialogState extends ConsumerState<WalletsDialog> {
                           ),
                           ElevatedButton(
                             onPressed: () => setState(() {
+                              advancedSettings = false;
+                              ref.read(dataManagerProvider).insertWallet(
+                                    Wallet(
+                                      id: (wallets.length + 1).toString(),
+                                      name: walletsNameController.text,
+                                    ),
+                                  );
                               walletCreation = false;
                             }),
                             child: const Row(
@@ -171,7 +193,7 @@ class _WalletsDialogState extends ConsumerState<WalletsDialog> {
                                 Padding(
                                   padding: EdgeInsets.only(left: 6.0),
                                   child: Icon(Icons.add_box_outlined),
-                                )
+                                ),
                               ],
                             ),
                           ),
@@ -248,8 +270,59 @@ class _WalletsDialogState extends ConsumerState<WalletsDialog> {
                               ],
                             ),
                           ),
+                        ///////////////////////////////////////////////////
+                        if (listViewActions)
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: TextButton(
+                              onPressed: () {
+                                setState(() {
+                                  advancedSettings = !advancedSettings;
+                                });
+                              },
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  const Text('Advanced settings'),
+                                  Icon(
+                                    advancedSettings
+                                        ? Icons.arrow_drop_up
+                                        : Icons.arrow_drop_down,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
                       ],
                     ),
+                    if (advancedSettings && listViewActions)
+                      DropdownButtonFormField<Wallet>(
+                        focusNode: FocusNode(canRequestFocus: false),
+                        //isExpanded: true,
+                        decoration: const InputDecoration(
+                          labelText: 'Default wallet:',
+                          prefixIcon: Icon(Icons.wallet),
+                        ),
+                        value: wallets.first,
+                        icon: const Icon(
+                          Icons.arrow_drop_down,
+                        ),
+                        onChanged: (Wallet? wallet) {
+                          //This is called when the user selects an item.
+                          // setState(() {
+                          //   ref.read(creationQuizProvider.notifier).category = category;
+                          // });
+                        },
+                        items: wallets
+                            .map<DropdownMenuItem<Wallet>>((Wallet wallet) {
+                          return DropdownMenuItem<Wallet>(
+                            value: wallet,
+                            child: Text(
+                              wallet.name,
+                            ),
+                          );
+                        }).toList(),
+                      ),
                     Padding(
                       padding: const EdgeInsets.only(top: 12.0),
                       child: Row(
@@ -271,13 +344,11 @@ class _WalletsDialogState extends ConsumerState<WalletsDialog> {
                             ElevatedButton(
                               onPressed: () {
                                 setState(() {
+                                  advancedSettings = false;
                                   walletCreation = true;
                                   // listViewActions = false;
                                 });
-                                ref.read(dataManagerProvider).insertWallet(
-                                    Wallet(
-                                        id: (wallets.length + 1).toString(),
-                                        name: 'Wallet ${wallets.length + 1}'));
+
                                 // ref.read(walletsProvider).addWallet(
                                 //     Wallet('Wallet ${wallets.length + 1}', 'USD'));
                               },
