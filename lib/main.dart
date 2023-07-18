@@ -153,6 +153,7 @@ class _MyAppState extends ConsumerState<MyApp> {
       ),
       fontFamily: 'Quicksand',
     );
+    
     // CUPERTINO THEME
     final cupertinoLightTheme =
         MaterialBasedCupertinoThemeData(materialTheme: materialLightTheme);
