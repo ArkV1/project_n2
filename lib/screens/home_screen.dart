@@ -62,10 +62,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         ),
                       ),
                     ),
-                ElevatedButton(
-                  onPressed: () {},
-                  child: const Text('Add transaction[default wallet]'),
-                ),
                 //const Spacer(),
               ],
             )

@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:project_n2/providers/providers.dart';
+
+import 'package:project_n2/tools/enums/screens.dart';
+
 import 'package:project_n2/screens/home_screen.dart';
 import 'package:project_n2/screens/wallets_screen.dart';
-import 'package:project_n2/tools/enums/screens.dart';
+import 'package:project_n2/widgets/actions/transaction_dialog.dart';
 
 // final _mainLayoutScaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -89,21 +94,6 @@ class _MainLayoutState extends ConsumerState<MainLayout> {
       ),
       persistentFooterAlignment: AlignmentDirectional.center,
       persistentFooterButtons: [
-        Builder(builder: (context) {
-          return ElevatedButton(
-            onPressed: () => Scaffold.of(context).openEndDrawer(),
-            child: const Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text('Menu'),
-                Padding(
-                  padding: EdgeInsets.only(left: 8),
-                  child: Icon(Icons.menu),
-                ),
-              ],
-            ),
-          );
-        }),
         ElevatedButton(
           onPressed: () => ref.read(currentScreenProvider.notifier).state =
               currentScreen == Screen.home ? Screen.wallets : Screen.home,
@@ -119,6 +109,21 @@ class _MainLayoutState extends ConsumerState<MainLayout> {
             ],
           ),
         ),
+        Builder(builder: (context) {
+          return ElevatedButton(
+            onPressed: () => Scaffold.of(context).openEndDrawer(),
+            child: const Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text('Menu'),
+                Padding(
+                  padding: EdgeInsets.only(left: 8),
+                  child: Icon(Icons.menu),
+                ),
+              ],
+            ),
+          );
+        }),
       ],
       //bottomNavigationBar: ,
       // bottomNavigationBar: BottomNavigationBar(
@@ -153,14 +158,47 @@ class _MainLayoutState extends ConsumerState<MainLayout> {
       //     });
       //   },
       // ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      floatingActionButton: currentScreen == Screen.home
-          ? FloatingActionButton(
-              heroTag: "home_screen",
-              child: const Icon(Icons.add),
-              onPressed: () {},
-            )
-          : null,
+      floatingActionButtonLocation: ExpandableFab.location,
+      floatingActionButton: ExpandableFab(
+        type: ExpandableFabType.up,
+        distance: 60,
+        children: [
+          FloatingActionButton.extended(
+            label: const Text('Add transaction'),
+            heroTag: null,
+            //child: const Icon(Icons.add),
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return const TransactionDialog();
+                },
+              ).then(
+                (value) => setState(
+                  () {},
+                ),
+              );
+            },
+          ),
+          FloatingActionButton.extended(
+            label: const Text('Add transaction [Default]'),
+            heroTag: null,
+            //child: const Icon(Icons.add),
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return const TransactionDialog();
+                },
+              ).then(
+                (value) => setState(
+                  () {},
+                ),
+              );
+            },
+          ),
+        ],
+      ),
     );
   }
 }
