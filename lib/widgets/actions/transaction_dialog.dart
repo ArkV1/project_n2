@@ -12,8 +12,18 @@ class _TransactionDialogState extends ConsumerState<TransactionDialog> {
   @override
   Widget build(BuildContext context) {
     return const AlertDialog(
+      title: Text('New transaction'),
       content: Column(
-        children: [],
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text('Transaction amount'),
+          TextField(
+            keyboardType: TextInputType.number,
+            decoration: InputDecoration(
+              hintText: '0.00',
+            ),
+          ),
+        ],
       ),
     );
   }

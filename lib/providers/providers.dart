@@ -24,7 +24,9 @@ final walletsProvider = FutureProvider<List<Wallet>>(
 final appWidgetsProvider = FutureProvider<List<AppWidget>>(
     (ref) => ref.watch(dataManagerProvider).appWidgets);
 
-final currentScreenProvider = StateProvider<Screen>((ref) => Screen.home); 
+final currentScreenProvider = StateProvider<Screen>((ref) => Screen.home);
+
+final walletScreenIndexProvider = StateProvider<int>((ref) => 0); 
 
 // final containerListProvider =
 //     StateNotifierProvider<ContainerListState, List<AppWidget>>((ref) {

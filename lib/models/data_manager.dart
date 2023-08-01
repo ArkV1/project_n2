@@ -12,6 +12,8 @@ Wallet defaultWallet = Wallet(id: 'defaultWallet', name: 'Default');
 
 WalletWidget defaultWalletWidget = WalletWidget(
   id: 'defaultWallet',
+  parentIndex: 0,
+  childOfId: 'mainScreen',
   walletId: defaultWallet.id!,
   widgetType: WalletWidgetType.total,
 );
@@ -31,12 +33,12 @@ class DataManager extends ChangeNotifier {
       onCreate: (db, version) async {
         Batch batch = db.batch();
         batch.execute(
-            'CREATE TABLE appWidgets(id TEXT PRIMARY KEY, objectId TEXT, widgetType INTEGER)');
-        batch.execute(
             //'CREATE TABLE wallets(id TEXT PRIMARY KEY, name TEXT, transactionsJSON TEXT)');
             'CREATE TABLE wallets(id TEXT PRIMARY KEY, name TEXT)');
         batch.execute(
             'CREATE TABLE transactions(id TEXT PRIMARY KEY, walletId TEXT, name TEXT, amount TEXT)');
+        batch.execute(
+            'CREATE TABLE appWidgets(id TEXT PRIMARY KEY, childOfId TEXT, parentIndex INTEGER, containedObjectId TEXT, containedObjectType TEXT, widgetType INTEGER)');
         batch.insert('wallets', defaultWallet.toMap());
         batch.insert('appWidgets', defaultWalletWidget.toMap());
         await batch.commit(noResult: true);
@@ -45,7 +47,7 @@ class DataManager extends ChangeNotifier {
         //     .execute(
         //       'CREATE TABLE appWidgets(id TEXT PRIMARY KEY, name TEXT)',
         //     )
-        //     .then((value) => db.insert('wallets', defaultWallet.toMap()));
+        //     .then((value) => db.insert('appWidgets', defaultWallet.toMap()));
         // return db
         //     .execute(
         //       'CREATE TABLE wallets(id TEXT PRIMARY KEY, name TEXT)',
@@ -69,7 +71,7 @@ class DataManager extends ChangeNotifier {
 
     // Convert the List<Map<String, dynamic> into a List<Wallet>.
     return List.generate(maps.length, (i) {
-      return AppWidget.fromMap(maps[i]);
+      return WalletWidget.fromMap(maps[i]);
     });
   }
 
@@ -77,7 +79,6 @@ class DataManager extends ChangeNotifier {
     // Insert the Wallet into the correct table. Also specify the
     // `conflictAlgorithm`. In this case, if the same dog is inserted
     // multiple times, it replaces the previous data.
-
     await db!.insert(
       'appWidgets',
       appWidget.toMap(),

@@ -11,6 +11,9 @@ class WalletWidget extends AppWidget {
 
   WalletWidget({
     required super.id,
+    super.containedObjectType = 'wallet',
+    super.childOfId,
+    super.parentIndex,
     required this.walletId,
     this.widgetType = WalletWidgetType.total,
   });
@@ -20,9 +23,22 @@ class WalletWidget extends AppWidget {
   ) {
     return WalletWidget(
       id: data['id'],
-      walletId: data['objectId'],
+      childOfId: data['childOfId'],
+      parentIndex: data['parentIndex'],
+      walletId: data['containedObjectId'],
       widgetType: WalletWidgetType.values[data['widgetType']],
     );
+  }
+
+  @override
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'childOfId': childOfId,
+      'parentIndex': parentIndex,
+      'containedObjectId': walletId,
+      'widgetType': widgetType.index,
+    };
   }
 
   // factory WalletWidget.fromText(
@@ -35,15 +51,6 @@ class WalletWidget extends AppWidget {
   //     widgetType: WalletWidgetType.values[valueMap['widgetType']],
   //   );
   // }
-
-  @override
-  Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'objectId': walletId,
-      'widgetType': widgetType.index,
-    };
-  }
 
   // String toText() {
   //   final valueMap = {

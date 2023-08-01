@@ -92,9 +92,19 @@ class _WalletWidgetsDialogState extends ConsumerState<WalletWidgetsDialog> {
                                     if (value) {
                                       ref
                                           .read(dataManagerProvider)
-                                          .insertAppWidget(WalletWidget(
+                                          .insertAppWidget(
+                                            WalletWidget(
                                               id: (wallets[i].id).toString(),
-                                              walletId: wallets[i].id!));
+                                              childOfId: 'mainScreen',
+                                              parentIndex: appWidgets
+                                                  .where((widget) =>
+                                                      widget.childOfId ==
+                                                      'mainScreen')
+                                                  .length,
+                                              containedObjectType: 'wallet',
+                                              walletId: wallets[i].id!,
+                                            ),
+                                          );
                                       debugPrint('ENABLED');
                                       // ref
                                       //     .read(containerListProvider.notifier)

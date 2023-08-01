@@ -1,3 +1,7 @@
+enum ContainedObjectType {
+  wallet,
+}
+
 enum WalletWidgetType {
   total,
   lastTransaction;

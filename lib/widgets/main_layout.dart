@@ -32,15 +32,67 @@ class _MainLayoutState extends ConsumerState<MainLayout> {
   Widget build(BuildContext context) {
     Screen currentScreen = ref.watch(currentScreenProvider);
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          currentScreen == Screen.home ? 'Home' : 'Wallets',
+        ),
+        actions: [
+          Material(
+            color: Colors.transparent,
+            clipBehavior: Clip.antiAlias,
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(14),
+              ),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 6.0),
+              child: IconButton(
+                onPressed: () {
+                  //
+                },
+                icon: const Icon(
+                  Icons.edit,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
       body: SafeArea(
-        child: () {
-          switch (currentScreen) {
-            case Screen.wallets:
-              return const WalletsScreen();
-            default:
-              return const HomeScreen();
-          }
-        }(),
+        child: Stack(
+          children: [
+            () {
+              switch (currentScreen) {
+                case Screen.wallets:
+                  return const WalletsScreen();
+                default:
+                  return const HomeScreen();
+              }
+            }(),
+            // Positioned(
+            //   right: 5,
+            //   top: 5,
+            //   child: Material(
+            //     color: Colors.transparent,
+            //     clipBehavior: Clip.antiAlias,
+            //     shape: const RoundedRectangleBorder(
+            //       borderRadius: BorderRadius.all(
+            //         Radius.circular(14),
+            //       ),
+            //     ),
+            //     child: IconButton(
+            //       onPressed: () {
+            //         //
+            //       },
+            //       icon: const Icon(
+            //         Icons.edit,
+            //       ),
+            //     ),
+            //   ),
+            // ),
+          ],
+        ),
         //child: widget.child,
       ),
       endDrawer: Drawer(
@@ -118,7 +170,7 @@ class _MainLayoutState extends ConsumerState<MainLayout> {
                 Text('Menu'),
                 Padding(
                   padding: EdgeInsets.only(left: 8),
-                  child: Icon(Icons.menu),
+                  child: Icon(Icons.menu_open),
                 ),
               ],
             ),
@@ -160,11 +212,12 @@ class _MainLayoutState extends ConsumerState<MainLayout> {
       // ),
       floatingActionButtonLocation: ExpandableFab.location,
       floatingActionButton: ExpandableFab(
+        child: const Icon(Icons.add),
         type: ExpandableFabType.up,
         distance: 60,
         children: [
           FloatingActionButton.extended(
-            label: const Text('Add transaction'),
+            label: const Text('Add transaction [Default]'),
             heroTag: null,
             //child: const Icon(Icons.add),
             onPressed: () {
@@ -181,7 +234,7 @@ class _MainLayoutState extends ConsumerState<MainLayout> {
             },
           ),
           FloatingActionButton.extended(
-            label: const Text('Add transaction [Default]'),
+            label: const Text('Add transaction'),
             heroTag: null,
             //child: const Icon(Icons.add),
             onPressed: () {
