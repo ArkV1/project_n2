@@ -1,25 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:project_n2/models/todo/todo_list.dart';
 import 'package:project_n2/providers/providers.dart';
 import 'package:project_n2/tools/enums/currencies.dart';
 
-import '../../../models/wallet/wallet.dart';
-
-// import '../../../models/wallet.dart';
-
 final _formKey = GlobalKey<FormState>();
 
-class WalletsDialog extends ConsumerStatefulWidget {
-  const WalletsDialog({super.key});
+class ToDoListsDialog extends ConsumerStatefulWidget {
+  const ToDoListsDialog({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _WalletsDialogState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _ToDoListsDialogState();
 }
 
-class _WalletsDialogState extends ConsumerState<WalletsDialog> {
-  TextEditingController walletsNameController = TextEditingController();
+class _ToDoListsDialogState extends ConsumerState<ToDoListsDialog> {
+  TextEditingController toDoListsNameController = TextEditingController();
 
-  Wallet? wallet;
+  ToDoList? toDoList;
   bool creation = false;
   bool listViewActions = true;
   bool advancedSettings = false;
@@ -27,7 +25,7 @@ class _WalletsDialogState extends ConsumerState<WalletsDialog> {
   @override
   Widget build(BuildContext context) {
     //final userData = ref.watch(userDataProvider);
-    final wallets = ref.watch(walletsProvider);
+    final toDoLists = ref.watch(toDoListsProvider);
     return AlertDialog(
       title: Row(
         children: [
@@ -35,7 +33,7 @@ class _WalletsDialogState extends ConsumerState<WalletsDialog> {
           const Expanded(
             flex: 5,
             child: Text(
-              'Wallets managment',
+              'To Do Lists managment',
               textAlign: TextAlign.center,
             ),
           ),
@@ -65,8 +63,8 @@ class _WalletsDialogState extends ConsumerState<WalletsDialog> {
           ),
         ],
       ),
-      content: wallets.when(
-        data: (wallets) {
+      content: toDoLists.when(
+        data: (toDoLists) {
           return Container(
             width: double.maxFinite,
             constraints: const BoxConstraints(minHeight: 200),
@@ -86,41 +84,13 @@ class _WalletsDialogState extends ConsumerState<WalletsDialog> {
                             children: [
                               TextFormField(
                                 decoration: const InputDecoration(
-                                  labelText: "Wallet's name",
+                                  labelText: "To Do List's name",
                                   errorMaxLines: 3,
                                   errorStyle: TextStyle(
                                     overflow: TextOverflow.visible,
                                   ),
                                 ),
-                                controller: walletsNameController,
-                              ),
-                              DropdownButtonFormField<Currencies>(
-                                focusNode: FocusNode(canRequestFocus: false),
-                                //isExpanded: true,
-                                decoration: const InputDecoration(
-                                  labelText: 'Currencies:',
-                                  prefixIcon: Icon(Icons.attach_money),
-                                ),
-                                value: Currencies.usd,
-                                icon: const Icon(
-                                  Icons.arrow_drop_down,
-                                ),
-                                onChanged: (Currencies? category) {
-                                  //This is called when the user selects an item.
-                                  // setState(() {
-                                  //   ref.read(creationQuizProvider.notifier).category = category;
-                                  // });
-                                },
-                                items: Currencies.values
-                                    .map<DropdownMenuItem<Currencies>>(
-                                        (Currencies currencie) {
-                                  return DropdownMenuItem<Currencies>(
-                                    value: currencie,
-                                    child: Text(
-                                      currencie.name,
-                                    ),
-                                  );
-                                }).toList(),
+                                controller: toDoListsNameController,
                               ),
                               Align(
                                 alignment: Alignment.centerRight,
@@ -179,18 +149,18 @@ class _WalletsDialogState extends ConsumerState<WalletsDialog> {
                           ElevatedButton(
                             onPressed: () => setState(() {
                               advancedSettings = false;
-                              ref.read(dataManagerProvider).insertWallet(
-                                    Wallet(
-                                      id: (wallets.length).toString(),
-                                      name: walletsNameController.text,
-                                      transactions: [],
+                              ref.read(dataManagerProvider).insertToDoList(
+                                    ToDoList(
+                                      id: (toDoLists.length).toString(),
+                                      name: toDoListsNameController.text,
+                                      tasks: [],
                                     ),
                                   );
                               creation = false;
                             }),
                             child: const Row(
                               children: [
-                                Text('Add wallet'),
+                                Text('Add'),
                                 Padding(
                                   padding: EdgeInsets.only(left: 6.0),
                                   child: Icon(Icons.add_box_outlined),
@@ -208,20 +178,20 @@ class _WalletsDialogState extends ConsumerState<WalletsDialog> {
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    if (wallets.isEmpty)
+                    if (toDoLists.isEmpty)
                       const Padding(
                         padding: EdgeInsets.only(top: 48.0),
                         child: Text(
-                          'No wallets added yet',
+                          'No to do lists added yet',
                           textAlign: TextAlign.center,
                         ),
                       ),
                     ListView(
                       shrinkWrap: true,
                       children: [
-                        for (var wallet in wallets)
+                        for (var toDoList in toDoLists)
                           ListTile(
-                            title: Text(wallet.name),
+                            title: Text(toDoList.name),
                             //subtitle: Text(wallet.defaultCurrency),
                             trailing: Row(
                               mainAxisSize: MainAxisSize.min,
@@ -240,7 +210,7 @@ class _WalletsDialogState extends ConsumerState<WalletsDialog> {
                                     ),
                                     onTap: () {
                                       setState(() {
-                                        this.wallet = wallet;
+                                        this.toDoList = toDoList;
                                         creation = true;
                                         // listViewActions = false;
                                       });
@@ -262,10 +232,10 @@ class _WalletsDialogState extends ConsumerState<WalletsDialog> {
                                     onTap: () {
                                       ref
                                           .read(dataManagerProvider)
-                                          .deleteWallet(wallet.id!);
-                                      ref
-                                          .read(dataManagerProvider)
-                                          .deleteAppWidget(wallet.id!);
+                                          .deleteToDoList(toDoList.id!);
+                                      // ref
+                                      //     .read(dataManagerProvider)
+                                      //     .deleteAppWidget(wallet.id!);
                                     },
                                   ),
                               ],
@@ -297,29 +267,29 @@ class _WalletsDialogState extends ConsumerState<WalletsDialog> {
                       ],
                     ),
                     if (advancedSettings && listViewActions)
-                      DropdownButtonFormField<Wallet>(
+                      DropdownButtonFormField<ToDoList>(
                         focusNode: FocusNode(canRequestFocus: false),
                         //isExpanded: true,
                         decoration: const InputDecoration(
-                          labelText: 'Default wallet:',
+                          labelText: 'Default to do list:',
                           prefixIcon: Icon(Icons.wallet),
                         ),
-                        value: wallets.first,
+                        value: toDoLists.first,
                         icon: const Icon(
                           Icons.arrow_drop_down,
                         ),
-                        onChanged: (Wallet? wallet) {
+                        onChanged: (ToDoList? toDoList) {
                           //This is called when the user selects an item.
                           // setState(() {
                           //   ref.read(creationQuizProvider.notifier).category = category;
                           // });
                         },
-                        items: wallets
-                            .map<DropdownMenuItem<Wallet>>((Wallet wallet) {
-                          return DropdownMenuItem<Wallet>(
-                            value: wallet,
+                        items: toDoLists.map<DropdownMenuItem<ToDoList>>(
+                            (ToDoList toDoList) {
+                          return DropdownMenuItem<ToDoList>(
+                            value: toDoList,
                             child: Text(
-                              wallet.name,
+                              toDoList.name,
                             ),
                           );
                         }).toList(),
@@ -355,7 +325,7 @@ class _WalletsDialogState extends ConsumerState<WalletsDialog> {
                               },
                               child: const Row(
                                 children: [
-                                  Text('Add wallet'),
+                                  Text('Add'),
                                   Padding(
                                     padding: EdgeInsets.only(left: 6.0),
                                     child: Icon(Icons.add_box_outlined),

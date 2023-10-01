@@ -10,3 +10,12 @@ enum WalletWidgetType {
   // });
   // final String name;
 }
+
+enum ToDoWidgetType {
+  classic,
+  expanded;
+  // const Currencies({
+  //   required this.name,
+  // });
+  // final String name;
+}

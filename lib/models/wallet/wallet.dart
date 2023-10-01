@@ -1,18 +1,18 @@
 import 'dart:convert';
 
-import '../transaction.dart';
+import 'wallet_transaction.dart';
 
 class Wallet {
   String? id;
 
   final String name;
   //final String defaultCurrency;
-  final List<Transaction>? transactions;
+  final List<WalletTransacton> transactions;
 
   Wallet({
     required this.id,
     required this.name,
-    this.transactions,
+    required this.transactions,
     //this.defaultCurrency, [
     //this.transactions,
     //]
@@ -24,6 +24,7 @@ class Wallet {
     return Wallet(
       id: data['id'],
       name: data['name'],
+      transactions: [],
       // List<Transaction>.from(
       //     data['questions'].map((x) => Transaction.fromFirestore(x))),
     );
@@ -36,6 +37,7 @@ class Wallet {
     return Wallet(
       id: valueMap['id'],
       name: valueMap['name'],
+      transactions: [],
       // List<Transaction>.from(
       //     data['questions'].map((x) => Transaction.fromFirestore(x))),
     );

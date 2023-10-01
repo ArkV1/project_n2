@@ -1,10 +1,10 @@
-class Transaction {
+class WalletTransacton {
   String? id;
   String walletId;
   String name;
   String amount;
 
-  Transaction({
+  WalletTransacton({
     this.id,
     required this.walletId,
     required this.name,

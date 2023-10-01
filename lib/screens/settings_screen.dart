@@ -1,23 +1,30 @@
 import 'package:flutter/material.dart';
-
 import 'package:package_info_plus/package_info_plus.dart';
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:project_n2/providers/providers.dart';
+import 'package:project_n2/tools/enums/settings.dart';
+
+import 'package:project_n2/widgets/settings_screen/dialogs/components_dialog.dart';
+import 'package:project_n2/widgets/settings_screen/dialogs/todo_dialog.dart';
 import 'package:project_n2/widgets/settings_screen/dialogs/wallet_widgets_dialog.dart';
 
 import '../widgets/settings_screen/dialogs/wallets_dialog.dart';
 
-class SettingsScreen extends StatefulWidget {
+class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({super.key});
 
   @override
-  State<SettingsScreen> createState() => _SettingsScreenState();
+  ConsumerState<SettingsScreen> createState() => _SettingsScreenState();
 }
 
-class _SettingsScreenState extends State<SettingsScreen> {
+class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   bool showBugBounty = false;
   bool showDevInfo = false;
 
   @override
   Widget build(BuildContext context) {
+    final components = ref.watch(componentMapProvider);
     return Scaffold(
       body: Center(
         child: Column(
@@ -33,66 +40,106 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       children: [
                         const Center(
                             child: Text(
-                          'Widgets',
+                          'App settings',
                           textScaleFactor: 1.25,
                         )),
                         const Divider(),
-                        // ListTile(
-                        //   title: const Text('Total'),
-                        //   trailing: Switch.adaptive(
-                        //     value: showTotal,
-                        //     onChanged: (newValue) {
-                        //       setState(() {
-                        //         showTotal = newValue;
-                        //         debugPrint('showTotal: $showTotal');
-                        //       });
-                        //     },
-                        //   ),
-                        //   // onTap: () {},
-                        // ),
-
                         ListTile(
-                          title: const Text('Wallet widgets'),
-                          trailing: const Icon(Icons.account_balance_wallet),
+                          title: const Text('Components'),
+                          trailing: const Icon(Icons.apps),
+                          enabled: true,
                           onTap: () {
                             showDialog(
                               context: context,
                               builder: (BuildContext context) =>
-                                  const WalletWidgetsDialog(),
+                                  const ComponentsDialog(),
                             );
                           },
                         ),
-
-                        const Center(
-                            child: Text(
-                          'Wallets',
-                          textScaleFactor: 1.25,
-                        )),
-                        const Divider(),
-                        // ListTile(
-                        //   title: const Text('Show Total'),
-                        //   trailing: Switch.adaptive(
-                        //     value: showTotal,
-                        //     onChanged: (newValue) {
-                        //       setState(() {
-                        //         showTotal = newValue;
-                        //         debugPrint('showTotal: $showTotal');
-                        //       });
+                        // const Center(
+                        //     child: Text(
+                        //   'Widgets',
+                        //   textScaleFactor: 1.25,
+                        // )),
+                        // const Divider(),
+                        // const Center(
+                        //     child: Text(
+                        //   'Main Screen',
+                        //   textScaleFactor: 1.15,
+                        // )),
+                        // // ListTile(
+                        // //   title: const Text('Total'),
+                        // //   trailing: Switch.adaptive(
+                        // //     value: showTotal,
+                        // //     onChanged: (newValue) {
+                        // //       setState(() {
+                        // //         showTotal = newValue;
+                        // //         debugPrint('showTotal: $showTotal');
+                        // //       });
+                        // //     },
+                        // //   ),
+                        // //   // onTap: () {},
+                        // // ),
+                        // for (var i = 0; i < AppComponents.values.length; i++)
+                        //   ListTile(
+                        //     title: Text(
+                        //         '${AppComponents.values[i].publicName} widgets'),
+                        //     trailing: const Icon(Icons.account_balance_wallet),
+                        //     enabled: false,
+                        //     onTap: () {
+                        //       showDialog(
+                        //         context: context,
+                        //         builder: (BuildContext context) =>
+                        //             const WalletWidgetsDialog(),
+                        //       );
                         //     },
                         //   ),
-                        //   // onTap: () {},
-                        // ),
-                        ListTile(
-                          title: const Text('Manage wallets'),
-                          trailing: const Icon(Icons.account_balance_wallet),
-                          onTap: () {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) =>
-                                  const WalletsDialog(),
-                            );
-                          },
-                        ),
+                        if (components.containsValue(true))
+                          const Column(
+                            children: [
+                              Center(
+                                  child: Text(
+                                'Components',
+                                textScaleFactor: 1.25,
+                              )),
+                              Divider(),
+                            ],
+                          ),
+                        for (var i = 0; i < AppComponents.values.length; i++)
+                          if (components[AppComponents.values[i].name]!)
+                            ListTile(
+                              title: Text(
+                                'Manage \n${AppComponents.values[i].publicName}',
+                              ),
+                              trailing: () {
+                                switch (AppComponents.values[i]) {
+                                  case AppComponents.todo:
+                                    return const Icon(
+                                        Icons.format_list_bulleted);
+                                  case AppComponents.wallet:
+                                    return const Icon(
+                                        Icons.account_balance_wallet);
+                                }
+                              }(),
+                              onTap: () {
+                                switch (AppComponents.values[i]) {
+                                  case AppComponents.todo:
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) =>
+                                          const ToDoListsDialog(),
+                                    );
+                                    break;
+                                  case AppComponents.wallet:
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) =>
+                                          const WalletsDialog(),
+                                    );
+                                    break;
+                                }
+                              },
+                            ),
 
                         // Row(
                         //   mainAxisAlignment: MainAxisAlignment.spaceBetween,

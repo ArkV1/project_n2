@@ -13,7 +13,7 @@ class WalletsScreen extends ConsumerStatefulWidget {
 
 class _WalletsScreenState extends ConsumerState<WalletsScreen> {
   late final PageController _pageController =
-      PageController(initialPage: ref.read(walletScreenIndexProvider));
+      PageController(initialPage: ref.read(screenIndexProvider));
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class _WalletsScreenState extends ConsumerState<WalletsScreen> {
         PageView(
           controller: _pageController,
           onPageChanged: (value) {
-            ref.read(walletScreenIndexProvider.notifier).state = value;
+            ref.read(screenIndexProvider.notifier).state = value;
           },
           children: [
             for (var i = 0; i < wallets.length; i++)

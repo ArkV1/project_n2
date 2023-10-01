@@ -1,13 +1,15 @@
+import 'dart:ffi';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:project_n2/models/todo/todo_list.dart';
+import 'package:project_n2/tools/enums/settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:project_n2/models/user_data.dart';
 
-import 'package:project_n2/models/data_manager.dart';
+import 'package:project_n2/data_manager.dart';
 import 'package:project_n2/models/wallet/wallet.dart';
 import 'package:project_n2/models/app_widget.dart';
-
-import 'package:project_n2/tools/enums/screens.dart';
 
 // INIT
 final prefsProvider =
@@ -21,12 +23,15 @@ final dataManagerProvider =
 final walletsProvider = FutureProvider<List<Wallet>>(
     (ref) => ref.watch(dataManagerProvider).wallets);
 
+final toDoListsProvider = FutureProvider<List<ToDoList>>(
+    (ref) => ref.watch(dataManagerProvider).toDoLists);
+
 final appWidgetsProvider = FutureProvider<List<AppWidget>>(
     (ref) => ref.watch(dataManagerProvider).appWidgets);
 
-final currentScreenProvider = StateProvider<Screen>((ref) => Screen.home);
+final screenEditingProvider = StateProvider<bool>((ref) => false);
 
-final walletScreenIndexProvider = StateProvider<int>((ref) => 0); 
+final screenIndexProvider = StateProvider<int>((ref) => 0);
 
 // final containerListProvider =
 //     StateNotifierProvider<ContainerListState, List<AppWidget>>((ref) {
@@ -71,3 +76,33 @@ final walletScreenIndexProvider = StateProvider<int>((ref) => 0);
 //   //   }).toList();
 //   // }
 // }
+
+final componentMapProvider = StateProvider<Map<String, bool>>((ref) {
+  final appComponentsNames =
+      AppComponents.values.map((component) => component.name).toList();
+  List<String> componentsBinaryBoolList =
+      ref.read(prefsProvider).getStringList('appComponents') ?? [];
+  List<bool> convertedBoolList = [];
+  for (var i = 0; i < appComponentsNames.length; i++) {
+    if (i < componentsBinaryBoolList.length) {
+      convertedBoolList.add(componentsBinaryBoolList[i] == '0' ? false : true);
+    } else {
+      convertedBoolList.add(false);
+    }
+  }
+  return Map<String, bool>.fromIterables(
+    appComponentsNames,
+    convertedBoolList,
+  );
+});
+
+componentSwitch(WidgetRef ref, String component) {
+  ref.read(componentMapProvider.notifier).update((componentMap) {
+    componentMap[component] = !componentMap[component]!;
+    ref.read(prefsProvider).setStringList(
+          'appComponents',
+          componentMap.values.map((e) => e ? '1' : '0').toList(),
+        );
+    return Map.from(componentMap);
+  });
+}

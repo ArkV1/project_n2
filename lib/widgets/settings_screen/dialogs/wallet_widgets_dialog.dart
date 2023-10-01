@@ -95,10 +95,10 @@ class _WalletWidgetsDialogState extends ConsumerState<WalletWidgetsDialog> {
                                           .insertAppWidget(
                                             WalletWidget(
                                               id: (wallets[i].id).toString(),
-                                              childOfId: 'mainScreen',
+                                              parentId: 'mainScreen',
                                               parentIndex: appWidgets
                                                   .where((widget) =>
-                                                      widget.childOfId ==
+                                                      widget.parentId ==
                                                       'mainScreen')
                                                   .length,
                                               containedObjectType: 'wallet',

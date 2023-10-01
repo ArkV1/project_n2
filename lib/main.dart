@@ -198,7 +198,6 @@ class _MyAppState extends ConsumerState<MyApp> {
             '/settings': (context) => SettingsScreen(),
             '/settings/personalization': (context) =>
                 PersonalizationSettingsScreen(),
-            '/wallets': (context) => WalletsScreen(),
           },
           localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
             DefaultMaterialLocalizations.delegate,

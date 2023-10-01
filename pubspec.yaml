@@ -37,17 +37,17 @@ dependencies:
   shared_preferences: ^2.0.15
   sqflite: ^2.2.8+4
   firebase_core: ^2.1.1
-  cloud_firestore: ^4.0.3
+  cloud_firestore: ^4.9.2  
   firebase_storage: ^11.0.5
   firebase_auth: ^4.2.5
   in_app_purchase: ^3.1.5
   in_app_purchase_android: ^0.3.0+5
   # google_mobile_ads: ^3.0.0
   image_picker: ^0.8.6
-  reorderables: ^0.5.1
+  reorderables: ^0.6.0
   flutter_expandable_fab: ^1.8.1
-  package_info_plus: ^4.0.2
-
+  package_info_plus: ^4.1.0
+  
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2

@@ -5,28 +5,28 @@ import '../app_widget.dart';
 // import 'package:project_n2/models/wallet/wallet.dart';
 import 'package:project_n2/tools/enums/widget_types.dart';
 
-class WalletWidget extends AppWidget {
-  String walletId;
-  WalletWidgetType widgetType;
+class ToDoWidget extends AppWidget {
+  String toDoListId;
+  ToDoWidgetType widgetType;
 
-  WalletWidget({
+  ToDoWidget({
     required super.id,
-    super.containedObjectType = 'wallet',
+    super.containedObjectType = 'todolist',
     super.parentId,
     super.parentIndex,
-    required this.walletId,
-    this.widgetType = WalletWidgetType.total,
+    required this.toDoListId,
+    this.widgetType = ToDoWidgetType.classic,
   });
 
-  factory WalletWidget.fromMap(
+  factory ToDoWidget.fromMap(
     Map<String, dynamic> data,
   ) {
-    return WalletWidget(
+    return ToDoWidget(
       id: data['id'],
       parentId: data['parentId'],
       parentIndex: data['parentIndex'],
-      walletId: data['containedObjectId'],
-      widgetType: WalletWidgetType.values[data['widgetType']],
+      toDoListId: data['containedObjectId'],
+      widgetType: ToDoWidgetType.values[data['widgetType']],
     );
   }
 
@@ -36,19 +36,19 @@ class WalletWidget extends AppWidget {
       'id': id,
       'parentId': parentId,
       'parentIndex': parentIndex,
-      'containedObjectId': walletId,
+      'containedObjectId': toDoListId,
       'widgetType': widgetType.index,
     };
   }
 
-  // factory WalletWidget.fromText(
+  // factory ToDoWidget.fromText(
   //   String encodedString,
   // ) {
   //   final valueMap = json.decode(encodedString);
-  //   return WalletWidget(
+  //   return ToDoWidget(
   //     id: valueMap['id'],
   //     wallet: Wallet.fromMap(valueMap['wallet']),
-  //     widgetType: WalletWidgetType.values[valueMap['widgetType']],
+  //     widgetType: ToDoWidgetType.values[valueMap['widgetType']],
   //   );
   // }
 

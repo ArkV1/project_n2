@@ -1,12 +1,12 @@
 class AppWidget {
   String id;
-  String? childOfId;
+  String? parentId;
   int? parentIndex;
   String containedObjectType;
 
   AppWidget({
     required this.id,
-    this.childOfId,
+    this.parentId,
     this.parentIndex,
     required this.containedObjectType,
   });
@@ -16,7 +16,7 @@ class AppWidget {
   ) {
     return AppWidget(
       id: data['id'],
-      childOfId: data['childOfId'],
+      parentId: data['childOfId'],
       parentIndex: data['parentIndex'],
       containedObjectType: data['containedObjectType'],
     );
@@ -25,7 +25,7 @@ class AppWidget {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'childOfId': childOfId,
+      'parentId': parentId,
       'parentIndex': parentIndex,
       'containedObjectType': containedObjectType,
     };
