@@ -11,7 +11,7 @@ class ToDoWidget extends AppWidget {
 
   ToDoWidget({
     required super.id,
-    super.containedObjectType = 'todolist',
+    super.containedObjectType = ContainedObjectType.toDoList,
     super.parentId,
     super.parentIndex,
     required this.toDoListId,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:project_n2/models/wallet/wallet_widget.dart';
 import 'package:project_n2/providers/providers.dart';
+import 'package:project_n2/tools/enums/widget_types.dart';
 // import 'package:project_n2/tools/enums/currencies.dart';
 // import 'package:project_n2/models/wallet/wallet.dart';
 
@@ -101,7 +102,8 @@ class _WalletWidgetsDialogState extends ConsumerState<WalletWidgetsDialog> {
                                                       widget.parentId ==
                                                       'mainScreen')
                                                   .length,
-                                              containedObjectType: 'wallet',
+                                              containedObjectType:
+                                                  ContainedObjectType.wallet,
                                               walletId: wallets[i].id!,
                                             ),
                                           );

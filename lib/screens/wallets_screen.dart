@@ -17,6 +17,7 @@ class _WalletsScreenState extends ConsumerState<WalletsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isEditing = ref.watch(screenEditingProvider);
     final dataManager = ref.watch(dataManagerProvider);
     final wallets = dataManager.wallets;
     return Stack(
@@ -28,45 +29,111 @@ class _WalletsScreenState extends ConsumerState<WalletsScreen> {
           },
           children: [
             for (var i = 0; i < wallets.length; i++)
-              Column(
-                children: [
-                  Card(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 4.0),
-                          child: Text(wallets[i].name),
-                        ),
-                        const ListTile(
-                          title: Text('Title'),
-                          subtitle: Text('Subtitle'),
-                        ),
-                      ],
+              SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Card(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          ListTile(
+                            title: Text('ID: ${wallets[i].id!}'),
+                            subtitle: Text(wallets[i].name),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                    const Text('Transactions'),
+                    for (var y = 0; y < wallets[i].transactions.length; y++)
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Card(
+                              child: ListTile(
+                                dense: true,
+                                visualDensity: VisualDensity.compact,
+                                title: Text(
+                                    'ID: ${wallets[i].transactions[y].id!}'),
+                                subtitle: Text(wallets[i].transactions[y].name),
+                                trailing:
+                                    Text(wallets[i].transactions[y].amount),
+                              ),
+                            ),
+                          ),
+                          if (isEditing)
+                            Container(
+                              margin: const EdgeInsets.only(right: 4.0),
+                              constraints: const BoxConstraints(
+                                  minWidth: 40, maxWidth: 40),
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  padding: EdgeInsets.zero,
+                                  shape: ContinuousRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                ),
+                                onPressed: () {
+                                  // ref.read(dataManagerProvider).deleteToDoTask(
+                                  //     toDoLists[i].tasks[y], toDoLists[i].id!);
+                                },
+                                child: const Icon(
+                                  Icons.edit,
+                                ),
+                              ),
+                            ),
+                          if (isEditing)
+                            Container(
+                              margin: const EdgeInsets.only(right: 4.0),
+                              constraints: const BoxConstraints(
+                                  minWidth: 40, maxWidth: 40),
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  padding: EdgeInsets.zero,
+                                  shape: ContinuousRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  foregroundColor: Colors.red,
+                                ),
+                                onPressed: () {
+                                  ref
+                                      .read(dataManagerProvider)
+                                      .deleteWalletTransaction(
+                                        wallets[i].transactions[y],
+                                        wallets[i].id!,
+                                      );
+                                  // ref.read(dataManagerProvider).deleteToDoTask(
+                                  //     toDoLists[i].tasks[y], toDoLists[i].id!);
+                                },
+                                child: const Icon(
+                                  Icons.delete,
+                                ),
+                              ),
+                            ),
+                        ],
+                      ),
+                  ],
+                ),
               ),
+            // Positioned(
+            //   right: 0,
+            //   top: 0,
+            //   child: Material(
+            //     color: Colors.transparent,
+            //     clipBehavior: Clip.antiAlias,
+            //     shape: const RoundedRectangleBorder(
+            //         borderRadius: BorderRadius.all(Radius.circular(20))),
+            //     child: IconButton(
+            //       onPressed: () {
+            //         //
+            //       },
+            //       icon: const Icon(
+            //         Icons.menu,
+            //       ),
+            //     ),
+            //   ),
+            // ),
           ],
-        ),
-        // Positioned(
-        //   right: 0,
-        //   top: 0,
-        //   child: Material(
-        //     color: Colors.transparent,
-        //     clipBehavior: Clip.antiAlias,
-        //     shape: const RoundedRectangleBorder(
-        //         borderRadius: BorderRadius.all(Radius.circular(20))),
-        //     child: IconButton(
-        //       onPressed: () {
-        //         //
-        //       },
-        //       icon: const Icon(
-        //         Icons.menu,
-        //       ),
-        //     ),
-        //   ),
-        // ),
+        )
       ],
     );
   }

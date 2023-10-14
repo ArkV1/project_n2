@@ -5,6 +5,7 @@ class ToDoTask {
   String toDoListId;
   final String task;
   final String? description;
+  bool isDaily;
   bool complete;
   DateTime? creationDate;
   DateTime? completionDate;
@@ -14,6 +15,7 @@ class ToDoTask {
     required this.toDoListId,
     required this.task,
     this.description,
+    this.isDaily = false,
     this.complete = false,
     this.creationDate,
     this.completionDate,
@@ -29,6 +31,7 @@ class ToDoTask {
       toDoListId: data['todoListId'],
       task: data['task'],
       description: data['description'],
+      isDaily: data['isDaily'] == 1,
       complete: data['complete'] == 1,
       creationDate: DateTime.parse(data['creationDate']),
       completionDate: data['completionDate'] != null
@@ -50,6 +53,7 @@ class ToDoTask {
       'todoListId': toDoListId,
       'task': task,
       if (id != null) 'description': description,
+      'isDaily': isDaily ? 1 : 0,
       'complete': complete ? 1 : 0,
       'creationDate': creationDate.toString(),
       if (completionDate != null) 'completionDate': completionDate.toString(),

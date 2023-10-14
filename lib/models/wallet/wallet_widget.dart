@@ -11,7 +11,7 @@ class WalletWidget extends AppWidget {
 
   WalletWidget({
     required super.id,
-    super.containedObjectType = 'wallet',
+    super.containedObjectType = ContainedObjectType.wallet,
     super.parentId,
     super.parentIndex,
     required this.walletId,

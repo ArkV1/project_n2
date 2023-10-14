@@ -1,8 +1,10 @@
+import 'package:project_n2/tools/enums/widget_types.dart';
+
 class AppWidget {
   String id;
   String? parentId;
   int? parentIndex;
-  String containedObjectType;
+  ContainedObjectType containedObjectType;
 
   AppWidget({
     required this.id,
@@ -18,7 +20,8 @@ class AppWidget {
       id: data['id'],
       parentId: data['childOfId'],
       parentIndex: data['parentIndex'],
-      containedObjectType: data['containedObjectType'],
+      containedObjectType:
+          ContainedObjectType.values.byName(data['containedObjectType']),
     );
   }
 
@@ -27,7 +30,7 @@ class AppWidget {
       'id': id,
       'parentId': parentId,
       'parentIndex': parentIndex,
-      'containedObjectType': containedObjectType,
+      'containedObjectType': containedObjectType.name,
     };
   }
 }

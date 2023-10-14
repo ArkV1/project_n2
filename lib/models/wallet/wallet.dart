@@ -24,9 +24,10 @@ class Wallet {
     return Wallet(
       id: data['id'],
       name: data['name'],
-      transactions: [],
-      // List<Transaction>.from(
-      //     data['questions'].map((x) => Transaction.fromFirestore(x))),
+      transactions: List<WalletTransacton>.from(
+        jsonDecode(data['transactionsJSON'])
+            .map((x) => WalletTransacton.fromMap(x)),
+      ),
     );
   }
 
@@ -47,6 +48,9 @@ class Wallet {
     return {
       if (id != null) 'id': id,
       'name': name,
+      'transactionsJSON':
+          jsonEncode(List<dynamic>.from(transactions.map((x) => x.toMap()))),
+
       // if (transactions != null)
       //   'transactions':
       //       List<dynamic>.from(transactions!.map((x) => x.toFirestore())),

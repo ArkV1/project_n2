@@ -39,36 +39,36 @@ class DataManager extends ChangeNotifier {
     );
     defaultToDoList.tasks.add(exampleTask);
     // WALLETS
-    // Wallet defaultWallet = Wallet(
-    //   id: 'defaultWallet',
-    //   name: 'DefaultWallet',
-    //   transactions: [],
-    // );
-    // WalletTransacton exampleTransaction = WalletTransacton(
-    //   id: 'exampleTransaction',
-    //   walletId: defaultWallet.id ?? 'defaultWallet',
-    //   name: 'Burger',
-    //   amount: '35',
-    // );
-    // defaultWallet.transactions.add(exampleTransaction);
-    //
+    Wallet defaultWallet = Wallet(
+      id: 'defaultWallet',
+      name: 'DefaultWallet',
+      transactions: [],
+    );
+    WalletTransacton exampleTransaction = WalletTransacton(
+      id: 'exampleTransaction',
+      walletId: defaultWallet.id ?? 'defaultWallet',
+      name: 'Burger',
+      amount: '35',
+    );
+    defaultWallet.transactions.add(exampleTransaction);
+
     //  WIDGETS
-    //
-    // WalletWidget defaultWalletWidget = WalletWidget(
-    //   id: 'defaultWallet',
-    //   parentIndex: 0,
-    //   parentId: 'mainScreen',
-    //   walletId: defaultWallet.id!,
-    //   widgetType: WalletWidgetType.total,
-    // );
-    // In testing
-    ToDoWidget(
-      id: 'defaultToDoList',
+
+    WalletWidget defaultWalletWidget = WalletWidget(
+      id: 'defaultWallet',
       parentIndex: 0,
       parentId: 'mainScreen',
-      toDoListId: defaultToDoList.id!,
-      widgetType: ToDoWidgetType.classic,
+      walletId: defaultWallet.id!,
+      widgetType: WalletWidgetType.total,
     );
+    // In testing
+    // ToDoWidget(
+    //   id: 'defaultToDoList',
+    //   parentIndex: 0,
+    //   parentId: 'mainScreen',
+    //   toDoListId: defaultToDoList.id!,
+    //   widgetType: ToDoWidgetType.classic,
+    // );
 
     db = await openDatabase(
       'projectN2.db',
@@ -78,20 +78,19 @@ class DataManager extends ChangeNotifier {
         //
         batch.execute(
             'CREATE TABLE toDoLists(id TEXT PRIMARY KEY, name TEXT, tasksJSON TEXT)');
-        batch.execute(
-            'CREATE TABLE toDoTasks(id TEXT PRIMARY KEY, toDoListId TEXT, task TEXT, description TEXT, complete INTEGER, creationDate TEXT, completionDate TEXT)');
+        // batch.execute(
+        //     'CREATE TABLE toDoTasks(id TEXT PRIMARY KEY, toDoListId TEXT, task TEXT, description TEXT, complete INTEGER, creationDate TEXT, completionDate TEXT)');
         batch.insert('toDoLists', defaultToDoList.toMap());
-        batch.insert('toDoTasks', exampleTask.toMap());
+        //batch.insert('toDoTasks', exampleTask.toMap());
         //
-        // batch.execute(
-        //     //'CREATE TABLE wallets(id TEXT PRIMARY KEY, name TEXT, transactionsJSON TEXT)');
-        //     'CREATE TABLE wallets(id TEXT PRIMARY KEY, name TEXT)');
-        // batch.execute(
-        //     'CREATE TABLE transactions(id TEXT PRIMARY KEY, walletId TEXT, name TEXT, amount TEXT)');
-        // batch.execute(
-        //     'CREATE TABLE appWidgets(id TEXT PRIMARY KEY, parentId TEXT, parentIndex INTEGER, containedObjectId TEXT, containedObjectType TEXT, widgetType INTEGER)');
-        // batch.insert('wallets', defaultWallet.toMap());
-        // batch.insert('appWidgets', defaultWalletWidget.toMap());
+        batch.execute(
+            'CREATE TABLE wallets(id TEXT PRIMARY KEY, name TEXT, transactionsJSON TEXT)');
+        batch.execute(
+            'CREATE TABLE transactions(id TEXT PRIMARY KEY, walletId TEXT, name TEXT, amount TEXT)');
+        batch.execute(
+            'CREATE TABLE appWidgets(id TEXT PRIMARY KEY, parentId TEXT, parentIndex INTEGER, containedObjectId TEXT, containedObjectType TEXT, widgetType INTEGER)');
+        batch.insert('wallets', defaultWallet.toMap());
+        batch.insert('appWidgets', defaultWalletWidget.toMap());
         await batch.commit(noResult: true);
         // Run the CREATE TABLE statement on the database.
         // db
@@ -107,10 +106,11 @@ class DataManager extends ChangeNotifier {
       },
       version: 1,
     );
+    appWidgets = await getAppWidgets();
+    wallets = await getWallets();
     toDoLists = await getToDoLists();
-    // wallets = await getWallets();
-    // appWidgets = await getAppWidgets();
     notifyListeners();
+    updateDailyTasksRoutine();
   }
 
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -250,6 +250,37 @@ class DataManager extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> insertTransactionByWalletID(
+    WalletTransacton newTransaction,
+    String id, {
+    bool notify = true,
+  }) async {
+    // Insert the Wallet into the correct table. Also specify the
+    // `conflictAlgorithm`. In this case, if the same dog is inserted
+    // multiple times, it replaces the previous data.
+    final currentWallet = wallets.singleWhere((wallet) => wallet.id == id);
+    try {
+      currentWallet.transactions[currentWallet.transactions.indexWhere(
+              (transaction) => transaction.id == newTransaction.id)] =
+          newTransaction;
+    } catch (e) {
+      print(e.toString());
+      currentWallet.transactions.add(newTransaction);
+    }
+    await db!.update(
+      'wallets',
+      {
+        'transactionsJSON': jsonEncode(List<dynamic>.from(
+            currentWallet.transactions.map((x) => x.toMap())))
+      },
+      where: 'id = ?',
+      whereArgs: [id],
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+    wallets = await getWallets();
+    if (notify) notifyListeners();
+  }
+
   Future<void> deleteWallet(String id) async {
     // Remove the Wallet from the database.
     await db!.delete(
@@ -263,8 +294,60 @@ class DataManager extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> deleteWalletTransaction(
+    WalletTransacton transactionToRemove,
+    String id,
+  ) async {
+    final currentWallet = wallets.singleWhere((wallet) => wallet.id == id);
+    try {
+      currentWallet.transactions.removeWhere(
+        (transaction) => transaction.id == transactionToRemove.id,
+      );
+    } catch (e) {
+      debugPrint(
+        'Wasnt able to remove transaction ID:${transactionToRemove.id}',
+      );
+    }
+    await db!.update(
+      'wallets',
+      {
+        'transactionsJSON': jsonEncode(List<dynamic>.from(
+            currentWallet.transactions.map((x) => x.toMap())))
+      },
+      where: 'id = ?',
+      whereArgs: [id],
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+    wallets = await getWallets();
+    notifyListeners();
+  }
+
 ///////////////////////////////////////////////////////////////////////////////////////
 //                                  TODOLISTS
+
+  void updateDailyTasksRoutine() {
+    debugPrint('Routine started: Daily Tasks Update');
+    for (var todoList in toDoLists) {
+      for (var toDoTask in todoList.tasks) {
+        if (toDoTask.isDaily && toDoTask.completionDate != null) {
+          try {
+            if (calculateDifference(toDoTask.completionDate!) < 0) {
+              toDoTask.complete = false;
+              insertToDoTaskByListID(
+                toDoTask,
+                todoList.id!,
+                notify: false,
+              );
+            }
+          } catch (e) {
+            debugPrint('Routine error: Daily Tasks Update');
+          }
+        }
+      }
+    }
+    notifyListeners();
+    debugPrint('Routine finished: Daily Tasks Update');
+  }
 
   // A method that retrieves all the wallets from the wallets table.
   Future<List<ToDoList>> getToDoLists() async {
@@ -291,16 +374,26 @@ class DataManager extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> insertToDoTaskByListID(ToDoTask toDoTask, String id) async {
+  Future<void> insertToDoTaskByListID(
+    ToDoTask toDoTask,
+    String listID, {
+    bool notify = true,
+  }) async {
     // Insert the Wallet into the correct table. Also specify the
     // `conflictAlgorithm`. In this case, if the same dog is inserted
     // multiple times, it replaces the previous data.
     final currentList =
-        toDoLists.singleWhere((thisToDoList) => thisToDoList.id == id);
+        toDoLists.singleWhere((thisToDoList) => thisToDoList.id == listID);
     try {
+      if (toDoTask.complete) {
+        toDoTask.completionDate = DateTime.now();
+      } else {
+        toDoTask.completionDate = null;
+      }
       currentList.tasks[currentList.tasks
           .indexWhere((task) => task.id == toDoTask.id)] = toDoTask;
     } catch (e) {
+      toDoTask.creationDate = DateTime.now();
       currentList.tasks.add(toDoTask);
     }
     await db!.update(
@@ -310,21 +403,21 @@ class DataManager extends ChangeNotifier {
             List<dynamic>.from(currentList.tasks.map((x) => x.toMap())))
       },
       where: 'id = ?',
-      whereArgs: [id],
+      whereArgs: [listID],
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
     toDoLists = await getToDoLists();
-    notifyListeners();
+    if (notify) notifyListeners();
   }
 
-  Future<void> deleteToDoList(String id) async {
+  Future<void> deleteToDoList(String listID) async {
     // Remove the Wallet from the database.
     await db!.delete(
       'toDoLists',
       // Use a `where` clause to delete a specific wallet.
       where: 'id = ?',
       // Pass the Wallet's id as a whereArg to prevent SQL injection.
-      whereArgs: [id],
+      whereArgs: [listID],
     );
     toDoLists = await getToDoLists();
     notifyListeners();
@@ -379,5 +472,14 @@ class DataManager extends ChangeNotifier {
     );
     toDoLists = await getToDoLists();
     notifyListeners();
+  }
+
+  // OTHER
+
+  int calculateDifference(DateTime date) {
+    DateTime now = DateTime.now();
+    return DateTime(date.year, date.month, date.day)
+        .difference(DateTime(now.year, now.month, now.day))
+        .inDays;
   }
 }
