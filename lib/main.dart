@@ -7,8 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
-import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:project_n2/data_manager.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'firebase_options.dart';
@@ -24,7 +23,6 @@ import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:project_n2/widgets/main_layout.dart';
 import 'package:project_n2/screens/settings_screen.dart';
 import 'package:project_n2/screens/personalization_settings_screen.dart';
-import 'package:project_n2/screens/wallets_screen.dart';
 
 //////////////////////////////////////////////////////////////////////////
 
@@ -40,9 +38,7 @@ import 'package:project_n2/screens/wallets_screen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // GET LOCAL DATA
-
-  final prefs = await SharedPreferences.getInstance();
+  await DataManager.instance.init();
 
   //////////////////////////////////////////////////////////////////////////
   ///                              FIREBASE                              ///
@@ -82,9 +78,9 @@ void main() async {
 
   runApp(
     ProviderScope(
-      overrides: [
-        prefsProvider.overrideWithValue(prefs),
-      ],
+      // overrides: [
+      //   dataManagerProvider.overrideWithValue(dataManager),
+      // ],
       child: MyApp(),
     ),
   );

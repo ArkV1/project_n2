@@ -1,28 +1,28 @@
-// import 'dart:convert';
-
-import '../app_widget.dart';
-
-// import 'package:project_n2/models/wallet/wallet.dart';
+import 'package:isar/isar.dart';
+import 'package:project_n2/models/app_widget.dart';
 import 'package:project_n2/tools/enums/widget_types.dart';
 
+part 'wallet_widget.g.dart';
+
+@collection
 class WalletWidget extends AppWidget {
-  String walletId;
+  int walletId;
+  @enumerated
   WalletWidgetType widgetType;
 
   WalletWidget({
-    required super.id,
-    super.containedObjectType = ContainedObjectType.wallet,
-    super.parentId,
-    super.parentIndex,
+    String? parentId,
+    int? parentIndex,
     required this.walletId,
     this.widgetType = WalletWidgetType.total,
-  });
+  }) : super(
+          parentId: parentId,
+          parentIndex: parentIndex,
+          containedObjectType: ContainedObjectType.wallet,
+        );
 
-  factory WalletWidget.fromMap(
-    Map<String, dynamic> data,
-  ) {
+  factory WalletWidget.fromMap(Map<String, dynamic> data) {
     return WalletWidget(
-      id: data['id'],
       parentId: data['parentId'],
       parentIndex: data['parentIndex'],
       walletId: data['containedObjectId'],
@@ -33,31 +33,9 @@ class WalletWidget extends AppWidget {
   @override
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
-      'parentId': parentId,
-      'parentIndex': parentIndex,
+      ...super.toMap(), // inherit properties from the parent class
       'containedObjectId': walletId,
       'widgetType': widgetType.index,
     };
   }
-
-  // factory WalletWidget.fromText(
-  //   String encodedString,
-  // ) {
-  //   final valueMap = json.decode(encodedString);
-  //   return WalletWidget(
-  //     id: valueMap['id'],
-  //     wallet: Wallet.fromMap(valueMap['wallet']),
-  //     widgetType: WalletWidgetType.values[valueMap['widgetType']],
-  //   );
-  // }
-
-  // String toText() {
-  //   final valueMap = {
-  //     'id': id,
-  //     'wallet': wallet.toMap(),
-  //     'widgetType': widgetType.index,
-  //   };
-  //   return jsonEncode(valueMap);
-  // }
 }

@@ -58,15 +58,14 @@ class _ToDoTaskDialogState extends ConsumerState<ToDoTaskDialog> {
             child: ElevatedButton(
               onPressed: () {
                 final currentList = toDoLists[ref.read(screenIndexProvider)];
-                ref.read(dataManagerProvider).insertToDoTaskByListID(
+                ref.read(dataManagerProvider).insertToDoTask(
                       ToDoTask(
-                        id: currentList.tasks.length.toString(),
-                        toDoListId: currentList.id!,
+                        toDoListId: currentList.id,
+                        parentIndex: currentList.tasks.length,
                         //
                         task: toDoTaskController.text,
                         isDaily: daily,
                       ),
-                      currentList.id!,
                     );
                 Navigator.pop(context);
               },

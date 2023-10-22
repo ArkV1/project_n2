@@ -43,16 +43,20 @@ class _TransactionDialogState extends ConsumerState<TransactionDialog> {
             child: ElevatedButton(
               onPressed: () {
                 final currentWallet = wallets[ref.read(screenIndexProvider)];
-                ref.read(dataManagerProvider).insertTransactionByWalletID(
-                      WalletTransacton(
-                        id: (int.parse(currentWallet.transactions.last.id!) + 1)
-                            .toString(),
-                        walletId: currentWallet.id!,
+                // int latestId = 0;
+                // try {
+                //   latestId = int.parse(currentWallet.transactions.last.id!);
+                // } on Exception catch (e) {
+                //   // TODO
+                // }
+                // print(currentWallet.id!);
+                ref.read(dataManagerProvider).insertWalletTransaction(
+                      WalletTransaction(
+                        walletId: currentWallet.id,
                         //
                         name: transactionNameController.text,
                         amount: transactionAmountController.text,
                       ),
-                      currentWallet.id!,
                     );
                 Navigator.pop(context);
               },

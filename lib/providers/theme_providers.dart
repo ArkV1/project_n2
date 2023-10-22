@@ -8,7 +8,7 @@ import '/tools/constants.dart';
 
 final themeModeProvider = StateProvider<ThemeMode>(
   (ref) {
-    final themeModeString = ref.read(prefsProvider).getString('theme');
+    final themeModeString = ref.read(dataManagerProvider).getString('theme');
     switch (themeModeString) {
       case null:
         return ThemeMode.system;
@@ -27,7 +27,7 @@ final themeModeProvider = StateProvider<ThemeMode>(
 //////////////////////////////////////////////////////////////////////////////////
 
 final primaryColorProvider = StateProvider<Map<String, dynamic>>((ref) {
-  final primaryColor = ref.read(prefsProvider).getString('primaryColor');
+  final primaryColor = ref.read(dataManagerProvider).getString('primaryColor');
   if (primaryColor != null) {
     return primaryColorList
         .firstWhere((element) => element['color'] == primaryColor);
@@ -38,7 +38,8 @@ final primaryColorProvider = StateProvider<Map<String, dynamic>>((ref) {
 });
 
 final secondaryColorProvider = StateProvider<Map<String, dynamic>>((ref) {
-  final secondaryColor = ref.read(prefsProvider).getString('secondaryColor');
+  final secondaryColor =
+      ref.read(dataManagerProvider).getString('secondaryColor');
   if (secondaryColor != null) {
     return secondaryColorList
         .firstWhere((element) => element['color'] == secondaryColor);
@@ -51,4 +52,4 @@ final secondaryColorProvider = StateProvider<Map<String, dynamic>>((ref) {
 //////////////////////////////////////////////////////////////////////////////////
 
 final backgroundProvider = StateProvider<String>((ref) =>
-    ref.read(prefsProvider).getString('background') ?? 'V3 - Questions');
+    ref.read(dataManagerProvider).getString('background') ?? 'V3 - Questions');

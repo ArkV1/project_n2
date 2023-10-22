@@ -3,7 +3,6 @@ import 'dart:ffi';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:project_n2/models/todo/todo_list.dart';
 import 'package:project_n2/tools/enums/settings.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:project_n2/models/user_data.dart';
 
@@ -12,13 +11,14 @@ import 'package:project_n2/models/wallet/wallet.dart';
 import 'package:project_n2/models/app_widget.dart';
 
 // INIT
-final prefsProvider =
-    Provider<SharedPreferences>((ref) => throw UnimplementedError());
-
 final userDataProvider = ChangeNotifierProvider<UserData>((ref) => UserData());
 
-final dataManagerProvider =
-    ChangeNotifierProvider<DataManager>((ref) => DataManager());
+// final prefsProvider =
+//     Provider<SharedPreferences>((ref) => throw UnimplementedError());
+
+final dataManagerProvider = ChangeNotifierProvider<DataManager>(
+  (ref) => DataManager.instance,
+);
 
 final walletsProvider = FutureProvider<List<Wallet>>(
     (ref) => ref.watch(dataManagerProvider).wallets);
@@ -81,7 +81,7 @@ final componentMapProvider = StateProvider<Map<String, bool>>((ref) {
   final appComponentsNames =
       AppComponents.values.map((component) => component.name).toList();
   List<String> componentsBinaryBoolList =
-      ref.read(prefsProvider).getStringList('appComponents') ?? [];
+      ref.read(dataManagerProvider).getStringList('appComponents') ?? [];
   List<bool> convertedBoolList = [];
   for (var i = 0; i < appComponentsNames.length; i++) {
     if (i < componentsBinaryBoolList.length) {
@@ -99,7 +99,7 @@ final componentMapProvider = StateProvider<Map<String, bool>>((ref) {
 componentSwitch(WidgetRef ref, String component) {
   ref.read(componentMapProvider.notifier).update((componentMap) {
     componentMap[component] = !componentMap[component]!;
-    ref.read(prefsProvider).setStringList(
+    ref.read(dataManagerProvider).setStringList(
           'appComponents',
           componentMap.values.map((e) => e ? '1' : '0').toList(),
         );

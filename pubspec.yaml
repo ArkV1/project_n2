@@ -18,6 +18,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
 version: 1.0.0+1
+isar_version: &isar_version ^3.1.0
 
 environment:
   sdk: '>=2.18.2 <3.0.0'
@@ -34,8 +35,9 @@ dependencies:
   flutter_platform_widgets: ^3.3.5
   intl: ^0.17.0
   flutter_riverpod: ^2.3.4
-  shared_preferences: ^2.0.15
-  sqflite: ^2.2.8+4
+  isar: *isar_version
+  isar_flutter_libs: *isar_version
+  path_provider: ^2.1.1
   firebase_core: ^2.1.1
   cloud_firestore: ^4.9.2  
   firebase_storage: ^11.0.5
@@ -45,7 +47,9 @@ dependencies:
   # google_mobile_ads: ^3.0.0
   home_widget: ^0.3.0
   image_picker: ^0.8.6
-  reorderables: ^0.6.0
+  # reorderables: ^0.6.0
+  # reorderables: 
+  #   path: ../reorderables/
   flutter_expandable_fab: ^2.0.0
   package_info_plus: ^4.1.0
   
@@ -54,8 +58,11 @@ dependencies:
   cupertino_icons: ^1.0.2
 
 dev_dependencies:
+  isar_generator: *isar_version
+  build_runner: any
   flutter_test:
     sdk: flutter
+
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

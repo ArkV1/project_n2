@@ -1,55 +1,62 @@
-import 'dart:convert';
+import 'package:isar/isar.dart';
+import 'dart:typed_data';
 
-class WalletTransacton {
-  String? id;
-  String walletId;
-  String name;
-  String amount;
+import 'package:project_n2/models/wallet/wallet.dart';
 
-  WalletTransacton({
-    this.id,
+part 'wallet_transaction.g.dart';
+
+@collection
+class WalletTransaction {
+  Id id = Isar.autoIncrement; // Isar uses integer IDs by default
+
+  final int walletId;
+
+  final String? name;
+  final String? description;
+  final String? categorie;
+  final String? amount;
+  final DateTime? transactionDate;
+  @ignore
+  final Uint8List? media;
+
+  @Backlink(to: "transactionsLink")
+  final wallets = IsarLinks<Wallet>();
+
+  WalletTransaction({
     required this.walletId,
-    required this.name,
-    required this.amount,
+    this.name,
+    this.description,
+    this.categorie,
+    this.amount,
+    this.transactionDate,
+    this.media,
   });
 
-  factory WalletTransacton.fromMap(
-    Map<String, dynamic> data,
-  ) {
-    return WalletTransacton(
-      id: data['id'],
+  // Convert the object from a map
+  factory WalletTransaction.fromMap(Map<String, dynamic> data) {
+    return WalletTransaction(
       walletId: data['walletId'],
       name: data['name'],
+      description: data['description'],
+      categorie: data['categorie'],
       amount: data['amount'],
-      // complete: data['complete'] == 1,
-      // creationDate: DateTime.parse(data['creationDate']),
-      // completionDate: data['completionDate'] != null
-      //     ? DateTime.parse(data['completionDate'])
-      //     : null,
+      transactionDate: data['transactionDate'] != null
+          ? DateTime.parse(data['transactionDate'])
+          : null,
+      // media: data['media'],
     );
   }
 
-  factory WalletTransacton.fromText(
-    String encodedString,
-  ) {
-    final valueMap = json.decode(encodedString);
-    return WalletTransacton.fromMap(valueMap);
-  }
-
+  // Convert the object to a map
   Map<String, dynamic> toMap() {
     return {
-      if (id != null) 'id': id,
       'walletId': walletId,
       'name': name,
+      'description': description,
+      'categorie': categorie,
       'amount': amount,
-      // 'complete': complete ? 1 : 0,
-      // 'creationDate': creationDate.toString(),
-      // if (completionDate != null) 'completionDate': completionDate.toString(),
+      'transactionDate': transactionDate?.toString(),
+      // 'media': media,
     };
-  }
-
-  String toText() {
-    final valueMap = toMap();
-    return jsonEncode(valueMap);
   }
 }

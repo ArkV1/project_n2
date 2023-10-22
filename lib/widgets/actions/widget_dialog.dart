@@ -58,22 +58,25 @@ class _AppWidgetDialogState extends ConsumerState<AppWidgetDialog> {
               ),
             ),
             if (widgetType == ContainedObjectType.wallet)
-              DropdownButtonFormField<WalletWidgetType>(
-                value: widgetTypeWidget,
-                onChanged: (value) {
-                  setState(() {
-                    widgetTypeWidget = value;
-                  });
-                },
-                items: WalletWidgetType.values
-                    .map((type) => DropdownMenuItem<WalletWidgetType>(
-                          value: type,
-                          child: Text(type.publicName),
-                        ))
-                    .toList(),
-                decoration: const InputDecoration(
-                  labelText: 'Widgets types',
-                  border: OutlineInputBorder(),
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: DropdownButtonFormField<WalletWidgetType>(
+                  value: widgetTypeWidget,
+                  onChanged: (value) {
+                    setState(() {
+                      widgetTypeWidget = value;
+                    });
+                  },
+                  items: WalletWidgetType.values
+                      .map((type) => DropdownMenuItem<WalletWidgetType>(
+                            value: type,
+                            child: Text(type.publicName),
+                          ))
+                      .toList(),
+                  decoration: const InputDecoration(
+                    labelText: 'Widgets types',
+                    border: OutlineInputBorder(),
+                  ),
                 ),
               ),
             Padding(
@@ -84,9 +87,8 @@ class _AppWidgetDialogState extends ConsumerState<AppWidgetDialog> {
                   switch (widgetType) {
                     case ContainedObjectType.wallet:
                       appWidget = WalletWidget(
-                        id: appWidgets.length.toString(),
-                        walletId: 'defaultWallet',
-                        containedObjectType: ContainedObjectType.wallet,
+                        walletId:
+                            ref.read(dataManagerProvider).wallets.first.id,
                         parentId: 'mainScreen',
                         parentIndex: appWidgets
                             .where((appWidget) =>
@@ -97,8 +99,7 @@ class _AppWidgetDialogState extends ConsumerState<AppWidgetDialog> {
                       break;
                     case ContainedObjectType.toDoList:
                       appWidget = ToDoWidget(
-                        id: appWidgets.length.toString(),
-                        toDoListId: 'defaultToDoList',
+                        toDoListId: '0',
                         containedObjectType: ContainedObjectType.wallet,
                         parentId: 'mainScreen',
                         parentIndex: appWidgets
@@ -109,7 +110,6 @@ class _AppWidgetDialogState extends ConsumerState<AppWidgetDialog> {
                       break;
                     case ContainedObjectType.other:
                       appWidget = AppWidget(
-                        id: appWidgets.length.toString(),
                         containedObjectType: ContainedObjectType.other,
                         parentId: 'mainScreen',
                         parentIndex: appWidgets

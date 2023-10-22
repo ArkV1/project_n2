@@ -25,6 +25,7 @@ class _WalletsScreenState extends ConsumerState<WalletsScreen> {
         PageView(
           controller: _pageController,
           onPageChanged: (value) {
+            print('Current Page: $value');
             ref.read(screenIndexProvider.notifier).state = value;
           },
           children: [
@@ -54,61 +55,49 @@ class _WalletsScreenState extends ConsumerState<WalletsScreen> {
                                 visualDensity: VisualDensity.compact,
                                 title: Text(
                                     'ID: ${wallets[i].transactions[y].id!}'),
-                                subtitle: Text(wallets[i].transactions[y].name),
-                                trailing:
-                                    Text(wallets[i].transactions[y].amount),
+                                subtitle: Text(
+                                    wallets[i].transactions[y].name ??
+                                        'Undefined name'),
+                                trailing: Text(
+                                    wallets[i].transactions[y].amount ?? '0'),
                               ),
                             ),
                           ),
-                          if (isEditing)
-                            Container(
-                              margin: const EdgeInsets.only(right: 4.0),
-                              constraints: const BoxConstraints(
-                                  minWidth: 40, maxWidth: 40),
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  padding: EdgeInsets.zero,
-                                  shape: ContinuousRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15),
+                          AnimatedCrossFade(
+                            key: ValueKey(
+                                '${wallets[i].transactions[y].id}removeButton'),
+                            duration: const Duration(milliseconds: 125),
+                            firstChild: IntrinsicHeight(
+                              child: Container(
+                                padding: EdgeInsets.zero,
+                                margin: const EdgeInsets.only(right: 4.0),
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    padding: EdgeInsets.zero,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    foregroundColor: Colors.red,
                                   ),
-                                ),
-                                onPressed: () {
-                                  // ref.read(dataManagerProvider).deleteToDoTask(
-                                  //     toDoLists[i].tasks[y], toDoLists[i].id!);
-                                },
-                                child: const Icon(
-                                  Icons.edit,
+                                  onPressed: () {
+                                    ref
+                                        .read(dataManagerProvider)
+                                        .deleteWalletTransaction(
+                                            wallets[i].transactions[y]);
+                                    // ref.read(dataManagerProvider).deleteToDoTask(
+                                    //     toDoLists[i].tasks[y], toDoLists[i].id!);
+                                  },
+                                  child: const Icon(
+                                    Icons.delete,
+                                  ),
                                 ),
                               ),
                             ),
-                          if (isEditing)
-                            Container(
-                              margin: const EdgeInsets.only(right: 4.0),
-                              constraints: const BoxConstraints(
-                                  minWidth: 40, maxWidth: 40),
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  padding: EdgeInsets.zero,
-                                  shape: ContinuousRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15),
-                                  ),
-                                  foregroundColor: Colors.red,
-                                ),
-                                onPressed: () {
-                                  ref
-                                      .read(dataManagerProvider)
-                                      .deleteWalletTransaction(
-                                        wallets[i].transactions[y],
-                                        wallets[i].id!,
-                                      );
-                                  // ref.read(dataManagerProvider).deleteToDoTask(
-                                  //     toDoLists[i].tasks[y], toDoLists[i].id!);
-                                },
-                                child: const Icon(
-                                  Icons.delete,
-                                ),
-                              ),
-                            ),
+                            secondChild: const SizedBox.shrink(),
+                            crossFadeState: isEditing
+                                ? CrossFadeState.showFirst
+                                : CrossFadeState.showSecond,
+                          ),
                         ],
                       ),
                   ],

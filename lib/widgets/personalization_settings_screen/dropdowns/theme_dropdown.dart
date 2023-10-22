@@ -40,7 +40,7 @@ class ThemeDropdown extends ConsumerWidget {
       // ),
       onChanged: (String? value) {
         // This is called when the user selects an item.
-        final prefs = ref.read(prefsProvider);
+        final prefs = ref.read(dataManagerProvider);
 
         switch (value) {
           case 'System Default':

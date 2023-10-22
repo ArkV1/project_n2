@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:project_n2/models/app_widget.dart';
+import 'package:project_n2/models/todo/todo_widget.dart';
 import 'package:project_n2/models/wallet/wallet_widget.dart';
 import 'package:project_n2/providers/providers.dart';
-
-import 'package:project_n2/widgets/main_layout.dart';
-import 'package:reorderables/reorderables.dart';
-
-final _homeScaffoldKey = GlobalKey<ScaffoldState>();
+import 'package:project_n2/tools/enums/widget_types.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -17,8 +14,6 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
-  late List<Widget> _widgets;
-
   // @override
   // void initState() {
   //   super.initState();
@@ -26,108 +21,260 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ref.read(componentMapProvider);
+    // componentMap = ref.read(componentMapProvider);
+    final isEditing = ref.watch(screenEditingProvider);
     final dataManager = ref.watch(dataManagerProvider);
     final wallets = dataManager.wallets;
+    final toDoLists = dataManager.toDoLists;
     final appWidgets = dataManager.appWidgets;
     final mainScreenWidgets = List<AppWidget>.from(
         appWidgets.where((widget) => widget.parentId == 'mainScreen'));
     mainScreenWidgets.sort((a, b) => a.parentIndex!.compareTo(b.parentIndex!));
-    _widgets = List<Widget>.generate(mainScreenWidgets.length, (int index) {
-      final appWidget = mainScreenWidgets[index];
-      if (appWidget is WalletWidget) {
-        final wallet =
-            wallets.singleWhere((element) => element.id == appWidget.walletId);
-        // ignore: avoid_unnecessary_containers
-        return Container(
-          // decoration: const BoxDecoration(
-          //   border: Border(
-          //     bottom: BorderSide(color: Colors.grey),
-          //   ),
-          // ),
-          key: UniqueKey(),
-          child: Card(
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 4.0),
-                  child: Text(wallet.name),
-                ),
-                const ListTile(
-                  title: Text('Title'),
-                  subtitle: Text('Subtitle'),
-                ),
-              ],
-            ),
-          ),
-        );
-      } else {
-        return Text(
-          key: UniqueKey(),
-          'Unknown widget of type: ${appWidget.containedObjectType}',
-        );
-      }
-    });
 
-    void _onReorder(int oldIndex, int newIndex) {
+    void onReorder(int oldIndex, int newIndex) {
+      newIndex = newIndex > oldIndex ? newIndex - 1 : newIndex;
       ref
           .read(dataManagerProvider)
           .reorderInParentList(oldIndex, newIndex, mainScreenWidgets);
     }
 
-    return Center(
-      child: _widgets.isNotEmpty
-          ? ReorderableColumn(
-              mainAxisAlignment: MainAxisAlignment.center,
-              onReorder: _onReorder,
-              children: _widgets,
-            )
-          // ? Column(
-          //     mainAxisAlignment: MainAxisAlignment.center,
-          //     children: [
-          //       //const Spacer(),
-          //       for (final widget in mainScreenWidgets)
-          //         () {
-          //           if (widget is WalletWidget) {
-          //             final wallet = wallets.singleWhere(
-          //                 (element) => element.id == widget.walletId);
-          //             // ignore: avoid_unnecessary_containers
-          //             return Container(
-          //               // decoration: const BoxDecoration(
-          //               //   border: Border(
-          //               //     bottom: BorderSide(color: Colors.grey),
-          //               //   ),
-          //               // ),
-
-          //               child: Card(
-          //                 child: Column(
-          //                   children: [
-          //                     Padding(
-          //                       padding: const EdgeInsets.only(top: 4.0),
-          //                       child: Text(wallet.name),
-          //                     ),
-          //                     const ListTile(
-          //                       title: Text('Title'),
-          //                       subtitle: Text('Subtitle'),
-          //                     ),
-          //                   ],
-          //                 ),
-          //               ),
-          //             );
-          //           }
-          //           return Text(
-          //               'Unknown widget of type: ${widget.containedObjectType}');
-          //         }(),
-
-          //       //const Spacer(),
-          //     ],
-          //   )
-          : const Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('No widgets chosen'),
-              ],
+    return mainScreenWidgets.isNotEmpty
+        ? Center(
+            child: ReorderableListView.builder(
+              key: const ValueKey('mainScreen'),
+              shrinkWrap: true,
+              physics: const ClampingScrollPhysics(),
+              onReorder: onReorder,
+              itemBuilder: (context, index) {
+                final appWidget = mainScreenWidgets[index];
+                return GestureDetector(
+                  key: ValueKey('${mainScreenWidgets[index].id}rootContainer'),
+                  // WORKAROUND TO DISABLE REORDERING
+                  onLongPress: isEditing ? null : () {},
+                  child: Row(
+                    children: [
+                      AnimatedCrossFade(
+                        key: ValueKey(
+                            '${mainScreenWidgets[index].id}dragHandle'),
+                        duration: const Duration(milliseconds: 125),
+                        firstChild: const Icon(
+                          Icons.drag_handle,
+                        ),
+                        secondChild: const SizedBox.shrink(),
+                        crossFadeState: isEditing
+                            ? CrossFadeState.showFirst
+                            : CrossFadeState.showSecond,
+                      ),
+                      Expanded(
+                        child: Builder(builder: (context) {
+                          if (appWidget is WalletWidget) {
+                            final wallet = wallets.singleWhere(
+                                (element) => element.id == appWidget.walletId);
+                            switch (appWidget.widgetType) {
+                              case WalletWidgetType.total:
+                                return Container(
+                                  // decoration: const BoxDecoration(
+                                  //   border: Border(
+                                  //     bottom: BorderSide(color: Colors.grey),
+                                  //   ),
+                                  // ),
+                                  child: Card(
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(top: 6.0),
+                                      child: Column(
+                                        children: [
+                                          const Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 16.0),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceAround,
+                                              children: [
+                                                Text(
+                                                  'Total',
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          ListTile(
+                                            contentPadding:
+                                                const EdgeInsets.symmetric(
+                                              horizontal: 48,
+                                            ),
+                                            title: Text(wallet.name),
+                                            trailing: const Text('Subtitle'),
+                                            visualDensity:
+                                                VisualDensity.comfortable,
+                                            // dense: true,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              case WalletWidgetType.lastTransaction:
+                                return Container(
+                                  // decoration: const BoxDecoration(
+                                  //   border: Border(
+                                  //     bottom: BorderSide(color: Colors.grey),
+                                  //   ),
+                                  // ),
+                                  child: Card(
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(top: 6.0),
+                                      child: Column(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 16.0),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceAround,
+                                              children: [
+                                                const Text(
+                                                  'Latest transactions',
+                                                ),
+                                                Text(wallet.name),
+                                              ],
+                                            ),
+                                          ),
+                                          for (var currentTransaction in wallet
+                                              .transactions
+                                              .toList()
+                                              .reversed
+                                              .take(5))
+                                            ListTile(
+                                              contentPadding:
+                                                  const EdgeInsets.symmetric(
+                                                horizontal: 32,
+                                              ),
+                                              title: Text(
+                                                  currentTransaction.name ??
+                                                      'Undefined name'),
+                                              trailing: Text(
+                                                currentTransaction.amount ??
+                                                    '0',
+                                              ),
+                                              visualDensity:
+                                                  VisualDensity.compact,
+                                              dense: true,
+                                            ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              default:
+                                return Text(
+                                  'Unknown wallet widget of type: ${appWidget.containedObjectType}',
+                                );
+                            }
+                          } else if (appWidget is ToDoWidget) {
+                            final toDoList = toDoLists.singleWhere((element) =>
+                                element.id == appWidget.toDoListId);
+                            return Container(
+                              // decoration: const BoxDecoration(
+                              //   border: Border(
+                              //     bottom: BorderSide(color: Colors.grey),
+                              //   ),
+                              // ),
+                              key: UniqueKey(),
+                              child: Card(
+                                child: Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 4.0),
+                                      child: Text(toDoList.name),
+                                    ),
+                                    const ListTile(
+                                      title: Text('Title'),
+                                      subtitle: Text('Subtitle'),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          } else {
+                            return Text(
+                              'Unknown widget of type: ${appWidget.containedObjectType}',
+                            );
+                          }
+                        }),
+                      ),
+                      AnimatedCrossFade(
+                        key: ValueKey(
+                            '${mainScreenWidgets[index].id}removeButton'),
+                        duration: const Duration(milliseconds: 125),
+                        firstChild: IntrinsicHeight(
+                          child: Container(
+                            padding: EdgeInsets.zero,
+                            margin: const EdgeInsets.only(right: 4.0),
+                            child: Column(
+                              children: [
+                                if (appWidget is WalletWidget &&
+                                    appWidget.widgetType.hasSettings)
+                                  ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      padding: EdgeInsets.zero,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                    ),
+                                    onPressed: () {
+                                      ref
+                                          .read(dataManagerProvider)
+                                          .insertAppWidget(appWidget);
+                                    },
+                                    child: const Icon(
+                                      Icons.settings,
+                                    ),
+                                  ),
+                                ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    padding: EdgeInsets.zero,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    foregroundColor: Colors.red,
+                                  ),
+                                  onPressed: () {
+                                    ref
+                                        .read(dataManagerProvider)
+                                        .deleteAppWidget(
+                                          mainScreenWidgets[index],
+                                        );
+                                    // ref.read(dataManagerProvider).deleteWalletTransaction(
+                                    //       wallets[i].transactions[y],
+                                    //       wallets[i].id!,
+                                    //     );
+                                    // ref.read(dataManagerProvider).deleteToDoTask(
+                                    //     toDoLists[i].tasks[y], toDoLists[i].id!);
+                                  },
+                                  child: const Icon(
+                                    Icons.delete,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        secondChild: const SizedBox.shrink(),
+                        crossFadeState: isEditing
+                            ? CrossFadeState.showFirst
+                            : CrossFadeState.showSecond,
+                      ),
+                    ],
+                  ),
+                );
+              },
+              itemCount: mainScreenWidgets.length,
             ),
-    );
+          )
+        : const Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('No widgets chosen'),
+            ],
+          );
   }
 }

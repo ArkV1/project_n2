@@ -181,9 +181,7 @@ class _WalletsDialogState extends ConsumerState<WalletsDialog> {
                               advancedSettings = false;
                               ref.read(dataManagerProvider).insertWallet(
                                     Wallet(
-                                      id: (wallets.length).toString(),
                                       name: walletsNameController.text,
-                                      transactions: [],
                                     ),
                                   );
                               creation = false;
@@ -262,10 +260,10 @@ class _WalletsDialogState extends ConsumerState<WalletsDialog> {
                                     onTap: () {
                                       ref
                                           .read(dataManagerProvider)
-                                          .deleteWallet(wallet.id!);
-                                      ref
-                                          .read(dataManagerProvider)
-                                          .deleteAppWidget(wallet.id!);
+                                          .deleteWallet(wallet);
+                                      // ref
+                                      //     .read(dataManagerProvider)
+                                      //     .deleteAppWidget(wallet.id!);
                                     },
                                   ),
                               ],

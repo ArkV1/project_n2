@@ -151,9 +151,7 @@ class _ToDoListsDialogState extends ConsumerState<ToDoListsDialog> {
                               advancedSettings = false;
                               ref.read(dataManagerProvider).insertToDoList(
                                     ToDoList(
-                                      id: (toDoLists.length).toString(),
                                       name: toDoListsNameController.text,
-                                      tasks: [],
                                     ),
                                   );
                               creation = false;
@@ -232,7 +230,7 @@ class _ToDoListsDialogState extends ConsumerState<ToDoListsDialog> {
                                     onTap: () {
                                       ref
                                           .read(dataManagerProvider)
-                                          .deleteToDoList(toDoList.id!);
+                                          .deleteToDoList(toDoList);
                                       // ref
                                       //     .read(dataManagerProvider)
                                       //     .deleteAppWidget(wallet.id!);

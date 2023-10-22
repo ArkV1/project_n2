@@ -1,36 +1,47 @@
+//import 'package:isar/isar.dart';
+import 'package:isar/isar.dart';
 import 'package:project_n2/tools/enums/widget_types.dart';
 
+//part 'app_widget.g.dart';
+
+//@collection
 class AppWidget {
-  String id;
+  Id id = Isar.autoIncrement; // Isar uses integer IDs by default
+
   String? parentId;
   int? parentIndex;
-  ContainedObjectType containedObjectType;
+  late String containedObjectTypeString;
+
+  @ignore
+  ContainedObjectType get containedObjectType => ContainedObjectType.values
+      .firstWhere((e) => e.toString() == containedObjectTypeString);
+
+  @ignore
+  Map<String, dynamic>? widgetSettingsMap;
 
   AppWidget({
-    required this.id,
     this.parentId,
     this.parentIndex,
-    required this.containedObjectType,
-  });
+    required ContainedObjectType containedObjectType,
+    this.widgetSettingsMap,
+  }) {
+    containedObjectTypeString = containedObjectType.toString();
+  }
 
-  factory AppWidget.fromMap(
-    Map<String, dynamic> data,
-  ) {
+  factory AppWidget.fromMap(Map<String, dynamic> data) {
     return AppWidget(
-      id: data['id'],
-      parentId: data['childOfId'],
+      parentId: data['parentId'],
       parentIndex: data['parentIndex'],
-      containedObjectType:
-          ContainedObjectType.values.byName(data['containedObjectType']),
+      containedObjectType: ContainedObjectType.values
+          .firstWhere((e) => e.toString() == data['containedObjectType']),
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
       'parentId': parentId,
       'parentIndex': parentIndex,
-      'containedObjectType': containedObjectType.name,
+      'containedObjectType': containedObjectTypeString,
     };
   }
 }

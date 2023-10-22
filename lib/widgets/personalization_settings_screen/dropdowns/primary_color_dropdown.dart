@@ -29,7 +29,7 @@ class PrimaryColorDropdown extends ConsumerWidget {
       // ),
       onChanged: (String? value) {
         // This is called when the user selects an item.
-        final prefs = ref.read(prefsProvider);
+        final prefs = ref.read(dataManagerProvider);
         if (value != null) {
           prefs.setString('primaryColor', value);
         }

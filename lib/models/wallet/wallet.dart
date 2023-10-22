@@ -1,70 +1,39 @@
-import 'dart:convert';
-
+import 'package:isar/isar.dart';
 import 'wallet_transaction.dart';
 
+part 'wallet.g.dart';
+
+@collection
 class Wallet {
-  String? id;
+  Id id = Isar.autoIncrement; // Isar uses integer IDs by default
 
   final String name;
-  //final String defaultCurrency;
-  final List<WalletTransacton> transactions;
+
+  final transactionsLink = IsarLinks<WalletTransaction>();
+
+  @ignore
+  List<WalletTransaction> get transactions => transactionsLink.toList();
 
   Wallet({
-    required this.id,
     required this.name,
-    required this.transactions,
-    //this.defaultCurrency, [
-    //this.transactions,
-    //]
+    //required this.transactions,
   });
 
-  factory Wallet.fromMap(
-    Map<String, dynamic> data,
-  ) {
+  // Convert the object from a map
+  factory Wallet.fromMap(Map<String, dynamic> data) {
     return Wallet(
-      id: data['id'],
       name: data['name'],
-      transactions: List<WalletTransacton>.from(
-        jsonDecode(data['transactionsJSON'])
-            .map((x) => WalletTransacton.fromMap(x)),
-      ),
+      // transactions: (data['transactions'] as List)
+      //     .map((x) => WalletTransacton.fromMap(x))
+      //     .toList(),
     );
   }
 
-  factory Wallet.fromText(
-    String encodedString,
-  ) {
-    final valueMap = json.decode(encodedString);
-    return Wallet(
-      id: valueMap['id'],
-      name: valueMap['name'],
-      transactions: [],
-      // List<Transaction>.from(
-      //     data['questions'].map((x) => Transaction.fromFirestore(x))),
-    );
-  }
-
+  // Convert the object to a map
   Map<String, dynamic> toMap() {
     return {
-      if (id != null) 'id': id,
       'name': name,
-      'transactionsJSON':
-          jsonEncode(List<dynamic>.from(transactions.map((x) => x.toMap()))),
-
-      // if (transactions != null)
-      //   'transactions':
-      //       List<dynamic>.from(transactions!.map((x) => x.toFirestore())),
+      // 'transactions': transactions.map((x) => x.toMap()).toList(),
     };
-  }
-
-  String toText() {
-    final valueMap = {
-      if (id != null) 'id': id,
-      'name': name,
-      // if (transactions != null)
-      //   'transactions':
-      //       List<dynamic>.from(transactions!.map((x) => x.toFirestore())),
-    };
-    return jsonEncode(valueMap);
   }
 }

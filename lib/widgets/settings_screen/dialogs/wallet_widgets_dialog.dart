@@ -95,16 +95,13 @@ class _WalletWidgetsDialogState extends ConsumerState<WalletWidgetsDialog> {
                                           .read(dataManagerProvider)
                                           .insertAppWidget(
                                             WalletWidget(
-                                              id: (wallets[i].id).toString(),
                                               parentId: 'mainScreen',
                                               parentIndex: appWidgets
                                                   .where((widget) =>
                                                       widget.parentId ==
                                                       'mainScreen')
                                                   .length,
-                                              containedObjectType:
-                                                  ContainedObjectType.wallet,
-                                              walletId: wallets[i].id!,
+                                              walletId: wallets[i].id,
                                             ),
                                           );
                                       debugPrint('ENABLED');
@@ -121,9 +118,9 @@ class _WalletWidgetsDialogState extends ConsumerState<WalletWidgetsDialog> {
                                       //       i: true,
                                       //     }.entries);
                                     } else {
-                                      ref
-                                          .read(dataManagerProvider)
-                                          .deleteAppWidget(wallets[i].id!);
+                                      // ref
+                                      //     .read(dataManagerProvider)
+                                      //     .deleteAppWidget(wallets[i]);
                                       debugPrint('REMOVED');
 
                                       // ref

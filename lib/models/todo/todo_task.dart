@@ -1,19 +1,31 @@
-import 'dart:convert';
+import 'package:isar/isar.dart';
+import 'package:project_n2/models/todo/todo_list.dart';
 
+part 'todo_task.g.dart';
+
+@collection
 class ToDoTask {
-  String? id;
-  String toDoListId;
-  final String task;
-  final String? description;
-  bool isDaily;
-  bool complete;
+  Id id = Isar.autoIncrement; // Isar uses integer IDs by default
+
+  int toDoListId; // Reference to the parent ToDoList
+  int parentIndex;
+
+  String? task;
+  String? description;
+
+  bool isDaily = false;
+  bool complete = false;
+
   DateTime? creationDate;
   DateTime? completionDate;
 
+  @Backlink(to: "tasksLink")
+  final toDoLists = IsarLinks<ToDoList>();
+
   ToDoTask({
-    this.id,
     required this.toDoListId,
-    required this.task,
+    required this.parentIndex,
+    this.task,
     this.description,
     this.isDaily = false,
     this.complete = false,
@@ -23,65 +35,31 @@ class ToDoTask {
     creationDate ??= DateTime.now();
   }
 
-  factory ToDoTask.fromMap(
-    Map<String, dynamic> data,
-  ) {
+  // Convert the object from a map
+  factory ToDoTask.fromMap(Map<String, dynamic> data) {
     return ToDoTask(
-      id: data['id'],
       toDoListId: data['todoListId'],
+      parentIndex: data['parentIndex'],
       task: data['task'],
       description: data['description'],
-      isDaily: data['isDaily'] == 1,
-      complete: data['complete'] == 1,
-      creationDate: DateTime.parse(data['creationDate']),
-      completionDate: data['completionDate'] != null
-          ? DateTime.parse(data['completionDate'])
-          : null,
+      isDaily: data['isDaily'],
+      complete: data['complete'],
+      creationDate: data['creationDate'],
+      completionDate: data['completionDate'],
     );
   }
 
-  factory ToDoTask.fromText(
-    String encodedString,
-  ) {
-    final valueMap = json.decode(encodedString);
-    return ToDoTask.fromMap(valueMap);
-  }
-
+  // Convert the object to a map
   Map<String, dynamic> toMap() {
     return {
-      if (id != null) 'id': id,
       'todoListId': toDoListId,
-      'task': task,
-      if (id != null) 'description': description,
-      'isDaily': isDaily ? 1 : 0,
-      'complete': complete ? 1 : 0,
-      'creationDate': creationDate.toString(),
-      if (completionDate != null) 'completionDate': completionDate.toString(),
+      'parentIndex': parentIndex,
+      if (task != null) 'task': task,
+      if (description != null) 'description': description,
+      if (isDaily != false) 'isDaily': isDaily,
+      if (complete != true) 'complete': complete,
+      if (creationDate != null) 'creationDate': creationDate,
+      if (completionDate != null) 'completionDate': completionDate,
     };
   }
-
-  String toText() {
-    final valueMap = toMap();
-    return jsonEncode(valueMap);
-  }
-
-  // factory Transaction.fromFirestore(
-  //   Map<String, dynamic> data,
-  // ) {
-  //   return Transaction(
-  //     data['title'],
-  //     data['amount'],
-  //     data['date'].toDate(),
-  //     data['currency'],
-  //   );
-  // }
-
-  // Map<String, dynamic> toFirestore() {
-  //   return {
-  //     "title": title,
-  //     "amount": amount,
-  //     "date": date,
-  //     if (currency != null) "currency": currency,
-  //   };
-  // }
 }

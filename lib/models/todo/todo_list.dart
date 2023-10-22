@@ -1,52 +1,43 @@
-import 'dart:convert';
-
+import 'package:isar/isar.dart';
 import 'package:project_n2/models/todo/todo_task.dart';
 
+part 'todo_list.g.dart';
+
+@collection
 class ToDoList {
-  String? id;
+  Id id = Isar.autoIncrement; // Isar uses integer IDs by default
 
-  final String name;
-  //final String defaultCurrency;
-  final List<ToDoTask> tasks;
+  late final String name;
 
-  ToDoList({
-    required this.id,
-    required this.name,
-    required this.tasks,
-    //this.defaultCurrency, [
-    //this.transactions,
-    //]
-  });
+  // To store a list of objects in Isar, we use a link.
+  // This requires setting up a relation between ToDoList and ToDoTask in the ToDoTask model.
+  final tasksLink = IsarLinks<ToDoTask>();
 
-  factory ToDoList.fromMap(
-    Map<String, dynamic> data,
-  ) {
-    return ToDoList(
-      id: data['id'],
-      name: data['name'],
-      tasks: List<ToDoTask>.from(
-        jsonDecode(data['tasksJSON']).map((x) => ToDoTask.fromMap(x)),
-      ),
-    );
+  @ignore
+  List<ToDoTask> get tasks {
+    final sortedTasks = tasksLink.toList();
+    sortedTasks.sort((a, b) => a.parentIndex.compareTo(b.parentIndex));
+    return sortedTasks;
   }
 
-  // factory ToDoList.fromText(
-  //   String encodedString,
-  // ) {
-  //   final valueMap = json.decode(encodedString);
-  //   return ToDoList.fromMap(valueMap);
-  // }
+  // Constructor
+  ToDoList({
+    required this.name,
+  });
 
+  // Convert the object to a map
   Map<String, dynamic> toMap() {
     return {
-      if (id != null) 'id': id,
       'name': name,
-      'tasksJSON': jsonEncode(List<dynamic>.from(tasks.map((x) => x.toMap()))),
+      // Tasks will need to be handled separately due to the link.
     };
   }
 
-  // String toText() {
-  //   final valueMap = toMap();
-  //   return jsonEncode(valueMap);
-  // }
+  // Convert the object from a map
+  factory ToDoList.fromMap(Map<String, dynamic> data) {
+    return ToDoList(
+      name: data['name'],
+      // Tasks will need to be handled separately due to the link.
+    );
+  }
 }

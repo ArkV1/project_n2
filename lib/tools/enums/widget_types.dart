@@ -10,13 +10,21 @@ enum ContainedObjectType {
 }
 
 enum WalletWidgetType {
-  total(publicName: 'Total'),
-  lastTransaction(publicName: 'Latest transactions');
+  total(
+    publicName: 'Total',
+    hasSettings: false,
+  ),
+  lastTransaction(
+    publicName: 'Latest transactions',
+    hasSettings: true,
+  );
 
   const WalletWidgetType({
     required this.publicName,
+    this.hasSettings = false,
   });
   final String publicName;
+  final bool hasSettings;
 }
 
 enum ToDoWidgetType {
