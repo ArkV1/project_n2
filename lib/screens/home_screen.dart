@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:project_n2/data_manager.dart';
 import 'package:project_n2/models/app_widget.dart';
+import 'package:project_n2/models/todo/todo_list.dart';
 import 'package:project_n2/models/todo/todo_widget.dart';
+import 'package:project_n2/models/wallet/wallet.dart';
 import 'package:project_n2/models/wallet/wallet_widget.dart';
 import 'package:project_n2/providers/providers.dart';
 import 'package:project_n2/tools/enums/widget_types.dart';
@@ -14,6 +17,10 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
+  late List<Wallet> wallets;
+  late List<ToDoList> toDoLists;
+  late List<AppWidget> appWidgets;
+
   // @override
   // void initState() {
   //   super.initState();
@@ -21,12 +28,35 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // ref.listen<DataManager>(dataManagerProvider,
+    //     (prevDataManager, newDataManager) {
+    //   // Check if the specific piece of state you're interested in has changed
+    //   if (prevDataManager!.wallets != newDataManager.wallets) {
+    //     // Execute side-effect or call setState (if necessary)
+    //     setState(() {
+    //       wallets = newDataManager.wallets;
+    //     });
+    //   }
+    //   if (prevDataManager.toDoLists != newDataManager.toDoLists) {
+    //     setState(() {
+    //       toDoLists = newDataManager.toDoLists;
+    //     });
+    //     // Execute side-effect or call setState (if necessary)
+    //   }
+    //   if (prevDataManager.appWidgets != newDataManager.appWidgets) {
+    //     // Execute side-effect or call setState (if necessary)
+    //     setState(() {
+    //       appWidgets = newDataManager.appWidgets;
+    //     });
+    //   }
+    // });
+    print('ui refresh');
     // componentMap = ref.read(componentMapProvider);
     final isEditing = ref.watch(screenEditingProvider);
     final dataManager = ref.watch(dataManagerProvider);
-    final wallets = dataManager.wallets;
-    final toDoLists = dataManager.toDoLists;
-    final appWidgets = dataManager.appWidgets;
+    wallets = dataManager.wallets;
+    toDoLists = dataManager.toDoLists;
+    appWidgets = dataManager.appWidgets;
     final mainScreenWidgets = List<AppWidget>.from(
         appWidgets.where((widget) => widget.parentId == 'mainScreen'));
     mainScreenWidgets.sort((a, b) => a.parentIndex!.compareTo(b.parentIndex!));
@@ -35,7 +65,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       newIndex = newIndex > oldIndex ? newIndex - 1 : newIndex;
       ref
           .read(dataManagerProvider)
-          .reorderInParentList(oldIndex, newIndex, mainScreenWidgets);
+          .reorderInParentList(oldIndex, newIndex, mainScreenWidgets, false);
     }
 
     return mainScreenWidgets.isNotEmpty
@@ -45,6 +75,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               shrinkWrap: true,
               physics: const ClampingScrollPhysics(),
               onReorder: onReorder,
+              // onReorderEnd: ((_) {}),
               itemBuilder: (context, index) {
                 final appWidget = mainScreenWidgets[index];
                 return GestureDetector(

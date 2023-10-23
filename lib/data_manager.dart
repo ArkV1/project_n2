@@ -268,18 +268,26 @@ class DataManager extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> reorderInParentList(
-    int oldIndex,
-    int newIndex,
-    List<AppWidget> parentWidgetsList,
-  ) async {
+  Future<void> reorderInParentList(int oldIndex, int newIndex,
+      List<AppWidget> parentWidgetsList, bool notify) async {
     final Isar isar = db!;
+
+    // Perform the in-memory reorder
+    AppWidget movedWidget = parentWidgetsList.removeAt(oldIndex);
+    parentWidgetsList.insert(newIndex, movedWidget);
+
+    // Determine the range of affected indices
+    int start = (oldIndex < newIndex) ? oldIndex : newIndex;
+    int end = (oldIndex > newIndex) ? oldIndex : newIndex;
+
+    // Update local state only for affected indices
+    for (int i = start; i <= end; i++) {
+      parentWidgetsList[i].parentIndex = i;
+    }
+
     await isar.writeTxn(() async {
-      final appWidget = parentWidgetsList.removeAt(oldIndex);
-      parentWidgetsList.insert(newIndex, appWidget);
-      for (int i = 0; i < parentWidgetsList.length; i++) {
-        parentWidgetsList[i].parentIndex = i;
-        final widget = parentWidgetsList[i];
+      for (int i = start; i <= end; i++) {
+        AppWidget widget = parentWidgetsList[i];
         if (widget is WalletWidget) {
           await isar.walletWidgets.put(widget);
         } else if (widget is ToDoWidget) {
@@ -287,8 +295,10 @@ class DataManager extends ChangeNotifier {
         }
       }
     });
+
+    // This assumes notifyListeners() will cause the UI to rebuild and reflect the changes
     appWidgets = await getAppWidgets();
-    notifyListeners();
+    if (notify) notifyListeners();
   }
 
   Future<void> deleteAppWidget(AppWidget appWidget) async {
@@ -456,36 +466,71 @@ class DataManager extends ChangeNotifier {
   Future<void> reorderToDoTask(
     int oldIndex,
     int newIndex,
-    ToDoList toDoList,
+    List<ToDoTask> tasks,
+    bool notify,
   ) async {
     debugPrint('New index: $newIndex');
     debugPrint('Old index: $oldIndex');
     final Isar isar = db!;
 
-    final list =
-        await isar.toDoLists.where().idEqualTo(toDoList.id).findFirst();
+    // Perform the in-memory reorder
+    var movedTask = tasks.removeAt(oldIndex);
+    tasks.insert(newIndex, movedTask);
 
-    if (list != null) {
-      await list.tasksLink.load();
-      final tasks = list.tasks;
+    // Determine the range of affected indices
+    int start = (oldIndex < newIndex) ? oldIndex : newIndex;
+    int end = (oldIndex > newIndex) ? oldIndex : newIndex;
 
-      // Reorder the task in memory
-      tasks.insert(newIndex, tasks.removeAt(oldIndex));
-
-      int start = (oldIndex < newIndex) ? oldIndex : newIndex;
-      int end = (oldIndex > newIndex) ? oldIndex : newIndex;
-
-      await isar.writeTxn(() async {
-        for (int i = start; i <= end; i++) {
-          tasks[i].parentIndex = i;
-          await isar.toDoTasks.put(tasks[i]);
-        }
-      });
-
-      toDoLists = await getToDoLists();
-      notifyListeners();
+    // Update local state only for affected indices outside of the transaction
+    for (int i = start; i <= end; i++) {
+      tasks[i].parentIndex = i;
     }
+
+    await isar.writeTxn(() async {
+      for (int i = start; i <= end; i++) {
+        await isar.toDoTasks.put(tasks[i]);
+      }
+    });
+
+    // Always update the toDoLists
+    toDoLists = await getToDoLists();
+
+    if (notify) notifyListeners();
   }
+
+  // Future<void> reorderToDoTask(
+  //   int oldIndex,
+  //   int newIndex,
+  //   ToDoList toDoList,
+  // ) async {
+  //   debugPrint('New index: $newIndex');
+  //   debugPrint('Old index: $oldIndex');
+  //   final Isar isar = db!;
+
+  //   final list =
+  //       await isar.toDoLists.where().idEqualTo(toDoList.id).findFirst();
+
+  //   if (list != null) {
+  //     await list.tasksLink.load();
+  //     final tasks = list.tasks;
+
+  //     // Reorder the task in memory
+  //     tasks.insert(newIndex, tasks.removeAt(oldIndex));
+
+  //     int start = (oldIndex < newIndex) ? oldIndex : newIndex;
+  //     int end = (oldIndex > newIndex) ? oldIndex : newIndex;
+
+  //     await isar.writeTxn(() async {
+  //       for (int i = start; i <= end; i++) {
+  //         tasks[i].parentIndex = i;
+  //         await isar.toDoTasks.put(tasks[i]);
+  //       }
+  //     });
+
+  //     toDoLists = await getToDoLists();
+  //     notifyListeners();
+  //   }
+  // }
 
   // OTHER
 

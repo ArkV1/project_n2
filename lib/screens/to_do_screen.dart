@@ -124,9 +124,8 @@ class _ToDoScreenState extends ConsumerState<ToDoScreen> {
                 },
                 onReorder: (int oldIndex, int newIndex) {
                   newIndex = newIndex > oldIndex ? newIndex - 1 : newIndex;
-                  ref
-                      .read(dataManagerProvider)
-                      .reorderToDoTask(oldIndex, newIndex, toDoLists[i]);
+                  ref.read(dataManagerProvider).reorderToDoTask(
+                      oldIndex, newIndex, toDoLists[i].tasks, false);
                 },
                 itemCount: toDoLists[i].tasks.length,
               ),
