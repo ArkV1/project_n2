@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:project_n2/data_manager.dart';
 import 'package:project_n2/models/app_widget.dart';
 import 'package:project_n2/models/todo/todo_list.dart';
 import 'package:project_n2/models/todo/todo_widget.dart';
 import 'package:project_n2/models/wallet/wallet.dart';
 import 'package:project_n2/models/wallet/wallet_widget.dart';
 import 'package:project_n2/providers/providers.dart';
-import 'package:project_n2/tools/enums/widget_types.dart';
+import 'package:project_n2/widgets/app_widgets/todo_widget.dart';
+import 'package:project_n2/widgets/app_widgets/wallet_widget.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -50,7 +50,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     //     });
     //   }
     // });
-    print('ui refresh');
     // componentMap = ref.read(componentMapProvider);
     final isEditing = ref.watch(screenEditingProvider);
     final dataManager = ref.watch(dataManagerProvider);
@@ -101,130 +100,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           if (appWidget is WalletWidget) {
                             final wallet = wallets.singleWhere(
                                 (element) => element.id == appWidget.walletId);
-                            switch (appWidget.widgetType) {
-                              case WalletWidgetType.total:
-                                return Container(
-                                  // decoration: const BoxDecoration(
-                                  //   border: Border(
-                                  //     bottom: BorderSide(color: Colors.grey),
-                                  //   ),
-                                  // ),
-                                  child: Card(
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(top: 6.0),
-                                      child: Column(
-                                        children: [
-                                          const Padding(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 16.0),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceAround,
-                                              children: [
-                                                Text(
-                                                  'Total',
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          ListTile(
-                                            contentPadding:
-                                                const EdgeInsets.symmetric(
-                                              horizontal: 48,
-                                            ),
-                                            title: Text(wallet.name),
-                                            trailing: const Text('Subtitle'),
-                                            visualDensity:
-                                                VisualDensity.comfortable,
-                                            // dense: true,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              case WalletWidgetType.lastTransaction:
-                                return Container(
-                                  // decoration: const BoxDecoration(
-                                  //   border: Border(
-                                  //     bottom: BorderSide(color: Colors.grey),
-                                  //   ),
-                                  // ),
-                                  child: Card(
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(top: 6.0),
-                                      child: Column(
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 16.0),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceAround,
-                                              children: [
-                                                const Text(
-                                                  'Latest transactions',
-                                                ),
-                                                Text(wallet.name),
-                                              ],
-                                            ),
-                                          ),
-                                          for (var currentTransaction in wallet
-                                              .transactions
-                                              .toList()
-                                              .reversed
-                                              .take(5))
-                                            ListTile(
-                                              contentPadding:
-                                                  const EdgeInsets.symmetric(
-                                                horizontal: 32,
-                                              ),
-                                              title: Text(
-                                                  currentTransaction.name ??
-                                                      'Undefined name'),
-                                              trailing: Text(
-                                                currentTransaction.amount ??
-                                                    '0',
-                                              ),
-                                              visualDensity:
-                                                  VisualDensity.compact,
-                                              dense: true,
-                                            ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              default:
-                                return Text(
-                                  'Unknown wallet widget of type: ${appWidget.containedObjectType}',
-                                );
-                            }
+                            return WalletWidgetBuilder(
+                                walletWidget: appWidget, wallet: wallet);
                           } else if (appWidget is ToDoWidget) {
                             final toDoList = toDoLists.singleWhere((element) =>
                                 element.id == appWidget.toDoListId);
-                            return Container(
-                              // decoration: const BoxDecoration(
-                              //   border: Border(
-                              //     bottom: BorderSide(color: Colors.grey),
-                              //   ),
-                              // ),
-                              key: UniqueKey(),
-                              child: Card(
-                                child: Column(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 4.0),
-                                      child: Text(toDoList.name),
-                                    ),
-                                    const ListTile(
-                                      title: Text('Title'),
-                                      subtitle: Text('Subtitle'),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            );
+                            return ToDoWidgetBuilder(
+                                toDoWidget: appWidget, toDoList: toDoList);
                           } else {
                             return Text(
                               'Unknown widget of type: ${appWidget.containedObjectType}',

@@ -11,7 +11,7 @@ part 'todo_widget.g.dart';
 
 @collection
 class ToDoWidget extends AppWidget {
-  String toDoListId;
+  int toDoListId;
 
   @enumerated
   ToDoWidgetType widgetType;

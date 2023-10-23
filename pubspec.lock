@@ -792,6 +792,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.3"
+  reorderables:
+    dependency: "direct main"
+    description:
+      path: "../reorderables"
+      relative: true
+    source: path
+    version: "0.6.0"
   riverpod:
     dependency: transitive
     description:

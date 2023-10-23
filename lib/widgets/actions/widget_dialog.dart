@@ -99,7 +99,8 @@ class _AppWidgetDialogState extends ConsumerState<AppWidgetDialog> {
                       break;
                     case ContainedObjectType.toDoList:
                       appWidget = ToDoWidget(
-                        toDoListId: '0',
+                        toDoListId:
+                            ref.read(dataManagerProvider).toDoLists.first.id,
                         containedObjectType: ContainedObjectType.wallet,
                         parentId: 'mainScreen',
                         parentIndex: appWidgets

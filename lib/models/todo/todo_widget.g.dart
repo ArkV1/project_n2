@@ -35,7 +35,7 @@ const ToDoWidgetSchema = CollectionSchema(
     r'toDoListId': PropertySchema(
       id: 3,
       name: r'toDoListId',
-      type: IsarType.string,
+      type: IsarType.long,
     ),
     r'widgetType': PropertySchema(
       id: 4,
@@ -71,7 +71,6 @@ int _toDoWidgetEstimateSize(
       bytesCount += 3 + value.length * 3;
     }
   }
-  bytesCount += 3 + object.toDoListId.length * 3;
   return bytesCount;
 }
 
@@ -84,7 +83,7 @@ void _toDoWidgetSerialize(
   writer.writeString(offsets[0], object.containedObjectTypeString);
   writer.writeString(offsets[1], object.parentId);
   writer.writeLong(offsets[2], object.parentIndex);
-  writer.writeString(offsets[3], object.toDoListId);
+  writer.writeLong(offsets[3], object.toDoListId);
   writer.writeByte(offsets[4], object.widgetType.index);
 }
 
@@ -97,7 +96,7 @@ ToDoWidget _toDoWidgetDeserialize(
   final object = ToDoWidget(
     parentId: reader.readStringOrNull(offsets[1]),
     parentIndex: reader.readLongOrNull(offsets[2]),
-    toDoListId: reader.readString(offsets[3]),
+    toDoListId: reader.readLong(offsets[3]),
     widgetType:
         _ToDoWidgetwidgetTypeValueEnumMap[reader.readByteOrNull(offsets[4])] ??
             ToDoWidgetType.classic,
@@ -121,7 +120,7 @@ P _toDoWidgetDeserializeProp<P>(
     case 2:
       return (reader.readLongOrNull(offset)) as P;
     case 3:
-      return (reader.readString(offset)) as P;
+      return (reader.readLong(offset)) as P;
     case 4:
       return (_ToDoWidgetwidgetTypeValueEnumMap[
               reader.readByteOrNull(offset)] ??
@@ -648,56 +647,48 @@ extension ToDoWidgetQueryFilter
   }
 
   QueryBuilder<ToDoWidget, ToDoWidget, QAfterFilterCondition> toDoListIdEqualTo(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+      int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'toDoListId',
         value: value,
-        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<ToDoWidget, ToDoWidget, QAfterFilterCondition>
       toDoListIdGreaterThan(
-    String value, {
+    int value, {
     bool include = false,
-    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
         property: r'toDoListId',
         value: value,
-        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<ToDoWidget, ToDoWidget, QAfterFilterCondition>
       toDoListIdLessThan(
-    String value, {
+    int value, {
     bool include = false,
-    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
         property: r'toDoListId',
         value: value,
-        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<ToDoWidget, ToDoWidget, QAfterFilterCondition> toDoListIdBetween(
-    String lower,
-    String upper, {
+    int lower,
+    int upper, {
     bool includeLower = true,
     bool includeUpper = true,
-    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
@@ -706,78 +697,6 @@ extension ToDoWidgetQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<ToDoWidget, ToDoWidget, QAfterFilterCondition>
-      toDoListIdStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'toDoListId',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<ToDoWidget, ToDoWidget, QAfterFilterCondition>
-      toDoListIdEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'toDoListId',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<ToDoWidget, ToDoWidget, QAfterFilterCondition>
-      toDoListIdContains(String value, {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'toDoListId',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<ToDoWidget, ToDoWidget, QAfterFilterCondition> toDoListIdMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'toDoListId',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<ToDoWidget, ToDoWidget, QAfterFilterCondition>
-      toDoListIdIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'toDoListId',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<ToDoWidget, ToDoWidget, QAfterFilterCondition>
-      toDoListIdIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'toDoListId',
-        value: '',
       ));
     });
   }
@@ -1009,10 +928,9 @@ extension ToDoWidgetQueryWhereDistinct
     });
   }
 
-  QueryBuilder<ToDoWidget, ToDoWidget, QDistinct> distinctByToDoListId(
-      {bool caseSensitive = true}) {
+  QueryBuilder<ToDoWidget, ToDoWidget, QDistinct> distinctByToDoListId() {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'toDoListId', caseSensitive: caseSensitive);
+      return query.addDistinctBy(r'toDoListId');
     });
   }
 
@@ -1050,7 +968,7 @@ extension ToDoWidgetQueryProperty
     });
   }
 
-  QueryBuilder<ToDoWidget, String, QQueryOperations> toDoListIdProperty() {
+  QueryBuilder<ToDoWidget, int, QQueryOperations> toDoListIdProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'toDoListId');
     });

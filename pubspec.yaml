@@ -48,8 +48,8 @@ dependencies:
   home_widget: ^0.3.0
   image_picker: ^0.8.6
   # reorderables: ^0.6.0
-  # reorderables: 
-  #   path: ../reorderables/
+  reorderables: 
+    path: ../reorderables/
   flutter_expandable_fab: ^2.0.0
   package_info_plus: ^4.1.0
   

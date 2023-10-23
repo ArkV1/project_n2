@@ -270,6 +270,8 @@ class DataManager extends ChangeNotifier {
 
   Future<void> reorderInParentList(int oldIndex, int newIndex,
       List<AppWidget> parentWidgetsList, bool notify) async {
+    debugPrint('Old index: $oldIndex');
+    debugPrint('New index: $newIndex');
     final Isar isar = db!;
 
     // Perform the in-memory reorder
