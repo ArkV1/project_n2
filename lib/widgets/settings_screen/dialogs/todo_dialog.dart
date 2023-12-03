@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:project_n2/models/todo/todo_list.dart';
-import 'package:project_n2/providers/providers.dart';
-import 'package:project_n2/tools/enums/currencies.dart';
 
 final _formKey = GlobalKey<FormState>();
 
@@ -149,7 +147,9 @@ class _ToDoListsDialogState extends ConsumerState<ToDoListsDialog> {
                           ElevatedButton(
                             onPressed: () => setState(() {
                               advancedSettings = false;
-                              ref.read(dataManagerProvider).insertToDoList(
+                              ref
+                                  .read(toDoListsProvider.notifier)
+                                  .insertToDoList(
                                     ToDoList(
                                       name: toDoListsNameController.text,
                                     ),
@@ -229,7 +229,7 @@ class _ToDoListsDialogState extends ConsumerState<ToDoListsDialog> {
                                     ),
                                     onTap: () {
                                       ref
-                                          .read(dataManagerProvider)
+                                          .read(toDoListsProvider.notifier)
                                           .deleteToDoList(toDoList);
                                       // ref
                                       //     .read(dataManagerProvider)

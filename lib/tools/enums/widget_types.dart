@@ -10,6 +10,10 @@ enum ContainedObjectType {
 }
 
 enum WalletWidgetType {
+  dailySpendings(
+    publicName: 'Daily spendings',
+    hasSettings: true,
+  ),
   total(
     publicName: 'Total',
     hasSettings: false,

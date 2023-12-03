@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:project_n2/models/app_widget.dart';
-import 'package:project_n2/models/todo/todo_widget.dart';
-import 'package:project_n2/models/wallet/wallet_widget.dart';
-import 'package:project_n2/providers/providers.dart';
+import 'package:project_n2/models/wallet/wallet.dart';
+import 'package:project_n2/models/widgets/app_widget.dart';
+import 'package:project_n2/models/widgets/todo_widget.dart';
+import 'package:project_n2/models/widgets/wallet_widget.dart';
+import 'package:project_n2/models/widgets/widget_union.dart';
 import 'package:project_n2/tools/enums/settings.dart';
 import 'package:project_n2/tools/enums/widget_types.dart';
 
@@ -23,7 +24,7 @@ class _AppWidgetDialogState extends ConsumerState<AppWidgetDialog> {
 
   @override
   Widget build(BuildContext context) {
-    final appWidgets = ref.read(dataManagerProvider).appWidgets;
+    final appWidgets = ref.watch(appWidgetsProvider).value!;
     return Builder(builder: (context) {
       return AlertDialog(
         title: Text(
@@ -84,30 +85,42 @@ class _AppWidgetDialogState extends ConsumerState<AppWidgetDialog> {
               child: ElevatedButton(
                 onPressed: () {
                   late AppWidget appWidget;
+                  late WidgetUnion unionWidget;
                   switch (widgetType) {
                     case ContainedObjectType.wallet:
-                      appWidget = WalletWidget(
-                        walletId:
-                            ref.read(dataManagerProvider).wallets.first.id,
-                        parentId: 'mainScreen',
-                        parentIndex: appWidgets
-                            .where((appWidget) =>
-                                appWidget.parentId == 'mainScreen')
-                            .length,
+                      appWidget = AppWidget(
+                          parentId: 'mainScreen',
+                          parentIndex: appWidgets
+                              .where((appWidget) =>
+                                  appWidget.parentId == 'mainScreen')
+                              .length,
+                          containedObjectType: ContainedObjectType.wallet);
+                      unionWidget = WidgetUnion.wallet(WalletWidget(
+                        walletId: ref.read(walletsProvider).value!.first.id,
                         widgetType: widgetTypeWidget!,
-                      );
+                      ));
+                      // appWidget = WalletWidget(
+                      //   walletId:
+                      //       ref.read(dataManagerProvider).wallets.first.id,
+                      //   parentId: 'mainScreen',
+                      //   parentIndex: appWidgets
+                      //       .where((appWidget) =>
+                      //           appWidget.parentId == 'mainScreen')
+                      //       .length,
+                      //   widgetType: widgetTypeWidget!,
+                      // );
                       break;
                     case ContainedObjectType.toDoList:
-                      appWidget = ToDoWidget(
-                        toDoListId:
-                            ref.read(dataManagerProvider).toDoLists.first.id,
-                        containedObjectType: ContainedObjectType.wallet,
-                        parentId: 'mainScreen',
-                        parentIndex: appWidgets
-                            .where((appWidget) =>
-                                appWidget.parentId == 'mainScreen')
-                            .length,
-                      );
+                      // appWidget = ToDoWidget(
+                      //   toDoListId:
+                      //       ref.read(dataManagerProvider).toDoLists.first.id,
+                      //   containedObjectType: ContainedObjectType.wallet,
+                      //   parentId: 'mainScreen',
+                      //   parentIndex: appWidgets
+                      //       .where((appWidget) =>
+                      //           appWidget.parentId == 'mainScreen')
+                      //       .length,
+                      // );
                       break;
                     case ContainedObjectType.other:
                       appWidget = AppWidget(
@@ -124,7 +137,9 @@ class _AppWidgetDialogState extends ConsumerState<AppWidgetDialog> {
                       break;
                   }
 
-                  ref.read(dataManagerProvider).insertAppWidget(appWidget);
+                  ref
+                      .read(appWidgetsProvider.notifier)
+                      .insertAppWidget(appWidget, unionWidget);
 
                   // ref.read(dataManagerProvider).insertAppWidgetByListID(
                   //       AppWidget(

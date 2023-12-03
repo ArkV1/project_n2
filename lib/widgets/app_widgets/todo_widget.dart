@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project_n2/models/todo/todo_list.dart';
-import 'package:project_n2/models/todo/todo_widget.dart';
+import 'package:project_n2/models/widgets/todo_widget.dart';
 
 class ToDoWidgetBuilder extends StatelessWidget {
   final ToDoWidget toDoWidget;

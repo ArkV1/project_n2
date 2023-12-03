@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:project_n2/providers/providers.dart';
+import 'package:project_n2/models/app_settings.dart';
 import 'package:project_n2/tools/enums/currencies.dart';
 import 'package:project_n2/tools/enums/settings.dart';
 
@@ -24,7 +24,7 @@ class _ComponentsDialogState extends ConsumerState<ComponentsDialog> {
   @override
   Widget build(BuildContext context) {
     //final userData = ref.watch(userDataProvider);
-    final components = ref.watch(componentMapProvider);
+    final components = ref.watch(componentMapProvider).valueOrNull ?? {};
     return AlertDialog(
       // title: const Text(
       //   'App Components',
@@ -56,7 +56,9 @@ class _ComponentsDialogState extends ConsumerState<ComponentsDialog> {
                         onChanged: (value) {
                           final component = AppComponents.values[i].name;
                           setState(() {
-                            componentSwitch(ref, component);
+                            ref
+                                .read(componentMapProvider.notifier)
+                                .componentSwitch(component);
                             if (value) {
                               debugPrint('${component.toUpperCase()} ENABLED');
                             } else {

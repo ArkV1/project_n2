@@ -9,13 +9,13 @@ part of 'shared_prefs.dart';
 // coverage:ignore-file
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
 
-extension GetSharedPrefsCollection on Isar {
-  IsarCollection<SharedPrefs> get sharedPrefs => this.collection();
+extension GetSharedPrefCollection on Isar {
+  IsarCollection<SharedPref> get sharedPrefs => this.collection();
 }
 
-const SharedPrefsSchema = CollectionSchema(
-  name: r'SharedPrefs',
-  id: -3839589079170548106,
+const SharedPrefSchema = CollectionSchema(
+  name: r'SharedPref',
+  id: -3648911782049552145,
   properties: {
     r'key': PropertySchema(
       id: 0,
@@ -28,22 +28,22 @@ const SharedPrefsSchema = CollectionSchema(
       type: IsarType.string,
     )
   },
-  estimateSize: _sharedPrefsEstimateSize,
-  serialize: _sharedPrefsSerialize,
-  deserialize: _sharedPrefsDeserialize,
-  deserializeProp: _sharedPrefsDeserializeProp,
+  estimateSize: _sharedPrefEstimateSize,
+  serialize: _sharedPrefSerialize,
+  deserialize: _sharedPrefDeserialize,
+  deserializeProp: _sharedPrefDeserializeProp,
   idName: r'id',
   indexes: {},
   links: {},
   embeddedSchemas: {},
-  getId: _sharedPrefsGetId,
-  getLinks: _sharedPrefsGetLinks,
-  attach: _sharedPrefsAttach,
+  getId: _sharedPrefGetId,
+  getLinks: _sharedPrefGetLinks,
+  attach: _sharedPrefAttach,
   version: '3.1.0',
 );
 
-int _sharedPrefsEstimateSize(
-  SharedPrefs object,
+int _sharedPrefEstimateSize(
+  SharedPref object,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
@@ -58,8 +58,8 @@ int _sharedPrefsEstimateSize(
   return bytesCount;
 }
 
-void _sharedPrefsSerialize(
-  SharedPrefs object,
+void _sharedPrefSerialize(
+  SharedPref object,
   IsarWriter writer,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
@@ -68,20 +68,21 @@ void _sharedPrefsSerialize(
   writer.writeString(offsets[1], object.value);
 }
 
-SharedPrefs _sharedPrefsDeserialize(
+SharedPref _sharedPrefDeserialize(
   Id id,
   IsarReader reader,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  final object = SharedPrefs();
-  object.id = id;
-  object.key = reader.readString(offsets[0]);
-  object.value = reader.readStringOrNull(offsets[1]);
+  final object = SharedPref(
+    id: id,
+    key: reader.readString(offsets[0]),
+    value: reader.readStringOrNull(offsets[1]),
+  );
   return object;
 }
 
-P _sharedPrefsDeserializeProp<P>(
+P _sharedPrefDeserializeProp<P>(
   IsarReader reader,
   int propertyId,
   int offset,
@@ -97,31 +98,28 @@ P _sharedPrefsDeserializeProp<P>(
   }
 }
 
-Id _sharedPrefsGetId(SharedPrefs object) {
+Id _sharedPrefGetId(SharedPref object) {
   return object.id;
 }
 
-List<IsarLinkBase<dynamic>> _sharedPrefsGetLinks(SharedPrefs object) {
+List<IsarLinkBase<dynamic>> _sharedPrefGetLinks(SharedPref object) {
   return [];
 }
 
-void _sharedPrefsAttach(
-    IsarCollection<dynamic> col, Id id, SharedPrefs object) {
-  object.id = id;
-}
+void _sharedPrefAttach(IsarCollection<dynamic> col, Id id, SharedPref object) {}
 
-extension SharedPrefsQueryWhereSort
-    on QueryBuilder<SharedPrefs, SharedPrefs, QWhere> {
-  QueryBuilder<SharedPrefs, SharedPrefs, QAfterWhere> anyId() {
+extension SharedPrefQueryWhereSort
+    on QueryBuilder<SharedPref, SharedPref, QWhere> {
+  QueryBuilder<SharedPref, SharedPref, QAfterWhere> anyId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
     });
   }
 }
 
-extension SharedPrefsQueryWhere
-    on QueryBuilder<SharedPrefs, SharedPrefs, QWhereClause> {
-  QueryBuilder<SharedPrefs, SharedPrefs, QAfterWhereClause> idEqualTo(Id id) {
+extension SharedPrefQueryWhere
+    on QueryBuilder<SharedPref, SharedPref, QWhereClause> {
+  QueryBuilder<SharedPref, SharedPref, QAfterWhereClause> idEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IdWhereClause.between(
         lower: id,
@@ -130,8 +128,7 @@ extension SharedPrefsQueryWhere
     });
   }
 
-  QueryBuilder<SharedPrefs, SharedPrefs, QAfterWhereClause> idNotEqualTo(
-      Id id) {
+  QueryBuilder<SharedPref, SharedPref, QAfterWhereClause> idNotEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -153,7 +150,7 @@ extension SharedPrefsQueryWhere
     });
   }
 
-  QueryBuilder<SharedPrefs, SharedPrefs, QAfterWhereClause> idGreaterThan(Id id,
+  QueryBuilder<SharedPref, SharedPref, QAfterWhereClause> idGreaterThan(Id id,
       {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
@@ -162,7 +159,7 @@ extension SharedPrefsQueryWhere
     });
   }
 
-  QueryBuilder<SharedPrefs, SharedPrefs, QAfterWhereClause> idLessThan(Id id,
+  QueryBuilder<SharedPref, SharedPref, QAfterWhereClause> idLessThan(Id id,
       {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
@@ -171,7 +168,7 @@ extension SharedPrefsQueryWhere
     });
   }
 
-  QueryBuilder<SharedPrefs, SharedPrefs, QAfterWhereClause> idBetween(
+  QueryBuilder<SharedPref, SharedPref, QAfterWhereClause> idBetween(
     Id lowerId,
     Id upperId, {
     bool includeLower = true,
@@ -188,9 +185,9 @@ extension SharedPrefsQueryWhere
   }
 }
 
-extension SharedPrefsQueryFilter
-    on QueryBuilder<SharedPrefs, SharedPrefs, QFilterCondition> {
-  QueryBuilder<SharedPrefs, SharedPrefs, QAfterFilterCondition> idEqualTo(
+extension SharedPrefQueryFilter
+    on QueryBuilder<SharedPref, SharedPref, QFilterCondition> {
+  QueryBuilder<SharedPref, SharedPref, QAfterFilterCondition> idEqualTo(
       Id value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -200,7 +197,7 @@ extension SharedPrefsQueryFilter
     });
   }
 
-  QueryBuilder<SharedPrefs, SharedPrefs, QAfterFilterCondition> idGreaterThan(
+  QueryBuilder<SharedPref, SharedPref, QAfterFilterCondition> idGreaterThan(
     Id value, {
     bool include = false,
   }) {
@@ -213,7 +210,7 @@ extension SharedPrefsQueryFilter
     });
   }
 
-  QueryBuilder<SharedPrefs, SharedPrefs, QAfterFilterCondition> idLessThan(
+  QueryBuilder<SharedPref, SharedPref, QAfterFilterCondition> idLessThan(
     Id value, {
     bool include = false,
   }) {
@@ -226,7 +223,7 @@ extension SharedPrefsQueryFilter
     });
   }
 
-  QueryBuilder<SharedPrefs, SharedPrefs, QAfterFilterCondition> idBetween(
+  QueryBuilder<SharedPref, SharedPref, QAfterFilterCondition> idBetween(
     Id lower,
     Id upper, {
     bool includeLower = true,
@@ -243,7 +240,7 @@ extension SharedPrefsQueryFilter
     });
   }
 
-  QueryBuilder<SharedPrefs, SharedPrefs, QAfterFilterCondition> keyEqualTo(
+  QueryBuilder<SharedPref, SharedPref, QAfterFilterCondition> keyEqualTo(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -256,7 +253,7 @@ extension SharedPrefsQueryFilter
     });
   }
 
-  QueryBuilder<SharedPrefs, SharedPrefs, QAfterFilterCondition> keyGreaterThan(
+  QueryBuilder<SharedPref, SharedPref, QAfterFilterCondition> keyGreaterThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -271,7 +268,7 @@ extension SharedPrefsQueryFilter
     });
   }
 
-  QueryBuilder<SharedPrefs, SharedPrefs, QAfterFilterCondition> keyLessThan(
+  QueryBuilder<SharedPref, SharedPref, QAfterFilterCondition> keyLessThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -286,7 +283,7 @@ extension SharedPrefsQueryFilter
     });
   }
 
-  QueryBuilder<SharedPrefs, SharedPrefs, QAfterFilterCondition> keyBetween(
+  QueryBuilder<SharedPref, SharedPref, QAfterFilterCondition> keyBetween(
     String lower,
     String upper, {
     bool includeLower = true,
@@ -305,7 +302,7 @@ extension SharedPrefsQueryFilter
     });
   }
 
-  QueryBuilder<SharedPrefs, SharedPrefs, QAfterFilterCondition> keyStartsWith(
+  QueryBuilder<SharedPref, SharedPref, QAfterFilterCondition> keyStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -318,7 +315,7 @@ extension SharedPrefsQueryFilter
     });
   }
 
-  QueryBuilder<SharedPrefs, SharedPrefs, QAfterFilterCondition> keyEndsWith(
+  QueryBuilder<SharedPref, SharedPref, QAfterFilterCondition> keyEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -331,7 +328,7 @@ extension SharedPrefsQueryFilter
     });
   }
 
-  QueryBuilder<SharedPrefs, SharedPrefs, QAfterFilterCondition> keyContains(
+  QueryBuilder<SharedPref, SharedPref, QAfterFilterCondition> keyContains(
       String value,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -343,7 +340,7 @@ extension SharedPrefsQueryFilter
     });
   }
 
-  QueryBuilder<SharedPrefs, SharedPrefs, QAfterFilterCondition> keyMatches(
+  QueryBuilder<SharedPref, SharedPref, QAfterFilterCondition> keyMatches(
       String pattern,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -355,7 +352,7 @@ extension SharedPrefsQueryFilter
     });
   }
 
-  QueryBuilder<SharedPrefs, SharedPrefs, QAfterFilterCondition> keyIsEmpty() {
+  QueryBuilder<SharedPref, SharedPref, QAfterFilterCondition> keyIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'key',
@@ -364,8 +361,7 @@ extension SharedPrefsQueryFilter
     });
   }
 
-  QueryBuilder<SharedPrefs, SharedPrefs, QAfterFilterCondition>
-      keyIsNotEmpty() {
+  QueryBuilder<SharedPref, SharedPref, QAfterFilterCondition> keyIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'key',
@@ -374,7 +370,7 @@ extension SharedPrefsQueryFilter
     });
   }
 
-  QueryBuilder<SharedPrefs, SharedPrefs, QAfterFilterCondition> valueIsNull() {
+  QueryBuilder<SharedPref, SharedPref, QAfterFilterCondition> valueIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
         property: r'value',
@@ -382,8 +378,7 @@ extension SharedPrefsQueryFilter
     });
   }
 
-  QueryBuilder<SharedPrefs, SharedPrefs, QAfterFilterCondition>
-      valueIsNotNull() {
+  QueryBuilder<SharedPref, SharedPref, QAfterFilterCondition> valueIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
         property: r'value',
@@ -391,7 +386,7 @@ extension SharedPrefsQueryFilter
     });
   }
 
-  QueryBuilder<SharedPrefs, SharedPrefs, QAfterFilterCondition> valueEqualTo(
+  QueryBuilder<SharedPref, SharedPref, QAfterFilterCondition> valueEqualTo(
     String? value, {
     bool caseSensitive = true,
   }) {
@@ -404,8 +399,7 @@ extension SharedPrefsQueryFilter
     });
   }
 
-  QueryBuilder<SharedPrefs, SharedPrefs, QAfterFilterCondition>
-      valueGreaterThan(
+  QueryBuilder<SharedPref, SharedPref, QAfterFilterCondition> valueGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -420,7 +414,7 @@ extension SharedPrefsQueryFilter
     });
   }
 
-  QueryBuilder<SharedPrefs, SharedPrefs, QAfterFilterCondition> valueLessThan(
+  QueryBuilder<SharedPref, SharedPref, QAfterFilterCondition> valueLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -435,7 +429,7 @@ extension SharedPrefsQueryFilter
     });
   }
 
-  QueryBuilder<SharedPrefs, SharedPrefs, QAfterFilterCondition> valueBetween(
+  QueryBuilder<SharedPref, SharedPref, QAfterFilterCondition> valueBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -454,7 +448,7 @@ extension SharedPrefsQueryFilter
     });
   }
 
-  QueryBuilder<SharedPrefs, SharedPrefs, QAfterFilterCondition> valueStartsWith(
+  QueryBuilder<SharedPref, SharedPref, QAfterFilterCondition> valueStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -467,7 +461,7 @@ extension SharedPrefsQueryFilter
     });
   }
 
-  QueryBuilder<SharedPrefs, SharedPrefs, QAfterFilterCondition> valueEndsWith(
+  QueryBuilder<SharedPref, SharedPref, QAfterFilterCondition> valueEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -480,7 +474,7 @@ extension SharedPrefsQueryFilter
     });
   }
 
-  QueryBuilder<SharedPrefs, SharedPrefs, QAfterFilterCondition> valueContains(
+  QueryBuilder<SharedPref, SharedPref, QAfterFilterCondition> valueContains(
       String value,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -492,7 +486,7 @@ extension SharedPrefsQueryFilter
     });
   }
 
-  QueryBuilder<SharedPrefs, SharedPrefs, QAfterFilterCondition> valueMatches(
+  QueryBuilder<SharedPref, SharedPref, QAfterFilterCondition> valueMatches(
       String pattern,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -504,7 +498,7 @@ extension SharedPrefsQueryFilter
     });
   }
 
-  QueryBuilder<SharedPrefs, SharedPrefs, QAfterFilterCondition> valueIsEmpty() {
+  QueryBuilder<SharedPref, SharedPref, QAfterFilterCondition> valueIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'value',
@@ -513,7 +507,7 @@ extension SharedPrefsQueryFilter
     });
   }
 
-  QueryBuilder<SharedPrefs, SharedPrefs, QAfterFilterCondition>
+  QueryBuilder<SharedPref, SharedPref, QAfterFilterCondition>
       valueIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
@@ -524,88 +518,88 @@ extension SharedPrefsQueryFilter
   }
 }
 
-extension SharedPrefsQueryObject
-    on QueryBuilder<SharedPrefs, SharedPrefs, QFilterCondition> {}
+extension SharedPrefQueryObject
+    on QueryBuilder<SharedPref, SharedPref, QFilterCondition> {}
 
-extension SharedPrefsQueryLinks
-    on QueryBuilder<SharedPrefs, SharedPrefs, QFilterCondition> {}
+extension SharedPrefQueryLinks
+    on QueryBuilder<SharedPref, SharedPref, QFilterCondition> {}
 
-extension SharedPrefsQuerySortBy
-    on QueryBuilder<SharedPrefs, SharedPrefs, QSortBy> {
-  QueryBuilder<SharedPrefs, SharedPrefs, QAfterSortBy> sortByKey() {
+extension SharedPrefQuerySortBy
+    on QueryBuilder<SharedPref, SharedPref, QSortBy> {
+  QueryBuilder<SharedPref, SharedPref, QAfterSortBy> sortByKey() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'key', Sort.asc);
     });
   }
 
-  QueryBuilder<SharedPrefs, SharedPrefs, QAfterSortBy> sortByKeyDesc() {
+  QueryBuilder<SharedPref, SharedPref, QAfterSortBy> sortByKeyDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'key', Sort.desc);
     });
   }
 
-  QueryBuilder<SharedPrefs, SharedPrefs, QAfterSortBy> sortByValue() {
+  QueryBuilder<SharedPref, SharedPref, QAfterSortBy> sortByValue() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'value', Sort.asc);
     });
   }
 
-  QueryBuilder<SharedPrefs, SharedPrefs, QAfterSortBy> sortByValueDesc() {
+  QueryBuilder<SharedPref, SharedPref, QAfterSortBy> sortByValueDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'value', Sort.desc);
     });
   }
 }
 
-extension SharedPrefsQuerySortThenBy
-    on QueryBuilder<SharedPrefs, SharedPrefs, QSortThenBy> {
-  QueryBuilder<SharedPrefs, SharedPrefs, QAfterSortBy> thenById() {
+extension SharedPrefQuerySortThenBy
+    on QueryBuilder<SharedPref, SharedPref, QSortThenBy> {
+  QueryBuilder<SharedPref, SharedPref, QAfterSortBy> thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
     });
   }
 
-  QueryBuilder<SharedPrefs, SharedPrefs, QAfterSortBy> thenByIdDesc() {
+  QueryBuilder<SharedPref, SharedPref, QAfterSortBy> thenByIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.desc);
     });
   }
 
-  QueryBuilder<SharedPrefs, SharedPrefs, QAfterSortBy> thenByKey() {
+  QueryBuilder<SharedPref, SharedPref, QAfterSortBy> thenByKey() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'key', Sort.asc);
     });
   }
 
-  QueryBuilder<SharedPrefs, SharedPrefs, QAfterSortBy> thenByKeyDesc() {
+  QueryBuilder<SharedPref, SharedPref, QAfterSortBy> thenByKeyDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'key', Sort.desc);
     });
   }
 
-  QueryBuilder<SharedPrefs, SharedPrefs, QAfterSortBy> thenByValue() {
+  QueryBuilder<SharedPref, SharedPref, QAfterSortBy> thenByValue() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'value', Sort.asc);
     });
   }
 
-  QueryBuilder<SharedPrefs, SharedPrefs, QAfterSortBy> thenByValueDesc() {
+  QueryBuilder<SharedPref, SharedPref, QAfterSortBy> thenByValueDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'value', Sort.desc);
     });
   }
 }
 
-extension SharedPrefsQueryWhereDistinct
-    on QueryBuilder<SharedPrefs, SharedPrefs, QDistinct> {
-  QueryBuilder<SharedPrefs, SharedPrefs, QDistinct> distinctByKey(
+extension SharedPrefQueryWhereDistinct
+    on QueryBuilder<SharedPref, SharedPref, QDistinct> {
+  QueryBuilder<SharedPref, SharedPref, QDistinct> distinctByKey(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'key', caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<SharedPrefs, SharedPrefs, QDistinct> distinctByValue(
+  QueryBuilder<SharedPref, SharedPref, QDistinct> distinctByValue(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'value', caseSensitive: caseSensitive);
@@ -613,23 +607,45 @@ extension SharedPrefsQueryWhereDistinct
   }
 }
 
-extension SharedPrefsQueryProperty
-    on QueryBuilder<SharedPrefs, SharedPrefs, QQueryProperty> {
-  QueryBuilder<SharedPrefs, int, QQueryOperations> idProperty() {
+extension SharedPrefQueryProperty
+    on QueryBuilder<SharedPref, SharedPref, QQueryProperty> {
+  QueryBuilder<SharedPref, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
     });
   }
 
-  QueryBuilder<SharedPrefs, String, QQueryOperations> keyProperty() {
+  QueryBuilder<SharedPref, String, QQueryOperations> keyProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'key');
     });
   }
 
-  QueryBuilder<SharedPrefs, String?, QQueryOperations> valueProperty() {
+  QueryBuilder<SharedPref, String?, QQueryOperations> valueProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'value');
     });
   }
 }
+
+// **************************************************************************
+// RiverpodGenerator
+// **************************************************************************
+
+String _$sharedPrefsHash() => r'14392ff2fac68c044cb35b12310aa8ac891f95ee';
+
+/// See also [SharedPrefs].
+@ProviderFor(SharedPrefs)
+final sharedPrefsProvider =
+    AsyncNotifierProvider<SharedPrefs, List<SharedPref>>.internal(
+  SharedPrefs.new,
+  name: r'sharedPrefsProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$sharedPrefsHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$SharedPrefs = AsyncNotifier<List<SharedPref>>;
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

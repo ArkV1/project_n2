@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:project_n2/providers/providers.dart';
+import 'package:project_n2/models/app_settings.dart';
 import 'package:project_n2/screens/to_do_screen.dart';
 
 import 'package:project_n2/tools/enums/settings.dart';
@@ -40,7 +40,8 @@ class _MainLayoutState extends ConsumerState<MainLayout> {
   @override
   Widget build(BuildContext context) {
     final bool widgetEditing = ref.watch(screenEditingProvider);
-    final Map<String, bool> componentsMap = ref.watch(componentMapProvider);
+    final Map<String, bool> componentsMap =
+        ref.watch(componentMapProvider).valueOrNull ?? {};
     return DefaultTabController(
       length: tabs.length,
       initialIndex: 0,

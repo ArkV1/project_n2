@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:project_n2/models/wallet/wallet_widget.dart';
-import 'package:project_n2/providers/providers.dart';
-import 'package:project_n2/tools/enums/widget_types.dart';
+import 'package:project_n2/models/wallet/wallet.dart';
+import 'package:project_n2/models/widgets/app_widget.dart';
 // import 'package:project_n2/tools/enums/currencies.dart';
 // import 'package:project_n2/models/wallet/wallet.dart';
 
@@ -20,9 +19,11 @@ class _WalletWidgetsDialogState extends ConsumerState<WalletWidgetsDialog> {
 
   @override
   Widget build(BuildContext context) {
-    final dataManager = ref.watch(dataManagerProvider);
-    final wallets = dataManager.wallets;
-    final appWidgets = dataManager.appWidgets;
+    final wallets = ref.watch(walletsProvider).asData?.value ?? [];
+    final appWidgets = ref.watch(appWidgetsProvider).asData?.value ?? [];
+    // final dataManager = ref.watch(dataManagerProvider);
+    // final wallets = dataManager.wallets;
+    // final appWidgets = dataManager.appWidgets;
     return AlertDialog(
         title: Row(
           children: [
@@ -91,19 +92,19 @@ class _WalletWidgetsDialogState extends ConsumerState<WalletWidgetsDialog> {
                                 onChanged: (value) {
                                   setState(() {
                                     if (value) {
-                                      ref
-                                          .read(dataManagerProvider)
-                                          .insertAppWidget(
-                                            WalletWidget(
-                                              parentId: 'mainScreen',
-                                              parentIndex: appWidgets
-                                                  .where((widget) =>
-                                                      widget.parentId ==
-                                                      'mainScreen')
-                                                  .length,
-                                              walletId: wallets[i].id,
-                                            ),
-                                          );
+                                      // ref
+                                      //     .read(dataManagerProvider)
+                                      //     .insertAppWidget(
+                                      //       WalletWidget(
+                                      //         parentId: 'mainScreen',
+                                      //         parentIndex: appWidgets
+                                      //             .where((widget) =>
+                                      //                 widget.parentId ==
+                                      //                 'mainScreen')
+                                      //             .length,
+                                      //         walletId: wallets[i].id,
+                                      //       ),
+                                      //     );
                                       debugPrint('ENABLED');
                                       // ref
                                       //     .read(containerListProvider.notifier)

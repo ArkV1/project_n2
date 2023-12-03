@@ -124,16 +124,16 @@ ToDoTask _toDoTaskDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = ToDoTask(
-    complete: reader.readBoolOrNull(offsets[0]) ?? false,
+    complete: reader.readBool(offsets[0]),
     completionDate: reader.readDateTimeOrNull(offsets[1]),
     creationDate: reader.readDateTimeOrNull(offsets[2]),
     description: reader.readStringOrNull(offsets[3]),
-    isDaily: reader.readBoolOrNull(offsets[4]) ?? false,
+    id: id,
+    isDaily: reader.readBool(offsets[4]),
     parentIndex: reader.readLong(offsets[5]),
     task: reader.readStringOrNull(offsets[6]),
     toDoListId: reader.readLong(offsets[7]),
   );
-  object.id = id;
   return object;
 }
 
@@ -145,7 +145,7 @@ P _toDoTaskDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readBoolOrNull(offset) ?? false) as P;
+      return (reader.readBool(offset)) as P;
     case 1:
       return (reader.readDateTimeOrNull(offset)) as P;
     case 2:
@@ -153,7 +153,7 @@ P _toDoTaskDeserializeProp<P>(
     case 3:
       return (reader.readStringOrNull(offset)) as P;
     case 4:
-      return (reader.readBoolOrNull(offset) ?? false) as P;
+      return (reader.readBool(offset)) as P;
     case 5:
       return (reader.readLong(offset)) as P;
     case 6:
@@ -174,7 +174,6 @@ List<IsarLinkBase<dynamic>> _toDoTaskGetLinks(ToDoTask object) {
 }
 
 void _toDoTaskAttach(IsarCollection<dynamic> col, Id id, ToDoTask object) {
-  object.id = id;
   object.toDoLists
       .attach(col, col.isar.collection<ToDoList>(), r'toDoLists', id);
 }
@@ -1259,3 +1258,37 @@ extension ToDoTaskQueryProperty
     });
   }
 }
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+_$ToDoTaskImpl _$$ToDoTaskImplFromJson(Map<String, dynamic> json) =>
+    _$ToDoTaskImpl(
+      id: json['id'] as int? ?? Isar.autoIncrement,
+      toDoListId: json['toDoListId'] as int,
+      parentIndex: json['parentIndex'] as int,
+      task: json['task'] as String?,
+      description: json['description'] as String?,
+      isDaily: json['isDaily'] as bool? ?? false,
+      complete: json['complete'] as bool? ?? false,
+      creationDate: json['creationDate'] == null
+          ? null
+          : DateTime.parse(json['creationDate'] as String),
+      completionDate: json['completionDate'] == null
+          ? null
+          : DateTime.parse(json['completionDate'] as String),
+    );
+
+Map<String, dynamic> _$$ToDoTaskImplToJson(_$ToDoTaskImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'toDoListId': instance.toDoListId,
+      'parentIndex': instance.parentIndex,
+      'task': instance.task,
+      'description': instance.description,
+      'isDaily': instance.isDaily,
+      'complete': instance.complete,
+      'creationDate': instance.creationDate?.toIso8601String(),
+      'completionDate': instance.completionDate?.toIso8601String(),
+    };

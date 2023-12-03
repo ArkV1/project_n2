@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:project_n2/providers/providers.dart';
+import 'package:project_n2/models/app_settings.dart';
 import 'package:project_n2/tools/enums/settings.dart';
 
 import 'package:project_n2/widgets/settings_screen/dialogs/components_dialog.dart';
 import 'package:project_n2/widgets/settings_screen/dialogs/todo_dialog.dart';
-import 'package:project_n2/widgets/settings_screen/dialogs/wallet_widgets_dialog.dart';
 
 import '../widgets/settings_screen/dialogs/wallets_dialog.dart';
 
@@ -24,7 +23,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final components = ref.watch(componentMapProvider);
+    final components = ref.watch(componentMapProvider).valueOrNull ?? {};
     return Scaffold(
       body: Center(
         child: Column(
@@ -106,7 +105,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                             ],
                           ),
                         for (var i = 0; i < AppComponents.values.length; i++)
-                          if (components[AppComponents.values[i].name]!)
+                          if (components
+                                  .containsKey(AppComponents.values[i].name) &&
+                              components[AppComponents.values[i].name]!)
                             ListTile(
                               title: Text(
                                 'Manage \n${AppComponents.values[i].publicName}',

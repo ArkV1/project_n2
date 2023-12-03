@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:project_n2/models/app_settings.dart';
+import 'package:project_n2/models/wallet/wallet.dart';
 import 'package:project_n2/models/wallet/wallet_transaction.dart';
-import 'package:project_n2/providers/providers.dart';
 
 class TransactionDialog extends ConsumerStatefulWidget {
   const TransactionDialog({super.key});
@@ -16,7 +17,8 @@ class _TransactionDialogState extends ConsumerState<TransactionDialog> {
 
   @override
   Widget build(BuildContext context) {
-    final wallets = ref.watch(dataManagerProvider).wallets;
+    // final wallets = ref.watch(dataManagerProvider).wallets;
+    final wallets = ref.watch(walletsProvider).asData!.value;
     return AlertDialog(
       title: const Text('New transaction'),
       content: Column(
@@ -50,12 +52,20 @@ class _TransactionDialogState extends ConsumerState<TransactionDialog> {
                 //   // TODO
                 // }
                 // print(currentWallet.id!);
-                ref.read(dataManagerProvider).insertWalletTransaction(
+                final formattedAmount =
+                    transactionAmountController.text.replaceAll(" ", "");
+                int amount = int.tryParse(formattedAmount) ?? 0;
+                // If the amount does not start with '+' or '-', make it negative
+                if (!formattedAmount.startsWith('+') &&
+                    !formattedAmount.startsWith('-')) {
+                  amount = -amount.abs();
+                }
+                ref.read(walletsProvider.notifier).insertWalletTransaction(
                       WalletTransaction(
                         walletId: currentWallet.id,
                         //
                         name: transactionNameController.text,
-                        amount: transactionAmountController.text,
+                        amount: amount.toString(),
                       ),
                     );
                 Navigator.pop(context);

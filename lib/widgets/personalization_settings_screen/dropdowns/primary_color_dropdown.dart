@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:project_n2/models/app_settings.dart';
+import 'package:project_n2/models/shared_prefs.dart';
 import '/providers/theme_providers.dart';
-import '/providers/providers.dart';
 
 import '/tools/constants.dart';
 
@@ -11,9 +12,9 @@ class PrimaryColorDropdown extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.watch(primaryColorProvider);
     String primaryColorListDropdownValue =
-        ref.read(primaryColorProvider)['color'];
+        ref.watch(themeManagerProvider).value!.primaryColor['color'];
+
     return DropdownButtonFormField<String>(
       decoration: const InputDecoration(
         labelText: 'Primary color',
@@ -29,13 +30,8 @@ class PrimaryColorDropdown extends ConsumerWidget {
       // ),
       onChanged: (String? value) {
         // This is called when the user selects an item.
-        final prefs = ref.read(dataManagerProvider);
-        if (value != null) {
-          prefs.setString('primaryColor', value);
-        }
-        ref.read(primaryColorProvider.notifier).state = primaryColorList
-            .singleWhere((element) => element['color'] == value!);
-        primaryColorListDropdownValue = value!;
+        ref.read(themeManagerProvider.notifier).setColor(value!);
+        primaryColorListDropdownValue = value;
       },
       items: primaryColorList
           .map<DropdownMenuItem<String>>((Map<String, dynamic> map) {

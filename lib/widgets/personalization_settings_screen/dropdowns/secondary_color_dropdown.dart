@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '/providers/providers.dart';
+import 'package:project_n2/models/app_settings.dart';
 import '/providers/theme_providers.dart';
 
 import '/tools/constants.dart';
@@ -11,9 +11,9 @@ class SecondaryColorDropdown extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.watch(secondaryColorProvider);
     String secondaryColorListDropdownValue =
-        ref.read(secondaryColorProvider)['color'];
+        ref.watch(themeManagerProvider).value!.primaryContrastingColor['color'];
+
     return DropdownButtonFormField<String>(
       decoration: const InputDecoration(
         labelText: 'Accent color',
@@ -28,13 +28,10 @@ class SecondaryColorDropdown extends ConsumerWidget {
       // ),
       onChanged: (String? value) {
         // This is called when the user selects an item.
-        final prefs = ref.read(dataManagerProvider);
-        if (value != null) {
-          prefs.setString('secondaryColor', value);
-        }
-        ref.read(secondaryColorProvider.notifier).state = secondaryColorList
-            .singleWhere((element) => element['color'] == value!);
-        secondaryColorListDropdownValue = value!;
+        ref
+            .read(themeManagerProvider.notifier)
+            .setColor(value!, isContrastingColor: true);
+        secondaryColorListDropdownValue = value;
       },
       items: secondaryColorList
           .map<DropdownMenuItem<String>>((Map<String, dynamic> map) {

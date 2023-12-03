@@ -6,18 +6,17 @@ import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:project_n2/models/app_settings.dart';
 
-import 'package:project_n2/data_manager.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:project_n2/models/in_app_purchases.dart';
+import 'package:project_n2/models/todo/todo_list.dart';
+import 'package:project_n2/tools/constants.dart';
 import 'firebase_options.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'providers/providers.dart';
-import 'providers/theme_providers.dart';
-import 'providers/store_providers.dart';
 
-import 'package:in_app_purchase/in_app_purchase.dart';
 // import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import 'package:project_n2/widgets/main_layout.dart';
@@ -38,7 +37,7 @@ import 'package:project_n2/screens/personalization_settings_screen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await DataManager.instance.init();
+  // await DataManager.instance.init();
 
   //////////////////////////////////////////////////////////////////////////
   ///                              FIREBASE                              ///
@@ -96,36 +95,21 @@ class MyApp extends ConsumerStatefulWidget {
 }
 
 class _MyAppState extends ConsumerState<MyApp> {
-  late StreamSubscription<List<PurchaseDetails>> _subscription;
-
-  void _initialize() async {
-    final inAppPurchases = InAppPurchase.instance;
-    //if (await inAppPurchases.isAvailable()) {
-    final purchaseUpdated = inAppPurchases.purchaseStream;
-    _subscription = purchaseUpdated.listen((purchaseDetailsList) {
-      _listenToPurchaseUpdated(purchaseDetailsList);
-    }, onDone: () {
-      _subscription.cancel();
-    }, onError: (error) {
-      // handle error here.
-    });
-    await InAppPurchase.instance.restorePurchases();
-    // } else {
-    //   ref.read(purchaseDetailsProvider.notifier).state = [];
-    // }
-  }
-
   @override
   void initState() {
     super.initState();
-    _initialize();
+    ref.read(inAppPurchasesManagerProvider.notifier).initialize();
+    ref.read(toDoListsProvider.notifier).updateDailyTasksRoutine();
   }
 
   @override
   Widget build(BuildContext context) {
-    final themeMode = ref.watch(themeModeProvider);
-    final primaryColor = ref.watch(primaryColorProvider);
-    final secondaryColor = ref.watch(secondaryColorProvider);
+    final themeManager = ref.watch(themeManagerProvider);
+    final themeMode = themeManager.valueOrNull?.themeMode ?? ThemeMode.system;
+    final primaryColor =
+        themeManager.valueOrNull?.primaryColor ?? primaryColorList[0];
+    final secondaryColor = themeManager.valueOrNull?.primaryContrastingColor ??
+        secondaryColorList[0];
     ///////////////////////////////////////////////////////////////////////////////
     // MATERIAL THEME
     final materialLightTheme = ThemeData(
@@ -204,46 +188,5 @@ class _MyAppState extends ConsumerState<MyApp> {
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _subscription.cancel();
-    super.dispose();
-  }
-
-  void _listenToPurchaseUpdated(
-      List<PurchaseDetails> purchaseDetailsList) async {
-    for (var purchaseDetails in purchaseDetailsList) {
-      if (purchaseDetails.status == PurchaseStatus.pending) {
-        //_showPendingUI();
-      } else {
-        if (purchaseDetails.status == PurchaseStatus.error) {
-          //_handleError(purchaseDetails.error!);
-        } else if (purchaseDetails.status == PurchaseStatus.purchased ||
-            purchaseDetails.status == PurchaseStatus.restored) {
-          ref.read(purchaseDetailsProvider).add(purchaseDetails);
-          //bool valid = await _verifyPurchase(purchaseDetails);
-          //if (valid) {
-          _deliverProduct(purchaseDetails);
-          //} else {
-          //  _handleInvalidPurchase(purchaseDetails);
-          //}
-        }
-        if (purchaseDetails.pendingCompletePurchase) {
-          await InAppPurchase.instance.completePurchase(purchaseDetails);
-        }
-      }
-    }
-  }
-
-  void _deliverProduct(PurchaseDetails purchaseDetails) async {
-    switch (purchaseDetails.productID) {
-      case 'productId':
-        debugPrint('User bought productId');
-        break;
-      default:
-        break;
-    }
   }
 }

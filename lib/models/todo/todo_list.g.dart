@@ -70,9 +70,9 @@ ToDoList _toDoListDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = ToDoList(
+    id: id,
     name: reader.readString(offsets[0]),
   );
-  object.id = id;
   return object;
 }
 
@@ -99,7 +99,6 @@ List<IsarLinkBase<dynamic>> _toDoListGetLinks(ToDoList object) {
 }
 
 void _toDoListAttach(IsarCollection<dynamic> col, Id id, ToDoList object) {
-  object.id = id;
   object.tasksLink
       .attach(col, col.isar.collection<ToDoTask>(), r'tasksLink', id);
 }
@@ -495,3 +494,41 @@ extension ToDoListQueryProperty
     });
   }
 }
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+_$ToDoListImpl _$$ToDoListImplFromJson(Map<String, dynamic> json) =>
+    _$ToDoListImpl(
+      id: json['id'] as int? ?? Isar.autoIncrement,
+      name: json['name'] as String,
+    );
+
+Map<String, dynamic> _$$ToDoListImplToJson(_$ToDoListImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+    };
+
+// **************************************************************************
+// RiverpodGenerator
+// **************************************************************************
+
+String _$toDoListsHash() => r'9d1a91518865cf5e558b70e521705e4ecf54672e';
+
+/// See also [ToDoLists].
+@ProviderFor(ToDoLists)
+final toDoListsProvider =
+    AutoDisposeAsyncNotifierProvider<ToDoLists, List<ToDoList>>.internal(
+  ToDoLists.new,
+  name: r'toDoListsProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$toDoListsHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$ToDoLists = AutoDisposeAsyncNotifier<List<ToDoList>>;
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

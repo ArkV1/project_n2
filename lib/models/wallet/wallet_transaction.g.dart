@@ -127,11 +127,11 @@ WalletTransaction _walletTransactionDeserialize(
     amount: reader.readStringOrNull(offsets[0]),
     categorie: reader.readStringOrNull(offsets[1]),
     description: reader.readStringOrNull(offsets[2]),
+    id: id,
     name: reader.readStringOrNull(offsets[3]),
     transactionDate: reader.readDateTimeOrNull(offsets[4]),
     walletId: reader.readLong(offsets[5]),
   );
-  object.id = id;
   return object;
 }
 
@@ -170,7 +170,6 @@ List<IsarLinkBase<dynamic>> _walletTransactionGetLinks(
 
 void _walletTransactionAttach(
     IsarCollection<dynamic> col, Id id, WalletTransaction object) {
-  object.id = id;
   object.wallets.attach(col, col.isar.collection<Wallet>(), r'wallets', id);
 }
 

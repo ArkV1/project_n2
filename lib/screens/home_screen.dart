@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:project_n2/models/app_widget.dart';
+import 'package:project_n2/models/app_settings.dart';
+import 'package:project_n2/models/widgets/app_widget.dart';
 import 'package:project_n2/models/todo/todo_list.dart';
-import 'package:project_n2/models/todo/todo_widget.dart';
 import 'package:project_n2/models/wallet/wallet.dart';
-import 'package:project_n2/models/wallet/wallet_widget.dart';
-import 'package:project_n2/providers/providers.dart';
+import 'package:project_n2/tools/enums/widget_types.dart';
 import 'package:project_n2/widgets/app_widgets/todo_widget.dart';
 import 'package:project_n2/widgets/app_widgets/wallet_widget.dart';
 
@@ -17,10 +16,6 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
-  late List<Wallet> wallets;
-  late List<ToDoList> toDoLists;
-  late List<AppWidget> appWidgets;
-
   // @override
   // void initState() {
   //   super.initState();
@@ -52,18 +47,24 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     // });
     // componentMap = ref.read(componentMapProvider);
     final isEditing = ref.watch(screenEditingProvider);
-    final dataManager = ref.watch(dataManagerProvider);
-    wallets = dataManager.wallets;
-    toDoLists = dataManager.toDoLists;
-    appWidgets = dataManager.appWidgets;
+    // final dataManager = ref.watch(dataManagerProvider);
+    // wallets = dataManager.wallets;
+    // toDoLists = dataManager.toDoLists;
+    // appWidgets = dataManager.appWidgets;
+    final wallets = ref.watch(walletsProvider).asData?.value ?? [];
+    final toDoLists = ref.watch(toDoListsProvider).asData?.value ?? [];
+    final appWidgets = ref.watch(appWidgetsProvider).asData?.value ?? [];
     final mainScreenWidgets = List<AppWidget>.from(
-        appWidgets.where((widget) => widget.parentId == 'mainScreen'));
-    mainScreenWidgets.sort((a, b) => a.parentIndex!.compareTo(b.parentIndex!));
+      appWidgets.where((widget) => widget.parentId == 'mainScreen'),
+    );
+    mainScreenWidgets.sort(
+      (a, b) => a.parentIndex.compareTo(b.parentIndex),
+    );
 
     void onReorder(int oldIndex, int newIndex) {
       newIndex = newIndex > oldIndex ? newIndex - 1 : newIndex;
       ref
-          .read(dataManagerProvider)
+          .read(appWidgetsProvider.notifier)
           .reorderInParentList(oldIndex, newIndex, mainScreenWidgets, false);
     }
 
@@ -97,16 +98,24 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       ),
                       Expanded(
                         child: Builder(builder: (context) {
-                          if (appWidget is WalletWidget) {
-                            final wallet = wallets.singleWhere(
-                                (element) => element.id == appWidget.walletId);
+                          if (appWidget.containedObjectType ==
+                              ContainedObjectType.wallet) {
+                            final walletWidget = appWidget.walletWidget!;
+                            final wallet = wallets.singleWhere((element) =>
+                                element.id == walletWidget.walletId);
                             return WalletWidgetBuilder(
-                                walletWidget: appWidget, wallet: wallet);
-                          } else if (appWidget is ToDoWidget) {
+                              walletWidget: walletWidget,
+                              wallet: wallet,
+                            );
+                          } else if (appWidget.containedObjectType ==
+                              ContainedObjectType.toDoList) {
+                            final toDoWidget = appWidget.toDoWidget!;
                             final toDoList = toDoLists.singleWhere((element) =>
-                                element.id == appWidget.toDoListId);
+                                element.id == toDoWidget.toDoListId);
                             return ToDoWidgetBuilder(
-                                toDoWidget: appWidget, toDoList: toDoList);
+                              toDoWidget: toDoWidget,
+                              toDoList: toDoList,
+                            );
                           } else {
                             return Text(
                               'Unknown widget of type: ${appWidget.containedObjectType}',
@@ -124,24 +133,26 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             margin: const EdgeInsets.only(right: 4.0),
                             child: Column(
                               children: [
-                                if (appWidget is WalletWidget &&
-                                    appWidget.widgetType.hasSettings)
-                                  ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      padding: EdgeInsets.zero,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                    ),
-                                    onPressed: () {
-                                      ref
-                                          .read(dataManagerProvider)
-                                          .insertAppWidget(appWidget);
-                                    },
-                                    child: const Icon(
-                                      Icons.settings,
-                                    ),
-                                  ),
+                                // if (appWidget.containedObjectType ==
+                                //         ContainedObjectType.wallet &&
+                                //     appWidget
+                                //         .walletWidget!.widgetType.hasSettings)
+                                //   ElevatedButton(
+                                //     style: ElevatedButton.styleFrom(
+                                //       padding: EdgeInsets.zero,
+                                //       shape: RoundedRectangleBorder(
+                                //         borderRadius: BorderRadius.circular(10),
+                                //       ),
+                                //     ),
+                                //     onPressed: () {
+                                //       // ref
+                                //       //     .read(dataManagerProvider)
+                                //       //     .insertAppWidget(appWidget);
+                                //     },
+                                //     child: const Icon(
+                                //       Icons.settings,
+                                //     ),
+                                //   ),
                                 ElevatedButton(
                                   style: ElevatedButton.styleFrom(
                                     padding: EdgeInsets.zero,
@@ -152,7 +163,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   ),
                                   onPressed: () {
                                     ref
-                                        .read(dataManagerProvider)
+                                        .read(appWidgetsProvider.notifier)
                                         .deleteAppWidget(
                                           mainScreenWidgets[index],
                                         );

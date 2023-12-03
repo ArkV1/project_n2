@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:project_n2/providers/providers.dart';
 import 'package:project_n2/tools/enums/currencies.dart';
 
-import '../../../models/wallet/wallet.dart';
-
-// import '../../../models/wallet.dart';
+import 'package:project_n2/models/wallet/wallet.dart';
 
 final _formKey = GlobalKey<FormState>();
 
@@ -179,7 +176,7 @@ class _WalletsDialogState extends ConsumerState<WalletsDialog> {
                           ElevatedButton(
                             onPressed: () => setState(() {
                               advancedSettings = false;
-                              ref.read(dataManagerProvider).insertWallet(
+                              ref.read(walletsProvider.notifier).insertWallet(
                                     Wallet(
                                       name: walletsNameController.text,
                                     ),
@@ -259,7 +256,7 @@ class _WalletsDialogState extends ConsumerState<WalletsDialog> {
                                     ),
                                     onTap: () {
                                       ref
-                                          .read(dataManagerProvider)
+                                          .read(walletsProvider.notifier)
                                           .deleteWallet(wallet);
                                       // ref
                                       //     .read(dataManagerProvider)

@@ -1,32 +1,17 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '/providers/providers.dart';
-import '/providers/theme_providers.dart';
-
-import '/tools/constants.dart';
-
-getCurrentTheme(WidgetRef ref) {
-  final themeMode = ref.read(themeModeProvider);
-  switch (themeMode) {
-    case ThemeMode.system:
-      return themeList[0];
-    case ThemeMode.light:
-      return themeList[1];
-    case ThemeMode.dark:
-      return themeList[2];
-    default:
-      return themeList[0];
-  }
-}
+import 'package:project_n2/models/app_settings.dart';
 
 class ThemeDropdown extends ConsumerWidget {
   const ThemeDropdown({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    String themeListDropdownValue = getCurrentTheme(ref);
-    return DropdownButtonFormField<String>(
+    // String themeListDropdownValue = getCurrentTheme(ref);
+    ThemeModes themeListDropdownValue = ThemeModes.values
+        .byName(ref.watch(themeManagerProvider).value!.themeMode.name);
+    return DropdownButtonFormField<ThemeModes>(
       decoration: const InputDecoration(
         labelText: 'Theme',
       ),
@@ -38,39 +23,21 @@ class ThemeDropdown extends ConsumerWidget {
       //   height: 2,
       //   color: Colors.deepPurpleAccent,
       // ),
-      onChanged: (String? value) {
+      onChanged: (ThemeModes? value) {
         // This is called when the user selects an item.
-        final prefs = ref.read(dataManagerProvider);
-
-        switch (value) {
-          case 'System Default':
-            ref.read(themeModeProvider.notifier).state = ThemeMode.system;
-            prefs.remove('theme');
-            break;
-          case 'Light':
-            ref.read(themeModeProvider.notifier).state = ThemeMode.light;
-            prefs.setString('theme', 'Light');
-            break;
-          case 'Dark':
-            ref.read(themeModeProvider.notifier).state = ThemeMode.dark;
-            prefs.setString('theme', 'Dark');
-            break;
-          case 'Black (OLED)':
-            ref.read(themeModeProvider.notifier).state = ThemeMode.dark;
-            prefs.setString('theme', 'Black (OLED)');
-            break;
-        }
-        themeListDropdownValue = value!;
+        // final prefs = ref.read(dataManagerProvider);
+        ref.read(themeManagerProvider.notifier).setThemeMode(value!);
       },
-      items: themeList.map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
-          enabled: value == 'Black (OLED)' ? false : true,
+      items: ThemeModes.values
+          .map<DropdownMenuItem<ThemeModes>>((ThemeModes value) {
+        return DropdownMenuItem<ThemeModes>(
+          enabled: value == ThemeModes.black ? false : true,
           value: value,
           child: Text(
-            style: value == 'Black (OLED)'
+            style: value == ThemeModes.black
                 ? const TextStyle(color: Colors.grey)
                 : null,
-            value,
+            value.text,
           ),
         );
       }).toList(),

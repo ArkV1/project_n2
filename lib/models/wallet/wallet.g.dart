@@ -70,9 +70,9 @@ Wallet _walletDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = Wallet(
+    id: id,
     name: reader.readString(offsets[0]),
   );
-  object.id = id;
   return object;
 }
 
@@ -99,7 +99,6 @@ List<IsarLinkBase<dynamic>> _walletGetLinks(Wallet object) {
 }
 
 void _walletAttach(IsarCollection<dynamic> col, Id id, Wallet object) {
-  object.id = id;
   object.transactionsLink.attach(
       col, col.isar.collection<WalletTransaction>(), r'transactionsLink', id);
 }
@@ -490,3 +489,25 @@ extension WalletQueryProperty on QueryBuilder<Wallet, Wallet, QQueryProperty> {
     });
   }
 }
+
+// **************************************************************************
+// RiverpodGenerator
+// **************************************************************************
+
+String _$walletsHash() => r'd6dfab61005a9cfe38238bac0a6ee95dc02d17a0';
+
+/// See also [Wallets].
+@ProviderFor(Wallets)
+final walletsProvider =
+    AutoDisposeAsyncNotifierProvider<Wallets, List<Wallet>>.internal(
+  Wallets.new,
+  name: r'walletsProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$walletsHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$Wallets = AutoDisposeAsyncNotifier<List<Wallet>>;
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

@@ -87,13 +87,6 @@ const Map<String, Map<String, dynamic>> productsMap = {
 //   ],
 // };
 
-const List<String> themeList = <String>[
-  'System Default',
-  'Light',
-  'Dark',
-  'Black (OLED)',
-];
-
 const List<Map<String, dynamic>> primaryColorList = [
   {'color': 'Green', 'num': 0xFF65A603},
   {'color': 'Bordo', 'num': 0xFF730217},
