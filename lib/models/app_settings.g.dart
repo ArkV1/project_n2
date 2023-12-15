@@ -21,6 +21,22 @@ final themeManagerProvider =
 );
 
 typedef _$ThemeManager = AsyncNotifier<CustomTheme>;
+String _$reorderingStateHash() => r'd7ad9c0f5448b6852a0cb9d66fb7790de590397f';
+
+/// See also [ReorderingState].
+@ProviderFor(ReorderingState)
+final reorderingStateProvider =
+    AutoDisposeNotifierProvider<ReorderingState, ReorderingStates>.internal(
+  ReorderingState.new,
+  name: r'reorderingStateProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$reorderingStateHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$ReorderingState = AutoDisposeNotifier<ReorderingStates>;
 String _$screenEditingHash() => r'fb8e4d3e43d7e89562f79bcad9f746054ae4f5f6';
 
 /// See also [ScreenEditing].

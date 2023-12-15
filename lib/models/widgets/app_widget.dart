@@ -52,7 +52,7 @@ class AppWidget with _$AppWidget {
   //     appWidget.value?.widgetSettingsMap;
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 class AppWidgets extends _$AppWidgets {
   @override
   FutureOr<List<AppWidget>> build() {
@@ -66,6 +66,7 @@ class AppWidgets extends _$AppWidgets {
   }
 
   Future<void> updateAppWidgets() async {
+    debugPrint('AppWidgets REFRESHED');
     state = AsyncData(await getAppWidgets());
   }
 
@@ -104,15 +105,15 @@ class AppWidgets extends _$AppWidgets {
     });
   }
 
-  Future<void> reorderInParentList(int oldIndex, int newIndex,
-      List<AppWidget> parentWidgetsList, bool notify) async {
-    ref.watch(databaseProvider.future).then((isar) async {
+  Future<void> reorderInParentList(
+      int oldIndex, int newIndex, List<AppWidget> parentWidgetsList) async {
+    ref.read(databaseProvider.future).then((isar) async {
       debugPrint('Old index: $oldIndex');
       debugPrint('New index: $newIndex');
 
-      // Perform the in-memory reorder
-      AppWidget movedWidget = parentWidgetsList.removeAt(oldIndex);
-      parentWidgetsList.insert(newIndex, movedWidget);
+      // // Perform the in-memory reorder
+      // AppWidget movedWidget = parentWidgetsList.removeAt(oldIndex);
+      // parentWidgetsList.insert(newIndex, movedWidget);
 
       // Determine the range of affected indices
       int start = (oldIndex < newIndex) ? oldIndex : newIndex;
@@ -166,6 +167,21 @@ class AppWidgets extends _$AppWidgets {
   }
 }
 
+@Riverpod(dependencies: [AppWidgets])
+class AppWidgetByParentId extends _$AppWidgetByParentId {
+  @override
+  FutureOr<List<AppWidget>> build({required String parentId}) async {
+    debugPrint('AppWidgetByParentId REFRESHED');
+    final appWidgets = await ref.watch(appWidgetsProvider.future);
+    final sortedList =
+        appWidgets.where((appWidget) => appWidget.parentId == parentId).toList()
+          ..sort(
+            (a, b) => a.parentIndex.compareTo(b.parentIndex),
+          );
+    return sortedList;
+  }
+  // Add methods to mutate the state
+}
 
 //@collection
 // class AppWidget {

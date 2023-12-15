@@ -1,21 +1,22 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:intl/intl.dart';
 
 import 'package:project_n2/models/wallet/wallet.dart';
+import 'package:project_n2/models/widgets/app_widget.dart';
 import 'package:project_n2/models/widgets/wallet_widget.dart';
 import 'package:project_n2/tools/enums/widget_types.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class WalletWidgetBuilder extends ConsumerStatefulWidget {
-  final WalletWidget walletWidget;
-  final Wallet wallet;
+  final AppWidget appWidget;
 
   const WalletWidgetBuilder({
     Key? key,
-    required this.walletWidget,
-    required this.wallet,
+    required this.appWidget,
   }) : super(key: key);
 
   @override
@@ -24,9 +25,8 @@ class WalletWidgetBuilder extends ConsumerStatefulWidget {
 }
 
 class _WalletWidgetBuilderState extends ConsumerState<WalletWidgetBuilder> {
-  Widget _buildTotalWidget() {
-    final wallet = widget.wallet;
-    ref.watch(walletsProvider);
+  Widget _buildTotalWidget(Wallet wallet, WalletWidget walletWidget) {
+    final total = ref.watch(totalOfWalletByIdProvider(walletId: wallet.id));
     return Container(
       // decoration: const BoxDecoration(
       //   border: Border(
@@ -34,7 +34,7 @@ class _WalletWidgetBuilderState extends ConsumerState<WalletWidgetBuilder> {
       //   ),
       // ),
       child: Card(
-        key: ValueKey('${widget.walletWidget.id}totalWidget'),
+        key: ValueKey('${walletWidget.id}totalWidget'),
         child: Padding(
           padding: const EdgeInsets.only(top: 6.0),
           child: Column(
@@ -55,30 +55,19 @@ class _WalletWidgetBuilderState extends ConsumerState<WalletWidgetBuilder> {
                 contentPadding: const EdgeInsets.symmetric(
                   horizontal: 48,
                 ),
-                // title: Text(widget.wallet.name),
-                title: FutureBuilder(
-                    future: ref
-                        .read(walletsProvider.notifier)
-                        .calculateTotal(wallet),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const CircularProgressIndicator();
-                      }
-                      return Text(
-                        '${snapshot.data ?? '0'}',
-                        textAlign: TextAlign.center,
-                      );
-                    }),
-                // trailing: FutureBuilder(
-                //     future: ref
-                //         .read(walletsProvider.notifier)
-                //         .calculateTotal(wallet),
-                //     builder: (context, snapshot) {
-                //       if (snapshot.connectionState == ConnectionState.waiting) {
-                //         return const CircularProgressIndicator();
-                //       }
-                //       return Text('${snapshot.data ?? '0'}');
-                //     }),
+
+                title: total.when(data: (total) {
+                  return Text(
+                    total.toString(),
+                    textAlign: TextAlign.center,
+                  );
+                }, error: (error, stacktrace) {
+                  debugPrint(stacktrace.toString());
+                  return Text(error.toString());
+                  //
+                }, loading: () {
+                  return CircularProgressIndicator();
+                }),
                 visualDensity: VisualDensity.comfortable,
                 // dense: true,
               ),
@@ -87,11 +76,12 @@ class _WalletWidgetBuilderState extends ConsumerState<WalletWidgetBuilder> {
         ),
       ),
     );
+    //
   }
 
-  Widget _buildLastTransactionWidget() {
+  Widget _buildLastTransactionWidget(Wallet wallet, WalletWidget walletWidget) {
     return Card(
-      key: ValueKey('${widget.walletWidget.id}lastTransactionsWidget'),
+      key: ValueKey('${walletWidget.id}lastTransactionsWidget'),
       child: Padding(
         padding: const EdgeInsets.only(top: 6.0),
         child: Column(
@@ -104,12 +94,11 @@ class _WalletWidgetBuilderState extends ConsumerState<WalletWidgetBuilder> {
                   const Text(
                     'Latest transactions:',
                   ),
-                  Text('Wallet: ${widget.wallet.name}'),
+                  Text('Wallet: ${wallet.name}'),
                 ],
               ),
             ),
-            for (var currentTransaction
-                in widget.wallet.transactions.reversed.take(5))
+            for (var currentTransaction in wallet.transactions.reversed.take(5))
               ListTile(
                 contentPadding: const EdgeInsets.fromLTRB(
                   16,
@@ -137,9 +126,9 @@ class _WalletWidgetBuilderState extends ConsumerState<WalletWidgetBuilder> {
     );
   }
 
-  Widget _buildDailySpendingsWidget() {
+  Widget _buildDailySpendingsWidget(Wallet wallet, WalletWidget walletWidget) {
     return Card(
-      key: ValueKey('${widget.walletWidget.id}dailySpendingWidget'),
+      key: ValueKey('${walletWidget.id}dailySpendingWidget'),
       child: Padding(
         padding: const EdgeInsets.only(top: 6.0),
         child: Column(
@@ -157,12 +146,15 @@ class _WalletWidgetBuilderState extends ConsumerState<WalletWidgetBuilder> {
                   const Text(
                     'Weekly spendings',
                   ),
-                  Text('Wallet: ${widget.wallet.name}'),
+                  Text('Wallet: ${wallet.name}'),
                 ],
               ),
             ),
-            SizedBox(
+            Container(
               height: 200,
+              padding: const EdgeInsets.only(
+                left: 12,
+              ),
               child: BarChart(
                 BarChartData(
                   barGroups: [
@@ -201,7 +193,7 @@ class _WalletWidgetBuilderState extends ConsumerState<WalletWidgetBuilder> {
                     bottomTitles: AxisTitles(
                       sideTitles: SideTitles(
                         showTitles: true,
-                        reservedSize: 30,
+                        reservedSize: 32,
                         getTitlesWidget: (double value, TitleMeta meta) {
                           const style = TextStyle(
                             // color: AppColors.contentColorBlue.darken(20),
@@ -243,8 +235,18 @@ class _WalletWidgetBuilderState extends ConsumerState<WalletWidgetBuilder> {
                         },
                       ),
                     ),
-                    leftTitles: const AxisTitles(
-                      sideTitles: SideTitles(showTitles: false),
+                    leftTitles: AxisTitles(
+                      drawBelowEverything: true,
+                      sideTitles: SideTitles(
+                        showTitles: true,
+                        reservedSize: 16,
+                        getTitlesWidget: (value, meta) {
+                          return Text(
+                            value.toInt().toString(),
+                            textAlign: TextAlign.left,
+                          );
+                        },
+                      ),
                     ),
                     topTitles: const AxisTitles(
                       sideTitles: SideTitles(showTitles: false),
@@ -256,14 +258,18 @@ class _WalletWidgetBuilderState extends ConsumerState<WalletWidgetBuilder> {
                   borderData: FlBorderData(show: false),
                   barTouchData: BarTouchData(
                     touchTooltipData: BarTouchTooltipData(
+                      fitInsideVertically: true,
                       tooltipBgColor: Colors.grey,
                       getTooltipItem: (group, groupIndex, rod, rodIndex) {
                         return BarTooltipItem(
-                          rod.fromY.round().toString(),
+                          rod.toY.round().toString(),
                           const TextStyle(color: Colors.white),
                         );
                       },
                     ),
+                  ),
+                  gridData: const FlGridData(
+                    show: true,
                   ),
                 ),
               ),
@@ -276,16 +282,29 @@ class _WalletWidgetBuilderState extends ConsumerState<WalletWidgetBuilder> {
 
   @override
   Widget build(BuildContext context) {
-    switch (widget.walletWidget.widgetType) {
-      case WalletWidgetType.total:
-        return _buildTotalWidget();
-      case WalletWidgetType.lastTransaction:
-        return _buildLastTransactionWidget();
-      case WalletWidgetType.dailySpendings:
-        return _buildDailySpendingsWidget();
-      default:
-        return Text(
-            'Unknown wallet widget of type: ${widget.walletWidget.containedObjectType}');
-    }
+    // if (widget.appWidget.walletWidget == null) return Text('');
+    widget.appWidget.walletWidgetLink.loadSync();
+    final walletWidget = widget.appWidget.walletWidget!;
+    final wallet =
+        ref.watch(walletByIdProvider(walletId: walletWidget.walletId));
+    return wallet.when(data: (wallet) {
+      if (wallet == null) return const Text('Wallet was not found');
+      switch (walletWidget.widgetType) {
+        case WalletWidgetType.total:
+          return _buildTotalWidget(wallet, walletWidget);
+        case WalletWidgetType.lastTransaction:
+          return _buildLastTransactionWidget(wallet, walletWidget);
+        case WalletWidgetType.dailySpendings:
+          return _buildDailySpendingsWidget(wallet, walletWidget);
+        default:
+          return Text(
+              'Unknown wallet widget of type: ${walletWidget.containedObjectType}');
+      }
+    }, error: (error, stacktrace) {
+      debugPrint(stacktrace.toString());
+      return Text(error.toString());
+    }, loading: () {
+      return const CircularProgressIndicator();
+    });
   }
 }

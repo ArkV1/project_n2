@@ -10,6 +10,11 @@ import '/tools/constants.dart';
 part 'app_settings.freezed.dart';
 part 'app_settings.g.dart';
 
+enum ReorderingStates {
+  awaiting,
+  reordering;
+}
+
 enum ThemeModes {
   system(text: 'System Default'),
   light(text: 'Light'),
@@ -175,6 +180,18 @@ class ThemeManager extends _$ThemeManager {
     final prefs = ref.watch(sharedPrefsProvider.notifier);
     state = AsyncData(state.value!.copyWith(ergonomics: ergonomics));
     prefs.setString('ergonomics', ergonomics.text);
+  }
+}
+
+@riverpod
+class ReorderingState extends _$ReorderingState {
+  @override
+  ReorderingStates build() {
+    return ReorderingStates.awaiting;
+  }
+
+  void changeState({required ReorderingStates value}) {
+    state = value;
   }
 }
 

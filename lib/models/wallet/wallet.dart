@@ -1,3 +1,7 @@
+import 'dart:ffi';
+
+import 'package:collection/collection.dart';
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:isar/isar.dart';
 import 'package:project_n2/models/data_manager.dart';
@@ -94,18 +98,65 @@ class Wallets extends _$Wallets {
     });
   }
 
-  Future<int> calculateTotal(Wallet wallet) async {
-    return ref.read(databaseProvider.future).then((isar) async {
-      final transactions = await isar.walletTransactions
-          .where()
-          .filter()
-          .walletIdEqualTo(wallet.id)
-          .findAll();
+  // Future<int> calculateTotal(Wallet wallet) async {
+  //   return ref.read(databaseProvider.future).then((isar) async {
+  //     final transactions = await isar.walletTransactions
+  //         .where()
+  //         .filter()
+  //         .walletIdEqualTo(wallet.id)
+  //         .findAll();
+  //     int total = 0;
+  //     for (var transaction in transactions) {
+  //       total += int.tryParse(transaction.amount!) ?? 0;
+  //     }
+  //     return total;
+  //   });
+  // }
+}
+
+// @riverpod
+// Future<Wallet?> wallet(WalletRef ref, {required int walletId}) async {
+//   final walletsList = await ref.watch(walletsProvider.future);
+//   return walletsList.firstWhereOrNull((wallet) => wallet.id == walletId);
+//   // return ref.listen(walletsProvider.future, (previous, next) async {
+//   //   final previousWallet = await previous?.then((previousWalletsList) =>
+//   //       previousWalletsList.singleWhere((wallet) => wallet.id == walletId));
+//   //   final nextWallet = await next.then((nextWalletsList) =>
+//   //       nextWalletsList.singleWhere((wallet) => wallet.id == walletId));
+//   //   if (previousWallet != nextWallet) {
+//   //     return nextWallet;
+//   //   } else {
+//   //     return previousWallet;
+//   //   }
+//   // });
+
+//   // final json = await http.get('api/user/$userId');
+//   // return User.fromJson(json);
+// }
+
+@riverpod
+class WalletById extends _$WalletById {
+  @override
+  FutureOr<Wallet?> build({required int walletId}) async {
+    final walletsList = await ref.watch(walletsProvider.future);
+    return walletsList.firstWhereOrNull((wallet) => wallet.id == walletId);
+  }
+  // Add methods to mutate the state
+}
+
+@riverpod
+class TotalOfWalletById extends _$TotalOfWalletById {
+  @override
+  FutureOr<int?> build({required int walletId}) async {
+    return await ref
+        .watch(walletByIdProvider(walletId: walletId).future)
+        .then((wallet) {
       int total = 0;
-      for (var transaction in transactions) {
+      for (var transaction in wallet!.transactions) {
         total += int.tryParse(transaction.amount!) ?? 0;
       }
       return total;
     });
   }
+  // Add methods to mutate the state
 }
