@@ -27,28 +27,28 @@ export 'package:objectbox/objectbox.dart'; // so that callers only have to impor
 
 final _entities = <ModelEntity>[
   ModelEntity(
-      id: const IdUid(1, 252982200043984926),
+      id: const IdUid(1, 3851076263104269136),
       name: 'AppWidget',
-      lastPropertyId: const IdUid(4, 1349685166050929587),
+      lastPropertyId: const IdUid(4, 1328863912090996765),
       flags: 0,
       properties: <ModelProperty>[
         ModelProperty(
-            id: const IdUid(1, 5115554297743388182),
+            id: const IdUid(1, 6641746290999624105),
             name: 'id',
             type: 6,
             flags: 129),
         ModelProperty(
-            id: const IdUid(2, 944394466234351811),
+            id: const IdUid(2, 4146134339931586936),
             name: 'parentId',
             type: 9,
             flags: 0),
         ModelProperty(
-            id: const IdUid(3, 5501274479061141418),
+            id: const IdUid(3, 8464332775074593007),
             name: 'parentIndex',
             type: 6,
             flags: 0),
         ModelProperty(
-            id: const IdUid(4, 1349685166050929587),
+            id: const IdUid(4, 1328863912090996765),
             name: 'containedObjectTypeIndex',
             type: 6,
             flags: 0)
@@ -56,23 +56,23 @@ final _entities = <ModelEntity>[
       relations: <ModelRelation>[],
       backlinks: <ModelBacklink>[]),
   ModelEntity(
-      id: const IdUid(2, 5499701232458605213),
+      id: const IdUid(2, 7717099991104603167),
       name: 'SharedPref',
-      lastPropertyId: const IdUid(3, 4521509636214121538),
+      lastPropertyId: const IdUid(3, 435670815388084771),
       flags: 0,
       properties: <ModelProperty>[
         ModelProperty(
-            id: const IdUid(1, 5985043368640161809),
+            id: const IdUid(1, 8630801586906988374),
             name: 'id',
             type: 6,
             flags: 129),
         ModelProperty(
-            id: const IdUid(2, 1850972790220280530),
+            id: const IdUid(2, 4178075808928530065),
             name: 'key',
             type: 9,
             flags: 0),
         ModelProperty(
-            id: const IdUid(3, 4521509636214121538),
+            id: const IdUid(3, 435670815388084771),
             name: 'value',
             type: 9,
             flags: 0)
@@ -80,108 +80,108 @@ final _entities = <ModelEntity>[
       relations: <ModelRelation>[],
       backlinks: <ModelBacklink>[]),
   ModelEntity(
-      id: const IdUid(3, 1514700427227574894),
+      id: const IdUid(3, 602103247360980798),
       name: 'ToDoList',
-      lastPropertyId: const IdUid(2, 8768039649906157234),
+      lastPropertyId: const IdUid(2, 1036191715067432841),
       flags: 0,
       properties: <ModelProperty>[
         ModelProperty(
-            id: const IdUid(1, 5792791629271253219),
+            id: const IdUid(1, 6566740145815087865),
             name: 'id',
             type: 6,
             flags: 129),
         ModelProperty(
-            id: const IdUid(2, 8768039649906157234),
+            id: const IdUid(2, 1036191715067432841),
             name: 'name',
             type: 9,
             flags: 0)
       ],
       relations: <ModelRelation>[
         ModelRelation(
-            id: const IdUid(1, 2689766505003520392),
+            id: const IdUid(1, 9184665439642877980),
             name: 'tasksRelation',
-            targetId: const IdUid(4, 4717623585607338839))
+            targetId: const IdUid(4, 7292982484387514466))
       ],
       backlinks: <ModelBacklink>[]),
   ModelEntity(
-      id: const IdUid(4, 4717623585607338839),
+      id: const IdUid(4, 7292982484387514466),
       name: 'ToDoTask',
-      lastPropertyId: const IdUid(10, 2902944807590555116),
+      lastPropertyId: const IdUid(10, 7767667358077577185),
       flags: 0,
       properties: <ModelProperty>[
         ModelProperty(
-            id: const IdUid(1, 478330811508153050),
+            id: const IdUid(1, 7349673836728525657),
             name: 'id',
             type: 6,
             flags: 129),
         ModelProperty(
-            id: const IdUid(2, 6674428587567091182),
+            id: const IdUid(2, 3264043252034502658),
             name: 'toDoListId',
             type: 6,
             flags: 0),
         ModelProperty(
-            id: const IdUid(3, 2777408756455534734),
+            id: const IdUid(3, 5410470588904130773),
             name: 'parentIndex',
             type: 6,
             flags: 0),
         ModelProperty(
-            id: const IdUid(4, 1693387181901000699),
+            id: const IdUid(4, 3356460954018133276),
             name: 'task',
             type: 9,
             flags: 0),
         ModelProperty(
-            id: const IdUid(5, 1503528305563362740),
+            id: const IdUid(5, 191269183120495443),
             name: 'description',
             type: 9,
             flags: 0),
         ModelProperty(
-            id: const IdUid(6, 7044768153152958579),
+            id: const IdUid(6, 8647187365294728853),
             name: 'isDaily',
             type: 1,
             flags: 0),
         ModelProperty(
-            id: const IdUid(7, 1590008538638080975),
+            id: const IdUid(7, 7173124710468231132),
             name: 'complete',
             type: 1,
             flags: 0),
         ModelProperty(
-            id: const IdUid(8, 5838924471290891647),
+            id: const IdUid(8, 6036152782262399773),
             name: 'creationDate',
             type: 10,
             flags: 0),
         ModelProperty(
-            id: const IdUid(9, 7972741290061092578),
+            id: const IdUid(9, 4654333341229623542),
             name: 'completionDate',
             type: 10,
             flags: 0),
         ModelProperty(
-            id: const IdUid(10, 2902944807590555116),
+            id: const IdUid(10, 7767667358077577185),
             name: 'toDoListRelationId',
             type: 11,
             flags: 520,
-            indexId: const IdUid(1, 3616421605166415077),
+            indexId: const IdUid(1, 6965049102133444953),
             relationTarget: 'ToDoList')
       ],
       relations: <ModelRelation>[],
       backlinks: <ModelBacklink>[]),
   ModelEntity(
-      id: const IdUid(5, 8336510779262465870),
+      id: const IdUid(5, 4958708599283922976),
       name: 'ToDoWidget',
-      lastPropertyId: const IdUid(3, 8570154015328835574),
+      lastPropertyId: const IdUid(3, 702883504199695479),
       flags: 0,
       properties: <ModelProperty>[
         ModelProperty(
-            id: const IdUid(1, 2806492708627469648),
+            id: const IdUid(1, 3279771052775876942),
             name: 'id',
             type: 6,
             flags: 129),
         ModelProperty(
-            id: const IdUid(2, 6657297296496100610),
+            id: const IdUid(2, 2725996854193858177),
             name: 'toDoListId',
             type: 6,
             flags: 0),
         ModelProperty(
-            id: const IdUid(3, 8570154015328835574),
+            id: const IdUid(3, 702883504199695479),
             name: 'widgetTypeIndex',
             type: 6,
             flags: 0)
@@ -189,101 +189,101 @@ final _entities = <ModelEntity>[
       relations: <ModelRelation>[],
       backlinks: <ModelBacklink>[]),
   ModelEntity(
-      id: const IdUid(6, 3609061135617963672),
-      name: 'WalletWidget',
-      lastPropertyId: const IdUid(3, 4159431711304410565),
-      flags: 0,
-      properties: <ModelProperty>[
-        ModelProperty(
-            id: const IdUid(1, 6798202063269581284),
-            name: 'id',
-            type: 6,
-            flags: 129),
-        ModelProperty(
-            id: const IdUid(2, 3967151726732442330),
-            name: 'walletId',
-            type: 6,
-            flags: 0),
-        ModelProperty(
-            id: const IdUid(3, 4159431711304410565),
-            name: 'widgetTypeIndex',
-            type: 6,
-            flags: 0)
-      ],
-      relations: <ModelRelation>[],
-      backlinks: <ModelBacklink>[]),
-  ModelEntity(
-      id: const IdUid(7, 8509200470495247719),
+      id: const IdUid(6, 1468525835500275328),
       name: 'Wallet',
-      lastPropertyId: const IdUid(2, 5250294623786627778),
+      lastPropertyId: const IdUid(2, 4490577410416462100),
       flags: 0,
       properties: <ModelProperty>[
         ModelProperty(
-            id: const IdUid(1, 4314763260698566646),
+            id: const IdUid(1, 6438608160768011458),
             name: 'id',
             type: 6,
             flags: 129),
         ModelProperty(
-            id: const IdUid(2, 5250294623786627778),
+            id: const IdUid(2, 4490577410416462100),
             name: 'name',
             type: 9,
             flags: 0)
       ],
       relations: <ModelRelation>[
         ModelRelation(
-            id: const IdUid(2, 2042226705105892238),
+            id: const IdUid(2, 2438830796802246892),
             name: 'transactionsRelation',
-            targetId: const IdUid(8, 7670746388656627342))
+            targetId: const IdUid(7, 407272998144506317))
       ],
       backlinks: <ModelBacklink>[]),
   ModelEntity(
-      id: const IdUid(8, 7670746388656627342),
+      id: const IdUid(7, 407272998144506317),
       name: 'WalletTransaction',
-      lastPropertyId: const IdUid(8, 1952246264392900497),
+      lastPropertyId: const IdUid(8, 6293933183743922526),
       flags: 0,
       properties: <ModelProperty>[
         ModelProperty(
-            id: const IdUid(1, 4892197406563911017),
+            id: const IdUid(1, 3187325690585529173),
             name: 'id',
             type: 6,
             flags: 129),
         ModelProperty(
-            id: const IdUid(2, 5057947793913419683),
+            id: const IdUid(2, 2283929815430606379),
             name: 'walletId',
             type: 6,
             flags: 0),
         ModelProperty(
-            id: const IdUid(3, 5151027281785493244),
+            id: const IdUid(3, 423468199066161408),
             name: 'name',
             type: 9,
             flags: 0),
         ModelProperty(
-            id: const IdUid(4, 4441856792838690580),
+            id: const IdUid(4, 3127256611937120935),
             name: 'description',
             type: 9,
             flags: 0),
         ModelProperty(
-            id: const IdUid(5, 1747053773818035518),
+            id: const IdUid(5, 5854194935803310609),
             name: 'categorie',
             type: 9,
             flags: 0),
         ModelProperty(
-            id: const IdUid(6, 5802864250546218193),
+            id: const IdUid(6, 954024822420747720),
             name: 'amount',
             type: 9,
             flags: 0),
         ModelProperty(
-            id: const IdUid(7, 4294510333398973689),
+            id: const IdUid(7, 3011724886258069778),
             name: 'transactionDate',
             type: 10,
             flags: 0),
         ModelProperty(
-            id: const IdUid(8, 1952246264392900497),
+            id: const IdUid(8, 6293933183743922526),
             name: 'walletRelationId',
             type: 11,
             flags: 520,
-            indexId: const IdUid(2, 7365944088793326195),
+            indexId: const IdUid(2, 3096948282161509920),
             relationTarget: 'Wallet')
+      ],
+      relations: <ModelRelation>[],
+      backlinks: <ModelBacklink>[]),
+  ModelEntity(
+      id: const IdUid(8, 4855742581566610461),
+      name: 'WalletWidget',
+      lastPropertyId: const IdUid(3, 2606608628582629878),
+      flags: 0,
+      properties: <ModelProperty>[
+        ModelProperty(
+            id: const IdUid(1, 7517955221512361937),
+            name: 'id',
+            type: 6,
+            flags: 129),
+        ModelProperty(
+            id: const IdUid(2, 7943705639151986210),
+            name: 'walletId',
+            type: 6,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(3, 2606608628582629878),
+            name: 'widgetTypeIndex',
+            type: 6,
+            flags: 0)
       ],
       relations: <ModelRelation>[],
       backlinks: <ModelBacklink>[])
@@ -316,9 +316,9 @@ Future<Store> openStore(
 ModelDefinition getObjectBoxModel() {
   final model = ModelInfo(
       entities: _entities,
-      lastEntityId: const IdUid(8, 7670746388656627342),
-      lastIndexId: const IdUid(2, 7365944088793326195),
-      lastRelationId: const IdUid(2, 2042226705105892238),
+      lastEntityId: const IdUid(8, 4855742581566610461),
+      lastIndexId: const IdUid(2, 3096948282161509920),
+      lastRelationId: const IdUid(2, 2438830796802246892),
       lastSequenceId: const IdUid(0, 0),
       retiredEntityUids: const [],
       retiredIndexUids: const [],
@@ -565,46 +565,8 @@ ModelDefinition getObjectBoxModel() {
 
           return object;
         }),
-    WalletWidget: EntityDefinition<WalletWidget>(
-        model: _entities[5],
-        toOneRelations: (WalletWidget object) => [],
-        toManyRelations: (WalletWidget object) => {},
-        getId: (WalletWidget object) => object.id,
-        setId: (WalletWidget object, int id) {
-          if (object.id != id) {
-            throw ArgumentError('Field WalletWidget.id is read-only '
-                '(final or getter-only) and it was declared to be self-assigned. '
-                'However, the currently inserted object (.id=${object.id}) '
-                "doesn't match the inserted ID (ID $id). "
-                'You must assign an ID before calling [box.put()].');
-          }
-        },
-        objectToFB: (WalletWidget object, fb.Builder fbb) {
-          fbb.startTable(4);
-          fbb.addInt64(0, object.id ?? 0);
-          fbb.addInt64(1, object.walletId);
-          fbb.addInt64(2, object.widgetTypeIndex);
-          fbb.finish(fbb.endTable());
-          return object.id ?? 0;
-        },
-        objectFromFB: (Store store, ByteData fbData) {
-          final buffer = fb.BufferContext(fbData);
-          final rootOffset = buffer.derefObject(0);
-          final idParam =
-              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 4);
-          final walletIdParam =
-              const fb.Int64Reader().vTableGet(buffer, rootOffset, 6, 0);
-          final widgetTypeIndexParam =
-              const fb.Int64Reader().vTableGet(buffer, rootOffset, 8, 0);
-          final object = WalletWidget(
-              id: idParam,
-              walletId: walletIdParam,
-              widgetTypeIndex: widgetTypeIndexParam);
-
-          return object;
-        }),
     Wallet: EntityDefinition<Wallet>(
-        model: _entities[6],
+        model: _entities[5],
         toOneRelations: (Wallet object) => [],
         toManyRelations: (Wallet object) => {
               RelInfo<Wallet>.toMany(2, object.id!): object.transactionsRelation
@@ -644,7 +606,7 @@ ModelDefinition getObjectBoxModel() {
           return object;
         }),
     WalletTransaction: EntityDefinition<WalletTransaction>(
-        model: _entities[7],
+        model: _entities[6],
         toOneRelations: (WalletTransaction object) => [object.walletRelation],
         toManyRelations: (WalletTransaction object) => {},
         getId: (WalletTransaction object) => object.id,
@@ -714,6 +676,44 @@ ModelDefinition getObjectBoxModel() {
               transactionDate: transactionDateParam,
               walletRelation: walletRelationParam);
           object.walletRelation.attach(store);
+          return object;
+        }),
+    WalletWidget: EntityDefinition<WalletWidget>(
+        model: _entities[7],
+        toOneRelations: (WalletWidget object) => [],
+        toManyRelations: (WalletWidget object) => {},
+        getId: (WalletWidget object) => object.id,
+        setId: (WalletWidget object, int id) {
+          if (object.id != id) {
+            throw ArgumentError('Field WalletWidget.id is read-only '
+                '(final or getter-only) and it was declared to be self-assigned. '
+                'However, the currently inserted object (.id=${object.id}) '
+                "doesn't match the inserted ID (ID $id). "
+                'You must assign an ID before calling [box.put()].');
+          }
+        },
+        objectToFB: (WalletWidget object, fb.Builder fbb) {
+          fbb.startTable(4);
+          fbb.addInt64(0, object.id ?? 0);
+          fbb.addInt64(1, object.walletId);
+          fbb.addInt64(2, object.widgetTypeIndex);
+          fbb.finish(fbb.endTable());
+          return object.id ?? 0;
+        },
+        objectFromFB: (Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+          final idParam =
+              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 4);
+          final walletIdParam =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 6, 0);
+          final widgetTypeIndexParam =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 8, 0);
+          final object = WalletWidget(
+              id: idParam,
+              walletId: walletIdParam,
+              widgetTypeIndex: widgetTypeIndexParam);
+
           return object;
         })
   };
@@ -823,65 +823,65 @@ class ToDoWidget_ {
       QueryIntegerProperty<ToDoWidget>(_entities[4].properties[2]);
 }
 
-/// [WalletWidget] entity fields to define ObjectBox queries.
-class WalletWidget_ {
-  /// see [WalletWidget.id]
-  static final id =
-      QueryIntegerProperty<WalletWidget>(_entities[5].properties[0]);
-
-  /// see [WalletWidget.walletId]
-  static final walletId =
-      QueryIntegerProperty<WalletWidget>(_entities[5].properties[1]);
-
-  /// see [WalletWidget.widgetTypeIndex]
-  static final widgetTypeIndex =
-      QueryIntegerProperty<WalletWidget>(_entities[5].properties[2]);
-}
-
 /// [Wallet] entity fields to define ObjectBox queries.
 class Wallet_ {
   /// see [Wallet.id]
-  static final id = QueryIntegerProperty<Wallet>(_entities[6].properties[0]);
+  static final id = QueryIntegerProperty<Wallet>(_entities[5].properties[0]);
 
   /// see [Wallet.name]
-  static final name = QueryStringProperty<Wallet>(_entities[6].properties[1]);
+  static final name = QueryStringProperty<Wallet>(_entities[5].properties[1]);
 
   /// see [Wallet.transactionsRelation]
   static final transactionsRelation =
-      QueryRelationToMany<Wallet, WalletTransaction>(_entities[6].relations[0]);
+      QueryRelationToMany<Wallet, WalletTransaction>(_entities[5].relations[0]);
 }
 
 /// [WalletTransaction] entity fields to define ObjectBox queries.
 class WalletTransaction_ {
   /// see [WalletTransaction.id]
   static final id =
-      QueryIntegerProperty<WalletTransaction>(_entities[7].properties[0]);
+      QueryIntegerProperty<WalletTransaction>(_entities[6].properties[0]);
 
   /// see [WalletTransaction.walletId]
   static final walletId =
-      QueryIntegerProperty<WalletTransaction>(_entities[7].properties[1]);
+      QueryIntegerProperty<WalletTransaction>(_entities[6].properties[1]);
 
   /// see [WalletTransaction.name]
   static final name =
-      QueryStringProperty<WalletTransaction>(_entities[7].properties[2]);
+      QueryStringProperty<WalletTransaction>(_entities[6].properties[2]);
 
   /// see [WalletTransaction.description]
   static final description =
-      QueryStringProperty<WalletTransaction>(_entities[7].properties[3]);
+      QueryStringProperty<WalletTransaction>(_entities[6].properties[3]);
 
   /// see [WalletTransaction.categorie]
   static final categorie =
-      QueryStringProperty<WalletTransaction>(_entities[7].properties[4]);
+      QueryStringProperty<WalletTransaction>(_entities[6].properties[4]);
 
   /// see [WalletTransaction.amount]
   static final amount =
-      QueryStringProperty<WalletTransaction>(_entities[7].properties[5]);
+      QueryStringProperty<WalletTransaction>(_entities[6].properties[5]);
 
   /// see [WalletTransaction.transactionDate]
   static final transactionDate =
-      QueryIntegerProperty<WalletTransaction>(_entities[7].properties[6]);
+      QueryIntegerProperty<WalletTransaction>(_entities[6].properties[6]);
 
   /// see [WalletTransaction.walletRelation]
   static final walletRelation =
-      QueryRelationToOne<WalletTransaction, Wallet>(_entities[7].properties[7]);
+      QueryRelationToOne<WalletTransaction, Wallet>(_entities[6].properties[7]);
+}
+
+/// [WalletWidget] entity fields to define ObjectBox queries.
+class WalletWidget_ {
+  /// see [WalletWidget.id]
+  static final id =
+      QueryIntegerProperty<WalletWidget>(_entities[7].properties[0]);
+
+  /// see [WalletWidget.walletId]
+  static final walletId =
+      QueryIntegerProperty<WalletWidget>(_entities[7].properties[1]);
+
+  /// see [WalletWidget.widgetTypeIndex]
+  static final widgetTypeIndex =
+      QueryIntegerProperty<WalletWidget>(_entities[7].properties[2]);
 }

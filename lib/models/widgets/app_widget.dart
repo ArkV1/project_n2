@@ -1,16 +1,17 @@
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:objectbox/objectbox.dart';
-import 'package:project_n2/tools/enums/widget_types.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+// ignore: unnecessary_import
+import 'package:objectbox/objectbox.dart'; // Removal breaks objectbox's annotations
+
 import 'package:project_n2/models/data_manager.dart';
-
 import 'package:project_n2/models/widgets/widget_union.dart';
-
 import 'package:project_n2/models/widgets/todo_widget.dart';
 import 'package:project_n2/models/widgets/wallet_widget.dart';
+
 import 'package:project_n2/tools/enums/widget_types.dart';
 
+import 'package:project_n2/objectbox.g.dart';
 part 'app_widget.freezed.dart';
 part 'app_widget.g.dart';
 
@@ -68,19 +69,59 @@ class AppWidgets extends _$AppWidgets {
   Future<void> insertAppWidget(
       AppWidget parentWidget, WidgetUnion childWidget) async {
     final appWidgets = db.box<AppWidget>();
+    int? parentWidgetId = parentWidget.id;
+    // TODO Add cached id for improving speed and performance
+    if (parentWidgetId == null || parentWidgetId == 0) {
+      parentWidgetId = (appWidgets
+                  .query()
+                  .order(AppWidget_.id, flags: Order.descending)
+                  .build()
+                  .findFirst()
+                  ?.id ??
+              0) +
+          1;
+    }
     await childWidget.map(
       toDo: (unionToDo) async {
         final toDoWidget = unionToDo.toDoWidget;
-        parentWidget.toDoWidgetRelation.target = toDoWidget;
-        appWidgets.putAsync(parentWidget);
+        final toDoWidgets = db.box<ToDoWidget>();
+        int? childWidgetId = parentWidget.id;
+        // TODO Add cached id for improving speed and performance
+        if (childWidgetId == null || childWidgetId == 0) {
+          childWidgetId = (toDoWidgets
+                      .query()
+                      .order(ToDoWidget_.id, flags: Order.descending)
+                      .build()
+                      .findFirst()
+                      ?.id ??
+                  0) +
+              1;
+        }
+        ToDoWidget addedChildWidget = await toDoWidgets
+            .putAndGetAsync(toDoWidget.copyWith(id: childWidgetId));
+        parentWidget.toDoWidgetRelation.target = addedChildWidget;
       },
       wallet: (unionWallet) async {
         final walletWidget = unionWallet.walletWidget;
-        parentWidget.walletWidgetRelation.target = walletWidget;
-        appWidgets.putAsync(parentWidget);
+        final walletWidgets = db.box<WalletWidget>();
+        int? childWidgetId = parentWidget.id;
+        // TODO Add cached id for improving speed and performance
+        if (childWidgetId == null || childWidgetId == 0) {
+          childWidgetId = (walletWidgets
+                      .query()
+                      .order(WalletWidget_.id, flags: Order.descending)
+                      .build()
+                      .findFirst()
+                      ?.id ??
+                  0) +
+              1;
+        }
+        WalletWidget addedChildWidget = await walletWidgets
+            .putAndGetAsync(walletWidget.copyWith(id: childWidgetId));
+        parentWidget.walletWidgetRelation.target = addedChildWidget;
       },
     );
-
+    appWidgets.putAsync(parentWidget.copyWith(id: parentWidgetId));
     await updateAppWidgets();
   }
 

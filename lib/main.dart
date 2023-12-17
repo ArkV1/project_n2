@@ -8,17 +8,18 @@ import 'package:path_provider/path_provider.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:project_n2/models/app_settings.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:project_n2/models/in_app_purchases.dart';
-import 'package:project_n2/models/todo/todo_list.dart';
-import 'package:project_n2/tools/constants.dart';
 import 'firebase_options.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+
+import 'package:project_n2/models/in_app_purchases.dart';
+import 'package:project_n2/models/data_manager.dart';
+import 'package:project_n2/models/app_settings.dart';
+import 'package:project_n2/models/todo/todo_list.dart';
 
 // import 'package:google_mobile_ads/google_mobile_ads.dart';
 
@@ -26,21 +27,11 @@ import 'package:project_n2/widgets/main_layout.dart';
 import 'package:project_n2/screens/settings_screen.dart';
 import 'package:project_n2/screens/personalization_settings_screen.dart';
 
-import 'package:project_n2/models/data_manager.dart';
+import 'package:project_n2/tools/constants.dart';
+
 import 'package:project_n2/objectbox.g.dart';
 
-//////////////////////////////////////////////////////////////////////////
-
-// loadBundle(FirebaseFirestore db) async {
-//   print('Loading Data Bundle');
-//   ByteData bytes = await rootBundle.load("assets/dataBundle.txt");
-//   Uint8List buffer =
-//       bytes.buffer.asUint8List(bytes.offsetInBytes, bytes.lengthInBytes);
-//   db.loadBundle(buffer).stream.last;
-//   print('Data Bundle loaded');
-// }
-
-late final Admin _admin;
+// late final Admin _admin;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -91,9 +82,9 @@ void main() async {
 
   ObjectBox.init(store);
 
-  if (Admin.isAvailable()) {
-    _admin = Admin(store);
-  }
+  // if (Admin.isAvailable()) {
+  //   _admin = Admin(store);
+  // }
 
   runApp(
     ProviderScope(
@@ -117,7 +108,7 @@ class _MyAppState extends ConsumerState<MyApp> {
   void initState() {
     super.initState();
     ref.read(inAppPurchasesManagerProvider.notifier).initialize();
-    // ref.read(toDoListsProvider.notifier).updateDailyTasksRoutine();
+    ref.read(toDoListsProvider.notifier).updateDailyTasksRoutine();
   }
 
   @override

@@ -1,9 +1,9 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:objectbox/objectbox.dart';
+
 import 'package:project_n2/models/todo/todo_list.dart';
 
 part 'todo_task.freezed.dart';
-// part 'todo_task.g.dart';
 
 @freezed
 class ToDoTask with _$ToDoTask {
@@ -24,6 +24,4 @@ class ToDoTask with _$ToDoTask {
   }) = _ToDoTask;
 
   ToDoList? get toDoList => toDoListRelation.target;
-
-  // final toDoList = ToOne<ToDoList>();
 }

@@ -1,13 +1,13 @@
 import 'package:flutter/foundation.dart';
-
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:objectbox/objectbox.dart';
-import 'package:project_n2/models/data_manager.dart';
-import 'package:project_n2/objectbox.g.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+// ignore: unnecessary_import
+import 'package:objectbox/objectbox.dart'; // Removal breaks objectbox's annotations
 
+import 'package:project_n2/models/data_manager.dart';
 import 'package:project_n2/models/todo/todo_task.dart';
 
+import 'package:project_n2/objectbox.g.dart';
 part 'todo_list.freezed.dart';
 part 'todo_list.g.dart';
 
@@ -24,8 +24,6 @@ class ToDoList with _$ToDoList {
 
   List<ToDoTask> get tasks => tasksRelation.toList()
     ..sort((a, b) => a.parentIndex.compareTo(b.parentIndex));
-
-  // final tasks = ToMany<ToDoTask>();
 }
 
 @riverpod
@@ -48,7 +46,6 @@ class ToDoLists extends _$ToDoLists {
   Future<void> insertToDoList(ToDoList toDoList) async {
     final toDoLists = db.box<ToDoList>();
     int? id = toDoList.id;
-
     // TODO Add cached id for improving speed and performance
     if (id == null || id == 0) {
       id = (toDoLists
