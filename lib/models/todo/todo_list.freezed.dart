@@ -14,17 +14,13 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-ToDoList _$ToDoListFromJson(Map<String, dynamic> json) {
-  return _ToDoList.fromJson(json);
-}
-
 /// @nodoc
 mixin _$ToDoList {
-  @ignore
-  int get id => throw _privateConstructorUsedError;
+  @Id(assignable: true)
+  int? get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
+  ToMany<ToDoTask> get tasks => throw _privateConstructorUsedError;
 
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $ToDoListCopyWith<ToDoList> get copyWith =>
       throw _privateConstructorUsedError;
@@ -35,7 +31,8 @@ abstract class $ToDoListCopyWith<$Res> {
   factory $ToDoListCopyWith(ToDoList value, $Res Function(ToDoList) then) =
       _$ToDoListCopyWithImpl<$Res, ToDoList>;
   @useResult
-  $Res call({@ignore int id, String name});
+  $Res call(
+      {@Id(assignable: true) int? id, String name, ToMany<ToDoTask> tasks});
 }
 
 /// @nodoc
@@ -51,18 +48,23 @@ class _$ToDoListCopyWithImpl<$Res, $Val extends ToDoList>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
+    Object? id = freezed,
     Object? name = null,
+    Object? tasks = null,
   }) {
     return _then(_value.copyWith(
-      id: null == id
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      tasks: null == tasks
+          ? _value.tasks
+          : tasks // ignore: cast_nullable_to_non_nullable
+              as ToMany<ToDoTask>,
     ) as $Val);
   }
 }
@@ -75,7 +77,8 @@ abstract class _$$ToDoListImplCopyWith<$Res>
       __$$ToDoListImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({@ignore int id, String name});
+  $Res call(
+      {@Id(assignable: true) int? id, String name, ToMany<ToDoTask> tasks});
 }
 
 /// @nodoc
@@ -89,41 +92,49 @@ class __$$ToDoListImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
+    Object? id = freezed,
     Object? name = null,
+    Object? tasks = null,
   }) {
     return _then(_$ToDoListImpl(
-      id: null == id
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      tasks: null == tasks
+          ? _value.tasks
+          : tasks // ignore: cast_nullable_to_non_nullable
+              as ToMany<ToDoTask>,
     ));
   }
 }
 
 /// @nodoc
-@JsonSerializable()
-class _$ToDoListImpl extends _ToDoList with DiagnosticableTreeMixin {
-  _$ToDoListImpl({@ignore this.id = Isar.autoIncrement, required this.name})
-      : super._();
 
-  factory _$ToDoListImpl.fromJson(Map<String, dynamic> json) =>
-      _$$ToDoListImplFromJson(json);
+@Entity(realClass: ToDoList)
+class _$ToDoListImpl extends _ToDoList with DiagnosticableTreeMixin {
+  _$ToDoListImpl(
+      {@Id(assignable: true) this.id = 0,
+      required this.name,
+      required this.tasks})
+      : super._();
 
   @override
   @JsonKey()
-  @ignore
-  final int id;
+  @Id(assignable: true)
+  final int? id;
   @override
   final String name;
+  @override
+  final ToMany<ToDoTask> tasks;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'ToDoList(id: $id, name: $name)';
+    return 'ToDoList(id: $id, name: $name, tasks: $tasks)';
   }
 
   @override
@@ -132,49 +143,45 @@ class _$ToDoListImpl extends _ToDoList with DiagnosticableTreeMixin {
     properties
       ..add(DiagnosticsProperty('type', 'ToDoList'))
       ..add(DiagnosticsProperty('id', id))
-      ..add(DiagnosticsProperty('name', name));
+      ..add(DiagnosticsProperty('name', name))
+      ..add(DiagnosticsProperty('tasks', tasks));
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ToDoListImpl &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.name, name) || other.name == name));
+            (identical(other.name, name) || other.name == name) &&
+            const DeepCollectionEquality().equals(other.tasks, tasks));
   }
 
-  @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name);
+  int get hashCode => Object.hash(
+      runtimeType, id, name, const DeepCollectionEquality().hash(tasks));
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$ToDoListImplCopyWith<_$ToDoListImpl> get copyWith =>
       __$$ToDoListImplCopyWithImpl<_$ToDoListImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$ToDoListImplToJson(
-      this,
-    );
-  }
 }
 
 abstract class _ToDoList extends ToDoList {
-  factory _ToDoList({@ignore final int id, required final String name}) =
-      _$ToDoListImpl;
+  factory _ToDoList(
+      {@Id(assignable: true) final int? id,
+      required final String name,
+      required final ToMany<ToDoTask> tasks}) = _$ToDoListImpl;
   _ToDoList._() : super._();
 
-  factory _ToDoList.fromJson(Map<String, dynamic> json) =
-      _$ToDoListImpl.fromJson;
-
   @override
-  @ignore
-  int get id;
+  @Id(assignable: true)
+  int? get id;
   @override
   String get name;
+  @override
+  ToMany<ToDoTask> get tasks;
   @override
   @JsonKey(ignore: true)
   _$$ToDoListImplCopyWith<_$ToDoListImpl> get copyWith =>

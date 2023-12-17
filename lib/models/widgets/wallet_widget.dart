@@ -1,73 +1,36 @@
+import 'dart:math';
+
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:isar/isar.dart';
+import 'package:objectbox/objectbox.dart';
 
 import 'package:project_n2/models/widgets/app_widget.dart';
 import 'package:project_n2/tools/enums/widget_types.dart';
 
 part 'wallet_widget.freezed.dart';
-part 'wallet_widget.g.dart';
+// part 'wallet_widget.g.dart';
 
-@freezed
-@Collection(ignore: {'copyWith'})
+@Freezed()
 class WalletWidget with _$WalletWidget {
   WalletWidget._();
+
+  @Entity(realClass: WalletWidget)
   factory WalletWidget({
-    @ignore @Default(Isar.autoIncrement) Id id,
+    @Id(assignable: true) @Default(0) int? id,
     required int walletId,
-    @enumerated required WalletWidgetType widgetType,
+    required int widgetTypeIndex,
   }) = _WalletWidget;
 
-  @override
-  // ignore: recursive_getters
-  Id get id => id;
+  final appWidget = ToOne<AppWidget>();
 
-  @Backlink(to: "walletWidgetLink")
-  final appWidget = IsarLink<AppWidget>();
+  WalletWidgetType? get widgetType {
+    _ensureStableEnumValues();
+    return WalletWidgetType.values[widgetTypeIndex];
+  }
 
-  // @ignore
-  // String? get parentId => appWidget.value?.parentId;
-  // @ignore
-  // int? get parentIndex => appWidget.value?.parentIndex;
-  @ignore
-  ContainedObjectType? get containedObjectType =>
-      appWidget.value?.containedObjectType;
-  // @ignore
-  // Map<String, dynamic>? get widgetSettingsMap =>
-  //     appWidget.value?.widgetSettingsMap;
+  void _ensureStableEnumValues() {
+    assert(WalletWidgetType.unknown.index == 0);
+    assert(WalletWidgetType.dailySpendings.index == 1);
+    assert(WalletWidgetType.lastTransaction.index == 2);
+    assert(WalletWidgetType.total.index == 3);
+  }
 }
-
-// @collection
-// class WalletWidget extends AppWidget {
-//   int walletId;
-//   @enumerated
-//   WalletWidgetType widgetType;
-
-//   WalletWidget({
-//     String? parentId,
-//     int? parentIndex,
-//     required this.walletId,
-//     this.widgetType = WalletWidgetType.total,
-//   }) : super(
-//           parentId: parentId,
-//           parentIndex: parentIndex,
-//           containedObjectType: ContainedObjectType.wallet,
-//         );
-
-//   factory WalletWidget.fromMap(Map<String, dynamic> data) {
-//     return WalletWidget(
-//       parentId: data['parentId'],
-//       parentIndex: data['parentIndex'],
-//       walletId: data['containedObjectId'],
-//       widgetType: WalletWidgetType.values[data['widgetType']],
-//     );
-//   }
-
-//   @override
-//   Map<String, dynamic> toMap() {
-//     return {
-//       ...super.toMap(), // inherit properties from the parent class
-//       'containedObjectId': walletId,
-//       'widgetType': widgetType.index,
-//     };
-//   }
-// }

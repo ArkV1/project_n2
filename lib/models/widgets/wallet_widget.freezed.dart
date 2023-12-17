@@ -16,11 +16,10 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$WalletWidget {
-  @ignore
-  int get id => throw _privateConstructorUsedError;
+  @Id(assignable: true)
+  int? get id => throw _privateConstructorUsedError;
   int get walletId => throw _privateConstructorUsedError;
-  @enumerated
-  WalletWidgetType get widgetType => throw _privateConstructorUsedError;
+  int get widgetTypeIndex => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $WalletWidgetCopyWith<WalletWidget> get copyWith =>
@@ -33,8 +32,7 @@ abstract class $WalletWidgetCopyWith<$Res> {
           WalletWidget value, $Res Function(WalletWidget) then) =
       _$WalletWidgetCopyWithImpl<$Res, WalletWidget>;
   @useResult
-  $Res call(
-      {@ignore int id, int walletId, @enumerated WalletWidgetType widgetType});
+  $Res call({@Id(assignable: true) int? id, int walletId, int widgetTypeIndex});
 }
 
 /// @nodoc
@@ -50,23 +48,23 @@ class _$WalletWidgetCopyWithImpl<$Res, $Val extends WalletWidget>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
+    Object? id = freezed,
     Object? walletId = null,
-    Object? widgetType = null,
+    Object? widgetTypeIndex = null,
   }) {
     return _then(_value.copyWith(
-      id: null == id
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       walletId: null == walletId
           ? _value.walletId
           : walletId // ignore: cast_nullable_to_non_nullable
               as int,
-      widgetType: null == widgetType
-          ? _value.widgetType
-          : widgetType // ignore: cast_nullable_to_non_nullable
-              as WalletWidgetType,
+      widgetTypeIndex: null == widgetTypeIndex
+          ? _value.widgetTypeIndex
+          : widgetTypeIndex // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -79,8 +77,7 @@ abstract class _$$WalletWidgetImplCopyWith<$Res>
       __$$WalletWidgetImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {@ignore int id, int walletId, @enumerated WalletWidgetType widgetType});
+  $Res call({@Id(assignable: true) int? id, int walletId, int widgetTypeIndex});
 }
 
 /// @nodoc
@@ -94,65 +91,65 @@ class __$$WalletWidgetImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
+    Object? id = freezed,
     Object? walletId = null,
-    Object? widgetType = null,
+    Object? widgetTypeIndex = null,
   }) {
     return _then(_$WalletWidgetImpl(
-      id: null == id
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       walletId: null == walletId
           ? _value.walletId
           : walletId // ignore: cast_nullable_to_non_nullable
               as int,
-      widgetType: null == widgetType
-          ? _value.widgetType
-          : widgetType // ignore: cast_nullable_to_non_nullable
-              as WalletWidgetType,
+      widgetTypeIndex: null == widgetTypeIndex
+          ? _value.widgetTypeIndex
+          : widgetTypeIndex // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
 
 /// @nodoc
 
+@Entity(realClass: WalletWidget)
 class _$WalletWidgetImpl extends _WalletWidget {
   _$WalletWidgetImpl(
-      {@ignore this.id = Isar.autoIncrement,
+      {@Id(assignable: true) this.id = 0,
       required this.walletId,
-      @enumerated required this.widgetType})
+      required this.widgetTypeIndex})
       : super._();
 
   @override
   @JsonKey()
-  @ignore
-  final int id;
+  @Id(assignable: true)
+  final int? id;
   @override
   final int walletId;
   @override
-  @enumerated
-  final WalletWidgetType widgetType;
+  final int widgetTypeIndex;
 
   @override
   String toString() {
-    return 'WalletWidget(id: $id, walletId: $walletId, widgetType: $widgetType)';
+    return 'WalletWidget(id: $id, walletId: $walletId, widgetTypeIndex: $widgetTypeIndex)';
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$WalletWidgetImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.walletId, walletId) ||
                 other.walletId == walletId) &&
-            (identical(other.widgetType, widgetType) ||
-                other.widgetType == widgetType));
+            (identical(other.widgetTypeIndex, widgetTypeIndex) ||
+                other.widgetTypeIndex == widgetTypeIndex));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, walletId, widgetType);
+  int get hashCode => Object.hash(runtimeType, id, walletId, widgetTypeIndex);
 
   @JsonKey(ignore: true)
   @override
@@ -163,20 +160,18 @@ class _$WalletWidgetImpl extends _WalletWidget {
 
 abstract class _WalletWidget extends WalletWidget {
   factory _WalletWidget(
-          {@ignore final int id,
-          required final int walletId,
-          @enumerated required final WalletWidgetType widgetType}) =
-      _$WalletWidgetImpl;
+      {@Id(assignable: true) final int? id,
+      required final int walletId,
+      required final int widgetTypeIndex}) = _$WalletWidgetImpl;
   _WalletWidget._() : super._();
 
   @override
-  @ignore
-  int get id;
+  @Id(assignable: true)
+  int? get id;
   @override
   int get walletId;
   @override
-  @enumerated
-  WalletWidgetType get widgetType;
+  int get widgetTypeIndex;
   @override
   @JsonKey(ignore: true)
   _$$WalletWidgetImplCopyWith<_$WalletWidgetImpl> get copyWith =>

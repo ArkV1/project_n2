@@ -33,7 +33,7 @@ class _WalletsScreenState extends ConsumerState<WalletsScreen> {
                       for (var i = 0; i < wallets.length; i++)
                         Builder(builder: (context) {
                           final total = ref.watch(totalOfWalletByIdProvider(
-                              walletId: wallets[i].id));
+                              walletId: wallets[i].id!));
                           return Column(
                             children: [
                               Card(

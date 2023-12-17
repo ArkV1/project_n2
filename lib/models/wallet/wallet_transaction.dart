@@ -1,34 +1,26 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:isar/isar.dart';
+import 'package:objectbox/objectbox.dart';
 import 'dart:typed_data';
 
 import 'package:project_n2/models/wallet/wallet.dart';
 
 part 'wallet_transaction.freezed.dart';
-part 'wallet_transaction.g.dart';
 
 @freezed
-@Collection(ignore: {'copyWith'})
 class WalletTransaction with _$WalletTransaction {
   WalletTransaction._();
+
+  @Entity(realClass: WalletTransaction)
   factory WalletTransaction({
-    @ignore @Default(Isar.autoIncrement) Id id,
+    @Id(assignable: true) @Default(0) int? id,
     required int walletId,
     String? name,
     String? description,
     String? categorie,
     String? amount,
-    DateTime? transactionDate,
-    @ignore Uint8List? media,
+    @Property(type: PropertyType.date) DateTime? transactionDate,
+    @Transient() Uint8List? media,
   }) = _WalletTransaction;
 
-  @override
-  // ignore: recursive_getters
-  Id get id => id;
-
-  // factory WalletTransaction.fromJson(Map<String, dynamic> json) =>
-  //     _$WalletTransactionFromJson(json);
-
-  @Backlink(to: 'transactionsLink')
-  final wallets = IsarLinks<Wallet>();
+  final wallet = ToOne<Wallet>();
 }

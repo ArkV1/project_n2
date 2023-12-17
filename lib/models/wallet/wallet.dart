@@ -3,7 +3,7 @@ import 'dart:ffi';
 import 'package:collection/collection.dart';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:isar/isar.dart';
+import 'package:objectbox/objectbox.dart';
 import 'package:project_n2/models/data_manager.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -13,24 +13,16 @@ part 'wallet.freezed.dart';
 part 'wallet.g.dart';
 
 @freezed
-@Collection(ignore: {'copyWith'})
 class Wallet with _$Wallet {
   Wallet._();
+
+  @Entity(realClass: Wallet)
   factory Wallet({
-    @ignore @Default(Isar.autoIncrement) Id id,
+    @Id(assignable: true) @Default(0) int? id,
     required String name,
   }) = _Wallet;
 
-  @override
-  // ignore: recursive_getters
-  Id get id => id;
-
-  // factory Wallet.fromJson(Map<String, dynamic> json) => _$WalletFromJson(json);
-
-  final transactionsLink = IsarLinks<WalletTransaction>();
-
-  @ignore
-  List<WalletTransaction> get transactions => transactionsLink.toList();
+  final transactions = ToMany<WalletTransaction>();
 }
 
 @riverpod
@@ -42,60 +34,46 @@ class Wallets extends _$Wallets {
 
   // A method that retrieves all the wallets from Isar.
   Future<List<Wallet>> getWallets() async {
-    return ref.read(databaseProvider.future).then((isar) {
-      return isar.wallets.where().findAll();
-    });
+    final wallets = db.box<Wallet>();
+    return wallets.getAll();
   }
 
   Future<void> updateWallets() async {
-    return ref.read(databaseProvider.future).then((isar) async {
-      state = AsyncData(await isar.wallets.where().findAll());
-    });
+    state = AsyncData(await getWallets());
   }
 
   Future<void> insertWallet(Wallet wallet) async {
-    ref.read(databaseProvider.future).then((isar) async {
-      await isar.writeTxn(() async {
-        await isar.wallets.put(wallet);
-      });
-      await updateWallets();
-    });
+    final wallets = db.box<Wallet>();
+    await wallets.putAsync(wallet);
+    await updateWallets();
   }
 
   Future<void> insertWalletTransaction(WalletTransaction transaction) async {
-    ref.read(databaseProvider.future).then((isar) async {
-      await isar.writeTxn(() async {
-        WalletTransaction addedTransaction = await isar.walletTransactions
-            .put(transaction)
-            .then((id) => transaction.copyWith(id: id));
-        final wallet = await isar.wallets.get(transaction.walletId);
-        wallet!.transactionsLink.add(addedTransaction);
-        await wallet.transactionsLink.save();
-      });
-      await updateWallets();
-    });
+    final transactions = db.box<WalletTransaction>();
+    final wallets = db.box<Wallet>();
+    transaction.wallet.target = await wallets.getAsync(transaction.walletId);
+    WalletTransaction addedTransaction =
+        await transactions.putAndGetAsync(transaction);
+    final wallet = await wallets.getAsync(transaction.walletId);
+    wallet!.transactions.add(addedTransaction);
+    await wallets.putAsync(wallet);
+    // wallet!.transactionsLink.add(addedTransaction);
+    // await wallet.transactionsLink.save();
+    await updateWallets();
   }
 
   Future<void> deleteWallet(Wallet wallet) async {
-    ref.read(databaseProvider.future).then((isar) async {
-      await isar.writeTxn(() async {
-        isar.wallets.delete(wallet.id);
-      });
-      await updateWallets();
-    });
+    final wallets = db.box<Wallet>();
+    wallets.remove(wallet.id!);
+    await updateWallets();
   }
 
   Future<void> deleteWalletTransaction(
       WalletTransaction transactionToRemove) async {
-    ref.read(databaseProvider.future).then((isar) async {
-      final wallet = await isar.wallets.get(transactionToRemove.walletId);
-      await isar.writeTxn(() async {
-        await isar.walletTransactions.delete(transactionToRemove.id);
-        wallet!.transactionsLink.remove(transactionToRemove);
-        await wallet.transactionsLink.save();
-      });
-      await updateWallets();
-    });
+    final transacions = db.box<WalletTransaction>();
+    final wallets = db.box<Wallet>();
+    await transacions.removeAsync(transactionToRemove.id!);
+    await updateWallets();
   }
 
   // Future<int> calculateTotal(Wallet wallet) async {

@@ -26,7 +26,7 @@ class WalletWidgetBuilder extends ConsumerStatefulWidget {
 
 class _WalletWidgetBuilderState extends ConsumerState<WalletWidgetBuilder> {
   Widget _buildTotalWidget(Wallet wallet, WalletWidget walletWidget) {
-    final total = ref.watch(totalOfWalletByIdProvider(walletId: wallet.id));
+    final total = ref.watch(totalOfWalletByIdProvider(walletId: wallet.id!));
     return Container(
       // decoration: const BoxDecoration(
       //   border: Border(
@@ -283,8 +283,7 @@ class _WalletWidgetBuilderState extends ConsumerState<WalletWidgetBuilder> {
   @override
   Widget build(BuildContext context) {
     // if (widget.appWidget.walletWidget == null) return Text('');
-    widget.appWidget.walletWidgetLink.loadSync();
-    final walletWidget = widget.appWidget.walletWidget!;
+    final walletWidget = widget.appWidget.walletWidget;
     final wallet =
         ref.watch(walletByIdProvider(walletId: walletWidget.walletId));
     return wallet.when(data: (wallet) {
@@ -298,7 +297,7 @@ class _WalletWidgetBuilderState extends ConsumerState<WalletWidgetBuilder> {
           return _buildDailySpendingsWidget(wallet, walletWidget);
         default:
           return Text(
-              'Unknown wallet widget of type: ${walletWidget.containedObjectType}');
+              'Unknown wallet widget of type: ${walletWidget.widgetType}');
       }
     }, error: (error, stacktrace) {
       debugPrint(stacktrace.toString());

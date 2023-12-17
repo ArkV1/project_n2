@@ -16,8 +16,8 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$Wallet {
-  @ignore
-  int get id => throw _privateConstructorUsedError;
+  @Id(assignable: true)
+  int? get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -29,7 +29,7 @@ abstract class $WalletCopyWith<$Res> {
   factory $WalletCopyWith(Wallet value, $Res Function(Wallet) then) =
       _$WalletCopyWithImpl<$Res, Wallet>;
   @useResult
-  $Res call({@ignore int id, String name});
+  $Res call({@Id(assignable: true) int? id, String name});
 }
 
 /// @nodoc
@@ -45,14 +45,14 @@ class _$WalletCopyWithImpl<$Res, $Val extends Wallet>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
+    Object? id = freezed,
     Object? name = null,
   }) {
     return _then(_value.copyWith(
-      id: null == id
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -68,7 +68,7 @@ abstract class _$$WalletImplCopyWith<$Res> implements $WalletCopyWith<$Res> {
       __$$WalletImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({@ignore int id, String name});
+  $Res call({@Id(assignable: true) int? id, String name});
 }
 
 /// @nodoc
@@ -82,14 +82,14 @@ class __$$WalletImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
+    Object? id = freezed,
     Object? name = null,
   }) {
     return _then(_$WalletImpl(
-      id: null == id
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -100,14 +100,15 @@ class __$$WalletImplCopyWithImpl<$Res>
 
 /// @nodoc
 
+@Entity(realClass: Wallet)
 class _$WalletImpl extends _Wallet {
-  _$WalletImpl({@ignore this.id = Isar.autoIncrement, required this.name})
+  _$WalletImpl({@Id(assignable: true) this.id = 0, required this.name})
       : super._();
 
   @override
   @JsonKey()
-  @ignore
-  final int id;
+  @Id(assignable: true)
+  final int? id;
   @override
   final String name;
 
@@ -117,7 +118,7 @@ class _$WalletImpl extends _Wallet {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$WalletImpl &&
@@ -136,13 +137,14 @@ class _$WalletImpl extends _Wallet {
 }
 
 abstract class _Wallet extends Wallet {
-  factory _Wallet({@ignore final int id, required final String name}) =
-      _$WalletImpl;
+  factory _Wallet(
+      {@Id(assignable: true) final int? id,
+      required final String name}) = _$WalletImpl;
   _Wallet._() : super._();
 
   @override
-  @ignore
-  int get id;
+  @Id(assignable: true)
+  int? get id;
   @override
   String get name;
   @override

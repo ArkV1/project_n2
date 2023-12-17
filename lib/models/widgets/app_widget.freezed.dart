@@ -14,23 +14,16 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-AppWidget _$AppWidgetFromJson(Map<String, dynamic> json) {
-  return _AppWidget.fromJson(json);
-}
-
 /// @nodoc
 mixin _$AppWidget {
-  @ignore
-  int get id => throw _privateConstructorUsedError;
+  @Id(assignable: true)
+  int? get id => throw _privateConstructorUsedError;
   String get parentId => throw _privateConstructorUsedError;
   int get parentIndex => throw _privateConstructorUsedError;
-  @enumerated
-  ContainedObjectType get containedObjectType =>
-      throw _privateConstructorUsedError;
+  int get containedObjectTypeIndex => throw _privateConstructorUsedError;
   Map<String, dynamic>? get widgetSettingsMap =>
       throw _privateConstructorUsedError;
 
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $AppWidgetCopyWith<AppWidget> get copyWith =>
       throw _privateConstructorUsedError;
@@ -42,10 +35,10 @@ abstract class $AppWidgetCopyWith<$Res> {
       _$AppWidgetCopyWithImpl<$Res, AppWidget>;
   @useResult
   $Res call(
-      {@ignore int id,
+      {@Id(assignable: true) int? id,
       String parentId,
       int parentIndex,
-      @enumerated ContainedObjectType containedObjectType,
+      int containedObjectTypeIndex,
       Map<String, dynamic>? widgetSettingsMap});
 }
 
@@ -62,17 +55,17 @@ class _$AppWidgetCopyWithImpl<$Res, $Val extends AppWidget>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
+    Object? id = freezed,
     Object? parentId = null,
     Object? parentIndex = null,
-    Object? containedObjectType = null,
+    Object? containedObjectTypeIndex = null,
     Object? widgetSettingsMap = freezed,
   }) {
     return _then(_value.copyWith(
-      id: null == id
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       parentId: null == parentId
           ? _value.parentId
           : parentId // ignore: cast_nullable_to_non_nullable
@@ -81,10 +74,10 @@ class _$AppWidgetCopyWithImpl<$Res, $Val extends AppWidget>
           ? _value.parentIndex
           : parentIndex // ignore: cast_nullable_to_non_nullable
               as int,
-      containedObjectType: null == containedObjectType
-          ? _value.containedObjectType
-          : containedObjectType // ignore: cast_nullable_to_non_nullable
-              as ContainedObjectType,
+      containedObjectTypeIndex: null == containedObjectTypeIndex
+          ? _value.containedObjectTypeIndex
+          : containedObjectTypeIndex // ignore: cast_nullable_to_non_nullable
+              as int,
       widgetSettingsMap: freezed == widgetSettingsMap
           ? _value.widgetSettingsMap
           : widgetSettingsMap // ignore: cast_nullable_to_non_nullable
@@ -102,10 +95,10 @@ abstract class _$$AppWidgetImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@ignore int id,
+      {@Id(assignable: true) int? id,
       String parentId,
       int parentIndex,
-      @enumerated ContainedObjectType containedObjectType,
+      int containedObjectTypeIndex,
       Map<String, dynamic>? widgetSettingsMap});
 }
 
@@ -120,17 +113,17 @@ class __$$AppWidgetImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
+    Object? id = freezed,
     Object? parentId = null,
     Object? parentIndex = null,
-    Object? containedObjectType = null,
+    Object? containedObjectTypeIndex = null,
     Object? widgetSettingsMap = freezed,
   }) {
     return _then(_$AppWidgetImpl(
-      id: null == id
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       parentId: null == parentId
           ? _value.parentId
           : parentId // ignore: cast_nullable_to_non_nullable
@@ -139,10 +132,10 @@ class __$$AppWidgetImplCopyWithImpl<$Res>
           ? _value.parentIndex
           : parentIndex // ignore: cast_nullable_to_non_nullable
               as int,
-      containedObjectType: null == containedObjectType
-          ? _value.containedObjectType
-          : containedObjectType // ignore: cast_nullable_to_non_nullable
-              as ContainedObjectType,
+      containedObjectTypeIndex: null == containedObjectTypeIndex
+          ? _value.containedObjectTypeIndex
+          : containedObjectTypeIndex // ignore: cast_nullable_to_non_nullable
+              as int,
       widgetSettingsMap: freezed == widgetSettingsMap
           ? _value._widgetSettingsMap
           : widgetSettingsMap // ignore: cast_nullable_to_non_nullable
@@ -152,31 +145,28 @@ class __$$AppWidgetImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@Entity(realClass: AppWidget)
 class _$AppWidgetImpl extends _AppWidget with DiagnosticableTreeMixin {
   _$AppWidgetImpl(
-      {@ignore this.id = Isar.autoIncrement,
+      {@Id(assignable: true) this.id = 0,
       required this.parentId,
       required this.parentIndex,
-      @enumerated required this.containedObjectType,
+      required this.containedObjectTypeIndex,
       final Map<String, dynamic>? widgetSettingsMap})
       : _widgetSettingsMap = widgetSettingsMap,
         super._();
 
-  factory _$AppWidgetImpl.fromJson(Map<String, dynamic> json) =>
-      _$$AppWidgetImplFromJson(json);
-
   @override
   @JsonKey()
-  @ignore
-  final int id;
+  @Id(assignable: true)
+  final int? id;
   @override
   final String parentId;
   @override
   final int parentIndex;
   @override
-  @enumerated
-  final ContainedObjectType containedObjectType;
+  final int containedObjectTypeIndex;
   final Map<String, dynamic>? _widgetSettingsMap;
   @override
   Map<String, dynamic>? get widgetSettingsMap {
@@ -190,7 +180,7 @@ class _$AppWidgetImpl extends _AppWidget with DiagnosticableTreeMixin {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'AppWidget(id: $id, parentId: $parentId, parentIndex: $parentIndex, containedObjectType: $containedObjectType, widgetSettingsMap: $widgetSettingsMap)';
+    return 'AppWidget(id: $id, parentId: $parentId, parentIndex: $parentIndex, containedObjectTypeIndex: $containedObjectTypeIndex, widgetSettingsMap: $widgetSettingsMap)';
   }
 
   @override
@@ -201,12 +191,13 @@ class _$AppWidgetImpl extends _AppWidget with DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('id', id))
       ..add(DiagnosticsProperty('parentId', parentId))
       ..add(DiagnosticsProperty('parentIndex', parentIndex))
-      ..add(DiagnosticsProperty('containedObjectType', containedObjectType))
+      ..add(DiagnosticsProperty(
+          'containedObjectTypeIndex', containedObjectTypeIndex))
       ..add(DiagnosticsProperty('widgetSettingsMap', widgetSettingsMap));
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$AppWidgetImpl &&
@@ -215,20 +206,20 @@ class _$AppWidgetImpl extends _AppWidget with DiagnosticableTreeMixin {
                 other.parentId == parentId) &&
             (identical(other.parentIndex, parentIndex) ||
                 other.parentIndex == parentIndex) &&
-            (identical(other.containedObjectType, containedObjectType) ||
-                other.containedObjectType == containedObjectType) &&
+            (identical(
+                    other.containedObjectTypeIndex, containedObjectTypeIndex) ||
+                other.containedObjectTypeIndex == containedObjectTypeIndex) &&
             const DeepCollectionEquality()
                 .equals(other._widgetSettingsMap, _widgetSettingsMap));
   }
 
-  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
       id,
       parentId,
       parentIndex,
-      containedObjectType,
+      containedObjectTypeIndex,
       const DeepCollectionEquality().hash(_widgetSettingsMap));
 
   @JsonKey(ignore: true)
@@ -236,37 +227,26 @@ class _$AppWidgetImpl extends _AppWidget with DiagnosticableTreeMixin {
   @pragma('vm:prefer-inline')
   _$$AppWidgetImplCopyWith<_$AppWidgetImpl> get copyWith =>
       __$$AppWidgetImplCopyWithImpl<_$AppWidgetImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$AppWidgetImplToJson(
-      this,
-    );
-  }
 }
 
 abstract class _AppWidget extends AppWidget {
   factory _AppWidget(
-      {@ignore final int id,
+      {@Id(assignable: true) final int? id,
       required final String parentId,
       required final int parentIndex,
-      @enumerated required final ContainedObjectType containedObjectType,
+      required final int containedObjectTypeIndex,
       final Map<String, dynamic>? widgetSettingsMap}) = _$AppWidgetImpl;
   _AppWidget._() : super._();
 
-  factory _AppWidget.fromJson(Map<String, dynamic> json) =
-      _$AppWidgetImpl.fromJson;
-
   @override
-  @ignore
-  int get id;
+  @Id(assignable: true)
+  int? get id;
   @override
   String get parentId;
   @override
   int get parentIndex;
   @override
-  @enumerated
-  ContainedObjectType get containedObjectType;
+  int get containedObjectTypeIndex;
   @override
   Map<String, dynamic>? get widgetSettingsMap;
   @override

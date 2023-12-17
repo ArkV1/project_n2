@@ -129,7 +129,7 @@ class _$UnionToDoImpl implements UnionToDo {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$UnionToDoImpl &&
@@ -273,7 +273,7 @@ class _$UnionWalletImpl implements UnionWallet {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$UnionWalletImpl &&

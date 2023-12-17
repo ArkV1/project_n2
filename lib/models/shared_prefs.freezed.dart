@@ -16,8 +16,8 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$SharedPref {
-  @ignore
-  int get id => throw _privateConstructorUsedError;
+  @Id(assignable: true)
+  int? get id => throw _privateConstructorUsedError;
   String get key => throw _privateConstructorUsedError;
   String? get value => throw _privateConstructorUsedError;
 
@@ -32,7 +32,7 @@ abstract class $SharedPrefCopyWith<$Res> {
           SharedPref value, $Res Function(SharedPref) then) =
       _$SharedPrefCopyWithImpl<$Res, SharedPref>;
   @useResult
-  $Res call({@ignore int id, String key, String? value});
+  $Res call({@Id(assignable: true) int? id, String key, String? value});
 }
 
 /// @nodoc
@@ -48,15 +48,15 @@ class _$SharedPrefCopyWithImpl<$Res, $Val extends SharedPref>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
+    Object? id = freezed,
     Object? key = null,
     Object? value = freezed,
   }) {
     return _then(_value.copyWith(
-      id: null == id
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       key: null == key
           ? _value.key
           : key // ignore: cast_nullable_to_non_nullable
@@ -77,7 +77,7 @@ abstract class _$$SharedPrefImplCopyWith<$Res>
       __$$SharedPrefImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({@ignore int id, String key, String? value});
+  $Res call({@Id(assignable: true) int? id, String key, String? value});
 }
 
 /// @nodoc
@@ -91,15 +91,15 @@ class __$$SharedPrefImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
+    Object? id = freezed,
     Object? key = null,
     Object? value = freezed,
   }) {
     return _then(_$SharedPrefImpl(
-      id: null == id
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       key: null == key
           ? _value.key
           : key // ignore: cast_nullable_to_non_nullable
@@ -114,15 +114,14 @@ class __$$SharedPrefImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$SharedPrefImpl extends _SharedPref {
+@Entity(realClass: SharedPref)
+class _$SharedPrefImpl implements _SharedPref {
   _$SharedPrefImpl(
-      {@ignore this.id = Isar.autoIncrement, required this.key, this.value})
-      : super._();
+      {@Id(assignable: true) this.id, required this.key, this.value});
 
   @override
-  @JsonKey()
-  @ignore
-  final int id;
+  @Id(assignable: true)
+  final int? id;
   @override
   final String key;
   @override
@@ -134,7 +133,7 @@ class _$SharedPrefImpl extends _SharedPref {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SharedPrefImpl &&
@@ -153,16 +152,15 @@ class _$SharedPrefImpl extends _SharedPref {
       __$$SharedPrefImplCopyWithImpl<_$SharedPrefImpl>(this, _$identity);
 }
 
-abstract class _SharedPref extends SharedPref {
+abstract class _SharedPref implements SharedPref {
   factory _SharedPref(
-      {@ignore final int id,
+      {@Id(assignable: true) final int? id,
       required final String key,
       final String? value}) = _$SharedPrefImpl;
-  _SharedPref._() : super._();
 
   @override
-  @ignore
-  int get id;
+  @Id(assignable: true)
+  int? get id;
   @override
   String get key;
   @override

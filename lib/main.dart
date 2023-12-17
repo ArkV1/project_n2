@@ -2,6 +2,9 @@
 
 import 'dart:async';
 
+import 'package:path/path.dart' as path;
+import 'package:path_provider/path_provider.dart';
+
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -23,6 +26,9 @@ import 'package:project_n2/widgets/main_layout.dart';
 import 'package:project_n2/screens/settings_screen.dart';
 import 'package:project_n2/screens/personalization_settings_screen.dart';
 
+import 'package:project_n2/models/data_manager.dart';
+import 'package:project_n2/objectbox.g.dart';
+
 //////////////////////////////////////////////////////////////////////////
 
 // loadBundle(FirebaseFirestore db) async {
@@ -33,6 +39,8 @@ import 'package:project_n2/screens/personalization_settings_screen.dart';
 //   db.loadBundle(buffer).stream.last;
 //   print('Data Bundle loaded');
 // }
+
+late final Admin _admin;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -75,11 +83,21 @@ void main() async {
 
   //////////////////////////////////////////////////////////////////////////
 
+  final docsDir = await getApplicationDocumentsDirectory();
+  // Future<Store> openStore() {...} is defined in the generated objectbox.g.dart
+  final store = await openStore(
+    directory: path.join(docsDir.path, "objectbox"),
+  );
+
+  ObjectBox.init(store);
+
+  if (Admin.isAvailable()) {
+    _admin = Admin(store);
+  }
+
   runApp(
     ProviderScope(
-      // overrides: [
-      //   dataManagerProvider.overrideWithValue(dataManager),
-      // ],
+      // overrides: [],
       child: MyApp(),
     ),
   );
@@ -99,7 +117,7 @@ class _MyAppState extends ConsumerState<MyApp> {
   void initState() {
     super.initState();
     ref.read(inAppPurchasesManagerProvider.notifier).initialize();
-    ref.read(toDoListsProvider.notifier).updateDailyTasksRoutine();
+    // ref.read(toDoListsProvider.notifier).updateDailyTasksRoutine();
   }
 
   @override

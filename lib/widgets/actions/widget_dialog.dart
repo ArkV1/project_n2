@@ -94,10 +94,11 @@ class _AppWidgetDialogState extends ConsumerState<AppWidgetDialog> {
                               .where((appWidget) =>
                                   appWidget.parentId == 'mainScreen')
                               .length,
-                          containedObjectType: ContainedObjectType.wallet);
+                          containedObjectTypeIndex:
+                              ContainedObjectType.wallet.index);
                       unionWidget = WidgetUnion.wallet(WalletWidget(
-                        walletId: ref.read(walletsProvider).value!.first.id,
-                        widgetType: widgetTypeWidget!,
+                        walletId: ref.read(walletsProvider).value!.first.id!,
+                        widgetTypeIndex: widgetType!.index,
                       ));
                       // appWidget = WalletWidget(
                       //   walletId:
@@ -124,7 +125,8 @@ class _AppWidgetDialogState extends ConsumerState<AppWidgetDialog> {
                       break;
                     case ContainedObjectType.other:
                       appWidget = AppWidget(
-                        containedObjectType: ContainedObjectType.other,
+                        containedObjectTypeIndex:
+                            ContainedObjectType.other.index,
                         parentId: 'mainScreen',
                         parentIndex: appWidgets
                             .where((appWidget) =>

@@ -1,4 +1,5 @@
 enum ContainedObjectType {
+  unknown(publicName: 'Unknown'),
   wallet(publicName: 'Wallet'),
   toDoList(publicName: 'To Do List'),
   other(publicName: 'Other');
@@ -10,6 +11,10 @@ enum ContainedObjectType {
 }
 
 enum WalletWidgetType {
+  unknown(
+    publicName: 'Unknown',
+    hasSettings: false,
+  ),
   dailySpendings(
     publicName: 'Daily spendings',
     hasSettings: true,
@@ -32,6 +37,7 @@ enum WalletWidgetType {
 }
 
 enum ToDoWidgetType {
+  unknown,
   classic,
   expanded;
   // const Currencies({

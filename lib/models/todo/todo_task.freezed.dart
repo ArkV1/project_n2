@@ -14,24 +14,22 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-ToDoTask _$ToDoTaskFromJson(Map<String, dynamic> json) {
-  return _ToDoTask.fromJson(json);
-}
-
 /// @nodoc
 mixin _$ToDoTask {
-  @ignore
-  int get id => throw _privateConstructorUsedError;
+  @Id(assignable: true)
+  int? get id => throw _privateConstructorUsedError;
   int get toDoListId => throw _privateConstructorUsedError;
   int get parentIndex => throw _privateConstructorUsedError;
   String? get task => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
   bool get isDaily => throw _privateConstructorUsedError;
   bool get complete => throw _privateConstructorUsedError;
+  @Property(type: PropertyType.date)
   DateTime? get creationDate => throw _privateConstructorUsedError;
+  @Property(type: PropertyType.date)
   DateTime? get completionDate => throw _privateConstructorUsedError;
+  ToOne<ToDoList> get toDoList => throw _privateConstructorUsedError;
 
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $ToDoTaskCopyWith<ToDoTask> get copyWith =>
       throw _privateConstructorUsedError;
@@ -43,15 +41,16 @@ abstract class $ToDoTaskCopyWith<$Res> {
       _$ToDoTaskCopyWithImpl<$Res, ToDoTask>;
   @useResult
   $Res call(
-      {@ignore int id,
+      {@Id(assignable: true) int? id,
       int toDoListId,
       int parentIndex,
       String? task,
       String? description,
       bool isDaily,
       bool complete,
-      DateTime? creationDate,
-      DateTime? completionDate});
+      @Property(type: PropertyType.date) DateTime? creationDate,
+      @Property(type: PropertyType.date) DateTime? completionDate,
+      ToOne<ToDoList> toDoList});
 }
 
 /// @nodoc
@@ -67,7 +66,7 @@ class _$ToDoTaskCopyWithImpl<$Res, $Val extends ToDoTask>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
+    Object? id = freezed,
     Object? toDoListId = null,
     Object? parentIndex = null,
     Object? task = freezed,
@@ -76,12 +75,13 @@ class _$ToDoTaskCopyWithImpl<$Res, $Val extends ToDoTask>
     Object? complete = null,
     Object? creationDate = freezed,
     Object? completionDate = freezed,
+    Object? toDoList = null,
   }) {
     return _then(_value.copyWith(
-      id: null == id
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       toDoListId: null == toDoListId
           ? _value.toDoListId
           : toDoListId // ignore: cast_nullable_to_non_nullable
@@ -114,6 +114,10 @@ class _$ToDoTaskCopyWithImpl<$Res, $Val extends ToDoTask>
           ? _value.completionDate
           : completionDate // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      toDoList: null == toDoList
+          ? _value.toDoList
+          : toDoList // ignore: cast_nullable_to_non_nullable
+              as ToOne<ToDoList>,
     ) as $Val);
   }
 }
@@ -127,15 +131,16 @@ abstract class _$$ToDoTaskImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@ignore int id,
+      {@Id(assignable: true) int? id,
       int toDoListId,
       int parentIndex,
       String? task,
       String? description,
       bool isDaily,
       bool complete,
-      DateTime? creationDate,
-      DateTime? completionDate});
+      @Property(type: PropertyType.date) DateTime? creationDate,
+      @Property(type: PropertyType.date) DateTime? completionDate,
+      ToOne<ToDoList> toDoList});
 }
 
 /// @nodoc
@@ -149,7 +154,7 @@ class __$$ToDoTaskImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
+    Object? id = freezed,
     Object? toDoListId = null,
     Object? parentIndex = null,
     Object? task = freezed,
@@ -158,12 +163,13 @@ class __$$ToDoTaskImplCopyWithImpl<$Res>
     Object? complete = null,
     Object? creationDate = freezed,
     Object? completionDate = freezed,
+    Object? toDoList = null,
   }) {
     return _then(_$ToDoTaskImpl(
-      id: null == id
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       toDoListId: null == toDoListId
           ? _value.toDoListId
           : toDoListId // ignore: cast_nullable_to_non_nullable
@@ -196,32 +202,35 @@ class __$$ToDoTaskImplCopyWithImpl<$Res>
           ? _value.completionDate
           : completionDate // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      toDoList: null == toDoList
+          ? _value.toDoList
+          : toDoList // ignore: cast_nullable_to_non_nullable
+              as ToOne<ToDoList>,
     ));
   }
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@Entity(realClass: ToDoTask)
 class _$ToDoTaskImpl extends _ToDoTask {
   _$ToDoTaskImpl(
-      {@ignore this.id = Isar.autoIncrement,
+      {@Id(assignable: true) this.id = 0,
       required this.toDoListId,
       required this.parentIndex,
       this.task,
       this.description,
       this.isDaily = false,
       this.complete = false,
-      this.creationDate,
-      this.completionDate})
+      @Property(type: PropertyType.date) this.creationDate,
+      @Property(type: PropertyType.date) this.completionDate,
+      required this.toDoList})
       : super._();
-
-  factory _$ToDoTaskImpl.fromJson(Map<String, dynamic> json) =>
-      _$$ToDoTaskImplFromJson(json);
 
   @override
   @JsonKey()
-  @ignore
-  final int id;
+  @Id(assignable: true)
+  final int? id;
   @override
   final int toDoListId;
   @override
@@ -237,17 +246,21 @@ class _$ToDoTaskImpl extends _ToDoTask {
   @JsonKey()
   final bool complete;
   @override
+  @Property(type: PropertyType.date)
   final DateTime? creationDate;
   @override
+  @Property(type: PropertyType.date)
   final DateTime? completionDate;
+  @override
+  final ToOne<ToDoList> toDoList;
 
   @override
   String toString() {
-    return 'ToDoTask(id: $id, toDoListId: $toDoListId, parentIndex: $parentIndex, task: $task, description: $description, isDaily: $isDaily, complete: $complete, creationDate: $creationDate, completionDate: $completionDate)';
+    return 'ToDoTask(id: $id, toDoListId: $toDoListId, parentIndex: $parentIndex, task: $task, description: $description, isDaily: $isDaily, complete: $complete, creationDate: $creationDate, completionDate: $completionDate, toDoList: $toDoList)';
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ToDoTaskImpl &&
@@ -265,47 +278,49 @@ class _$ToDoTaskImpl extends _ToDoTask {
             (identical(other.creationDate, creationDate) ||
                 other.creationDate == creationDate) &&
             (identical(other.completionDate, completionDate) ||
-                other.completionDate == completionDate));
+                other.completionDate == completionDate) &&
+            (identical(other.toDoList, toDoList) ||
+                other.toDoList == toDoList));
   }
 
-  @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, toDoListId, parentIndex,
-      task, description, isDaily, complete, creationDate, completionDate);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      toDoListId,
+      parentIndex,
+      task,
+      description,
+      isDaily,
+      complete,
+      creationDate,
+      completionDate,
+      toDoList);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$ToDoTaskImplCopyWith<_$ToDoTaskImpl> get copyWith =>
       __$$ToDoTaskImplCopyWithImpl<_$ToDoTaskImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$ToDoTaskImplToJson(
-      this,
-    );
-  }
 }
 
 abstract class _ToDoTask extends ToDoTask {
   factory _ToDoTask(
-      {@ignore final int id,
+      {@Id(assignable: true) final int? id,
       required final int toDoListId,
       required final int parentIndex,
       final String? task,
       final String? description,
       final bool isDaily,
       final bool complete,
-      final DateTime? creationDate,
-      final DateTime? completionDate}) = _$ToDoTaskImpl;
+      @Property(type: PropertyType.date) final DateTime? creationDate,
+      @Property(type: PropertyType.date) final DateTime? completionDate,
+      required final ToOne<ToDoList> toDoList}) = _$ToDoTaskImpl;
   _ToDoTask._() : super._();
 
-  factory _ToDoTask.fromJson(Map<String, dynamic> json) =
-      _$ToDoTaskImpl.fromJson;
-
   @override
-  @ignore
-  int get id;
+  @Id(assignable: true)
+  int? get id;
   @override
   int get toDoListId;
   @override
@@ -319,9 +334,13 @@ abstract class _ToDoTask extends ToDoTask {
   @override
   bool get complete;
   @override
+  @Property(type: PropertyType.date)
   DateTime? get creationDate;
   @override
+  @Property(type: PropertyType.date)
   DateTime? get completionDate;
+  @override
+  ToOne<ToDoList> get toDoList;
   @override
   @JsonKey(ignore: true)
   _$$ToDoTaskImplCopyWith<_$ToDoTaskImpl> get copyWith =>

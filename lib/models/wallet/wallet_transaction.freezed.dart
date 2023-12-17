@@ -16,15 +16,16 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$WalletTransaction {
-  @ignore
-  int get id => throw _privateConstructorUsedError;
+  @Id(assignable: true)
+  int? get id => throw _privateConstructorUsedError;
   int get walletId => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
   String? get categorie => throw _privateConstructorUsedError;
   String? get amount => throw _privateConstructorUsedError;
+  @Property(type: PropertyType.date)
   DateTime? get transactionDate => throw _privateConstructorUsedError;
-  @ignore
+  @Transient()
   Uint8List? get media => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -39,14 +40,14 @@ abstract class $WalletTransactionCopyWith<$Res> {
       _$WalletTransactionCopyWithImpl<$Res, WalletTransaction>;
   @useResult
   $Res call(
-      {@ignore int id,
+      {@Id(assignable: true) int? id,
       int walletId,
       String? name,
       String? description,
       String? categorie,
       String? amount,
-      DateTime? transactionDate,
-      @ignore Uint8List? media});
+      @Property(type: PropertyType.date) DateTime? transactionDate,
+      @Transient() Uint8List? media});
 }
 
 /// @nodoc
@@ -62,7 +63,7 @@ class _$WalletTransactionCopyWithImpl<$Res, $Val extends WalletTransaction>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
+    Object? id = freezed,
     Object? walletId = null,
     Object? name = freezed,
     Object? description = freezed,
@@ -72,10 +73,10 @@ class _$WalletTransactionCopyWithImpl<$Res, $Val extends WalletTransaction>
     Object? media = freezed,
   }) {
     return _then(_value.copyWith(
-      id: null == id
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       walletId: null == walletId
           ? _value.walletId
           : walletId // ignore: cast_nullable_to_non_nullable
@@ -117,14 +118,14 @@ abstract class _$$WalletTransactionImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@ignore int id,
+      {@Id(assignable: true) int? id,
       int walletId,
       String? name,
       String? description,
       String? categorie,
       String? amount,
-      DateTime? transactionDate,
-      @ignore Uint8List? media});
+      @Property(type: PropertyType.date) DateTime? transactionDate,
+      @Transient() Uint8List? media});
 }
 
 /// @nodoc
@@ -138,7 +139,7 @@ class __$$WalletTransactionImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
+    Object? id = freezed,
     Object? walletId = null,
     Object? name = freezed,
     Object? description = freezed,
@@ -148,10 +149,10 @@ class __$$WalletTransactionImplCopyWithImpl<$Res>
     Object? media = freezed,
   }) {
     return _then(_$WalletTransactionImpl(
-      id: null == id
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       walletId: null == walletId
           ? _value.walletId
           : walletId // ignore: cast_nullable_to_non_nullable
@@ -186,22 +187,23 @@ class __$$WalletTransactionImplCopyWithImpl<$Res>
 
 /// @nodoc
 
+@Entity(realClass: WalletTransaction)
 class _$WalletTransactionImpl extends _WalletTransaction {
   _$WalletTransactionImpl(
-      {@ignore this.id = Isar.autoIncrement,
+      {@Id(assignable: true) this.id = 0,
       required this.walletId,
       this.name,
       this.description,
       this.categorie,
       this.amount,
-      this.transactionDate,
-      @ignore this.media})
+      @Property(type: PropertyType.date) this.transactionDate,
+      @Transient() this.media})
       : super._();
 
   @override
   @JsonKey()
-  @ignore
-  final int id;
+  @Id(assignable: true)
+  final int? id;
   @override
   final int walletId;
   @override
@@ -213,9 +215,10 @@ class _$WalletTransactionImpl extends _WalletTransaction {
   @override
   final String? amount;
   @override
+  @Property(type: PropertyType.date)
   final DateTime? transactionDate;
   @override
-  @ignore
+  @Transient()
   final Uint8List? media;
 
   @override
@@ -224,7 +227,7 @@ class _$WalletTransactionImpl extends _WalletTransaction {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$WalletTransactionImpl &&
@@ -264,19 +267,19 @@ class _$WalletTransactionImpl extends _WalletTransaction {
 
 abstract class _WalletTransaction extends WalletTransaction {
   factory _WalletTransaction(
-      {@ignore final int id,
+      {@Id(assignable: true) final int? id,
       required final int walletId,
       final String? name,
       final String? description,
       final String? categorie,
       final String? amount,
-      final DateTime? transactionDate,
-      @ignore final Uint8List? media}) = _$WalletTransactionImpl;
+      @Property(type: PropertyType.date) final DateTime? transactionDate,
+      @Transient() final Uint8List? media}) = _$WalletTransactionImpl;
   _WalletTransaction._() : super._();
 
   @override
-  @ignore
-  int get id;
+  @Id(assignable: true)
+  int? get id;
   @override
   int get walletId;
   @override
@@ -288,9 +291,10 @@ abstract class _WalletTransaction extends WalletTransaction {
   @override
   String? get amount;
   @override
+  @Property(type: PropertyType.date)
   DateTime? get transactionDate;
   @override
-  @ignore
+  @Transient()
   Uint8List? get media;
   @override
   @JsonKey(ignore: true)

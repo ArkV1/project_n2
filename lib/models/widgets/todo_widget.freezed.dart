@@ -16,11 +16,10 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$ToDoWidget {
-  @ignore
-  int get id => throw _privateConstructorUsedError;
+  @Id(assignable: true)
+  int? get id => throw _privateConstructorUsedError;
   int get toDoListId => throw _privateConstructorUsedError;
-  @enumerated
-  ToDoWidgetType get widgetType => throw _privateConstructorUsedError;
+  int get widgetTypeIndex => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ToDoWidgetCopyWith<ToDoWidget> get copyWith =>
@@ -34,7 +33,7 @@ abstract class $ToDoWidgetCopyWith<$Res> {
       _$ToDoWidgetCopyWithImpl<$Res, ToDoWidget>;
   @useResult
   $Res call(
-      {@ignore int id, int toDoListId, @enumerated ToDoWidgetType widgetType});
+      {@Id(assignable: true) int? id, int toDoListId, int widgetTypeIndex});
 }
 
 /// @nodoc
@@ -50,23 +49,23 @@ class _$ToDoWidgetCopyWithImpl<$Res, $Val extends ToDoWidget>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
+    Object? id = freezed,
     Object? toDoListId = null,
-    Object? widgetType = null,
+    Object? widgetTypeIndex = null,
   }) {
     return _then(_value.copyWith(
-      id: null == id
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       toDoListId: null == toDoListId
           ? _value.toDoListId
           : toDoListId // ignore: cast_nullable_to_non_nullable
               as int,
-      widgetType: null == widgetType
-          ? _value.widgetType
-          : widgetType // ignore: cast_nullable_to_non_nullable
-              as ToDoWidgetType,
+      widgetTypeIndex: null == widgetTypeIndex
+          ? _value.widgetTypeIndex
+          : widgetTypeIndex // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -80,7 +79,7 @@ abstract class _$$ToDoWidgetImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@ignore int id, int toDoListId, @enumerated ToDoWidgetType widgetType});
+      {@Id(assignable: true) int? id, int toDoListId, int widgetTypeIndex});
 }
 
 /// @nodoc
@@ -94,65 +93,65 @@ class __$$ToDoWidgetImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
+    Object? id = freezed,
     Object? toDoListId = null,
-    Object? widgetType = null,
+    Object? widgetTypeIndex = null,
   }) {
     return _then(_$ToDoWidgetImpl(
-      id: null == id
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       toDoListId: null == toDoListId
           ? _value.toDoListId
           : toDoListId // ignore: cast_nullable_to_non_nullable
               as int,
-      widgetType: null == widgetType
-          ? _value.widgetType
-          : widgetType // ignore: cast_nullable_to_non_nullable
-              as ToDoWidgetType,
+      widgetTypeIndex: null == widgetTypeIndex
+          ? _value.widgetTypeIndex
+          : widgetTypeIndex // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
 
 /// @nodoc
 
+@Entity(realClass: ToDoWidget)
 class _$ToDoWidgetImpl extends _ToDoWidget {
   _$ToDoWidgetImpl(
-      {@ignore this.id = Isar.autoIncrement,
+      {@Id(assignable: true) this.id = 0,
       required this.toDoListId,
-      @enumerated required this.widgetType})
+      required this.widgetTypeIndex})
       : super._();
 
   @override
   @JsonKey()
-  @ignore
-  final int id;
+  @Id(assignable: true)
+  final int? id;
   @override
   final int toDoListId;
   @override
-  @enumerated
-  final ToDoWidgetType widgetType;
+  final int widgetTypeIndex;
 
   @override
   String toString() {
-    return 'ToDoWidget(id: $id, toDoListId: $toDoListId, widgetType: $widgetType)';
+    return 'ToDoWidget(id: $id, toDoListId: $toDoListId, widgetTypeIndex: $widgetTypeIndex)';
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ToDoWidgetImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.toDoListId, toDoListId) ||
                 other.toDoListId == toDoListId) &&
-            (identical(other.widgetType, widgetType) ||
-                other.widgetType == widgetType));
+            (identical(other.widgetTypeIndex, widgetTypeIndex) ||
+                other.widgetTypeIndex == widgetTypeIndex));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, toDoListId, widgetType);
+  int get hashCode => Object.hash(runtimeType, id, toDoListId, widgetTypeIndex);
 
   @JsonKey(ignore: true)
   @override
@@ -163,19 +162,18 @@ class _$ToDoWidgetImpl extends _ToDoWidget {
 
 abstract class _ToDoWidget extends ToDoWidget {
   factory _ToDoWidget(
-      {@ignore final int id,
+      {@Id(assignable: true) final int? id,
       required final int toDoListId,
-      @enumerated required final ToDoWidgetType widgetType}) = _$ToDoWidgetImpl;
+      required final int widgetTypeIndex}) = _$ToDoWidgetImpl;
   _ToDoWidget._() : super._();
 
   @override
-  @ignore
-  int get id;
+  @Id(assignable: true)
+  int? get id;
   @override
   int get toDoListId;
   @override
-  @enumerated
-  ToDoWidgetType get widgetType;
+  int get widgetTypeIndex;
   @override
   @JsonKey(ignore: true)
   _$$ToDoWidgetImplCopyWith<_$ToDoWidgetImpl> get copyWith =>

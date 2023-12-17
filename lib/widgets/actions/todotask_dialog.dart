@@ -65,7 +65,7 @@ class _ToDoTaskDialogState extends ConsumerState<ToDoTaskDialog> {
                         'Adding a task to a list:\n${currentList.name},\nList ID: ${currentList.id}');
                     ref.read(toDoListsProvider.notifier).insertToDoTask(
                           ToDoTask(
-                            toDoListId: currentList.id,
+                            toDoListId: currentList.id!,
                             parentIndex: currentList.tasks.length,
                             //
                             task: toDoTaskController.text,

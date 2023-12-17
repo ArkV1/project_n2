@@ -62,7 +62,7 @@ class _TransactionDialogState extends ConsumerState<TransactionDialog> {
                 }
                 ref.read(walletsProvider.notifier).insertWalletTransaction(
                       WalletTransaction(
-                        walletId: currentWallet.id,
+                        walletId: currentWallet.id!,
                         //
                         name: transactionNameController.text,
                         amount: amount.toString(),

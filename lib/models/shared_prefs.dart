@@ -1,7 +1,8 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:isar/isar.dart';
+import 'package:objectbox/objectbox.dart';
+import 'package:project_n2/objectbox.g.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:project_n2/models/data_manager.dart';
 
@@ -9,22 +10,13 @@ part 'shared_prefs.freezed.dart';
 part 'shared_prefs.g.dart';
 
 @freezed
-@Collection(ignore: {'copyWith'})
 class SharedPref with _$SharedPref {
-  SharedPref._();
+  @Entity(realClass: SharedPref)
   factory SharedPref({
-    @ignore @Default(Isar.autoIncrement) Id id,
+    @Id(assignable: true) int? id,
     required String key,
     String? value,
   }) = _SharedPref;
-
-  @override
-  // ignore: recursive_getters
-  Id get id => id;
-
-  // set id(Id id) => id = id;
-
-  // factory Wallet.fromJson(Map<String, dynamic> json) => _$WalletFromJson(json);
 }
 
 @Riverpod(keepAlive: true)
@@ -36,16 +28,11 @@ class SharedPrefs extends _$SharedPrefs {
 
   Future<List<SharedPref>> getSharedPrefs() async {
     debugPrint('Getting Shared Prefs');
-    return await ref
-        .read(databaseProvider.future)
-        .then((isar) => isar.sharedPrefs.where().findAll());
+    return db.box<SharedPref>().getAllAsync();
   }
 
   Future<void> updateSharedPrefs() async {
-    await ref.read(databaseProvider.future).then((isar) async {
-      final sharedPrefs = await isar.sharedPrefs.where().findAll();
-      state = AsyncData(sharedPrefs);
-    });
+    state = AsyncData(await getSharedPrefs());
   }
 
   Future<String?> getString(String key) async {
@@ -54,26 +41,24 @@ class SharedPrefs extends _$SharedPrefs {
   }
 
   Future<void> setString(String key, String newValue) async {
-    ref.read(databaseProvider).when(data: (isar) async {
-      SharedPref? existingSharedPref =
-          await isar.sharedPrefs.where().filter().keyEqualTo(key).findFirst();
-      if (existingSharedPref != null) {
-        // Modify the existing object's value
-        debugPrint('Modifying existing object');
-        existingSharedPref = existingSharedPref.copyWith(value: newValue);
-        await isar.writeTxn(() => isar.sharedPrefs.put(existingSharedPref!));
-      } else {
-        // Create a new object and save it
-        debugPrint('Creating new object');
-        final sharedPref = SharedPref(key: key, value: newValue);
-        await isar.writeTxn(() => isar.sharedPrefs.put(sharedPref));
-      }
-      await updateSharedPrefs();
-    }, error: (_, __) {
-      // throw UnimplementedError();
-    }, loading: () {
-      return const AsyncLoading();
-    });
+    final sharedPrefs = db.box<SharedPref>();
+
+    SharedPref? existingSharedPref =
+        sharedPrefs.query(SharedPref_.key.equals(key)).build().findFirst();
+    // SharedPref? existingSharedPref =
+    //     await isar.sharedPrefs.where().filter().keyEqualTo(key).findFirst();
+    if (existingSharedPref != null) {
+      // Modify the existing object's value
+      debugPrint('Modifying existing object');
+      existingSharedPref = existingSharedPref.copyWith(value: newValue);
+      await sharedPrefs.putAsync(existingSharedPref);
+    } else {
+      // Create a new object and save it
+      debugPrint('Creating new object');
+      final sharedPref = SharedPref(key: key, value: newValue);
+      await sharedPrefs.putAsync(sharedPref);
+    }
+    await updateSharedPrefs();
   }
 
   bool? getBool(String key) {
@@ -110,13 +95,20 @@ class SharedPrefs extends _$SharedPrefs {
   }
 
   Future<void> remove(String key) async {
-    ref.watch(databaseProvider).when(data: (isar) async {
-      isar.sharedPrefs.where().filter().keyEqualTo(key).deleteFirst();
-      await updateSharedPrefs();
-    }, error: (_, __) {
-      // throw UnimplementedError();
-    }, loading: () {
-      return const AsyncLoading();
-    });
+    final sharedPrefs = db.box<SharedPref>();
+    try {
+      sharedPrefs.query(SharedPref_.key.equals(key)).build().remove();
+    } on Exception catch (e) {
+      debugPrint('Error in SharedPrefs remove: $e');
+    }
+
+    // ref.watch(databaseProvider).when(data: (isar) async {
+    //   isar.sharedPrefs.where().filter().keyEqualTo(key).deleteFirst();
+    //   await updateSharedPrefs();
+    // }, error: (_, __) {
+    //   // throw UnimplementedError();
+    // }, loading: () {
+    //   return const AsyncLoading();
+    // });
   }
 }
