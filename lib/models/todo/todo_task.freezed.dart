@@ -28,7 +28,7 @@ mixin _$ToDoTask {
   DateTime? get creationDate => throw _privateConstructorUsedError;
   @Property(type: PropertyType.date)
   DateTime? get completionDate => throw _privateConstructorUsedError;
-  ToOne<ToDoList> get toDoList => throw _privateConstructorUsedError;
+  ToOne<ToDoList> get toDoListRelation => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ToDoTaskCopyWith<ToDoTask> get copyWith =>
@@ -50,7 +50,7 @@ abstract class $ToDoTaskCopyWith<$Res> {
       bool complete,
       @Property(type: PropertyType.date) DateTime? creationDate,
       @Property(type: PropertyType.date) DateTime? completionDate,
-      ToOne<ToDoList> toDoList});
+      ToOne<ToDoList> toDoListRelation});
 }
 
 /// @nodoc
@@ -75,7 +75,7 @@ class _$ToDoTaskCopyWithImpl<$Res, $Val extends ToDoTask>
     Object? complete = null,
     Object? creationDate = freezed,
     Object? completionDate = freezed,
-    Object? toDoList = null,
+    Object? toDoListRelation = null,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -114,9 +114,9 @@ class _$ToDoTaskCopyWithImpl<$Res, $Val extends ToDoTask>
           ? _value.completionDate
           : completionDate // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      toDoList: null == toDoList
-          ? _value.toDoList
-          : toDoList // ignore: cast_nullable_to_non_nullable
+      toDoListRelation: null == toDoListRelation
+          ? _value.toDoListRelation
+          : toDoListRelation // ignore: cast_nullable_to_non_nullable
               as ToOne<ToDoList>,
     ) as $Val);
   }
@@ -140,7 +140,7 @@ abstract class _$$ToDoTaskImplCopyWith<$Res>
       bool complete,
       @Property(type: PropertyType.date) DateTime? creationDate,
       @Property(type: PropertyType.date) DateTime? completionDate,
-      ToOne<ToDoList> toDoList});
+      ToOne<ToDoList> toDoListRelation});
 }
 
 /// @nodoc
@@ -163,7 +163,7 @@ class __$$ToDoTaskImplCopyWithImpl<$Res>
     Object? complete = null,
     Object? creationDate = freezed,
     Object? completionDate = freezed,
-    Object? toDoList = null,
+    Object? toDoListRelation = null,
   }) {
     return _then(_$ToDoTaskImpl(
       id: freezed == id
@@ -202,9 +202,9 @@ class __$$ToDoTaskImplCopyWithImpl<$Res>
           ? _value.completionDate
           : completionDate // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      toDoList: null == toDoList
-          ? _value.toDoList
-          : toDoList // ignore: cast_nullable_to_non_nullable
+      toDoListRelation: null == toDoListRelation
+          ? _value.toDoListRelation
+          : toDoListRelation // ignore: cast_nullable_to_non_nullable
               as ToOne<ToDoList>,
     ));
   }
@@ -224,7 +224,7 @@ class _$ToDoTaskImpl extends _ToDoTask {
       this.complete = false,
       @Property(type: PropertyType.date) this.creationDate,
       @Property(type: PropertyType.date) this.completionDate,
-      required this.toDoList})
+      required this.toDoListRelation})
       : super._();
 
   @override
@@ -252,11 +252,11 @@ class _$ToDoTaskImpl extends _ToDoTask {
   @Property(type: PropertyType.date)
   final DateTime? completionDate;
   @override
-  final ToOne<ToDoList> toDoList;
+  final ToOne<ToDoList> toDoListRelation;
 
   @override
   String toString() {
-    return 'ToDoTask(id: $id, toDoListId: $toDoListId, parentIndex: $parentIndex, task: $task, description: $description, isDaily: $isDaily, complete: $complete, creationDate: $creationDate, completionDate: $completionDate, toDoList: $toDoList)';
+    return 'ToDoTask(id: $id, toDoListId: $toDoListId, parentIndex: $parentIndex, task: $task, description: $description, isDaily: $isDaily, complete: $complete, creationDate: $creationDate, completionDate: $completionDate, toDoListRelation: $toDoListRelation)';
   }
 
   @override
@@ -279,8 +279,8 @@ class _$ToDoTaskImpl extends _ToDoTask {
                 other.creationDate == creationDate) &&
             (identical(other.completionDate, completionDate) ||
                 other.completionDate == completionDate) &&
-            (identical(other.toDoList, toDoList) ||
-                other.toDoList == toDoList));
+            (identical(other.toDoListRelation, toDoListRelation) ||
+                other.toDoListRelation == toDoListRelation));
   }
 
   @override
@@ -295,7 +295,7 @@ class _$ToDoTaskImpl extends _ToDoTask {
       complete,
       creationDate,
       completionDate,
-      toDoList);
+      toDoListRelation);
 
   @JsonKey(ignore: true)
   @override
@@ -315,7 +315,7 @@ abstract class _ToDoTask extends ToDoTask {
       final bool complete,
       @Property(type: PropertyType.date) final DateTime? creationDate,
       @Property(type: PropertyType.date) final DateTime? completionDate,
-      required final ToOne<ToDoList> toDoList}) = _$ToDoTaskImpl;
+      required final ToOne<ToDoList> toDoListRelation}) = _$ToDoTaskImpl;
   _ToDoTask._() : super._();
 
   @override
@@ -340,7 +340,7 @@ abstract class _ToDoTask extends ToDoTask {
   @Property(type: PropertyType.date)
   DateTime? get completionDate;
   @override
-  ToOne<ToDoList> get toDoList;
+  ToOne<ToDoList> get toDoListRelation;
   @override
   @JsonKey(ignore: true)
   _$$ToDoTaskImplCopyWith<_$ToDoTaskImpl> get copyWith =>

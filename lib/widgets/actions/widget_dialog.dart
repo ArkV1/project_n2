@@ -97,7 +97,7 @@ class _AppWidgetDialogState extends ConsumerState<AppWidgetDialog> {
                           containedObjectTypeIndex:
                               ContainedObjectType.wallet.index);
                       unionWidget = WidgetUnion.wallet(WalletWidget(
-                        walletId: ref.read(walletsProvider).value!.first.id!,
+                        walletId: ref.read(walletsProvider).first.id!,
                         widgetTypeIndex: widgetType!.index,
                       ));
                       // appWidget = WalletWidget(

@@ -1,7 +1,7 @@
 enum ContainedObjectType {
   unknown(publicName: 'Unknown'),
-  wallet(publicName: 'Wallet'),
   toDoList(publicName: 'To Do List'),
+  wallet(publicName: 'Wallet'),
   other(publicName: 'Other');
 
   const ContainedObjectType({

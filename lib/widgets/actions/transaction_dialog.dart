@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:project_n2/models/app_settings.dart';
 import 'package:project_n2/models/wallet/wallet.dart';
 import 'package:project_n2/models/wallet/wallet_transaction.dart';
+import 'package:project_n2/objectbox.g.dart';
 
 class TransactionDialog extends ConsumerStatefulWidget {
   const TransactionDialog({super.key});
@@ -18,7 +19,7 @@ class _TransactionDialogState extends ConsumerState<TransactionDialog> {
   @override
   Widget build(BuildContext context) {
     // final wallets = ref.watch(dataManagerProvider).wallets;
-    final wallets = ref.watch(walletsProvider).asData!.value;
+    final wallets = ref.watch(walletsProvider);
     return AlertDialog(
       title: const Text('New transaction'),
       content: Column(
@@ -66,7 +67,9 @@ class _TransactionDialogState extends ConsumerState<TransactionDialog> {
                         //
                         name: transactionNameController.text,
                         amount: amount.toString(),
+                        walletRelation: ToOne<Wallet>(),
                       ),
+                      wallet: currentWallet,
                     );
                 Navigator.pop(context);
               },

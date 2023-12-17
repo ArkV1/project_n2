@@ -19,7 +19,7 @@ class _WalletWidgetsDialogState extends ConsumerState<WalletWidgetsDialog> {
 
   @override
   Widget build(BuildContext context) {
-    final wallets = ref.watch(walletsProvider).asData?.value ?? [];
+    final wallets = ref.watch(walletsProvider);
     final appWidgets = ref.watch(appWidgetsProvider).asData?.value ?? [];
     // final dataManager = ref.watch(dataManagerProvider);
     // final wallets = dataManager.wallets;

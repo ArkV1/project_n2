@@ -98,7 +98,8 @@ class _WalletWidgetBuilderState extends ConsumerState<WalletWidgetBuilder> {
                 ],
               ),
             ),
-            for (var currentTransaction in wallet.transactions.reversed.take(5))
+            for (var currentTransaction
+                in wallet.transactions!.reversed.take(5))
               ListTile(
                 contentPadding: const EdgeInsets.fromLTRB(
                   16,

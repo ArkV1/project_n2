@@ -154,8 +154,8 @@ class _ToDoScreenState extends ConsumerState<ToDoScreen> {
                                     : newIndex;
                                 ref
                                     .read(toDoListsProvider.notifier)
-                                    .reorderToDoTask(oldIndex, newIndex,
-                                        toDoLists[i].tasks, false);
+                                    .reorderToDoTask(
+                                        oldIndex, newIndex, toDoLists[i].tasks);
                               },
                               itemCount: toDoLists[i].tasks.length,
                             )

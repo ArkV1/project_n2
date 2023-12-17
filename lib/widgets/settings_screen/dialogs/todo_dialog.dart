@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:objectbox/objectbox.dart';
 import 'package:project_n2/models/todo/todo_list.dart';
+import 'package:project_n2/models/todo/todo_task.dart';
 
 final _formKey = GlobalKey<FormState>();
 
@@ -152,6 +154,7 @@ class _ToDoListsDialogState extends ConsumerState<ToDoListsDialog> {
                                   .insertToDoList(
                                     ToDoList(
                                       name: toDoListsNameController.text,
+                                      tasksRelation: ToMany<ToDoTask>(),
                                     ),
                                   );
                               creation = false;

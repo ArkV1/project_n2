@@ -12,7 +12,7 @@ class WalletTransaction with _$WalletTransaction {
 
   @Entity(realClass: WalletTransaction)
   factory WalletTransaction({
-    @Id(assignable: true) @Default(0) int? id,
+    @Id(assignable: true) int? id,
     required int walletId,
     String? name,
     String? description,
@@ -20,7 +20,10 @@ class WalletTransaction with _$WalletTransaction {
     String? amount,
     @Property(type: PropertyType.date) DateTime? transactionDate,
     @Transient() Uint8List? media,
+    required ToOne<Wallet> walletRelation,
   }) = _WalletTransaction;
 
-  final wallet = ToOne<Wallet>();
+  Wallet? get wallet => walletRelation.target;
+
+  //final wallet = ToOne<Wallet>();
 }

@@ -5,6 +5,7 @@ import 'package:collection/collection.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:objectbox/objectbox.dart';
 import 'package:project_n2/models/data_manager.dart';
+import 'package:project_n2/objectbox.g.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'wallet_transaction.dart';
@@ -18,54 +19,82 @@ class Wallet with _$Wallet {
 
   @Entity(realClass: Wallet)
   factory Wallet({
-    @Id(assignable: true) @Default(0) int? id,
+    @Id(assignable: true) int? id,
     required String name,
+    required ToMany<WalletTransaction> transactionsRelation,
   }) = _Wallet;
 
-  final transactions = ToMany<WalletTransaction>();
+  List<WalletTransaction>? get transactions => transactionsRelation.toList();
+
+  // final transactions = ToMany<WalletTransaction>();
 }
 
 @riverpod
 class Wallets extends _$Wallets {
   @override
-  FutureOr<List<Wallet>> build() {
+  List<Wallet> build() {
     return getWallets();
   }
 
   // A method that retrieves all the wallets from Isar.
-  Future<List<Wallet>> getWallets() async {
+  List<Wallet> getWallets() {
     final wallets = db.box<Wallet>();
     return wallets.getAll();
   }
 
-  Future<void> updateWallets() async {
-    state = AsyncData(await getWallets());
+  void updateWallets() async {
+    state = getWallets();
   }
 
-  Future<void> insertWallet(Wallet wallet) async {
+  void insertWallet(Wallet wallet) {
     final wallets = db.box<Wallet>();
-    await wallets.putAsync(wallet);
-    await updateWallets();
+    // TODO Add cached id for improving speed and performance
+    int? id = wallet.id;
+    if (id == null || id == 0) {
+      id = (wallets
+                  .query()
+                  .order(Wallet_.id, flags: Order.descending)
+                  .build()
+                  .findFirst()
+                  ?.id ??
+              0) +
+          1;
+    }
+    wallets.put(wallet.copyWith(id: id));
+    updateWallets();
   }
 
-  Future<void> insertWalletTransaction(WalletTransaction transaction) async {
+  Future<void> insertWalletTransaction(WalletTransaction transaction,
+      {Wallet? wallet}) async {
     final transactions = db.box<WalletTransaction>();
     final wallets = db.box<Wallet>();
-    transaction.wallet.target = await wallets.getAsync(transaction.walletId);
+    // TODO Add cached id for improving speed and performance
+    int? id = transaction.id;
+    if (id == null || id == 0) {
+      id = (transactions
+                  .query()
+                  .order(WalletTransaction_.id, flags: Order.descending)
+                  .build()
+                  .findFirst()
+                  ?.id ??
+              0) +
+          1;
+    }
+    wallet ??= wallets.get(transaction.walletId);
+    transaction.walletRelation.target = wallet;
     WalletTransaction addedTransaction =
-        await transactions.putAndGetAsync(transaction);
-    final wallet = await wallets.getAsync(transaction.walletId);
-    wallet!.transactions.add(addedTransaction);
-    await wallets.putAsync(wallet);
+        await transactions.putAndGetAsync(transaction.copyWith(id: id));
+    wallet!.transactionsRelation.add(addedTransaction);
+    wallets.put(wallet);
     // wallet!.transactionsLink.add(addedTransaction);
     // await wallet.transactionsLink.save();
-    await updateWallets();
+    updateWallets();
   }
 
   Future<void> deleteWallet(Wallet wallet) async {
     final wallets = db.box<Wallet>();
     wallets.remove(wallet.id!);
-    await updateWallets();
+    updateWallets();
   }
 
   Future<void> deleteWalletTransaction(
@@ -73,7 +102,7 @@ class Wallets extends _$Wallets {
     final transacions = db.box<WalletTransaction>();
     final wallets = db.box<Wallet>();
     await transacions.removeAsync(transactionToRemove.id!);
-    await updateWallets();
+    updateWallets();
   }
 
   // Future<int> calculateTotal(Wallet wallet) async {
@@ -116,7 +145,7 @@ class Wallets extends _$Wallets {
 class WalletById extends _$WalletById {
   @override
   FutureOr<Wallet?> build({required int walletId}) async {
-    final walletsList = await ref.watch(walletsProvider.future);
+    final walletsList = ref.watch(walletsProvider);
     return walletsList.firstWhereOrNull((wallet) => wallet.id == walletId);
   }
   // Add methods to mutate the state
@@ -130,7 +159,7 @@ class TotalOfWalletById extends _$TotalOfWalletById {
         .watch(walletByIdProvider(walletId: walletId).future)
         .then((wallet) {
       int total = 0;
-      for (var transaction in wallet!.transactions) {
+      for (var transaction in wallet!.transactions!) {
         total += int.tryParse(transaction.amount!) ?? 0;
       }
       return total;

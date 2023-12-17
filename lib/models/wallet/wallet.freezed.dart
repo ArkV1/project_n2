@@ -19,6 +19,8 @@ mixin _$Wallet {
   @Id(assignable: true)
   int? get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
+  ToMany<WalletTransaction> get transactionsRelation =>
+      throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $WalletCopyWith<Wallet> get copyWith => throw _privateConstructorUsedError;
@@ -29,7 +31,10 @@ abstract class $WalletCopyWith<$Res> {
   factory $WalletCopyWith(Wallet value, $Res Function(Wallet) then) =
       _$WalletCopyWithImpl<$Res, Wallet>;
   @useResult
-  $Res call({@Id(assignable: true) int? id, String name});
+  $Res call(
+      {@Id(assignable: true) int? id,
+      String name,
+      ToMany<WalletTransaction> transactionsRelation});
 }
 
 /// @nodoc
@@ -47,6 +52,7 @@ class _$WalletCopyWithImpl<$Res, $Val extends Wallet>
   $Res call({
     Object? id = freezed,
     Object? name = null,
+    Object? transactionsRelation = null,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -57,6 +63,10 @@ class _$WalletCopyWithImpl<$Res, $Val extends Wallet>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      transactionsRelation: null == transactionsRelation
+          ? _value.transactionsRelation
+          : transactionsRelation // ignore: cast_nullable_to_non_nullable
+              as ToMany<WalletTransaction>,
     ) as $Val);
   }
 }
@@ -68,7 +78,10 @@ abstract class _$$WalletImplCopyWith<$Res> implements $WalletCopyWith<$Res> {
       __$$WalletImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({@Id(assignable: true) int? id, String name});
+  $Res call(
+      {@Id(assignable: true) int? id,
+      String name,
+      ToMany<WalletTransaction> transactionsRelation});
 }
 
 /// @nodoc
@@ -84,6 +97,7 @@ class __$$WalletImplCopyWithImpl<$Res>
   $Res call({
     Object? id = freezed,
     Object? name = null,
+    Object? transactionsRelation = null,
   }) {
     return _then(_$WalletImpl(
       id: freezed == id
@@ -94,6 +108,10 @@ class __$$WalletImplCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      transactionsRelation: null == transactionsRelation
+          ? _value.transactionsRelation
+          : transactionsRelation // ignore: cast_nullable_to_non_nullable
+              as ToMany<WalletTransaction>,
     ));
   }
 }
@@ -102,19 +120,23 @@ class __$$WalletImplCopyWithImpl<$Res>
 
 @Entity(realClass: Wallet)
 class _$WalletImpl extends _Wallet {
-  _$WalletImpl({@Id(assignable: true) this.id = 0, required this.name})
+  _$WalletImpl(
+      {@Id(assignable: true) this.id,
+      required this.name,
+      required this.transactionsRelation})
       : super._();
 
   @override
-  @JsonKey()
   @Id(assignable: true)
   final int? id;
   @override
   final String name;
+  @override
+  final ToMany<WalletTransaction> transactionsRelation;
 
   @override
   String toString() {
-    return 'Wallet(id: $id, name: $name)';
+    return 'Wallet(id: $id, name: $name, transactionsRelation: $transactionsRelation)';
   }
 
   @override
@@ -123,11 +145,14 @@ class _$WalletImpl extends _Wallet {
         (other.runtimeType == runtimeType &&
             other is _$WalletImpl &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.name, name) || other.name == name));
+            (identical(other.name, name) || other.name == name) &&
+            const DeepCollectionEquality()
+                .equals(other.transactionsRelation, transactionsRelation));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, name);
+  int get hashCode => Object.hash(runtimeType, id, name,
+      const DeepCollectionEquality().hash(transactionsRelation));
 
   @JsonKey(ignore: true)
   @override
@@ -138,8 +163,10 @@ class _$WalletImpl extends _Wallet {
 
 abstract class _Wallet extends Wallet {
   factory _Wallet(
-      {@Id(assignable: true) final int? id,
-      required final String name}) = _$WalletImpl;
+          {@Id(assignable: true) final int? id,
+          required final String name,
+          required final ToMany<WalletTransaction> transactionsRelation}) =
+      _$WalletImpl;
   _Wallet._() : super._();
 
   @override
@@ -147,6 +174,8 @@ abstract class _Wallet extends Wallet {
   int? get id;
   @override
   String get name;
+  @override
+  ToMany<WalletTransaction> get transactionsRelation;
   @override
   @JsonKey(ignore: true)
   _$$WalletImplCopyWith<_$WalletImpl> get copyWith =>

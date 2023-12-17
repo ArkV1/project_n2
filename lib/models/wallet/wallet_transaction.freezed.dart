@@ -27,6 +27,7 @@ mixin _$WalletTransaction {
   DateTime? get transactionDate => throw _privateConstructorUsedError;
   @Transient()
   Uint8List? get media => throw _privateConstructorUsedError;
+  ToOne<Wallet> get walletRelation => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $WalletTransactionCopyWith<WalletTransaction> get copyWith =>
@@ -47,7 +48,8 @@ abstract class $WalletTransactionCopyWith<$Res> {
       String? categorie,
       String? amount,
       @Property(type: PropertyType.date) DateTime? transactionDate,
-      @Transient() Uint8List? media});
+      @Transient() Uint8List? media,
+      ToOne<Wallet> walletRelation});
 }
 
 /// @nodoc
@@ -71,6 +73,7 @@ class _$WalletTransactionCopyWithImpl<$Res, $Val extends WalletTransaction>
     Object? amount = freezed,
     Object? transactionDate = freezed,
     Object? media = freezed,
+    Object? walletRelation = null,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -105,6 +108,10 @@ class _$WalletTransactionCopyWithImpl<$Res, $Val extends WalletTransaction>
           ? _value.media
           : media // ignore: cast_nullable_to_non_nullable
               as Uint8List?,
+      walletRelation: null == walletRelation
+          ? _value.walletRelation
+          : walletRelation // ignore: cast_nullable_to_non_nullable
+              as ToOne<Wallet>,
     ) as $Val);
   }
 }
@@ -125,7 +132,8 @@ abstract class _$$WalletTransactionImplCopyWith<$Res>
       String? categorie,
       String? amount,
       @Property(type: PropertyType.date) DateTime? transactionDate,
-      @Transient() Uint8List? media});
+      @Transient() Uint8List? media,
+      ToOne<Wallet> walletRelation});
 }
 
 /// @nodoc
@@ -147,6 +155,7 @@ class __$$WalletTransactionImplCopyWithImpl<$Res>
     Object? amount = freezed,
     Object? transactionDate = freezed,
     Object? media = freezed,
+    Object? walletRelation = null,
   }) {
     return _then(_$WalletTransactionImpl(
       id: freezed == id
@@ -181,6 +190,10 @@ class __$$WalletTransactionImplCopyWithImpl<$Res>
           ? _value.media
           : media // ignore: cast_nullable_to_non_nullable
               as Uint8List?,
+      walletRelation: null == walletRelation
+          ? _value.walletRelation
+          : walletRelation // ignore: cast_nullable_to_non_nullable
+              as ToOne<Wallet>,
     ));
   }
 }
@@ -190,18 +203,18 @@ class __$$WalletTransactionImplCopyWithImpl<$Res>
 @Entity(realClass: WalletTransaction)
 class _$WalletTransactionImpl extends _WalletTransaction {
   _$WalletTransactionImpl(
-      {@Id(assignable: true) this.id = 0,
+      {@Id(assignable: true) this.id,
       required this.walletId,
       this.name,
       this.description,
       this.categorie,
       this.amount,
       @Property(type: PropertyType.date) this.transactionDate,
-      @Transient() this.media})
+      @Transient() this.media,
+      required this.walletRelation})
       : super._();
 
   @override
-  @JsonKey()
   @Id(assignable: true)
   final int? id;
   @override
@@ -220,10 +233,12 @@ class _$WalletTransactionImpl extends _WalletTransaction {
   @override
   @Transient()
   final Uint8List? media;
+  @override
+  final ToOne<Wallet> walletRelation;
 
   @override
   String toString() {
-    return 'WalletTransaction(id: $id, walletId: $walletId, name: $name, description: $description, categorie: $categorie, amount: $amount, transactionDate: $transactionDate, media: $media)';
+    return 'WalletTransaction(id: $id, walletId: $walletId, name: $name, description: $description, categorie: $categorie, amount: $amount, transactionDate: $transactionDate, media: $media, walletRelation: $walletRelation)';
   }
 
   @override
@@ -242,7 +257,9 @@ class _$WalletTransactionImpl extends _WalletTransaction {
             (identical(other.amount, amount) || other.amount == amount) &&
             (identical(other.transactionDate, transactionDate) ||
                 other.transactionDate == transactionDate) &&
-            const DeepCollectionEquality().equals(other.media, media));
+            const DeepCollectionEquality().equals(other.media, media) &&
+            (identical(other.walletRelation, walletRelation) ||
+                other.walletRelation == walletRelation));
   }
 
   @override
@@ -255,7 +272,8 @@ class _$WalletTransactionImpl extends _WalletTransaction {
       categorie,
       amount,
       transactionDate,
-      const DeepCollectionEquality().hash(media));
+      const DeepCollectionEquality().hash(media),
+      walletRelation);
 
   @JsonKey(ignore: true)
   @override
@@ -274,7 +292,8 @@ abstract class _WalletTransaction extends WalletTransaction {
       final String? categorie,
       final String? amount,
       @Property(type: PropertyType.date) final DateTime? transactionDate,
-      @Transient() final Uint8List? media}) = _$WalletTransactionImpl;
+      @Transient() final Uint8List? media,
+      required final ToOne<Wallet> walletRelation}) = _$WalletTransactionImpl;
   _WalletTransaction._() : super._();
 
   @override
@@ -296,6 +315,8 @@ abstract class _WalletTransaction extends WalletTransaction {
   @override
   @Transient()
   Uint8List? get media;
+  @override
+  ToOne<Wallet> get walletRelation;
   @override
   @JsonKey(ignore: true)
   _$$WalletTransactionImplCopyWith<_$WalletTransactionImpl> get copyWith =>

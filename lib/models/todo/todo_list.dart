@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:objectbox/objectbox.dart';
 import 'package:project_n2/models/data_manager.dart';
+import 'package:project_n2/objectbox.g.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:project_n2/models/todo/todo_task.dart';
@@ -18,10 +19,13 @@ class ToDoList with _$ToDoList {
   factory ToDoList({
     @Id(assignable: true) @Default(0) int? id,
     required String name,
-    required ToMany<ToDoTask> tasks,
+    required ToMany<ToDoTask> tasksRelation,
   }) = _ToDoList;
 
-  // List<ToDoTask> get tasks => tasksRelation;
+  List<ToDoTask> get tasks => tasksRelation.toList()
+    ..sort((a, b) => a.parentIndex.compareTo(b.parentIndex));
+
+  // final tasks = ToMany<ToDoTask>();
 }
 
 @riverpod
@@ -43,11 +47,24 @@ class ToDoLists extends _$ToDoLists {
 
   Future<void> insertToDoList(ToDoList toDoList) async {
     final toDoLists = db.box<ToDoList>();
-    await toDoLists.putAsync(toDoList);
+    int? id = toDoList.id;
+
+    // TODO Add cached id for improving speed and performance
+    if (id == null || id == 0) {
+      id = (toDoLists
+                  .query()
+                  .order(ToDoList_.id, flags: Order.descending)
+                  .build()
+                  .findFirst()
+                  ?.id ??
+              0) +
+          1;
+    }
+    toDoLists.put(toDoList.copyWith(id: id));
     await updateToDoLists();
   }
 
-  Future<void> insertToDoTask(ToDoTask toDoTask) async {
+  Future<void> insertToDoTask(ToDoTask toDoTask, {ToDoList? toDoList}) async {
     final toDoLists = db.box<ToDoList>();
     final toDoTasks = db.box<ToDoTask>();
 
@@ -61,14 +78,24 @@ class ToDoLists extends _$ToDoLists {
       );
     }
 
-    ToDoTask addedTask = await toDoTasks.putAsync(toDoTask).then(
-          (id) => toDoTask.copyWith(id: id),
-        );
-    // toDoTask.toDoLists.load();
-    // final toDoList = toDoTask.toDoLists.first;
-
-    final toDoList = await toDoLists.get(toDoTask.toDoListId);
+    // TODO Add cached id for improving speed and performance
+    int? id = toDoTask.id;
+    if (id == null || id == 0) {
+      id = (toDoTasks
+                  .query()
+                  .order(ToDoTask_.id, flags: Order.descending)
+                  .build()
+                  .findFirst()
+                  ?.id ??
+              0) +
+          1;
+    }
+    ToDoTask addedTask =
+        await toDoTasks.putAndGetAsync(toDoTask.copyWith(id: id));
+    toDoList ??= toDoLists.get(toDoTask.toDoListId);
     if (toDoList != null) {
+      toDoList.tasksRelation.add(addedTask);
+      toDoLists.put(toDoList);
       // toDoList.tasksLink.add(addedTask);
       // await toDoList.tasksLink.save();
     } else {
@@ -97,7 +124,6 @@ class ToDoLists extends _$ToDoLists {
     int oldIndex,
     int newIndex,
     List<ToDoTask> tasks,
-    bool notify,
   ) async {
     debugPrint('New index: $newIndex');
     debugPrint('Old index: $oldIndex');
@@ -117,7 +143,7 @@ class ToDoLists extends _$ToDoLists {
 
     final toDoTasks = db.box<ToDoTask>();
     for (int i = start; i <= end; i++) {
-      await toDoTasks.putAsync(tasks[i]);
+      toDoTasks.put(tasks[i], mode: PutMode.update);
     }
     await updateToDoLists();
   }

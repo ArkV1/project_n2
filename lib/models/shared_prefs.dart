@@ -42,21 +42,32 @@ class SharedPrefs extends _$SharedPrefs {
 
   Future<void> setString(String key, String newValue) async {
     final sharedPrefs = db.box<SharedPref>();
-
     SharedPref? existingSharedPref =
         sharedPrefs.query(SharedPref_.key.equals(key)).build().findFirst();
+
     // SharedPref? existingSharedPref =
     //     await isar.sharedPrefs.where().filter().keyEqualTo(key).findFirst();
     if (existingSharedPref != null) {
       // Modify the existing object's value
       debugPrint('Modifying existing object');
       existingSharedPref = existingSharedPref.copyWith(value: newValue);
-      await sharedPrefs.putAsync(existingSharedPref);
+      sharedPrefs.put(existingSharedPref);
     } else {
+      int? id = existingSharedPref?.id;
+      if (id == null || id == 0) {
+        id = (sharedPrefs
+                    .query()
+                    .order(SharedPref_.id, flags: Order.descending)
+                    .build()
+                    .findFirst()
+                    ?.id ??
+                0) +
+            1;
+      }
       // Create a new object and save it
       debugPrint('Creating new object');
       final sharedPref = SharedPref(key: key, value: newValue);
-      await sharedPrefs.putAsync(sharedPref);
+      sharedPrefs.put(sharedPref.copyWith(id: id));
     }
     await updateSharedPrefs();
   }

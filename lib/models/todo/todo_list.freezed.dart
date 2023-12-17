@@ -19,7 +19,7 @@ mixin _$ToDoList {
   @Id(assignable: true)
   int? get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
-  ToMany<ToDoTask> get tasks => throw _privateConstructorUsedError;
+  ToMany<ToDoTask> get tasksRelation => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ToDoListCopyWith<ToDoList> get copyWith =>
@@ -32,7 +32,9 @@ abstract class $ToDoListCopyWith<$Res> {
       _$ToDoListCopyWithImpl<$Res, ToDoList>;
   @useResult
   $Res call(
-      {@Id(assignable: true) int? id, String name, ToMany<ToDoTask> tasks});
+      {@Id(assignable: true) int? id,
+      String name,
+      ToMany<ToDoTask> tasksRelation});
 }
 
 /// @nodoc
@@ -50,7 +52,7 @@ class _$ToDoListCopyWithImpl<$Res, $Val extends ToDoList>
   $Res call({
     Object? id = freezed,
     Object? name = null,
-    Object? tasks = null,
+    Object? tasksRelation = null,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -61,9 +63,9 @@ class _$ToDoListCopyWithImpl<$Res, $Val extends ToDoList>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      tasks: null == tasks
-          ? _value.tasks
-          : tasks // ignore: cast_nullable_to_non_nullable
+      tasksRelation: null == tasksRelation
+          ? _value.tasksRelation
+          : tasksRelation // ignore: cast_nullable_to_non_nullable
               as ToMany<ToDoTask>,
     ) as $Val);
   }
@@ -78,7 +80,9 @@ abstract class _$$ToDoListImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@Id(assignable: true) int? id, String name, ToMany<ToDoTask> tasks});
+      {@Id(assignable: true) int? id,
+      String name,
+      ToMany<ToDoTask> tasksRelation});
 }
 
 /// @nodoc
@@ -94,7 +98,7 @@ class __$$ToDoListImplCopyWithImpl<$Res>
   $Res call({
     Object? id = freezed,
     Object? name = null,
-    Object? tasks = null,
+    Object? tasksRelation = null,
   }) {
     return _then(_$ToDoListImpl(
       id: freezed == id
@@ -105,9 +109,9 @@ class __$$ToDoListImplCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      tasks: null == tasks
-          ? _value.tasks
-          : tasks // ignore: cast_nullable_to_non_nullable
+      tasksRelation: null == tasksRelation
+          ? _value.tasksRelation
+          : tasksRelation // ignore: cast_nullable_to_non_nullable
               as ToMany<ToDoTask>,
     ));
   }
@@ -120,7 +124,7 @@ class _$ToDoListImpl extends _ToDoList with DiagnosticableTreeMixin {
   _$ToDoListImpl(
       {@Id(assignable: true) this.id = 0,
       required this.name,
-      required this.tasks})
+      required this.tasksRelation})
       : super._();
 
   @override
@@ -130,11 +134,11 @@ class _$ToDoListImpl extends _ToDoList with DiagnosticableTreeMixin {
   @override
   final String name;
   @override
-  final ToMany<ToDoTask> tasks;
+  final ToMany<ToDoTask> tasksRelation;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'ToDoList(id: $id, name: $name, tasks: $tasks)';
+    return 'ToDoList(id: $id, name: $name, tasksRelation: $tasksRelation)';
   }
 
   @override
@@ -144,7 +148,7 @@ class _$ToDoListImpl extends _ToDoList with DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('type', 'ToDoList'))
       ..add(DiagnosticsProperty('id', id))
       ..add(DiagnosticsProperty('name', name))
-      ..add(DiagnosticsProperty('tasks', tasks));
+      ..add(DiagnosticsProperty('tasksRelation', tasksRelation));
   }
 
   @override
@@ -154,12 +158,13 @@ class _$ToDoListImpl extends _ToDoList with DiagnosticableTreeMixin {
             other is _$ToDoListImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
-            const DeepCollectionEquality().equals(other.tasks, tasks));
+            const DeepCollectionEquality()
+                .equals(other.tasksRelation, tasksRelation));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, id, name, const DeepCollectionEquality().hash(tasks));
+  int get hashCode => Object.hash(runtimeType, id, name,
+      const DeepCollectionEquality().hash(tasksRelation));
 
   @JsonKey(ignore: true)
   @override
@@ -172,7 +177,7 @@ abstract class _ToDoList extends ToDoList {
   factory _ToDoList(
       {@Id(assignable: true) final int? id,
       required final String name,
-      required final ToMany<ToDoTask> tasks}) = _$ToDoListImpl;
+      required final ToMany<ToDoTask> tasksRelation}) = _$ToDoListImpl;
   _ToDoList._() : super._();
 
   @override
@@ -181,7 +186,7 @@ abstract class _ToDoList extends ToDoList {
   @override
   String get name;
   @override
-  ToMany<ToDoTask> get tasks;
+  ToMany<ToDoTask> get tasksRelation;
   @override
   @JsonKey(ignore: true)
   _$$ToDoListImplCopyWith<_$ToDoListImpl> get copyWith =>

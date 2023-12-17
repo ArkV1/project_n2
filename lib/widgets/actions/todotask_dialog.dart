@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:project_n2/models/app_settings.dart';
 import 'package:project_n2/models/todo/todo_list.dart';
 import 'package:project_n2/models/todo/todo_task.dart';
+import 'package:project_n2/objectbox.g.dart';
 
 class ToDoTaskDialog extends ConsumerStatefulWidget {
   const ToDoTaskDialog({super.key});
@@ -71,7 +72,9 @@ class _ToDoTaskDialogState extends ConsumerState<ToDoTaskDialog> {
                             task: toDoTaskController.text,
                             isDaily: daily,
                             creationDate: DateTime.now(),
+                            toDoListRelation: ToOne<ToDoList>(),
                           ),
+                          toDoList: currentList,
                         );
                     Navigator.pop(context);
                   },

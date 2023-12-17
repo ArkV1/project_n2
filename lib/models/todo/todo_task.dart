@@ -20,6 +20,10 @@ class ToDoTask with _$ToDoTask {
     @Default(false) bool complete,
     @Property(type: PropertyType.date) DateTime? creationDate,
     @Property(type: PropertyType.date) DateTime? completionDate,
-    required ToOne<ToDoList> toDoList,
+    required ToOne<ToDoList> toDoListRelation,
   }) = _ToDoTask;
+
+  ToDoList? get toDoList => toDoListRelation.target;
+
+  // final toDoList = ToOne<ToDoList>();
 }

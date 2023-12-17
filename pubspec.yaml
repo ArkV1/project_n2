@@ -54,7 +54,7 @@ dependencies:
   in_app_purchase: ^3.1.5
   in_app_purchase_android: ^0.3.0+5
   # google_mobile_ads: ^3.0.0
-  home_widget: ^0.3.0
+  # home_widget: ^0.3.0
   image_picker: ^0.8.6
   # reorderables: ^0.6.0
   # reorderables: 
