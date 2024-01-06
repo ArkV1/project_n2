@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:objectbox/objectbox.dart';
 import 'package:project_n2/models/wallet/wallet_transaction.dart';
-import 'package:project_n2/tools/enums/currencies.dart';
+import 'package:project_n2/tools/constants.dart';
 
 import 'package:project_n2/models/wallet/wallet.dart';
 
@@ -96,7 +96,7 @@ class _WalletsDialogState extends ConsumerState<WalletsDialog> {
                             //isExpanded: true,
                             decoration: const InputDecoration(
                               labelText: 'Currencies:',
-                              prefixIcon: Icon(Icons.attach_money),
+                              // prefixIcon: Icon(Icons.attach_money),
                             ),
                             value: Currencies.usd,
                             icon: const Icon(
@@ -113,8 +113,17 @@ class _WalletsDialogState extends ConsumerState<WalletsDialog> {
                                     (Currencies currencie) {
                               return DropdownMenuItem<Currencies>(
                                 value: currencie,
-                                child: Text(
-                                  currencie.name,
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      currencie.name,
+                                    ),
+                                    Text(
+                                      ' ${currencie.symbol}',
+                                    ),
+                                  ],
                                 ),
                               );
                             }).toList(),
@@ -179,6 +188,7 @@ class _WalletsDialogState extends ConsumerState<WalletsDialog> {
                           ref.read(walletsProvider.notifier).insertWallet(
                                 Wallet(
                                   name: walletsNameController.text,
+                                  categories: defaultCategories.toList(),
                                   transactionsRelation:
                                       ToMany<WalletTransaction>(),
                                 ),

@@ -1,6 +1,9 @@
 enum AppComponents {
+  calendar(publicName: 'Calendar'),
+  notebook(publicName: 'Notebooks'),
   todo(publicName: 'To Do Lists'),
-  wallet(publicName: 'Wallet');
+  wallet(publicName: 'Wallets'),
+  converter(publicName: 'Currency\nConverter');
 
   const AppComponents({
     required this.publicName,

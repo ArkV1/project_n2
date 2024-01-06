@@ -21,6 +21,7 @@ class Wallet with _$Wallet {
   factory Wallet({
     @Id(assignable: true) int? id,
     required String name,
+    required List<String> categories,
     required ToMany<WalletTransaction> transactionsRelation,
   }) = _Wallet;
 

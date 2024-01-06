@@ -169,7 +169,7 @@
     },
     {
       "id": "6:1468525835500275328",
-      "lastPropertyId": "2:4490577410416462100",
+      "lastPropertyId": "5:1772558234851034474",
       "name": "Wallet",
       "properties": [
         {
@@ -182,6 +182,11 @@
           "id": "2:4490577410416462100",
           "name": "name",
           "type": 9
+        },
+        {
+          "id": "5:1772558234851034474",
+          "name": "categories",
+          "type": 30
         }
       ],
       "relations": [
@@ -194,7 +199,7 @@
     },
     {
       "id": "7:407272998144506317",
-      "lastPropertyId": "8:6293933183743922526",
+      "lastPropertyId": "10:6526198425793305633",
       "name": "WalletTransaction",
       "properties": [
         {
@@ -219,11 +224,6 @@
           "type": 9
         },
         {
-          "id": "5:5854194935803310609",
-          "name": "categorie",
-          "type": 9
-        },
-        {
           "id": "6:954024822420747720",
           "name": "amount",
           "type": 9
@@ -240,6 +240,16 @@
           "flags": 520,
           "indexId": "2:3096948282161509920",
           "relationTarget": "Wallet"
+        },
+        {
+          "id": "9:2946374135556934787",
+          "name": "category",
+          "type": 9
+        },
+        {
+          "id": "10:6526198425793305633",
+          "name": "optionalCurrency",
+          "type": 9
         }
       ],
       "relations": []
@@ -277,7 +287,11 @@
   "modelVersionParserMinimum": 5,
   "retiredEntityUids": [],
   "retiredIndexUids": [],
-  "retiredPropertyUids": [],
+  "retiredPropertyUids": [
+    5854194935803310609,
+    5156563089492136943,
+    5518138728636585735
+  ],
   "retiredRelationUids": [],
   "version": 1
 }

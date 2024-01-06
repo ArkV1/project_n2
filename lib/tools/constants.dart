@@ -14,10 +14,6 @@
 
 ///////////////////////////////////////////////////////////////////////////////
 
-const newQuestiondUUID = 'new_question-9d7d8b89-a3d0-4a2f-bdae-f591aae0115f';
-const newAnswerUUID = 'new_answer-5a5574f4-99f6-4dcd-b359-1d95f349d9b5';
-const newResultUUID = 'new_result-dc817ecd-1079-4890-8ff3-22c9fd4b6165';
-
 ///////////////////////////////////////////////////////////////////////////////
 
 // const Set<String> productIds = <String>{
@@ -43,49 +39,42 @@ const Map<String, Map<String, dynamic>> productsMap = {
 
 ///////////////////////////////////////////////////////////////////////////////
 
-// THEMES
+// WALLET
 
-// OBSOLETE - TO REMOVED
-// const List<String> backgroundsList = <String>[
-//   'V3 - 02 Juicy',
-//   'V3 - 01 Moderate',
-//   'V3 - Ripples',
-//   'V3 - Questions',
-//   'V2 - Casino',
-//   'V1 - Colorful',
-//   'V1 - Colorful(Black)',
-// ];
+enum Currencies {
+  usd(name: 'USD', symbol: '\$'), // US Dollar
+  eur(name: 'EUR', symbol: '€'), // Euro
+  gbp(name: 'GBP', symbol: '£'), // British Pound
+  jpy(name: 'JPY', symbol: '¥'), // Japanese Yen
+  cad(name: 'CAD', symbol: 'C\$'), // Canadian Dollar
+  aud(name: 'AUD', symbol: 'A\$'), // Australian Dollar
+  chf(name: 'CHF', symbol: 'CHF'), // Swiss Franc
+  cny(name: 'CNY', symbol: '¥'), // Chinese Yuan
+  inr(name: 'INR', symbol: '₹'), // Indian Rupee
+  rub(name: 'RUB', symbol: '₽'), // Russian Ruble
+  nis(name: 'NIS', symbol: '₪'); // New Israeli Shekel
 
-// const Map<String, List<String>> backgroundsMap = {
-//   'V3 - 02 Juicy': [
-//     'assets/images/backgrounds/v3/07_juicy_light.jpg',
-//     'assets/images/backgrounds/v3/08_juicy_dark.jpg',
-//   ],
-//   'V3 - 01 Moderate': [
-//     'assets/images/backgrounds/v3/05_moderate_light.jpg',
-//     'assets/images/backgrounds/v3/06_moderate_dark.jpg',
-//   ],
-//   'V3 - Ripples': [
-//     'assets/images/backgrounds/v3/03_abstract_light.jpg',
-//     'assets/images/backgrounds/v3/04_abstract_dark.jpg',
-//   ],
-//   'V3 - Questions': [
-//     'assets/images/backgrounds/v3/01_question_marks_light.jpg',
-//     'assets/images/backgrounds/v3/02_question_marks_dark.jpg'
-//   ],
-//   'V2 - Casino': [
-//     'assets/images/backgrounds/v2/light.jpg',
-//     'assets/images/backgrounds/v2/dark.jpg',
-//   ],
-//   'V1 - Colorful': [
-//     'assets/images/backgrounds/v1/light.jpg',
-//     'assets/images/backgrounds/v1/v3_grey.jpg',
-//   ],
-//   'V1 - Colorful(Black)': [
-//     'assets/images/backgrounds/v1/light.jpg',
-//     'assets/images/backgrounds/v1/dark.jpg',
-//   ],
-// };
+  const Currencies({
+    required this.name,
+    required this.symbol,
+  });
+
+  final String name;
+  final String symbol;
+}
+
+Set<String> defaultCategories = {
+  'Food',
+  'Transport',
+  'Entertainment',
+  'Shopping',
+  'Health',
+  'Education',
+  'Gifts',
+  'Other',
+};
+
+// APP SETTINGS
 
 const List<Map<String, dynamic>> primaryColorList = [
   {'color': 'Green', 'num': 0xFF65A603},

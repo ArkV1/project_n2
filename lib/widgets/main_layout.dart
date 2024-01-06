@@ -9,9 +9,9 @@ import 'package:project_n2/tools/enums/settings.dart';
 
 import 'package:project_n2/screens/home_screen.dart';
 import 'package:project_n2/screens/wallets_screen.dart';
-import 'package:project_n2/widgets/actions/todotask_dialog.dart';
-import 'package:project_n2/widgets/actions/transaction_dialog.dart';
-import 'package:project_n2/widgets/actions/widget_dialog.dart';
+import 'package:project_n2/widgets/actions/dialogs/todotask_dialog.dart';
+import 'package:project_n2/widgets/actions/dialogs/transaction_dialog.dart';
+import 'package:project_n2/widgets/actions/dialogs/widget_dialog.dart';
 
 // final _mainLayoutScaffoldKey = GlobalKey<ScaffoldState>();
 

@@ -21,8 +21,9 @@ mixin _$WalletTransaction {
   int get walletId => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
-  String? get categorie => throw _privateConstructorUsedError;
+  String? get category => throw _privateConstructorUsedError;
   String? get amount => throw _privateConstructorUsedError;
+  String? get optionalCurrency => throw _privateConstructorUsedError;
   @Property(type: PropertyType.date)
   DateTime? get transactionDate => throw _privateConstructorUsedError;
   @Transient()
@@ -45,8 +46,9 @@ abstract class $WalletTransactionCopyWith<$Res> {
       int walletId,
       String? name,
       String? description,
-      String? categorie,
+      String? category,
       String? amount,
+      String? optionalCurrency,
       @Property(type: PropertyType.date) DateTime? transactionDate,
       @Transient() Uint8List? media,
       ToOne<Wallet> walletRelation});
@@ -69,8 +71,9 @@ class _$WalletTransactionCopyWithImpl<$Res, $Val extends WalletTransaction>
     Object? walletId = null,
     Object? name = freezed,
     Object? description = freezed,
-    Object? categorie = freezed,
+    Object? category = freezed,
     Object? amount = freezed,
+    Object? optionalCurrency = freezed,
     Object? transactionDate = freezed,
     Object? media = freezed,
     Object? walletRelation = null,
@@ -92,13 +95,17 @@ class _$WalletTransactionCopyWithImpl<$Res, $Val extends WalletTransaction>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String?,
-      categorie: freezed == categorie
-          ? _value.categorie
-          : categorie // ignore: cast_nullable_to_non_nullable
+      category: freezed == category
+          ? _value.category
+          : category // ignore: cast_nullable_to_non_nullable
               as String?,
       amount: freezed == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
+              as String?,
+      optionalCurrency: freezed == optionalCurrency
+          ? _value.optionalCurrency
+          : optionalCurrency // ignore: cast_nullable_to_non_nullable
               as String?,
       transactionDate: freezed == transactionDate
           ? _value.transactionDate
@@ -129,8 +136,9 @@ abstract class _$$WalletTransactionImplCopyWith<$Res>
       int walletId,
       String? name,
       String? description,
-      String? categorie,
+      String? category,
       String? amount,
+      String? optionalCurrency,
       @Property(type: PropertyType.date) DateTime? transactionDate,
       @Transient() Uint8List? media,
       ToOne<Wallet> walletRelation});
@@ -151,8 +159,9 @@ class __$$WalletTransactionImplCopyWithImpl<$Res>
     Object? walletId = null,
     Object? name = freezed,
     Object? description = freezed,
-    Object? categorie = freezed,
+    Object? category = freezed,
     Object? amount = freezed,
+    Object? optionalCurrency = freezed,
     Object? transactionDate = freezed,
     Object? media = freezed,
     Object? walletRelation = null,
@@ -174,13 +183,17 @@ class __$$WalletTransactionImplCopyWithImpl<$Res>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String?,
-      categorie: freezed == categorie
-          ? _value.categorie
-          : categorie // ignore: cast_nullable_to_non_nullable
+      category: freezed == category
+          ? _value.category
+          : category // ignore: cast_nullable_to_non_nullable
               as String?,
       amount: freezed == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
+              as String?,
+      optionalCurrency: freezed == optionalCurrency
+          ? _value.optionalCurrency
+          : optionalCurrency // ignore: cast_nullable_to_non_nullable
               as String?,
       transactionDate: freezed == transactionDate
           ? _value.transactionDate
@@ -207,8 +220,9 @@ class _$WalletTransactionImpl extends _WalletTransaction {
       required this.walletId,
       this.name,
       this.description,
-      this.categorie,
+      this.category,
       this.amount,
+      this.optionalCurrency,
       @Property(type: PropertyType.date) this.transactionDate,
       @Transient() this.media,
       required this.walletRelation})
@@ -224,9 +238,11 @@ class _$WalletTransactionImpl extends _WalletTransaction {
   @override
   final String? description;
   @override
-  final String? categorie;
+  final String? category;
   @override
   final String? amount;
+  @override
+  final String? optionalCurrency;
   @override
   @Property(type: PropertyType.date)
   final DateTime? transactionDate;
@@ -238,7 +254,7 @@ class _$WalletTransactionImpl extends _WalletTransaction {
 
   @override
   String toString() {
-    return 'WalletTransaction(id: $id, walletId: $walletId, name: $name, description: $description, categorie: $categorie, amount: $amount, transactionDate: $transactionDate, media: $media, walletRelation: $walletRelation)';
+    return 'WalletTransaction(id: $id, walletId: $walletId, name: $name, description: $description, category: $category, amount: $amount, optionalCurrency: $optionalCurrency, transactionDate: $transactionDate, media: $media, walletRelation: $walletRelation)';
   }
 
   @override
@@ -252,9 +268,11 @@ class _$WalletTransactionImpl extends _WalletTransaction {
             (identical(other.name, name) || other.name == name) &&
             (identical(other.description, description) ||
                 other.description == description) &&
-            (identical(other.categorie, categorie) ||
-                other.categorie == categorie) &&
+            (identical(other.category, category) ||
+                other.category == category) &&
             (identical(other.amount, amount) || other.amount == amount) &&
+            (identical(other.optionalCurrency, optionalCurrency) ||
+                other.optionalCurrency == optionalCurrency) &&
             (identical(other.transactionDate, transactionDate) ||
                 other.transactionDate == transactionDate) &&
             const DeepCollectionEquality().equals(other.media, media) &&
@@ -269,8 +287,9 @@ class _$WalletTransactionImpl extends _WalletTransaction {
       walletId,
       name,
       description,
-      categorie,
+      category,
       amount,
+      optionalCurrency,
       transactionDate,
       const DeepCollectionEquality().hash(media),
       walletRelation);
@@ -289,8 +308,9 @@ abstract class _WalletTransaction extends WalletTransaction {
       required final int walletId,
       final String? name,
       final String? description,
-      final String? categorie,
+      final String? category,
       final String? amount,
+      final String? optionalCurrency,
       @Property(type: PropertyType.date) final DateTime? transactionDate,
       @Transient() final Uint8List? media,
       required final ToOne<Wallet> walletRelation}) = _$WalletTransactionImpl;
@@ -306,9 +326,11 @@ abstract class _WalletTransaction extends WalletTransaction {
   @override
   String? get description;
   @override
-  String? get categorie;
+  String? get category;
   @override
   String? get amount;
+  @override
+  String? get optionalCurrency;
   @override
   @Property(type: PropertyType.date)
   DateTime? get transactionDate;

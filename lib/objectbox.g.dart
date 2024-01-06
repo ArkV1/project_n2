@@ -191,7 +191,7 @@ final _entities = <ModelEntity>[
   ModelEntity(
       id: const IdUid(6, 1468525835500275328),
       name: 'Wallet',
-      lastPropertyId: const IdUid(2, 4490577410416462100),
+      lastPropertyId: const IdUid(5, 1772558234851034474),
       flags: 0,
       properties: <ModelProperty>[
         ModelProperty(
@@ -203,6 +203,11 @@ final _entities = <ModelEntity>[
             id: const IdUid(2, 4490577410416462100),
             name: 'name',
             type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(5, 1772558234851034474),
+            name: 'categories',
+            type: 30,
             flags: 0)
       ],
       relations: <ModelRelation>[
@@ -215,7 +220,7 @@ final _entities = <ModelEntity>[
   ModelEntity(
       id: const IdUid(7, 407272998144506317),
       name: 'WalletTransaction',
-      lastPropertyId: const IdUid(8, 6293933183743922526),
+      lastPropertyId: const IdUid(10, 6526198425793305633),
       flags: 0,
       properties: <ModelProperty>[
         ModelProperty(
@@ -239,11 +244,6 @@ final _entities = <ModelEntity>[
             type: 9,
             flags: 0),
         ModelProperty(
-            id: const IdUid(5, 5854194935803310609),
-            name: 'categorie',
-            type: 9,
-            flags: 0),
-        ModelProperty(
             id: const IdUid(6, 954024822420747720),
             name: 'amount',
             type: 9,
@@ -259,7 +259,17 @@ final _entities = <ModelEntity>[
             type: 11,
             flags: 520,
             indexId: const IdUid(2, 3096948282161509920),
-            relationTarget: 'Wallet')
+            relationTarget: 'Wallet'),
+        ModelProperty(
+            id: const IdUid(9, 2946374135556934787),
+            name: 'category',
+            type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(10, 6526198425793305633),
+            name: 'optionalCurrency',
+            type: 9,
+            flags: 0)
       ],
       relations: <ModelRelation>[],
       backlinks: <ModelBacklink>[]),
@@ -322,7 +332,11 @@ ModelDefinition getObjectBoxModel() {
       lastSequenceId: const IdUid(0, 0),
       retiredEntityUids: const [],
       retiredIndexUids: const [],
-      retiredPropertyUids: const [],
+      retiredPropertyUids: const [
+        5854194935803310609,
+        5156563089492136943,
+        5518138728636585735
+      ],
       retiredRelationUids: const [],
       modelVersion: 5,
       modelVersionParserMinimum: 5,
@@ -583,9 +597,12 @@ ModelDefinition getObjectBoxModel() {
         },
         objectToFB: (Wallet object, fb.Builder fbb) {
           final nameOffset = fbb.writeString(object.name);
-          fbb.startTable(3);
+          final categoriesOffset = fbb.writeList(
+              object.categories.map(fbb.writeString).toList(growable: false));
+          fbb.startTable(6);
           fbb.addInt64(0, object.id ?? 0);
           fbb.addOffset(1, nameOffset);
+          fbb.addOffset(4, categoriesOffset);
           fbb.finish(fbb.endTable());
           return object.id ?? 0;
         },
@@ -596,10 +613,15 @@ ModelDefinition getObjectBoxModel() {
               const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 4);
           final nameParam = const fb.StringReader(asciiOptimization: true)
               .vTableGet(buffer, rootOffset, 6, '');
+          final categoriesParam = const fb.ListReader<String>(
+                  fb.StringReader(asciiOptimization: true),
+                  lazy: false)
+              .vTableGet(buffer, rootOffset, 12, []);
           final transactionsRelationParam = ToMany<WalletTransaction>();
           final object = Wallet(
               id: idParam,
               name: nameParam,
+              categories: categoriesParam,
               transactionsRelation: transactionsRelationParam);
           InternalToManyAccess.setRelInfo<Wallet>(object.transactionsRelation,
               store, RelInfo<Wallet>.toMany(2, object.id!));
@@ -625,20 +647,24 @@ ModelDefinition getObjectBoxModel() {
           final descriptionOffset = object.description == null
               ? null
               : fbb.writeString(object.description!);
-          final categorieOffset = object.categorie == null
-              ? null
-              : fbb.writeString(object.categorie!);
           final amountOffset =
               object.amount == null ? null : fbb.writeString(object.amount!);
-          fbb.startTable(9);
+          final categoryOffset = object.category == null
+              ? null
+              : fbb.writeString(object.category!);
+          final optionalCurrencyOffset = object.optionalCurrency == null
+              ? null
+              : fbb.writeString(object.optionalCurrency!);
+          fbb.startTable(11);
           fbb.addInt64(0, object.id ?? 0);
           fbb.addInt64(1, object.walletId);
           fbb.addOffset(2, nameOffset);
           fbb.addOffset(3, descriptionOffset);
-          fbb.addOffset(4, categorieOffset);
           fbb.addOffset(5, amountOffset);
           fbb.addInt64(6, object.transactionDate?.millisecondsSinceEpoch);
           fbb.addInt64(7, object.walletRelation.targetId);
+          fbb.addOffset(8, categoryOffset);
+          fbb.addOffset(9, optionalCurrencyOffset);
           fbb.finish(fbb.endTable());
           return object.id ?? 0;
         },
@@ -656,10 +682,13 @@ ModelDefinition getObjectBoxModel() {
           final descriptionParam =
               const fb.StringReader(asciiOptimization: true)
                   .vTableGetNullable(buffer, rootOffset, 10);
-          final categorieParam = const fb.StringReader(asciiOptimization: true)
-              .vTableGetNullable(buffer, rootOffset, 12);
+          final categoryParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 20);
           final amountParam = const fb.StringReader(asciiOptimization: true)
               .vTableGetNullable(buffer, rootOffset, 14);
+          final optionalCurrencyParam =
+              const fb.StringReader(asciiOptimization: true)
+                  .vTableGetNullable(buffer, rootOffset, 22);
           final transactionDateParam = transactionDateValue == null
               ? null
               : DateTime.fromMillisecondsSinceEpoch(transactionDateValue);
@@ -671,8 +700,9 @@ ModelDefinition getObjectBoxModel() {
               walletId: walletIdParam,
               name: nameParam,
               description: descriptionParam,
-              categorie: categorieParam,
+              category: categoryParam,
               amount: amountParam,
+              optionalCurrency: optionalCurrencyParam,
               transactionDate: transactionDateParam,
               walletRelation: walletRelationParam);
           object.walletRelation.attach(store);
@@ -831,6 +861,10 @@ class Wallet_ {
   /// see [Wallet.name]
   static final name = QueryStringProperty<Wallet>(_entities[5].properties[1]);
 
+  /// see [Wallet.categories]
+  static final categories =
+      QueryStringVectorProperty<Wallet>(_entities[5].properties[2]);
+
   /// see [Wallet.transactionsRelation]
   static final transactionsRelation =
       QueryRelationToMany<Wallet, WalletTransaction>(_entities[5].relations[0]);
@@ -854,21 +888,25 @@ class WalletTransaction_ {
   static final description =
       QueryStringProperty<WalletTransaction>(_entities[6].properties[3]);
 
-  /// see [WalletTransaction.categorie]
-  static final categorie =
-      QueryStringProperty<WalletTransaction>(_entities[6].properties[4]);
-
   /// see [WalletTransaction.amount]
   static final amount =
-      QueryStringProperty<WalletTransaction>(_entities[6].properties[5]);
+      QueryStringProperty<WalletTransaction>(_entities[6].properties[4]);
 
   /// see [WalletTransaction.transactionDate]
   static final transactionDate =
-      QueryIntegerProperty<WalletTransaction>(_entities[6].properties[6]);
+      QueryIntegerProperty<WalletTransaction>(_entities[6].properties[5]);
 
   /// see [WalletTransaction.walletRelation]
   static final walletRelation =
-      QueryRelationToOne<WalletTransaction, Wallet>(_entities[6].properties[7]);
+      QueryRelationToOne<WalletTransaction, Wallet>(_entities[6].properties[6]);
+
+  /// see [WalletTransaction.category]
+  static final category =
+      QueryStringProperty<WalletTransaction>(_entities[6].properties[7]);
+
+  /// see [WalletTransaction.optionalCurrency]
+  static final optionalCurrency =
+      QueryStringProperty<WalletTransaction>(_entities[6].properties[8]);
 }
 
 /// [WalletWidget] entity fields to define ObjectBox queries.

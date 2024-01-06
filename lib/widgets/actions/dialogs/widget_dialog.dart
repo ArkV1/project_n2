@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:project_n2/models/app_settings.dart';
 import 'package:project_n2/models/wallet/wallet.dart';
 import 'package:project_n2/models/widgets/app_widget.dart';
 import 'package:project_n2/models/widgets/todo_widget.dart';
@@ -25,6 +26,7 @@ class _AppWidgetDialogState extends ConsumerState<AppWidgetDialog> {
   @override
   Widget build(BuildContext context) {
     final appWidgets = ref.watch(appWidgetsProvider).value!;
+
     return Builder(builder: (context) {
       return AlertDialog(
         title: Text(
@@ -48,6 +50,20 @@ class _AppWidgetDialogState extends ConsumerState<AppWidgetDialog> {
                 });
               },
               items: ContainedObjectType.values
+                  .where((containedObjectType) {
+                    final componentMap = ref.read(componentMapProvider).value;
+                    switch (containedObjectType) {
+                      case ContainedObjectType.wallet:
+                        return componentMap![AppComponents.wallet.name] ??
+                            false;
+                      case ContainedObjectType.toDoList:
+                        return componentMap![AppComponents.todo.name] ?? false;
+                      case ContainedObjectType.other:
+                        return false;
+                      case ContainedObjectType.unknown:
+                        return false;
+                    }
+                  })
                   .map((type) => DropdownMenuItem<ContainedObjectType>(
                         value: type,
                         child: Text(type.publicName),

@@ -120,6 +120,12 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                                   case AppComponents.wallet:
                                     return const Icon(
                                         Icons.account_balance_wallet);
+                                  case AppComponents.notebook:
+                                    return const Icon(Icons.edit_note);
+                                  case AppComponents.calendar:
+                                    return const Icon(Icons.calendar_today);
+                                  case AppComponents.converter:
+                                    return const Icon(Icons.currency_exchange);
                                 }
                               }(),
                               onTap: () {
@@ -137,6 +143,15 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                                       builder: (BuildContext context) =>
                                           const WalletsDialog(),
                                     );
+                                    break;
+                                  case AppComponents.notebook:
+                                    // TODO: Handle this case.
+                                    break;
+                                  case AppComponents.calendar:
+                                    // TODO: Handle this case.
+                                    break;
+                                  case AppComponents.converter:
+                                    // TODO: Handle this case.
                                     break;
                                 }
                               },

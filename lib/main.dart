@@ -31,7 +31,7 @@ import 'package:project_n2/tools/constants.dart';
 
 import 'package:project_n2/objectbox.g.dart';
 
-// late final Admin _admin;
+late final Admin _admin;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -82,9 +82,9 @@ void main() async {
 
   ObjectBox.init(store);
 
-  // if (Admin.isAvailable()) {
-  //   _admin = Admin(store);
-  // }
+  if (Admin.isAvailable()) {
+    _admin = Admin(store);
+  }
 
   runApp(
     ProviderScope(

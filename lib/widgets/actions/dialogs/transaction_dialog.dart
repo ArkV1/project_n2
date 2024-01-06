@@ -4,6 +4,7 @@ import 'package:project_n2/models/app_settings.dart';
 import 'package:project_n2/models/wallet/wallet.dart';
 import 'package:project_n2/models/wallet/wallet_transaction.dart';
 import 'package:project_n2/objectbox.g.dart';
+import 'package:project_n2/widgets/actions/dropdown/category_dropdown.dart';
 
 class TransactionDialog extends ConsumerStatefulWidget {
   const TransactionDialog({super.key});
@@ -20,6 +21,7 @@ class _TransactionDialogState extends ConsumerState<TransactionDialog> {
   Widget build(BuildContext context) {
     // final wallets = ref.watch(dataManagerProvider).wallets;
     final wallets = ref.watch(walletsProvider);
+    final currentWallet = wallets[ref.read(screenIndexProvider)];
     return AlertDialog(
       title: const Text('New transaction'),
       content: Column(
@@ -41,11 +43,13 @@ class _TransactionDialogState extends ConsumerState<TransactionDialog> {
             ),
             controller: transactionAmountController,
           ),
+          CategoryDropdown(
+            categories: currentWallet.categories.toSet(),
+          ),
           Padding(
             padding: const EdgeInsets.only(top: 8.0),
             child: ElevatedButton(
               onPressed: () {
-                final currentWallet = wallets[ref.read(screenIndexProvider)];
                 // int latestId = 0;
                 // try {
                 //   latestId = int.parse(currentWallet.transactions.last.id!);
