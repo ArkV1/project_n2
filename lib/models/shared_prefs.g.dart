@@ -6,12 +6,12 @@ part of 'shared_prefs.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$sharedPrefsHash() => r'c4a0c46baaf955f5d2280794ee5d7b073f5535ca';
+String _$sharedPrefsHash() => r'90fcbac4050fd085f68ff9aa6c963cb1c65cfaa2';
 
 /// See also [SharedPrefs].
 @ProviderFor(SharedPrefs)
 final sharedPrefsProvider =
-    AsyncNotifierProvider<SharedPrefs, List<SharedPref>>.internal(
+    NotifierProvider<SharedPrefs, List<SharedPref>>.internal(
   SharedPrefs.new,
   name: r'sharedPrefsProvider',
   debugGetCreateSourceHash:
@@ -20,6 +20,6 @@ final sharedPrefsProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$SharedPrefs = AsyncNotifier<List<SharedPref>>;
+typedef _$SharedPrefs = Notifier<List<SharedPref>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

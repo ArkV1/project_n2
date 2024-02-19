@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:intl/intl.dart';
+import 'package:project_n2/models/app_settings.dart';
 
 import 'package:project_n2/models/wallet/wallet.dart';
 import 'package:project_n2/models/widgets/app_widget.dart';
@@ -27,6 +28,7 @@ class WalletWidgetBuilder extends ConsumerStatefulWidget {
 class _WalletWidgetBuilderState extends ConsumerState<WalletWidgetBuilder> {
   Widget _buildTotalWidget(Wallet wallet, WalletWidget walletWidget) {
     final total = ref.watch(totalOfWalletByIdProvider(walletId: wallet.id!));
+    final isEditing = ref.watch(screenEditingProvider);
     return Container(
       // decoration: const BoxDecoration(
       //   border: Border(
@@ -47,7 +49,7 @@ class _WalletWidgetBuilderState extends ConsumerState<WalletWidgetBuilder> {
                     const Text(
                       'Total',
                     ),
-                    Text('Wallet: ${wallet.name}'),
+                    Text('${isEditing ? 'Wallet:' : ''} ${wallet.name}'),
                   ],
                 ),
               ),
@@ -58,7 +60,9 @@ class _WalletWidgetBuilderState extends ConsumerState<WalletWidgetBuilder> {
 
                 title: total.when(data: (total) {
                   return Text(
-                    total.toString(),
+                    total != null
+                        ? total.toStringAsFixed(2)
+                        : 'Calculations failed',
                     textAlign: TextAlign.center,
                   );
                 }, error: (error, stacktrace) {
@@ -80,6 +84,7 @@ class _WalletWidgetBuilderState extends ConsumerState<WalletWidgetBuilder> {
   }
 
   Widget _buildLastTransactionWidget(Wallet wallet, WalletWidget walletWidget) {
+    final isEditing = ref.watch(screenEditingProvider);
     return Card(
       key: ValueKey('${walletWidget.id}lastTransactionsWidget'),
       child: Padding(
@@ -94,7 +99,7 @@ class _WalletWidgetBuilderState extends ConsumerState<WalletWidgetBuilder> {
                   const Text(
                     'Latest transactions:',
                   ),
-                  Text('Wallet: ${wallet.name}'),
+                  Text('${isEditing ? 'Wallet:' : ''} ${wallet.name}'),
                 ],
               ),
             ),
@@ -108,15 +113,15 @@ class _WalletWidgetBuilderState extends ConsumerState<WalletWidgetBuilder> {
                   0,
                 ),
                 leading: Text(
-                  currentTransaction.transactionDate != null
+                  currentTransaction.date != null
                       ? DateFormat.Md()
                           .add_Hm()
-                          .format(currentTransaction.transactionDate!)
+                          .format(currentTransaction.date!)
                       : 'Unknown',
                 ),
                 title: Text(currentTransaction.name ?? 'Undefined name'),
                 trailing: Text(
-                  currentTransaction.amount ?? '0',
+                  currentTransaction.amount?.toString() ?? '0',
                 ),
                 visualDensity: VisualDensity.compact,
                 dense: true,
@@ -128,6 +133,7 @@ class _WalletWidgetBuilderState extends ConsumerState<WalletWidgetBuilder> {
   }
 
   Widget _buildDailySpendingsWidget(Wallet wallet, WalletWidget walletWidget) {
+    final isEditing = ref.watch(screenEditingProvider);
     return Card(
       key: ValueKey('${walletWidget.id}dailySpendingWidget'),
       child: Padding(
@@ -147,7 +153,7 @@ class _WalletWidgetBuilderState extends ConsumerState<WalletWidgetBuilder> {
                   const Text(
                     'Weekly spendings',
                   ),
-                  Text('Wallet: ${wallet.name}'),
+                  Text('${isEditing ? 'Wallet:' : ''} ${wallet.name}'),
                 ],
               ),
             ),
@@ -285,26 +291,29 @@ class _WalletWidgetBuilderState extends ConsumerState<WalletWidgetBuilder> {
   Widget build(BuildContext context) {
     // if (widget.appWidget.walletWidget == null) return Text('');
     final walletWidget = widget.appWidget.walletWidget;
+    if (walletWidget == null) {
+      return Card(
+        child: ListTile(
+          title: const Text(
+            'Widget data is missing!',
+            textAlign: TextAlign.center,
+          ),
+        ),
+      );
+    }
     final wallet =
         ref.watch(walletByIdProvider(walletId: walletWidget.walletId));
-    return wallet.when(data: (wallet) {
-      if (wallet == null) return const Text('Wallet was not found');
-      switch (walletWidget.widgetType) {
-        case WalletWidgetType.total:
-          return _buildTotalWidget(wallet, walletWidget);
-        case WalletWidgetType.lastTransaction:
-          return _buildLastTransactionWidget(wallet, walletWidget);
-        case WalletWidgetType.dailySpendings:
-          return _buildDailySpendingsWidget(wallet, walletWidget);
-        default:
-          return Text(
-              'Unknown wallet widget of type: ${walletWidget.widgetType}');
-      }
-    }, error: (error, stacktrace) {
-      debugPrint(stacktrace.toString());
-      return Text(error.toString());
-    }, loading: () {
-      return const CircularProgressIndicator();
-    });
+    if (wallet == null) return const Text('Wallet was not found');
+    switch (walletWidget.widgetType) {
+      case WalletWidgetType.total:
+        return _buildTotalWidget(wallet, walletWidget);
+      case WalletWidgetType.lastTransaction:
+        return _buildLastTransactionWidget(wallet, walletWidget);
+      case WalletWidgetType.dailySpendings:
+        return _buildDailySpendingsWidget(wallet, walletWidget);
+      default:
+        return Text(
+            'Unknown wallet widget of type: ${walletWidget.widgetType}');
+    }
   }
 }

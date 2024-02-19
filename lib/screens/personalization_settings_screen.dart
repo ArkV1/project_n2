@@ -22,38 +22,31 @@ class _PersonalizationSettingsScreenState
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: ref.watch(themeManagerProvider).when(data: (_) {
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Spacer(flex: 1),
-                Container(
-                  padding: const EdgeInsets.all(24),
-                  decoration: BoxDecoration(
-                      border: Border.all(width: 1, color: Colors.grey),
-                      borderRadius: BorderRadius.circular(12)),
-                  child: const IntrinsicWidth(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        ThemeDropdown(),
-                        PrimaryColorDropdown(),
-                        SecondaryColorDropdown(),
-                      ],
-                    ),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Spacer(flex: 1),
+              Container(
+                padding: const EdgeInsets.all(24),
+                decoration: BoxDecoration(
+                    border: Border.all(width: 1, color: Colors.grey),
+                    borderRadius: BorderRadius.circular(12)),
+                child: const IntrinsicWidth(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      ThemeDropdown(),
+                      PrimaryColorDropdown(),
+                      SecondaryColorDropdown(),
+                    ],
                   ),
                 ),
-                const Spacer(flex: 1),
-              ],
-            ),
-          );
-        }, error: (error, stacktrace) {
-          debugPrint(error.toString() + stacktrace.toString());
-          return const Text('error');
-        }, loading: () {
-          return const CircularProgressIndicator();
-        }),
+              ),
+              const Spacer(flex: 1),
+            ],
+          ),
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.keyboard_return),

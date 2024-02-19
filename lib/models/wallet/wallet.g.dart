@@ -6,7 +6,7 @@ part of 'wallet.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$walletsHash() => r'323529bc0cde1e5e9e1663ddba9d59e90a336303';
+String _$walletsHash() => r'd068f877245f3358cc774845e60ddbd72ca680cb';
 
 /// See also [Wallets].
 @ProviderFor(Wallets)
@@ -21,7 +21,7 @@ final walletsProvider =
 );
 
 typedef _$Wallets = AutoDisposeNotifier<List<Wallet>>;
-String _$walletByIdHash() => r'fa13484673ead4dd51836091450f30d0457ab9f9';
+String _$walletByIdHash() => r'02992af71f91bc8b7c0f40021d46d115dfc65cd7';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -44,11 +44,11 @@ class _SystemHash {
   }
 }
 
-abstract class _$WalletById extends BuildlessAutoDisposeAsyncNotifier<Wallet?> {
-  late final int walletId;
+abstract class _$WalletById extends BuildlessAutoDisposeNotifier<Wallet?> {
+  late final int? walletId;
 
-  FutureOr<Wallet?> build({
-    required int walletId,
+  Wallet? build({
+    required int? walletId,
   });
 }
 
@@ -57,13 +57,13 @@ abstract class _$WalletById extends BuildlessAutoDisposeAsyncNotifier<Wallet?> {
 const walletByIdProvider = WalletByIdFamily();
 
 /// See also [WalletById].
-class WalletByIdFamily extends Family<AsyncValue<Wallet?>> {
+class WalletByIdFamily extends Family<Wallet?> {
   /// See also [WalletById].
   const WalletByIdFamily();
 
   /// See also [WalletById].
   WalletByIdProvider call({
-    required int walletId,
+    required int? walletId,
   }) {
     return WalletByIdProvider(
       walletId: walletId,
@@ -96,10 +96,10 @@ class WalletByIdFamily extends Family<AsyncValue<Wallet?>> {
 
 /// See also [WalletById].
 class WalletByIdProvider
-    extends AutoDisposeAsyncNotifierProviderImpl<WalletById, Wallet?> {
+    extends AutoDisposeNotifierProviderImpl<WalletById, Wallet?> {
   /// See also [WalletById].
   WalletByIdProvider({
-    required int walletId,
+    required int? walletId,
   }) : this._internal(
           () => WalletById()..walletId = walletId,
           from: walletByIdProvider,
@@ -124,10 +124,10 @@ class WalletByIdProvider
     required this.walletId,
   }) : super.internal();
 
-  final int walletId;
+  final int? walletId;
 
   @override
-  FutureOr<Wallet?> runNotifierBuild(
+  Wallet? runNotifierBuild(
     covariant WalletById notifier,
   ) {
     return notifier.build(
@@ -152,7 +152,7 @@ class WalletByIdProvider
   }
 
   @override
-  AutoDisposeAsyncNotifierProviderElement<WalletById, Wallet?> createElement() {
+  AutoDisposeNotifierProviderElement<WalletById, Wallet?> createElement() {
     return _WalletByIdProviderElement(this);
   }
 
@@ -170,27 +170,43 @@ class WalletByIdProvider
   }
 }
 
-mixin WalletByIdRef on AutoDisposeAsyncNotifierProviderRef<Wallet?> {
+mixin WalletByIdRef on AutoDisposeNotifierProviderRef<Wallet?> {
   /// The parameter `walletId` of this provider.
-  int get walletId;
+  int? get walletId;
 }
 
 class _WalletByIdProviderElement
-    extends AutoDisposeAsyncNotifierProviderElement<WalletById, Wallet?>
+    extends AutoDisposeNotifierProviderElement<WalletById, Wallet?>
     with WalletByIdRef {
   _WalletByIdProviderElement(super.provider);
 
   @override
-  int get walletId => (origin as WalletByIdProvider).walletId;
+  int? get walletId => (origin as WalletByIdProvider).walletId;
 }
 
-String _$totalOfWalletByIdHash() => r'b239e2314860b29a8d00fce0d9220e939ff536ff';
+String _$defaultWalletHash() => r'7f130d06a14e2803d2b069233fd7c538f743d1ee';
+
+/// See also [DefaultWallet].
+@ProviderFor(DefaultWallet)
+final defaultWalletProvider =
+    AutoDisposeNotifierProvider<DefaultWallet, Wallet?>.internal(
+  DefaultWallet.new,
+  name: r'defaultWalletProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$defaultWalletHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$DefaultWallet = AutoDisposeNotifier<Wallet?>;
+String _$totalOfWalletByIdHash() => r'a482ecf44873b0dc784cf22c3dba5d2e5046475f';
 
 abstract class _$TotalOfWalletById
-    extends BuildlessAutoDisposeAsyncNotifier<int?> {
+    extends BuildlessAutoDisposeAsyncNotifier<double?> {
   late final int walletId;
 
-  FutureOr<int?> build({
+  FutureOr<double?> build({
     required int walletId,
   });
 }
@@ -200,7 +216,7 @@ abstract class _$TotalOfWalletById
 const totalOfWalletByIdProvider = TotalOfWalletByIdFamily();
 
 /// See also [TotalOfWalletById].
-class TotalOfWalletByIdFamily extends Family<AsyncValue<int?>> {
+class TotalOfWalletByIdFamily extends Family<AsyncValue<double?>> {
   /// See also [TotalOfWalletById].
   const TotalOfWalletByIdFamily();
 
@@ -239,7 +255,7 @@ class TotalOfWalletByIdFamily extends Family<AsyncValue<int?>> {
 
 /// See also [TotalOfWalletById].
 class TotalOfWalletByIdProvider
-    extends AutoDisposeAsyncNotifierProviderImpl<TotalOfWalletById, int?> {
+    extends AutoDisposeAsyncNotifierProviderImpl<TotalOfWalletById, double?> {
   /// See also [TotalOfWalletById].
   TotalOfWalletByIdProvider({
     required int walletId,
@@ -270,7 +286,7 @@ class TotalOfWalletByIdProvider
   final int walletId;
 
   @override
-  FutureOr<int?> runNotifierBuild(
+  FutureOr<double?> runNotifierBuild(
     covariant TotalOfWalletById notifier,
   ) {
     return notifier.build(
@@ -295,7 +311,7 @@ class TotalOfWalletByIdProvider
   }
 
   @override
-  AutoDisposeAsyncNotifierProviderElement<TotalOfWalletById, int?>
+  AutoDisposeAsyncNotifierProviderElement<TotalOfWalletById, double?>
       createElement() {
     return _TotalOfWalletByIdProviderElement(this);
   }
@@ -314,13 +330,13 @@ class TotalOfWalletByIdProvider
   }
 }
 
-mixin TotalOfWalletByIdRef on AutoDisposeAsyncNotifierProviderRef<int?> {
+mixin TotalOfWalletByIdRef on AutoDisposeAsyncNotifierProviderRef<double?> {
   /// The parameter `walletId` of this provider.
   int get walletId;
 }
 
 class _TotalOfWalletByIdProviderElement
-    extends AutoDisposeAsyncNotifierProviderElement<TotalOfWalletById, int?>
+    extends AutoDisposeAsyncNotifierProviderElement<TotalOfWalletById, double?>
     with TotalOfWalletByIdRef {
   _TotalOfWalletByIdProviderElement(super.provider);
 

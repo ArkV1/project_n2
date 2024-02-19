@@ -19,35 +19,33 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    mainScreenWidgets =
-        ref.read(appWidgetByParentIdProvider(parentId: 'mainScreen'));
+    mainScreenWidgets = ref.read(appWidgetByParentIdProvider(parentId: 'mainScreen'));
   }
 
   @override
   Widget build(BuildContext context) {
-    final isEditing = ref.watch(screenEditingProvider);
+    final widgetEditig = ref.watch(widgetEditingProvider);
 
-    ref.listen(appWidgetByParentIdProvider(parentId: 'mainScreen'),
-        (previous, next) {
-      // THERE IS A PROBLEM WITH VALUES NOT UPDATING
-      // TODO SAVE LIST ON ISEDITING CHANGE
-      if (previous != null && previous.value != null) {
-        Set<int> idsFromList1 =
-            Set.from(previous.value!.map((item) => item.id));
-        Set<int> idsFromList2 = Set.from(next.value!.map((item) => item.id));
-        if (idsFromList1.length == idsFromList2.length &&
-            idsFromList1.containsAll(idsFromList2)) {
-          return;
-        }
-      }
+    // ref.listen(appWidgetByParentIdProvider(parentId: 'mainScreen'),
+    //     (previous, next) {
+    //   // THERE IS A PROBLEM WITH VALUES NOT UPDATING
+    //   // TODO SAVE LIST ON ISEDITING CHANGE
+    //   if (previous != null && previous.value != null) {
+    //     Set<int> idsFromList1 =
+    //         Set.from(previous.value!.map((item) => item.id));
+    //     Set<int> idsFromList2 = Set.from(next.value!.map((item) => item.id));
+    //     if (idsFromList1.length == idsFromList2.length &&
+    //         idsFromList1.containsAll(idsFromList2)) {
+    //       return;
+    //     }
+    //   }
 
-      setState(() {
-        mainScreenWidgets = next;
-      });
-    });
+    //   setState(() {
+    //     mainScreenWidgets = next;
+    //   });
+    // });
 
-    // final mainScreenWidgets =
-    //     ref.watch(appWidgetByParentIdProvider(parentId: 'mainScreen'));
+    final mainScreenWidgets = ref.watch(appWidgetByParentIdProvider(parentId: 'mainScreen'));
 
     return mainScreenWidgets.when(data: (widgets) {
       mainScreenWidgetsUI = List<AppWidget>.from(widgets);
@@ -70,13 +68,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 onReorder: onReorder,
                 // onReorderEnd: ((_) {}),
                 itemBuilder: (context, index) {
-                  final appWidget = widgets.singleWhere((appWidget) =>
-                      mainScreenWidgetsUI[index].id == appWidget.id);
+                  final appWidget = widgets
+                      .singleWhere((appWidget) => mainScreenWidgetsUI[index].id == appWidget.id);
                   //final appWidget = widgets[index];
                   return ReorderableDragStartListener(
                     key: ValueKey('${widgets[index].id}rootContainer'),
                     index: index,
-                    enabled: isEditing,
+                    enabled: widgetEditig,
                     child: Row(
                       children: [
                         AnimatedCrossFade(
@@ -86,14 +84,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             Icons.drag_handle,
                           ),
                           secondChild: const SizedBox.shrink(),
-                          crossFadeState: isEditing
-                              ? CrossFadeState.showFirst
-                              : CrossFadeState.showSecond,
+                          crossFadeState:
+                              widgetEditig ? CrossFadeState.showFirst : CrossFadeState.showSecond,
                         ),
                         Expanded(
                           child: Builder(builder: (context) {
-                            if (appWidget.containedObjectType ==
-                                ContainedObjectType.wallet) {
+                            if (appWidget.containedObjectType == ContainedObjectType.wallet) {
                               return WalletWidgetBuilder(
                                 appWidget: appWidget,
                               );
@@ -153,9 +149,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                       foregroundColor: Colors.red,
                                     ),
                                     onPressed: () {
-                                      ref
-                                          .read(appWidgetsProvider.notifier)
-                                          .deleteAppWidget(
+                                      ref.read(appWidgetsProvider.notifier).deleteAppWidget(
                                             widgets[index],
                                           );
                                       // ref.read(dataManagerProvider).deleteWalletTransaction(
@@ -174,9 +168,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             ),
                           ),
                           secondChild: const SizedBox.shrink(),
-                          crossFadeState: isEditing
-                              ? CrossFadeState.showFirst
-                              : CrossFadeState.showSecond,
+                          crossFadeState:
+                              widgetEditig ? CrossFadeState.showFirst : CrossFadeState.showSecond,
                         ),
                       ],
                     ),

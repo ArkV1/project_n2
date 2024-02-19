@@ -4,10 +4,11 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 // ignore: unnecessary_import
 import 'package:objectbox/objectbox.dart'; // Removal breaks objectbox's annotations
 
-import 'package:project_n2/models/data_manager.dart';
+import 'package:project_n2/models/objectbox.dart';
 import 'package:project_n2/models/todo/todo_task.dart';
 
 import 'package:project_n2/objectbox.g.dart';
+
 part 'todo_list.freezed.dart';
 part 'todo_list.g.dart';
 
@@ -155,7 +156,6 @@ class ToDoLists extends _$ToDoLists {
   void updateDailyTasksRoutine() async {
     debugPrint('Routine started: Daily Tasks Update');
     debugPrint('Routine status: Awaiting Database');
-    final toDoLists = db.box<ToDoList>();
     debugPrint('Routine status: Awaiting ToDoLists');
     ref.read(toDoListsProvider.future).then((toDoLists) async {
       debugPrint('Routine status: ToDoLists ready');

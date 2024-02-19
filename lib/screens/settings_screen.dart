@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:project_n2/models/app_settings.dart';
 import 'package:project_n2/tools/enums/settings.dart';
+import 'package:project_n2/widgets/settings_screen/database_manager_dialog.dart';
 
 import 'package:project_n2/widgets/settings_screen/dialogs/components_dialog.dart';
 import 'package:project_n2/widgets/settings_screen/dialogs/todo_dialog.dart';
@@ -23,7 +27,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final components = ref.watch(componentMapProvider).valueOrNull ?? {};
+    final components = ref.watch(componentMapProvider);
     return Scaffold(
       body: Center(
         child: Column(
@@ -37,6 +41,22 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                   IntrinsicWidth(
                     child: Column(
                       children: [
+                        const Center(
+                            child: Text(
+                          'Database',
+                          textScaler: TextScaler.linear(1.25),
+                        )),
+                        const Divider(),
+                        ListTile(
+                          title: const Text('Database Manager'),
+                          trailing: Icon(MdiIcons.database),
+                          onTap: () {
+                            context.push(
+                              '/fast-dialog',
+                              extra: const DatabaseManagerDialog(),
+                            );
+                          },
+                        ),
                         const Center(
                             child: Text(
                           'App settings',
@@ -120,12 +140,12 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                                   case AppComponents.wallet:
                                     return const Icon(
                                         Icons.account_balance_wallet);
-                                  case AppComponents.notebook:
-                                    return const Icon(Icons.edit_note);
-                                  case AppComponents.calendar:
-                                    return const Icon(Icons.calendar_today);
-                                  case AppComponents.converter:
-                                    return const Icon(Icons.currency_exchange);
+                                  // case AppComponents.notebook:
+                                  //   return const Icon(Icons.edit_note);
+                                  // case AppComponents.calendar:
+                                  //   return const Icon(Icons.calendar_today);
+                                  // case AppComponents.converter:
+                                  //   return const Icon(Icons.currency_exchange);
                                 }
                               }(),
                               onTap: () {
@@ -144,15 +164,15 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                                           const WalletsDialog(),
                                     );
                                     break;
-                                  case AppComponents.notebook:
-                                    // TODO: Handle this case.
-                                    break;
-                                  case AppComponents.calendar:
-                                    // TODO: Handle this case.
-                                    break;
-                                  case AppComponents.converter:
-                                    // TODO: Handle this case.
-                                    break;
+                                  // case AppComponents.notebook:
+                                  //   // TODO: Handle this case.
+                                  //   break;
+                                  // case AppComponents.calendar:
+                                  //   // TODO: Handle this case.
+                                  //   break;
+                                  // case AppComponents.converter:
+                                  //   // TODO: Handle this case.
+                                  //   break;
                                 }
                               },
                             ),

@@ -1,25 +1,25 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'data_manager.dart';
+part of 'transaction_dialog.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$dataManagerHash() => r'b04385fe492edd962182c2c6c115963ca61c3d62';
+String _$budgetValueHash() => r'ac706816566baf22c8ddee4c34602252352a29e9';
 
-/// See also [DataManager].
-@ProviderFor(DataManager)
-final dataManagerProvider =
-    AutoDisposeNotifierProvider<DataManager, Store>.internal(
-  DataManager.new,
-  name: r'dataManagerProvider',
+/// See also [BudgetValue].
+@ProviderFor(BudgetValue)
+final budgetValueProvider =
+    AutoDisposeNotifierProvider<BudgetValue, WalletBudget?>.internal(
+  BudgetValue.new,
+  name: r'budgetValueProvider',
   debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$dataManagerHash,
+      const bool.fromEnvironment('dart.vm.product') ? null : _$budgetValueHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$DataManager = AutoDisposeNotifier<Store>;
+typedef _$BudgetValue = AutoDisposeNotifier<WalletBudget?>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

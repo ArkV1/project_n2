@@ -20,12 +20,11 @@ class ToDoWidget with _$ToDoWidget {
     @Id(assignable: true) @Default(0) int? id,
     required int toDoListId,
     required int widgetTypeIndex,
+    required ToOne<AppWidget> appWidgetRelation,
   }) = _ToDoWidget;
 
-  final appWidgetLink = ToOne<AppWidget>();
-
   AppWidget? get appWidget {
-    return appWidgetLink.target;
+    return appWidgetRelation.target;
   }
 
   ToDoWidgetType? get widgetType {

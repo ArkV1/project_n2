@@ -26,6 +26,9 @@ class _ToDoListsDialogState extends ConsumerState<ToDoListsDialog> {
   Widget build(BuildContext context) {
     //final userData = ref.watch(userDataProvider);
     final toDoLists = ref.watch(toDoListsProvider);
+    toDoList != null
+        ? toDoListsNameController.text = toDoList!.name
+        : toDoListsNameController.text = '';
     return AlertDialog(
       title: Row(
         children: [
@@ -149,14 +152,24 @@ class _ToDoListsDialogState extends ConsumerState<ToDoListsDialog> {
                           ElevatedButton(
                             onPressed: () => setState(() {
                               advancedSettings = false;
-                              ref
-                                  .read(toDoListsProvider.notifier)
-                                  .insertToDoList(
-                                    ToDoList(
-                                      name: toDoListsNameController.text,
-                                      tasksRelation: ToMany<ToDoTask>(),
-                                    ),
-                                  );
+                              if (toDoList == null) {
+                                ref
+                                    .read(toDoListsProvider.notifier)
+                                    .insertToDoList(
+                                      ToDoList(
+                                        name: toDoListsNameController.text,
+                                        tasksRelation: ToMany<ToDoTask>(),
+                                      ),
+                                    );
+                              } else {
+                                ref
+                                    .read(toDoListsProvider.notifier)
+                                    .insertToDoList(
+                                      toDoList!.copyWith(
+                                        name: toDoListsNameController.text,
+                                      ),
+                                    );
+                              }
                               creation = false;
                             }),
                             child: const Row(
@@ -275,7 +288,7 @@ class _ToDoListsDialogState extends ConsumerState<ToDoListsDialog> {
                           labelText: 'Default to do list:',
                           prefixIcon: Icon(Icons.wallet),
                         ),
-                        value: toDoLists.first,
+                        value: toDoLists.firstOrNull,
                         icon: const Icon(
                           Icons.arrow_drop_down,
                         ),
@@ -317,6 +330,7 @@ class _ToDoListsDialogState extends ConsumerState<ToDoListsDialog> {
                               onPressed: () {
                                 setState(() {
                                   advancedSettings = false;
+                                  toDoList = null;
                                   creation = true;
                                   // listViewActions = false;
                                 });

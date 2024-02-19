@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'wallet.dart';
+part of 'wallet_budget.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,40 +15,40 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
-mixin _$Wallet {
+mixin _$WalletBudget {
   @Id(assignable: true)
   int? get id => throw _privateConstructorUsedError;
-  String get name =>
-      throw _privateConstructorUsedError; // required List<String> categories,
-// required int? defaultCurrencyIndex,
-  ToOne<WalletCurrency> get defaultCurrencyRelation =>
-      throw _privateConstructorUsedError;
-  ToMany<WalletBudget> get budgetsRelation =>
-      throw _privateConstructorUsedError;
+  String get name => throw _privateConstructorUsedError;
+  double? get amount => throw _privateConstructorUsedError;
+  int? get recurranceIndex => throw _privateConstructorUsedError;
+  ToOne<Wallet> get walletRelation => throw _privateConstructorUsedError;
   ToMany<WalletTransaction> get transactionsRelation =>
       throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $WalletCopyWith<Wallet> get copyWith => throw _privateConstructorUsedError;
+  $WalletBudgetCopyWith<WalletBudget> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $WalletCopyWith<$Res> {
-  factory $WalletCopyWith(Wallet value, $Res Function(Wallet) then) =
-      _$WalletCopyWithImpl<$Res, Wallet>;
+abstract class $WalletBudgetCopyWith<$Res> {
+  factory $WalletBudgetCopyWith(
+          WalletBudget value, $Res Function(WalletBudget) then) =
+      _$WalletBudgetCopyWithImpl<$Res, WalletBudget>;
   @useResult
   $Res call(
       {@Id(assignable: true) int? id,
       String name,
-      ToOne<WalletCurrency> defaultCurrencyRelation,
-      ToMany<WalletBudget> budgetsRelation,
+      double? amount,
+      int? recurranceIndex,
+      ToOne<Wallet> walletRelation,
       ToMany<WalletTransaction> transactionsRelation});
 }
 
 /// @nodoc
-class _$WalletCopyWithImpl<$Res, $Val extends Wallet>
-    implements $WalletCopyWith<$Res> {
-  _$WalletCopyWithImpl(this._value, this._then);
+class _$WalletBudgetCopyWithImpl<$Res, $Val extends WalletBudget>
+    implements $WalletBudgetCopyWith<$Res> {
+  _$WalletBudgetCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -60,8 +60,9 @@ class _$WalletCopyWithImpl<$Res, $Val extends Wallet>
   $Res call({
     Object? id = freezed,
     Object? name = null,
-    Object? defaultCurrencyRelation = null,
-    Object? budgetsRelation = null,
+    Object? amount = freezed,
+    Object? recurranceIndex = freezed,
+    Object? walletRelation = null,
     Object? transactionsRelation = null,
   }) {
     return _then(_value.copyWith(
@@ -73,14 +74,18 @@ class _$WalletCopyWithImpl<$Res, $Val extends Wallet>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      defaultCurrencyRelation: null == defaultCurrencyRelation
-          ? _value.defaultCurrencyRelation
-          : defaultCurrencyRelation // ignore: cast_nullable_to_non_nullable
-              as ToOne<WalletCurrency>,
-      budgetsRelation: null == budgetsRelation
-          ? _value.budgetsRelation
-          : budgetsRelation // ignore: cast_nullable_to_non_nullable
-              as ToMany<WalletBudget>,
+      amount: freezed == amount
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as double?,
+      recurranceIndex: freezed == recurranceIndex
+          ? _value.recurranceIndex
+          : recurranceIndex // ignore: cast_nullable_to_non_nullable
+              as int?,
+      walletRelation: null == walletRelation
+          ? _value.walletRelation
+          : walletRelation // ignore: cast_nullable_to_non_nullable
+              as ToOne<Wallet>,
       transactionsRelation: null == transactionsRelation
           ? _value.transactionsRelation
           : transactionsRelation // ignore: cast_nullable_to_non_nullable
@@ -90,26 +95,28 @@ class _$WalletCopyWithImpl<$Res, $Val extends Wallet>
 }
 
 /// @nodoc
-abstract class _$$WalletImplCopyWith<$Res> implements $WalletCopyWith<$Res> {
-  factory _$$WalletImplCopyWith(
-          _$WalletImpl value, $Res Function(_$WalletImpl) then) =
-      __$$WalletImplCopyWithImpl<$Res>;
+abstract class _$$WalletBudgetImplCopyWith<$Res>
+    implements $WalletBudgetCopyWith<$Res> {
+  factory _$$WalletBudgetImplCopyWith(
+          _$WalletBudgetImpl value, $Res Function(_$WalletBudgetImpl) then) =
+      __$$WalletBudgetImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
       {@Id(assignable: true) int? id,
       String name,
-      ToOne<WalletCurrency> defaultCurrencyRelation,
-      ToMany<WalletBudget> budgetsRelation,
+      double? amount,
+      int? recurranceIndex,
+      ToOne<Wallet> walletRelation,
       ToMany<WalletTransaction> transactionsRelation});
 }
 
 /// @nodoc
-class __$$WalletImplCopyWithImpl<$Res>
-    extends _$WalletCopyWithImpl<$Res, _$WalletImpl>
-    implements _$$WalletImplCopyWith<$Res> {
-  __$$WalletImplCopyWithImpl(
-      _$WalletImpl _value, $Res Function(_$WalletImpl) _then)
+class __$$WalletBudgetImplCopyWithImpl<$Res>
+    extends _$WalletBudgetCopyWithImpl<$Res, _$WalletBudgetImpl>
+    implements _$$WalletBudgetImplCopyWith<$Res> {
+  __$$WalletBudgetImplCopyWithImpl(
+      _$WalletBudgetImpl _value, $Res Function(_$WalletBudgetImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -117,11 +124,12 @@ class __$$WalletImplCopyWithImpl<$Res>
   $Res call({
     Object? id = freezed,
     Object? name = null,
-    Object? defaultCurrencyRelation = null,
-    Object? budgetsRelation = null,
+    Object? amount = freezed,
+    Object? recurranceIndex = freezed,
+    Object? walletRelation = null,
     Object? transactionsRelation = null,
   }) {
-    return _then(_$WalletImpl(
+    return _then(_$WalletBudgetImpl(
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -130,14 +138,18 @@ class __$$WalletImplCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      defaultCurrencyRelation: null == defaultCurrencyRelation
-          ? _value.defaultCurrencyRelation
-          : defaultCurrencyRelation // ignore: cast_nullable_to_non_nullable
-              as ToOne<WalletCurrency>,
-      budgetsRelation: null == budgetsRelation
-          ? _value.budgetsRelation
-          : budgetsRelation // ignore: cast_nullable_to_non_nullable
-              as ToMany<WalletBudget>,
+      amount: freezed == amount
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as double?,
+      recurranceIndex: freezed == recurranceIndex
+          ? _value.recurranceIndex
+          : recurranceIndex // ignore: cast_nullable_to_non_nullable
+              as int?,
+      walletRelation: null == walletRelation
+          ? _value.walletRelation
+          : walletRelation // ignore: cast_nullable_to_non_nullable
+              as ToOne<Wallet>,
       transactionsRelation: null == transactionsRelation
           ? _value.transactionsRelation
           : transactionsRelation // ignore: cast_nullable_to_non_nullable
@@ -148,47 +160,49 @@ class __$$WalletImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-@Entity(realClass: Wallet)
-class _$WalletImpl extends _Wallet {
-  _$WalletImpl(
-      {@Id(assignable: true) this.id,
+@Entity(realClass: WalletBudget)
+class _$WalletBudgetImpl extends _WalletBudget {
+  _$WalletBudgetImpl(
+      {@Id(assignable: true) this.id = 0,
       required this.name,
-      required this.defaultCurrencyRelation,
-      required this.budgetsRelation,
+      this.amount,
+      this.recurranceIndex,
+      required this.walletRelation,
       required this.transactionsRelation})
       : super._();
 
   @override
+  @JsonKey()
   @Id(assignable: true)
   final int? id;
   @override
   final String name;
-// required List<String> categories,
-// required int? defaultCurrencyIndex,
   @override
-  final ToOne<WalletCurrency> defaultCurrencyRelation;
+  final double? amount;
   @override
-  final ToMany<WalletBudget> budgetsRelation;
+  final int? recurranceIndex;
+  @override
+  final ToOne<Wallet> walletRelation;
   @override
   final ToMany<WalletTransaction> transactionsRelation;
 
   @override
   String toString() {
-    return 'Wallet(id: $id, name: $name, defaultCurrencyRelation: $defaultCurrencyRelation, budgetsRelation: $budgetsRelation, transactionsRelation: $transactionsRelation)';
+    return 'WalletBudget(id: $id, name: $name, amount: $amount, recurranceIndex: $recurranceIndex, walletRelation: $walletRelation, transactionsRelation: $transactionsRelation)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$WalletImpl &&
+            other is _$WalletBudgetImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
-            (identical(
-                    other.defaultCurrencyRelation, defaultCurrencyRelation) ||
-                other.defaultCurrencyRelation == defaultCurrencyRelation) &&
-            const DeepCollectionEquality()
-                .equals(other.budgetsRelation, budgetsRelation) &&
+            (identical(other.amount, amount) || other.amount == amount) &&
+            (identical(other.recurranceIndex, recurranceIndex) ||
+                other.recurranceIndex == recurranceIndex) &&
+            (identical(other.walletRelation, walletRelation) ||
+                other.walletRelation == walletRelation) &&
             const DeepCollectionEquality()
                 .equals(other.transactionsRelation, transactionsRelation));
   }
@@ -198,41 +212,44 @@ class _$WalletImpl extends _Wallet {
       runtimeType,
       id,
       name,
-      defaultCurrencyRelation,
-      const DeepCollectionEquality().hash(budgetsRelation),
+      amount,
+      recurranceIndex,
+      walletRelation,
       const DeepCollectionEquality().hash(transactionsRelation));
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$WalletImplCopyWith<_$WalletImpl> get copyWith =>
-      __$$WalletImplCopyWithImpl<_$WalletImpl>(this, _$identity);
+  _$$WalletBudgetImplCopyWith<_$WalletBudgetImpl> get copyWith =>
+      __$$WalletBudgetImplCopyWithImpl<_$WalletBudgetImpl>(this, _$identity);
 }
 
-abstract class _Wallet extends Wallet {
-  factory _Wallet(
+abstract class _WalletBudget extends WalletBudget {
+  factory _WalletBudget(
           {@Id(assignable: true) final int? id,
           required final String name,
-          required final ToOne<WalletCurrency> defaultCurrencyRelation,
-          required final ToMany<WalletBudget> budgetsRelation,
+          final double? amount,
+          final int? recurranceIndex,
+          required final ToOne<Wallet> walletRelation,
           required final ToMany<WalletTransaction> transactionsRelation}) =
-      _$WalletImpl;
-  _Wallet._() : super._();
+      _$WalletBudgetImpl;
+  _WalletBudget._() : super._();
 
   @override
   @Id(assignable: true)
   int? get id;
   @override
   String get name;
-  @override // required List<String> categories,
-// required int? defaultCurrencyIndex,
-  ToOne<WalletCurrency> get defaultCurrencyRelation;
   @override
-  ToMany<WalletBudget> get budgetsRelation;
+  double? get amount;
+  @override
+  int? get recurranceIndex;
+  @override
+  ToOne<Wallet> get walletRelation;
   @override
   ToMany<WalletTransaction> get transactionsRelation;
   @override
   @JsonKey(ignore: true)
-  _$$WalletImplCopyWith<_$WalletImpl> get copyWith =>
+  _$$WalletBudgetImplCopyWith<_$WalletBudgetImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

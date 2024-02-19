@@ -12,7 +12,7 @@ part of 'wallet_widget.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$WalletWidget {
@@ -20,6 +20,7 @@ mixin _$WalletWidget {
   int? get id => throw _privateConstructorUsedError;
   int get walletId => throw _privateConstructorUsedError;
   int get widgetTypeIndex => throw _privateConstructorUsedError;
+  ToOne<AppWidget> get appWidgetRelation => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $WalletWidgetCopyWith<WalletWidget> get copyWith =>
@@ -32,7 +33,11 @@ abstract class $WalletWidgetCopyWith<$Res> {
           WalletWidget value, $Res Function(WalletWidget) then) =
       _$WalletWidgetCopyWithImpl<$Res, WalletWidget>;
   @useResult
-  $Res call({@Id(assignable: true) int? id, int walletId, int widgetTypeIndex});
+  $Res call(
+      {@Id(assignable: true) int? id,
+      int walletId,
+      int widgetTypeIndex,
+      ToOne<AppWidget> appWidgetRelation});
 }
 
 /// @nodoc
@@ -51,6 +56,7 @@ class _$WalletWidgetCopyWithImpl<$Res, $Val extends WalletWidget>
     Object? id = freezed,
     Object? walletId = null,
     Object? widgetTypeIndex = null,
+    Object? appWidgetRelation = null,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -65,6 +71,10 @@ class _$WalletWidgetCopyWithImpl<$Res, $Val extends WalletWidget>
           ? _value.widgetTypeIndex
           : widgetTypeIndex // ignore: cast_nullable_to_non_nullable
               as int,
+      appWidgetRelation: null == appWidgetRelation
+          ? _value.appWidgetRelation
+          : appWidgetRelation // ignore: cast_nullable_to_non_nullable
+              as ToOne<AppWidget>,
     ) as $Val);
   }
 }
@@ -77,7 +87,11 @@ abstract class _$$WalletWidgetImplCopyWith<$Res>
       __$$WalletWidgetImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({@Id(assignable: true) int? id, int walletId, int widgetTypeIndex});
+  $Res call(
+      {@Id(assignable: true) int? id,
+      int walletId,
+      int widgetTypeIndex,
+      ToOne<AppWidget> appWidgetRelation});
 }
 
 /// @nodoc
@@ -94,6 +108,7 @@ class __$$WalletWidgetImplCopyWithImpl<$Res>
     Object? id = freezed,
     Object? walletId = null,
     Object? widgetTypeIndex = null,
+    Object? appWidgetRelation = null,
   }) {
     return _then(_$WalletWidgetImpl(
       id: freezed == id
@@ -108,6 +123,10 @@ class __$$WalletWidgetImplCopyWithImpl<$Res>
           ? _value.widgetTypeIndex
           : widgetTypeIndex // ignore: cast_nullable_to_non_nullable
               as int,
+      appWidgetRelation: null == appWidgetRelation
+          ? _value.appWidgetRelation
+          : appWidgetRelation // ignore: cast_nullable_to_non_nullable
+              as ToOne<AppWidget>,
     ));
   }
 }
@@ -119,7 +138,8 @@ class _$WalletWidgetImpl extends _WalletWidget {
   _$WalletWidgetImpl(
       {@Id(assignable: true) this.id = 0,
       required this.walletId,
-      required this.widgetTypeIndex})
+      required this.widgetTypeIndex,
+      required this.appWidgetRelation})
       : super._();
 
   @override
@@ -130,10 +150,12 @@ class _$WalletWidgetImpl extends _WalletWidget {
   final int walletId;
   @override
   final int widgetTypeIndex;
+  @override
+  final ToOne<AppWidget> appWidgetRelation;
 
   @override
   String toString() {
-    return 'WalletWidget(id: $id, walletId: $walletId, widgetTypeIndex: $widgetTypeIndex)';
+    return 'WalletWidget(id: $id, walletId: $walletId, widgetTypeIndex: $widgetTypeIndex, appWidgetRelation: $appWidgetRelation)';
   }
 
   @override
@@ -145,11 +167,14 @@ class _$WalletWidgetImpl extends _WalletWidget {
             (identical(other.walletId, walletId) ||
                 other.walletId == walletId) &&
             (identical(other.widgetTypeIndex, widgetTypeIndex) ||
-                other.widgetTypeIndex == widgetTypeIndex));
+                other.widgetTypeIndex == widgetTypeIndex) &&
+            (identical(other.appWidgetRelation, appWidgetRelation) ||
+                other.appWidgetRelation == appWidgetRelation));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, walletId, widgetTypeIndex);
+  int get hashCode => Object.hash(
+      runtimeType, id, walletId, widgetTypeIndex, appWidgetRelation);
 
   @JsonKey(ignore: true)
   @override
@@ -162,7 +187,8 @@ abstract class _WalletWidget extends WalletWidget {
   factory _WalletWidget(
       {@Id(assignable: true) final int? id,
       required final int walletId,
-      required final int widgetTypeIndex}) = _$WalletWidgetImpl;
+      required final int widgetTypeIndex,
+      required final ToOne<AppWidget> appWidgetRelation}) = _$WalletWidgetImpl;
   _WalletWidget._() : super._();
 
   @override
@@ -172,6 +198,8 @@ abstract class _WalletWidget extends WalletWidget {
   int get walletId;
   @override
   int get widgetTypeIndex;
+  @override
+  ToOne<AppWidget> get appWidgetRelation;
   @override
   @JsonKey(ignore: true)
   _$$WalletWidgetImplCopyWith<_$WalletWidgetImpl> get copyWith =>

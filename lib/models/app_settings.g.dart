@@ -6,12 +6,12 @@ part of 'app_settings.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$themeManagerHash() => r'0a5e22978e2b63ad4487d87604c43f0c8881cd47';
+String _$themeManagerHash() => r'c47390b0c70f03a381fb955b89c476b393788403';
 
 /// See also [ThemeManager].
 @ProviderFor(ThemeManager)
 final themeManagerProvider =
-    AsyncNotifierProvider<ThemeManager, CustomTheme>.internal(
+    NotifierProvider<ThemeManager, CustomTheme>.internal(
   ThemeManager.new,
   name: r'themeManagerProvider',
   debugGetCreateSourceHash:
@@ -20,7 +20,7 @@ final themeManagerProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$ThemeManager = AsyncNotifier<CustomTheme>;
+typedef _$ThemeManager = Notifier<CustomTheme>;
 String _$reorderingStateHash() => r'd7ad9c0f5448b6852a0cb9d66fb7790de590397f';
 
 /// See also [ReorderingState].
@@ -53,6 +53,22 @@ final screenEditingProvider =
 );
 
 typedef _$ScreenEditing = AutoDisposeNotifier<bool>;
+String _$widgetEditingHash() => r'fb260d894631630c6906d087b28312e4f588030a';
+
+/// See also [WidgetEditing].
+@ProviderFor(WidgetEditing)
+final widgetEditingProvider =
+    AutoDisposeNotifierProvider<WidgetEditing, bool>.internal(
+  WidgetEditing.new,
+  name: r'widgetEditingProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$widgetEditingHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$WidgetEditing = AutoDisposeNotifier<bool>;
 String _$screenIndexHash() => r'bb664c9cd35af74ad222316ffeea0769b86baa8b';
 
 /// See also [ScreenIndex].
@@ -68,12 +84,12 @@ final screenIndexProvider =
 );
 
 typedef _$ScreenIndex = AutoDisposeNotifier<int>;
-String _$componentMapHash() => r'72453fd5cf674cdf8d8989afc61f7ec14da3823a';
+String _$componentMapHash() => r'4679ab2c7a78d88727bc46bfe996fc374d38eb87';
 
 /// See also [ComponentMap].
 @ProviderFor(ComponentMap)
 final componentMapProvider =
-    AsyncNotifierProvider<ComponentMap, Map<String, bool>>.internal(
+    NotifierProvider<ComponentMap, Map<String, bool>>.internal(
   ComponentMap.new,
   name: r'componentMapProvider',
   debugGetCreateSourceHash:
@@ -82,6 +98,22 @@ final componentMapProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$ComponentMap = AsyncNotifier<Map<String, bool>>;
+typedef _$ComponentMap = Notifier<Map<String, bool>>;
+String _$currentDirectoryHash() => r'2db803c3833782af5260198ec495d9ed95c73f62';
+
+/// See also [CurrentDirectory].
+@ProviderFor(CurrentDirectory)
+final currentDirectoryProvider =
+    AutoDisposeAsyncNotifierProvider<CurrentDirectory, Directory>.internal(
+  CurrentDirectory.new,
+  name: r'currentDirectoryProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$currentDirectoryHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$CurrentDirectory = AutoDisposeAsyncNotifier<Directory>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

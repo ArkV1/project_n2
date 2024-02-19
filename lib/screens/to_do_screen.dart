@@ -137,11 +137,11 @@ class _ToDoScreenState extends ConsumerState<ToDoScreen> {
                                         ],
                                       ),
                                       if (toDoLists[i].tasks[y].isDaily &&
-                                          kDebugMode)
+                                          isEditing)
                                         Text(
                                             'Creation Date: ${toDoLists[i].tasks[y].creationDate.toString()}'),
                                       if (toDoLists[i].tasks[y].isDaily &&
-                                          kDebugMode)
+                                          isEditing)
                                         Text(
                                             'Completion Date: ${toDoLists[i].tasks[y].completionDate.toString()}'),
                                     ],

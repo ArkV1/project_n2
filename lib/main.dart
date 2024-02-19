@@ -11,13 +11,16 @@ import 'package:flutter/cupertino.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:project_n2/models/shared_prefs.dart';
+import 'package:project_n2/router.dart';
+import 'package:project_n2/tools/enums/settings.dart';
 import 'firebase_options.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import 'package:project_n2/models/in_app_purchases.dart';
-import 'package:project_n2/models/data_manager.dart';
+import 'package:project_n2/models/objectbox.dart';
 import 'package:project_n2/models/app_settings.dart';
 import 'package:project_n2/models/todo/todo_list.dart';
 
@@ -30,8 +33,6 @@ import 'package:project_n2/screens/personalization_settings_screen.dart';
 import 'package:project_n2/tools/constants.dart';
 
 import 'package:project_n2/objectbox.g.dart';
-
-late final Admin _admin;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -74,17 +75,17 @@ void main() async {
 
   //////////////////////////////////////////////////////////////////////////
 
-  final docsDir = await getApplicationDocumentsDirectory();
+  // final docsDir = await getApplicationDocumentsDirectory();
   // Future<Store> openStore() {...} is defined in the generated objectbox.g.dart
-  final store = await openStore(
-    directory: path.join(docsDir.path, "objectbox"),
-  );
+  // final store = await openStore(
+  //   directory: path.join(docsDir.path, "objectbox"),
+  // );
 
-  ObjectBox.init(store);
+  await ObjectBox.init();
 
-  if (Admin.isAvailable()) {
-    _admin = Admin(store);
-  }
+  // if (Admin.isAvailable()) {
+  //   _admin = Admin(store);
+  // }
 
   runApp(
     ProviderScope(
@@ -108,17 +109,17 @@ class _MyAppState extends ConsumerState<MyApp> {
   void initState() {
     super.initState();
     ref.read(inAppPurchasesManagerProvider.notifier).initialize();
-    ref.read(toDoListsProvider.notifier).updateDailyTasksRoutine();
+    if (ref.read(componentMapProvider)[AppComponents.todo.name] == true) {
+      ref.read(toDoListsProvider.notifier).updateDailyTasksRoutine();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final themeManager = ref.watch(themeManagerProvider);
-    final themeMode = themeManager.valueOrNull?.themeMode ?? ThemeMode.system;
-    final primaryColor =
-        themeManager.valueOrNull?.primaryColor ?? primaryColorList[0];
-    final secondaryColor = themeManager.valueOrNull?.primaryContrastingColor ??
-        secondaryColorList[0];
+    final themeMode = themeManager.themeMode;
+    final primaryColor = themeManager.primaryColor;
+    final secondaryColor = themeManager.primaryContrastingColor;
     ///////////////////////////////////////////////////////////////////////////////
     // MATERIAL THEME
     final materialLightTheme = ThemeData(
@@ -179,15 +180,9 @@ class _MyAppState extends ConsumerState<MyApp> {
         // onThemeModeChanged: (themeMode) {
         //   this.themeMode = themeMode; /* you can save to storage */
         // },
-        builder: (context) => PlatformApp(
+        builder: (context) => PlatformApp.router(
           title: 'project_n2',
-          initialRoute: '/',
-          routes: {
-            '/': (context) => const MainLayout(),
-            '/settings': (context) => SettingsScreen(),
-            '/settings/personalization': (context) =>
-                PersonalizationSettingsScreen(),
-          },
+          routerConfig: router,
           localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
             DefaultMaterialLocalizations.delegate,
             DefaultWidgetsLocalizations.delegate,

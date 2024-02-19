@@ -18,9 +18,13 @@ class WalletWidget with _$WalletWidget {
     @Id(assignable: true) @Default(0) int? id,
     required int walletId,
     required int widgetTypeIndex,
+    required ToOne<AppWidget> appWidgetRelation,
   }) = _WalletWidget;
 
-  final appWidget = ToOne<AppWidget>();
+  // final appWidget = ToOne<AppWidget>();
+  AppWidget? get appWidget {
+    return appWidgetRelation.target;
+  }
 
   WalletWidgetType? get widgetType {
     _ensureStableEnumValues();
@@ -30,7 +34,7 @@ class WalletWidget with _$WalletWidget {
   void _ensureStableEnumValues() {
     assert(WalletWidgetType.unknown.index == 0);
     assert(WalletWidgetType.dailySpendings.index == 1);
-    assert(WalletWidgetType.lastTransaction.index == 2);
-    assert(WalletWidgetType.total.index == 3);
+    assert(WalletWidgetType.total.index == 2);
+    assert(WalletWidgetType.lastTransaction.index == 3);
   }
 }

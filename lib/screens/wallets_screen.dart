@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:project_n2/models/app_settings.dart';
 import 'package:project_n2/models/wallet/wallet.dart';
+import 'package:project_n2/widgets/actions/dialogs/transaction_dialog.dart';
 import 'package:project_n2/widgets/settings_screen/dialogs/wallets_dialog.dart';
 
 // final _walletsScaffoldKey = GlobalKey<ScaffoldState>();
@@ -32,7 +33,8 @@ class _WalletsScreenState extends ConsumerState<WalletsScreen> {
               for (var i = 0; i < wallets.length; i++)
                 Builder(builder: (context) {
                   final total = ref.watch(
-                      totalOfWalletByIdProvider(walletId: wallets[i].id!));
+                    totalOfWalletByIdProvider(walletId: wallets[i].id!),
+                  );
                   return Column(
                     children: [
                       Card(
@@ -42,7 +44,9 @@ class _WalletsScreenState extends ConsumerState<WalletsScreen> {
                               title: Text('ID: ${wallets[i].id}'),
                               subtitle: Text(wallets[i].name),
                               trailing: total.when(data: (total) {
-                                return Text(total.toString());
+                                return Text(total != null
+                                    ? total.toStringAsFixed(2)
+                                    : 'Calculations error');
                                 //
                               }, error: (error, stacktrace) {
                                 debugPrint(stacktrace.toString());
@@ -68,11 +72,12 @@ class _WalletsScreenState extends ConsumerState<WalletsScreen> {
                                       Builder(builder: (context) {
                                         final transaction =
                                             wallets[i].transactions![y];
-                                        final amountToShow = int.parse(
-                                                    transaction.amount ?? '0')
+                                        final amountToShow = (transaction
+                                                        .amount ??
+                                                    0)
                                                 .isNegative
-                                            ? '- ${int.parse(transaction.amount!).abs()}'
-                                            : '+ ${transaction.amount}';
+                                            ? '-${(transaction.amount ?? 0).abs()}'
+                                            : '${transaction.amount}';
                                         return Row(
                                           children: [
                                             Expanded(
@@ -82,11 +87,39 @@ class _WalletsScreenState extends ConsumerState<WalletsScreen> {
                                                   visualDensity:
                                                       VisualDensity.compact,
                                                   title: Text(
-                                                      'ID: ${transaction.id}'),
+                                                    //
+                                                    isEditing
+                                                        ? 'ID: ${transaction.id}\nName: ${transaction.name}\nDescription: ${transaction.description}'
+                                                        : transaction
+                                                                    .description ==
+                                                                null
+                                                            ? transaction
+                                                                    .name ??
+                                                                'Undefined name'
+                                                            : '${transaction.name}\n${transaction.description}',
+                                                  ),
+                                                  // : '${transaction.name ?? 'Undefined name'}${transaction.description != null ? '${transaction.description}' : ''}'),
+                                                  // '${isEditing ? 'ID: ${transaction.id}\nName: ' : ''}${transaction.name ?? 'Undefined name'}'),
                                                   subtitle: Text(
-                                                      transaction.name ??
-                                                          'Undefined name'),
-                                                  trailing: Text(amountToShow),
+                                                    //'ID: ${isEditing ? transaction.id : transaction.category}',
+                                                    // '${isEditing ? 'ID: ${transaction.id}' : 'Category: ${transaction.category ?? 'None'}'}${transaction.transactionDate != null ? '\n${transaction.transactionDate}' : ''}'),
+                                                    isEditing
+                                                        ? 'Category: ${transaction.category}\nDate: ${transaction.date}'
+                                                        : transaction.date ==
+                                                                null
+                                                            ? 'Category: ${transaction.category ?? 'None'}'
+                                                            : 'Category: ${transaction.category ?? 'None'}\n${transaction.date}',
+                                                  ),
+                                                  // title: Text(
+                                                  //     'ID: ${transaction.id}'),
+                                                  // subtitle: Text(
+                                                  //     transaction.name ??
+                                                  //         'Undefined name'),
+                                                  trailing: Text(
+                                                    // '$amountToShow\n${transaction.transactionDate}',
+                                                    amountToShow,
+                                                    textAlign: TextAlign.center,
+                                                  ),
                                                 ),
                                               ),
                                             ),
@@ -100,31 +133,67 @@ class _WalletsScreenState extends ConsumerState<WalletsScreen> {
                                                   padding: EdgeInsets.zero,
                                                   margin: const EdgeInsets.only(
                                                       right: 4.0),
-                                                  child: ElevatedButton(
-                                                    style: ElevatedButton
-                                                        .styleFrom(
-                                                      padding: EdgeInsets.zero,
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(10),
+                                                  child: Column(
+                                                    children: [
+                                                      ElevatedButton(
+                                                        style: ElevatedButton
+                                                            .styleFrom(
+                                                          padding:
+                                                              EdgeInsets.zero,
+                                                          shape:
+                                                              RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                              10,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        onPressed: () {
+                                                          showDialog(
+                                                            context: context,
+                                                            builder: (BuildContext
+                                                                    context) =>
+                                                                TransactionDialog(
+                                                              transaction:
+                                                                  transaction,
+                                                            ),
+                                                          );
+                                                        },
+                                                        child: const Icon(
+                                                          Icons.edit,
+                                                        ),
                                                       ),
-                                                      foregroundColor:
-                                                          Colors.red,
-                                                    ),
-                                                    onPressed: () {
-                                                      ref
-                                                          .read(walletsProvider
-                                                              .notifier)
-                                                          .deleteWalletTransaction(
-                                                              transaction);
-                                                      // ref.read(dataManagerProvider).deleteToDoTask(
-                                                      //     toDoLists[i].tasks[y], toDoLists[i].id!);
-                                                    },
-                                                    child: const Icon(
-                                                      Icons.delete,
-                                                    ),
+                                                      ElevatedButton(
+                                                        style: ElevatedButton
+                                                            .styleFrom(
+                                                          padding:
+                                                              EdgeInsets.zero,
+                                                          shape:
+                                                              RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10),
+                                                          ),
+                                                          foregroundColor:
+                                                              Colors.red,
+                                                        ),
+                                                        onPressed: () {
+                                                          ref
+                                                              .read(
+                                                                  walletsProvider
+                                                                      .notifier)
+                                                              .deleteWalletTransaction(
+                                                                  transaction);
+                                                          // ref.read(dataManagerProvider).deleteToDoTask(
+                                                          //     toDoLists[i].tasks[y], toDoLists[i].id!);
+                                                        },
+                                                        child: const Icon(
+                                                          Icons.delete,
+                                                        ),
+                                                      ),
+                                                    ],
                                                   ),
                                                 ),
                                               ),

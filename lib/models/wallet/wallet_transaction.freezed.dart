@@ -12,23 +12,24 @@ part of 'wallet_transaction.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$WalletTransaction {
   @Id(assignable: true)
   int? get id => throw _privateConstructorUsedError;
-  int get walletId => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
-  String? get category => throw _privateConstructorUsedError;
-  String? get amount => throw _privateConstructorUsedError;
-  String? get optionalCurrency => throw _privateConstructorUsedError;
+  double? get amount => throw _privateConstructorUsedError;
   @Property(type: PropertyType.date)
-  DateTime? get transactionDate => throw _privateConstructorUsedError;
+  DateTime? get date => throw _privateConstructorUsedError;
   @Transient()
   Uint8List? get media => throw _privateConstructorUsedError;
   ToOne<Wallet> get walletRelation => throw _privateConstructorUsedError;
+  ToOne<WalletCurrency> get currencyRelation =>
+      throw _privateConstructorUsedError;
+  ToOne<WalletBudget> get walletBudgetRelation =>
+      throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $WalletTransactionCopyWith<WalletTransaction> get copyWith =>
@@ -43,15 +44,14 @@ abstract class $WalletTransactionCopyWith<$Res> {
   @useResult
   $Res call(
       {@Id(assignable: true) int? id,
-      int walletId,
       String? name,
       String? description,
-      String? category,
-      String? amount,
-      String? optionalCurrency,
-      @Property(type: PropertyType.date) DateTime? transactionDate,
+      double? amount,
+      @Property(type: PropertyType.date) DateTime? date,
       @Transient() Uint8List? media,
-      ToOne<Wallet> walletRelation});
+      ToOne<Wallet> walletRelation,
+      ToOne<WalletCurrency> currencyRelation,
+      ToOne<WalletBudget> walletBudgetRelation});
 }
 
 /// @nodoc
@@ -68,25 +68,20 @@ class _$WalletTransactionCopyWithImpl<$Res, $Val extends WalletTransaction>
   @override
   $Res call({
     Object? id = freezed,
-    Object? walletId = null,
     Object? name = freezed,
     Object? description = freezed,
-    Object? category = freezed,
     Object? amount = freezed,
-    Object? optionalCurrency = freezed,
-    Object? transactionDate = freezed,
+    Object? date = freezed,
     Object? media = freezed,
     Object? walletRelation = null,
+    Object? currencyRelation = null,
+    Object? walletBudgetRelation = null,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int?,
-      walletId: null == walletId
-          ? _value.walletId
-          : walletId // ignore: cast_nullable_to_non_nullable
-              as int,
       name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -95,21 +90,13 @@ class _$WalletTransactionCopyWithImpl<$Res, $Val extends WalletTransaction>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String?,
-      category: freezed == category
-          ? _value.category
-          : category // ignore: cast_nullable_to_non_nullable
-              as String?,
       amount: freezed == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
-              as String?,
-      optionalCurrency: freezed == optionalCurrency
-          ? _value.optionalCurrency
-          : optionalCurrency // ignore: cast_nullable_to_non_nullable
-              as String?,
-      transactionDate: freezed == transactionDate
-          ? _value.transactionDate
-          : transactionDate // ignore: cast_nullable_to_non_nullable
+              as double?,
+      date: freezed == date
+          ? _value.date
+          : date // ignore: cast_nullable_to_non_nullable
               as DateTime?,
       media: freezed == media
           ? _value.media
@@ -119,6 +106,14 @@ class _$WalletTransactionCopyWithImpl<$Res, $Val extends WalletTransaction>
           ? _value.walletRelation
           : walletRelation // ignore: cast_nullable_to_non_nullable
               as ToOne<Wallet>,
+      currencyRelation: null == currencyRelation
+          ? _value.currencyRelation
+          : currencyRelation // ignore: cast_nullable_to_non_nullable
+              as ToOne<WalletCurrency>,
+      walletBudgetRelation: null == walletBudgetRelation
+          ? _value.walletBudgetRelation
+          : walletBudgetRelation // ignore: cast_nullable_to_non_nullable
+              as ToOne<WalletBudget>,
     ) as $Val);
   }
 }
@@ -133,15 +128,14 @@ abstract class _$$WalletTransactionImplCopyWith<$Res>
   @useResult
   $Res call(
       {@Id(assignable: true) int? id,
-      int walletId,
       String? name,
       String? description,
-      String? category,
-      String? amount,
-      String? optionalCurrency,
-      @Property(type: PropertyType.date) DateTime? transactionDate,
+      double? amount,
+      @Property(type: PropertyType.date) DateTime? date,
       @Transient() Uint8List? media,
-      ToOne<Wallet> walletRelation});
+      ToOne<Wallet> walletRelation,
+      ToOne<WalletCurrency> currencyRelation,
+      ToOne<WalletBudget> walletBudgetRelation});
 }
 
 /// @nodoc
@@ -156,25 +150,20 @@ class __$$WalletTransactionImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = freezed,
-    Object? walletId = null,
     Object? name = freezed,
     Object? description = freezed,
-    Object? category = freezed,
     Object? amount = freezed,
-    Object? optionalCurrency = freezed,
-    Object? transactionDate = freezed,
+    Object? date = freezed,
     Object? media = freezed,
     Object? walletRelation = null,
+    Object? currencyRelation = null,
+    Object? walletBudgetRelation = null,
   }) {
     return _then(_$WalletTransactionImpl(
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int?,
-      walletId: null == walletId
-          ? _value.walletId
-          : walletId // ignore: cast_nullable_to_non_nullable
-              as int,
       name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -183,21 +172,13 @@ class __$$WalletTransactionImplCopyWithImpl<$Res>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String?,
-      category: freezed == category
-          ? _value.category
-          : category // ignore: cast_nullable_to_non_nullable
-              as String?,
       amount: freezed == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
-              as String?,
-      optionalCurrency: freezed == optionalCurrency
-          ? _value.optionalCurrency
-          : optionalCurrency // ignore: cast_nullable_to_non_nullable
-              as String?,
-      transactionDate: freezed == transactionDate
-          ? _value.transactionDate
-          : transactionDate // ignore: cast_nullable_to_non_nullable
+              as double?,
+      date: freezed == date
+          ? _value.date
+          : date // ignore: cast_nullable_to_non_nullable
               as DateTime?,
       media: freezed == media
           ? _value.media
@@ -207,6 +188,14 @@ class __$$WalletTransactionImplCopyWithImpl<$Res>
           ? _value.walletRelation
           : walletRelation // ignore: cast_nullable_to_non_nullable
               as ToOne<Wallet>,
+      currencyRelation: null == currencyRelation
+          ? _value.currencyRelation
+          : currencyRelation // ignore: cast_nullable_to_non_nullable
+              as ToOne<WalletCurrency>,
+      walletBudgetRelation: null == walletBudgetRelation
+          ? _value.walletBudgetRelation
+          : walletBudgetRelation // ignore: cast_nullable_to_non_nullable
+              as ToOne<WalletBudget>,
     ));
   }
 }
@@ -217,44 +206,41 @@ class __$$WalletTransactionImplCopyWithImpl<$Res>
 class _$WalletTransactionImpl extends _WalletTransaction {
   _$WalletTransactionImpl(
       {@Id(assignable: true) this.id,
-      required this.walletId,
       this.name,
       this.description,
-      this.category,
       this.amount,
-      this.optionalCurrency,
-      @Property(type: PropertyType.date) this.transactionDate,
+      @Property(type: PropertyType.date) this.date,
       @Transient() this.media,
-      required this.walletRelation})
+      required this.walletRelation,
+      required this.currencyRelation,
+      required this.walletBudgetRelation})
       : super._();
 
   @override
   @Id(assignable: true)
   final int? id;
   @override
-  final int walletId;
-  @override
   final String? name;
   @override
   final String? description;
   @override
-  final String? category;
-  @override
-  final String? amount;
-  @override
-  final String? optionalCurrency;
+  final double? amount;
   @override
   @Property(type: PropertyType.date)
-  final DateTime? transactionDate;
+  final DateTime? date;
   @override
   @Transient()
   final Uint8List? media;
   @override
   final ToOne<Wallet> walletRelation;
+  @override
+  final ToOne<WalletCurrency> currencyRelation;
+  @override
+  final ToOne<WalletBudget> walletBudgetRelation;
 
   @override
   String toString() {
-    return 'WalletTransaction(id: $id, walletId: $walletId, name: $name, description: $description, category: $category, amount: $amount, optionalCurrency: $optionalCurrency, transactionDate: $transactionDate, media: $media, walletRelation: $walletRelation)';
+    return 'WalletTransaction(id: $id, name: $name, description: $description, amount: $amount, date: $date, media: $media, walletRelation: $walletRelation, currencyRelation: $currencyRelation, walletBudgetRelation: $walletBudgetRelation)';
   }
 
   @override
@@ -263,36 +249,32 @@ class _$WalletTransactionImpl extends _WalletTransaction {
         (other.runtimeType == runtimeType &&
             other is _$WalletTransactionImpl &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.walletId, walletId) ||
-                other.walletId == walletId) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.description, description) ||
                 other.description == description) &&
-            (identical(other.category, category) ||
-                other.category == category) &&
             (identical(other.amount, amount) || other.amount == amount) &&
-            (identical(other.optionalCurrency, optionalCurrency) ||
-                other.optionalCurrency == optionalCurrency) &&
-            (identical(other.transactionDate, transactionDate) ||
-                other.transactionDate == transactionDate) &&
+            (identical(other.date, date) || other.date == date) &&
             const DeepCollectionEquality().equals(other.media, media) &&
             (identical(other.walletRelation, walletRelation) ||
-                other.walletRelation == walletRelation));
+                other.walletRelation == walletRelation) &&
+            (identical(other.currencyRelation, currencyRelation) ||
+                other.currencyRelation == currencyRelation) &&
+            (identical(other.walletBudgetRelation, walletBudgetRelation) ||
+                other.walletBudgetRelation == walletBudgetRelation));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
       id,
-      walletId,
       name,
       description,
-      category,
       amount,
-      optionalCurrency,
-      transactionDate,
+      date,
       const DeepCollectionEquality().hash(media),
-      walletRelation);
+      walletRelation,
+      currencyRelation,
+      walletBudgetRelation);
 
   @JsonKey(ignore: true)
   @override
@@ -304,41 +286,39 @@ class _$WalletTransactionImpl extends _WalletTransaction {
 
 abstract class _WalletTransaction extends WalletTransaction {
   factory _WalletTransaction(
-      {@Id(assignable: true) final int? id,
-      required final int walletId,
-      final String? name,
-      final String? description,
-      final String? category,
-      final String? amount,
-      final String? optionalCurrency,
-      @Property(type: PropertyType.date) final DateTime? transactionDate,
-      @Transient() final Uint8List? media,
-      required final ToOne<Wallet> walletRelation}) = _$WalletTransactionImpl;
+          {@Id(assignable: true) final int? id,
+          final String? name,
+          final String? description,
+          final double? amount,
+          @Property(type: PropertyType.date) final DateTime? date,
+          @Transient() final Uint8List? media,
+          required final ToOne<Wallet> walletRelation,
+          required final ToOne<WalletCurrency> currencyRelation,
+          required final ToOne<WalletBudget> walletBudgetRelation}) =
+      _$WalletTransactionImpl;
   _WalletTransaction._() : super._();
 
   @override
   @Id(assignable: true)
   int? get id;
   @override
-  int get walletId;
-  @override
   String? get name;
   @override
   String? get description;
   @override
-  String? get category;
-  @override
-  String? get amount;
-  @override
-  String? get optionalCurrency;
+  double? get amount;
   @override
   @Property(type: PropertyType.date)
-  DateTime? get transactionDate;
+  DateTime? get date;
   @override
   @Transient()
   Uint8List? get media;
   @override
   ToOne<Wallet> get walletRelation;
+  @override
+  ToOne<WalletCurrency> get currencyRelation;
+  @override
+  ToOne<WalletBudget> get walletBudgetRelation;
   @override
   @JsonKey(ignore: true)
   _$$WalletTransactionImplCopyWith<_$WalletTransactionImpl> get copyWith =>

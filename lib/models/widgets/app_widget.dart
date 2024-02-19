@@ -4,7 +4,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 // ignore: unnecessary_import
 import 'package:objectbox/objectbox.dart'; // Removal breaks objectbox's annotations
 
-import 'package:project_n2/models/data_manager.dart';
+import 'package:project_n2/models/objectbox.dart';
 import 'package:project_n2/models/widgets/widget_union.dart';
 import 'package:project_n2/models/widgets/todo_widget.dart';
 import 'package:project_n2/models/widgets/wallet_widget.dart';
@@ -26,15 +26,14 @@ class AppWidget with _$AppWidget {
     required int parentIndex,
     required int containedObjectTypeIndex,
     Map<String, dynamic>? widgetSettingsMap,
+    required ToOne<ToDoWidget> toDoWidgetRelation,
+    required ToOne<WalletWidget> walletWidgetRelation,
   }) = _AppWidget;
 
   // final subWidget = ToOne<WidgetUnion>();
 
-  final toDoWidgetRelation = ToOne<ToDoWidget>();
   ToDoWidget get toDoWidget => toDoWidgetRelation.target!;
-
-  final walletWidgetRelation = ToOne<WalletWidget>();
-  WalletWidget get walletWidget => walletWidgetRelation.target!;
+  WalletWidget? get walletWidget => walletWidgetRelation.target;
 
   ContainedObjectType? get containedObjectType {
     _ensureStableEnumValues();
@@ -81,6 +80,8 @@ class AppWidgets extends _$AppWidgets {
               0) +
           1;
     }
+    parentWidget = parentWidget.copyWith(id: parentWidgetId);
+    parentWidget = await appWidgets.putAndGetAsync(parentWidget);
     await childWidget.map(
       toDo: (unionToDo) async {
         final toDoWidget = unionToDo.toDoWidget;
@@ -97,12 +98,12 @@ class AppWidgets extends _$AppWidgets {
                   0) +
               1;
         }
-        ToDoWidget addedChildWidget = await toDoWidgets
-            .putAndGetAsync(toDoWidget.copyWith(id: childWidgetId));
-        parentWidget.toDoWidgetRelation.target = addedChildWidget;
+        // ToDoWidget addedChildWidget = await toDoWidgets
+        //     .putAndGetAsync(toDoWidget.copyWith(id: childWidgetId));
+        // parentWidget.toDoWidgetRelation.target = addedChildWidget;
       },
       wallet: (unionWallet) async {
-        final walletWidget = unionWallet.walletWidget;
+        WalletWidget walletWidget = unionWallet.walletWidget;
         final walletWidgets = db.box<WalletWidget>();
         int? childWidgetId = parentWidget.id;
         // TODO Add cached id for improving speed and performance
@@ -116,12 +117,14 @@ class AppWidgets extends _$AppWidgets {
                   0) +
               1;
         }
-        WalletWidget addedChildWidget = await walletWidgets
-            .putAndGetAsync(walletWidget.copyWith(id: childWidgetId));
+        walletWidget = walletWidget.copyWith(id: childWidgetId);
+
+        WalletWidget addedChildWidget =
+            await walletWidgets.putAndGetAsync(walletWidget);
         parentWidget.walletWidgetRelation.target = addedChildWidget;
       },
     );
-    appWidgets.putAsync(parentWidget.copyWith(id: parentWidgetId));
+    await appWidgets.putAsync(parentWidget);
     await updateAppWidgets();
   }
 
@@ -159,29 +162,41 @@ class AppWidgets extends _$AppWidgets {
       case ContainedObjectType.unknown:
         break;
       case ContainedObjectType.toDoList:
-        childWidgetId = appWidget.toDoWidgetRelation.targetId;
+        childWidgetId = appWidget.toDoWidgetRelation.hasValue
+            ? appWidget.toDoWidgetRelation.targetId
+            : null;
         break;
       case ContainedObjectType.wallet:
-        childWidgetId = appWidget.walletWidgetRelation.targetId;
+        childWidgetId = appWidget.walletWidgetRelation.hasValue
+            ? appWidget.walletWidgetRelation.targetId
+            : null;
         break;
       case ContainedObjectType.other:
         // TODO: Handle this case.
         break;
+      case null:
+      // TODO: Handle this case.
     }
     switch (appWidget.containedObjectType) {
       case ContainedObjectType.unknown:
         break;
       case ContainedObjectType.toDoList:
-        final toDoWidgets = db.box<ToDoWidget>();
-        await toDoWidgets.removeAsync(childWidgetId!);
+        if (childWidgetId != null) {
+          final toDoWidgets = db.box<ToDoWidget>();
+          await toDoWidgets.removeAsync(childWidgetId);
+        }
         break;
       case ContainedObjectType.wallet:
-        final walletWidgets = db.box<WalletWidget>();
-        await walletWidgets.removeAsync(childWidgetId!);
+        if (childWidgetId != null) {
+          final walletWidgets = db.box<WalletWidget>();
+          await walletWidgets.removeAsync(childWidgetId);
+        }
         break;
       case ContainedObjectType.other:
         // TODO: Handle this case.
         break;
+      case null:
+      // TODO: Handle this case.
     }
     final appWidgets = db.box<AppWidget>();
     await appWidgets.removeAsync(appWidget.id!);
@@ -195,6 +210,7 @@ class AppWidgetByParentId extends _$AppWidgetByParentId {
   FutureOr<List<AppWidget>> build({required String parentId}) async {
     debugPrint('AppWidgetByParentId REFRESHED');
     final appWidgets = await ref.watch(appWidgetsProvider.future);
+    print(appWidgets);
     final sortedList =
         appWidgets.where((appWidget) => appWidget.parentId == parentId).toList()
           ..sort(

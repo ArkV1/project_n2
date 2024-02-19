@@ -10,7 +10,7 @@ class ThemeDropdown extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // String themeListDropdownValue = getCurrentTheme(ref);
     ThemeModes themeListDropdownValue = ThemeModes.values
-        .byName(ref.watch(themeManagerProvider).value!.themeMode.name);
+        .byName(ref.watch(themeManagerProvider).themeMode.name);
     return DropdownButtonFormField<ThemeModes>(
       decoration: const InputDecoration(
         labelText: 'Theme',

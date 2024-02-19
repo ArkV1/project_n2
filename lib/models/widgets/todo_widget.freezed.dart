@@ -12,7 +12,7 @@ part of 'todo_widget.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$ToDoWidget {
@@ -20,6 +20,7 @@ mixin _$ToDoWidget {
   int? get id => throw _privateConstructorUsedError;
   int get toDoListId => throw _privateConstructorUsedError;
   int get widgetTypeIndex => throw _privateConstructorUsedError;
+  ToOne<AppWidget> get appWidgetRelation => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ToDoWidgetCopyWith<ToDoWidget> get copyWith =>
@@ -33,7 +34,10 @@ abstract class $ToDoWidgetCopyWith<$Res> {
       _$ToDoWidgetCopyWithImpl<$Res, ToDoWidget>;
   @useResult
   $Res call(
-      {@Id(assignable: true) int? id, int toDoListId, int widgetTypeIndex});
+      {@Id(assignable: true) int? id,
+      int toDoListId,
+      int widgetTypeIndex,
+      ToOne<AppWidget> appWidgetRelation});
 }
 
 /// @nodoc
@@ -52,6 +56,7 @@ class _$ToDoWidgetCopyWithImpl<$Res, $Val extends ToDoWidget>
     Object? id = freezed,
     Object? toDoListId = null,
     Object? widgetTypeIndex = null,
+    Object? appWidgetRelation = null,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -66,6 +71,10 @@ class _$ToDoWidgetCopyWithImpl<$Res, $Val extends ToDoWidget>
           ? _value.widgetTypeIndex
           : widgetTypeIndex // ignore: cast_nullable_to_non_nullable
               as int,
+      appWidgetRelation: null == appWidgetRelation
+          ? _value.appWidgetRelation
+          : appWidgetRelation // ignore: cast_nullable_to_non_nullable
+              as ToOne<AppWidget>,
     ) as $Val);
   }
 }
@@ -79,7 +88,10 @@ abstract class _$$ToDoWidgetImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@Id(assignable: true) int? id, int toDoListId, int widgetTypeIndex});
+      {@Id(assignable: true) int? id,
+      int toDoListId,
+      int widgetTypeIndex,
+      ToOne<AppWidget> appWidgetRelation});
 }
 
 /// @nodoc
@@ -96,6 +108,7 @@ class __$$ToDoWidgetImplCopyWithImpl<$Res>
     Object? id = freezed,
     Object? toDoListId = null,
     Object? widgetTypeIndex = null,
+    Object? appWidgetRelation = null,
   }) {
     return _then(_$ToDoWidgetImpl(
       id: freezed == id
@@ -110,6 +123,10 @@ class __$$ToDoWidgetImplCopyWithImpl<$Res>
           ? _value.widgetTypeIndex
           : widgetTypeIndex // ignore: cast_nullable_to_non_nullable
               as int,
+      appWidgetRelation: null == appWidgetRelation
+          ? _value.appWidgetRelation
+          : appWidgetRelation // ignore: cast_nullable_to_non_nullable
+              as ToOne<AppWidget>,
     ));
   }
 }
@@ -121,7 +138,8 @@ class _$ToDoWidgetImpl extends _ToDoWidget {
   _$ToDoWidgetImpl(
       {@Id(assignable: true) this.id = 0,
       required this.toDoListId,
-      required this.widgetTypeIndex})
+      required this.widgetTypeIndex,
+      required this.appWidgetRelation})
       : super._();
 
   @override
@@ -132,10 +150,12 @@ class _$ToDoWidgetImpl extends _ToDoWidget {
   final int toDoListId;
   @override
   final int widgetTypeIndex;
+  @override
+  final ToOne<AppWidget> appWidgetRelation;
 
   @override
   String toString() {
-    return 'ToDoWidget(id: $id, toDoListId: $toDoListId, widgetTypeIndex: $widgetTypeIndex)';
+    return 'ToDoWidget(id: $id, toDoListId: $toDoListId, widgetTypeIndex: $widgetTypeIndex, appWidgetRelation: $appWidgetRelation)';
   }
 
   @override
@@ -147,11 +167,14 @@ class _$ToDoWidgetImpl extends _ToDoWidget {
             (identical(other.toDoListId, toDoListId) ||
                 other.toDoListId == toDoListId) &&
             (identical(other.widgetTypeIndex, widgetTypeIndex) ||
-                other.widgetTypeIndex == widgetTypeIndex));
+                other.widgetTypeIndex == widgetTypeIndex) &&
+            (identical(other.appWidgetRelation, appWidgetRelation) ||
+                other.appWidgetRelation == appWidgetRelation));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, toDoListId, widgetTypeIndex);
+  int get hashCode => Object.hash(
+      runtimeType, id, toDoListId, widgetTypeIndex, appWidgetRelation);
 
   @JsonKey(ignore: true)
   @override
@@ -164,7 +187,8 @@ abstract class _ToDoWidget extends ToDoWidget {
   factory _ToDoWidget(
       {@Id(assignable: true) final int? id,
       required final int toDoListId,
-      required final int widgetTypeIndex}) = _$ToDoWidgetImpl;
+      required final int widgetTypeIndex,
+      required final ToOne<AppWidget> appWidgetRelation}) = _$ToDoWidgetImpl;
   _ToDoWidget._() : super._();
 
   @override
@@ -174,6 +198,8 @@ abstract class _ToDoWidget extends ToDoWidget {
   int get toDoListId;
   @override
   int get widgetTypeIndex;
+  @override
+  ToOne<AppWidget> get appWidgetRelation;
   @override
   @JsonKey(ignore: true)
   _$$ToDoWidgetImplCopyWith<_$ToDoWidgetImpl> get copyWith =>

@@ -12,7 +12,7 @@ class SecondaryColorDropdown extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     String secondaryColorListDropdownValue =
-        ref.watch(themeManagerProvider).value!.primaryContrastingColor['color'];
+        ref.watch(themeManagerProvider).primaryContrastingColor['color'];
 
     return DropdownButtonFormField<String>(
       decoration: const InputDecoration(

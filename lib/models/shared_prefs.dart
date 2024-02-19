@@ -4,7 +4,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:objectbox/objectbox.dart';
 import 'package:project_n2/objectbox.g.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:project_n2/models/data_manager.dart';
+import 'package:project_n2/models/objectbox.dart';
 
 part 'shared_prefs.freezed.dart';
 part 'shared_prefs.g.dart';
@@ -22,25 +22,28 @@ class SharedPref with _$SharedPref {
 @Riverpod(keepAlive: true)
 class SharedPrefs extends _$SharedPrefs {
   @override
-  FutureOr<List<SharedPref>> build() {
+  List<SharedPref> build() {
     return getSharedPrefs();
   }
 
-  Future<List<SharedPref>> getSharedPrefs() async {
+  List<SharedPref> getSharedPrefs() {
     debugPrint('Getting Shared Prefs');
-    return db.box<SharedPref>().getAllAsync();
+    return db.box<SharedPref>().getAll();
   }
 
-  Future<void> updateSharedPrefs() async {
-    state = AsyncData(await getSharedPrefs());
+  void updateSharedPrefs() {
+    state = getSharedPrefs();
   }
 
-  Future<String?> getString(String key) async {
-    return await ref.read(sharedPrefsProvider.future).then((value) =>
-        value.singleWhereOrNull((sharedPref) => sharedPref.key == key)?.value);
+  String? getString(String key) {
+    return state
+        .singleWhereOrNull((sharedPref) => sharedPref.key == key)
+        ?.value;
+    // return await ref.read(sharedPrefsProvider.future).then((value) =>
+    //     value.singleWhereOrNull((sharedPref) => sharedPref.key == key)?.value);
   }
 
-  Future<void> setString(String key, String newValue) async {
+  void setString(String key, String newValue) {
     final sharedPrefs = db.box<SharedPref>();
     SharedPref? existingSharedPref =
         sharedPrefs.query(SharedPref_.key.equals(key)).build().findFirst();
@@ -69,7 +72,7 @@ class SharedPrefs extends _$SharedPrefs {
       final sharedPref = SharedPref(key: key, value: newValue);
       sharedPrefs.put(sharedPref.copyWith(id: id));
     }
-    await updateSharedPrefs();
+    updateSharedPrefs();
   }
 
   bool? getBool(String key) {
@@ -82,30 +85,41 @@ class SharedPrefs extends _$SharedPrefs {
     return null;
   }
 
-  Future<void> setBool(String key, bool value) async {
+  void setBool(String key, bool value) {
     setString(key, value ? '1' : '0');
   }
 
-  Future<double?> getDouble(String key) async {
-    final stringValue = await getString(key);
-    return double.parse(stringValue!);
+  double? getDouble(String key) {
+    final stringValue = getString(key);
+    if (stringValue == null) return null;
+    return double.tryParse(stringValue);
   }
 
-  Future<void> setDouble(String key, double value) async {
+  void setDouble(String key, double value) {
     setString(key, value.toString());
   }
 
-  Future<List<String>?> getStringList(String key) async {
-    final stringValue = await getString(key);
+  int? getInt(String key) {
+    final stringValue = getString(key);
+    if (stringValue == null) return null;
+    return int.tryParse(stringValue);
+  }
+
+  void setInt(String key, int value) {
+    setString(key, value.toString());
+  }
+
+  List<String>? getStringList(String key) {
+    final stringValue = getString(key);
     return stringValue?.split(','); // Assuming comma-separated values
   }
 
-  Future<void> setStringList(String key, List<String> values) async {
+  void setStringList(String key, List<String> values) {
     final stringValue = values.join(',');
-    await setString(key, stringValue);
+    setString(key, stringValue);
   }
 
-  Future<void> remove(String key) async {
+  void remove(String key) {
     final sharedPrefs = db.box<SharedPref>();
     try {
       sharedPrefs.query(SharedPref_.key.equals(key)).build().remove();

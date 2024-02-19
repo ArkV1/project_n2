@@ -4,52 +4,68 @@
   "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
   "entities": [
     {
-      "id": "1:3851076263104269136",
-      "lastPropertyId": "4:1328863912090996765",
+      "id": "1:5331271996343349597",
+      "lastPropertyId": "6:5134643226768509383",
       "name": "AppWidget",
       "properties": [
         {
-          "id": "1:6641746290999624105",
+          "id": "1:6457689504871557993",
           "name": "id",
           "type": 6,
           "flags": 129
         },
         {
-          "id": "2:4146134339931586936",
+          "id": "2:6950571597644317763",
           "name": "parentId",
           "type": 9
         },
         {
-          "id": "3:8464332775074593007",
+          "id": "3:7195556833308857094",
           "name": "parentIndex",
           "type": 6
         },
         {
-          "id": "4:1328863912090996765",
+          "id": "4:1875920273361910157",
           "name": "containedObjectTypeIndex",
           "type": 6
+        },
+        {
+          "id": "5:5425848103912470841",
+          "name": "toDoWidgetRelationId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "1:8281064934403763811",
+          "relationTarget": "ToDoWidget"
+        },
+        {
+          "id": "6:5134643226768509383",
+          "name": "walletWidgetRelationId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "2:2939235052273622907",
+          "relationTarget": "WalletWidget"
         }
       ],
       "relations": []
     },
     {
-      "id": "2:7717099991104603167",
-      "lastPropertyId": "3:435670815388084771",
+      "id": "2:7244195633849597312",
+      "lastPropertyId": "3:3300820978115500379",
       "name": "SharedPref",
       "properties": [
         {
-          "id": "1:8630801586906988374",
+          "id": "1:4130435477418363989",
           "name": "id",
           "type": 6,
           "flags": 129
         },
         {
-          "id": "2:4178075808928530065",
+          "id": "2:977172739320433740",
           "name": "key",
           "type": 9
         },
         {
-          "id": "3:435670815388084771",
+          "id": "3:3300820978115500379",
           "name": "value",
           "type": 9
         }
@@ -57,241 +73,351 @@
       "relations": []
     },
     {
-      "id": "3:602103247360980798",
-      "lastPropertyId": "2:1036191715067432841",
+      "id": "3:6435387909061635442",
+      "lastPropertyId": "2:3029719666812876297",
       "name": "ToDoList",
       "properties": [
         {
-          "id": "1:6566740145815087865",
+          "id": "1:5890823935446602654",
           "name": "id",
           "type": 6,
           "flags": 129
         },
         {
-          "id": "2:1036191715067432841",
+          "id": "2:3029719666812876297",
           "name": "name",
           "type": 9
         }
       ],
       "relations": [
         {
-          "id": "1:9184665439642877980",
+          "id": "1:2823079157152116156",
           "name": "tasksRelation",
-          "targetId": "4:7292982484387514466"
+          "targetId": "4:6608140996126626449"
         }
       ]
     },
     {
-      "id": "4:7292982484387514466",
-      "lastPropertyId": "10:7767667358077577185",
+      "id": "4:6608140996126626449",
+      "lastPropertyId": "10:3833339341654908598",
       "name": "ToDoTask",
       "properties": [
         {
-          "id": "1:7349673836728525657",
+          "id": "1:2402475699697689141",
           "name": "id",
           "type": 6,
           "flags": 129
         },
         {
-          "id": "2:3264043252034502658",
+          "id": "2:3012369723299695016",
           "name": "toDoListId",
           "type": 6
         },
         {
-          "id": "3:5410470588904130773",
+          "id": "3:1520673191714364309",
           "name": "parentIndex",
           "type": 6
         },
         {
-          "id": "4:3356460954018133276",
+          "id": "4:6414819446895359864",
           "name": "task",
           "type": 9
         },
         {
-          "id": "5:191269183120495443",
+          "id": "5:6501920413451824585",
           "name": "description",
           "type": 9
         },
         {
-          "id": "6:8647187365294728853",
+          "id": "6:8242889797343440169",
           "name": "isDaily",
           "type": 1
         },
         {
-          "id": "7:7173124710468231132",
+          "id": "7:928238160357807138",
           "name": "complete",
           "type": 1
         },
         {
-          "id": "8:6036152782262399773",
+          "id": "8:5446611371241584135",
           "name": "creationDate",
           "type": 10
         },
         {
-          "id": "9:4654333341229623542",
+          "id": "9:8166032640211384111",
           "name": "completionDate",
           "type": 10
         },
         {
-          "id": "10:7767667358077577185",
+          "id": "10:3833339341654908598",
           "name": "toDoListRelationId",
           "type": 11,
           "flags": 520,
-          "indexId": "1:6965049102133444953",
+          "indexId": "3:8641803819444182709",
           "relationTarget": "ToDoList"
         }
       ],
       "relations": []
     },
     {
-      "id": "5:4958708599283922976",
-      "lastPropertyId": "3:702883504199695479",
+      "id": "5:6986369458234013113",
+      "lastPropertyId": "4:986223660061492480",
       "name": "ToDoWidget",
       "properties": [
         {
-          "id": "1:3279771052775876942",
+          "id": "1:8566087495788751576",
           "name": "id",
           "type": 6,
           "flags": 129
         },
         {
-          "id": "2:2725996854193858177",
+          "id": "2:5714652772845847450",
           "name": "toDoListId",
           "type": 6
         },
         {
-          "id": "3:702883504199695479",
+          "id": "3:7614821078682242670",
           "name": "widgetTypeIndex",
           "type": 6
+        },
+        {
+          "id": "4:986223660061492480",
+          "name": "appWidgetRelationId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "4:177913220248288406",
+          "relationTarget": "AppWidget"
         }
       ],
       "relations": []
     },
     {
-      "id": "6:1468525835500275328",
-      "lastPropertyId": "5:1772558234851034474",
-      "name": "Wallet",
+      "id": "7:9148906301733428383",
+      "lastPropertyId": "5:7740384849166324429",
+      "name": "WalletBudget",
       "properties": [
         {
-          "id": "1:6438608160768011458",
+          "id": "1:5845210713491834675",
           "name": "id",
           "type": 6,
           "flags": 129
         },
         {
-          "id": "2:4490577410416462100",
+          "id": "2:9203963378895986721",
           "name": "name",
           "type": 9
         },
         {
-          "id": "5:1772558234851034474",
-          "name": "categories",
-          "type": 30
+          "id": "3:949352151825877903",
+          "name": "amount",
+          "type": 8
+        },
+        {
+          "id": "4:4261757094601220023",
+          "name": "recurranceIndex",
+          "type": 6
+        },
+        {
+          "id": "5:7740384849166324429",
+          "name": "walletRelationId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "5:212965328453001932",
+          "relationTarget": "Wallet"
         }
       ],
       "relations": [
         {
-          "id": "2:2438830796802246892",
+          "id": "4:2523446566374688569",
           "name": "transactionsRelation",
-          "targetId": "7:407272998144506317"
+          "targetId": "8:3634365497101070477"
         }
       ]
     },
     {
-      "id": "7:407272998144506317",
-      "lastPropertyId": "10:6526198425793305633",
+      "id": "8:3634365497101070477",
+      "lastPropertyId": "11:2707064199835878531",
       "name": "WalletTransaction",
       "properties": [
         {
-          "id": "1:3187325690585529173",
+          "id": "1:3201455128781481524",
           "name": "id",
           "type": 6,
           "flags": 129
         },
         {
-          "id": "2:2283929815430606379",
-          "name": "walletId",
-          "type": 6
-        },
-        {
-          "id": "3:423468199066161408",
+          "id": "3:2626342174323938933",
           "name": "name",
           "type": 9
         },
         {
-          "id": "4:3127256611937120935",
+          "id": "4:7273779787986494375",
           "name": "description",
           "type": 9
         },
         {
-          "id": "6:954024822420747720",
+          "id": "5:5129592670844940462",
           "name": "amount",
-          "type": 9
+          "type": 8
         },
         {
-          "id": "7:3011724886258069778",
-          "name": "transactionDate",
+          "id": "7:9014425468967354119",
+          "name": "date",
           "type": 10
         },
         {
-          "id": "8:6293933183743922526",
+          "id": "8:148514805009437240",
           "name": "walletRelationId",
           "type": 11,
           "flags": 520,
-          "indexId": "2:3096948282161509920",
+          "indexId": "6:2031997909298278772",
           "relationTarget": "Wallet"
         },
         {
-          "id": "9:2946374135556934787",
-          "name": "category",
-          "type": 9
+          "id": "9:8281955523892501684",
+          "name": "walletBudgetRelationId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "7:4635427240642435522",
+          "relationTarget": "WalletBudget"
         },
         {
-          "id": "10:6526198425793305633",
-          "name": "optionalCurrency",
-          "type": 9
+          "id": "11:2707064199835878531",
+          "name": "currencyRelationId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "10:2520536219678240099",
+          "relationTarget": "WalletCurrency"
         }
       ],
       "relations": []
     },
     {
-      "id": "8:4855742581566610461",
-      "lastPropertyId": "3:2606608628582629878",
+      "id": "9:8463202728945990323",
+      "lastPropertyId": "4:7568895983279833339",
       "name": "WalletWidget",
       "properties": [
         {
-          "id": "1:7517955221512361937",
+          "id": "1:8663426916310049291",
           "name": "id",
           "type": 6,
           "flags": 129
         },
         {
-          "id": "2:7943705639151986210",
+          "id": "2:1910522529690274193",
           "name": "walletId",
           "type": 6
         },
         {
-          "id": "3:2606608628582629878",
+          "id": "3:8692945248693206749",
           "name": "widgetTypeIndex",
           "type": 6
+        },
+        {
+          "id": "4:7568895983279833339",
+          "name": "appWidgetRelationId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "8:3240683814132758781",
+          "relationTarget": "AppWidget"
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "10:6420105964681760111",
+      "lastPropertyId": "4:4169838353477178460",
+      "name": "Wallet",
+      "properties": [
+        {
+          "id": "1:5425753169418433982",
+          "name": "id",
+          "type": 6,
+          "flags": 129
+        },
+        {
+          "id": "2:3771741560495757569",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "4:4169838353477178460",
+          "name": "defaultCurrencyRelationId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "12:2915980899998334738",
+          "relationTarget": "WalletCurrency"
+        }
+      ],
+      "relations": [
+        {
+          "id": "5:6722636413285042725",
+          "name": "budgetsRelation",
+          "targetId": "7:9148906301733428383"
+        },
+        {
+          "id": "6:7694302009719570896",
+          "name": "transactionsRelation",
+          "targetId": "8:3634365497101070477"
+        }
+      ]
+    },
+    {
+      "id": "12:873187228517734403",
+      "lastPropertyId": "3:8048288058256323695",
+      "name": "WalletCurrency",
+      "properties": [
+        {
+          "id": "1:6708241344326514675",
+          "name": "id",
+          "type": 6,
+          "flags": 129
+        },
+        {
+          "id": "2:1209053600011843678",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "3:8048288058256323695",
+          "name": "symbol",
+          "type": 9
         }
       ],
       "relations": []
     }
   ],
-  "lastEntityId": "8:4855742581566610461",
-  "lastIndexId": "2:3096948282161509920",
-  "lastRelationId": "2:2438830796802246892",
+  "lastEntityId": "12:873187228517734403",
+  "lastIndexId": "12:2915980899998334738",
+  "lastRelationId": "7:3903551576499518993",
   "lastSequenceId": "0:0",
   "modelVersion": 5,
   "modelVersionParserMinimum": 5,
-  "retiredEntityUids": [],
-  "retiredIndexUids": [],
-  "retiredPropertyUids": [
-    5854194935803310609,
-    5156563089492136943,
-    5518138728636585735
+  "retiredEntityUids": [
+    1033878434954156121,
+    7512441033247668160
   ],
-  "retiredRelationUids": [],
+  "retiredIndexUids": [
+    8353849674073803988,
+    7655630016403149639
+  ],
+  "retiredPropertyUids": [
+    1201488677116599168,
+    1646019089443626752,
+    8082092843902620764,
+    8928620049892527408,
+    2045594120847646797,
+    3157629462495957647,
+    3932883810614489422,
+    5267354739539256426,
+    7276901461082926036,
+    3275337746389202670,
+    2169576759790571685,
+    2604316460306013263,
+    8992915649916968924
+  ],
+  "retiredRelationUids": [
+    3903551576499518993
+  ],
   "version": 1
 }

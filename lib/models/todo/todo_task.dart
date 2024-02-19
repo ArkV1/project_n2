@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:objectbox/objectbox.dart';
 
@@ -20,6 +22,7 @@ class ToDoTask with _$ToDoTask {
     @Default(false) bool complete,
     @Property(type: PropertyType.date) DateTime? creationDate,
     @Property(type: PropertyType.date) DateTime? completionDate,
+    @Transient() Uint8List? media,
     required ToOne<ToDoList> toDoListRelation,
   }) = _ToDoTask;
 

@@ -12,7 +12,7 @@ part of 'todo_task.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$ToDoTask {
@@ -28,6 +28,8 @@ mixin _$ToDoTask {
   DateTime? get creationDate => throw _privateConstructorUsedError;
   @Property(type: PropertyType.date)
   DateTime? get completionDate => throw _privateConstructorUsedError;
+  @Transient()
+  Uint8List? get media => throw _privateConstructorUsedError;
   ToOne<ToDoList> get toDoListRelation => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -50,6 +52,7 @@ abstract class $ToDoTaskCopyWith<$Res> {
       bool complete,
       @Property(type: PropertyType.date) DateTime? creationDate,
       @Property(type: PropertyType.date) DateTime? completionDate,
+      @Transient() Uint8List? media,
       ToOne<ToDoList> toDoListRelation});
 }
 
@@ -75,6 +78,7 @@ class _$ToDoTaskCopyWithImpl<$Res, $Val extends ToDoTask>
     Object? complete = null,
     Object? creationDate = freezed,
     Object? completionDate = freezed,
+    Object? media = freezed,
     Object? toDoListRelation = null,
   }) {
     return _then(_value.copyWith(
@@ -114,6 +118,10 @@ class _$ToDoTaskCopyWithImpl<$Res, $Val extends ToDoTask>
           ? _value.completionDate
           : completionDate // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      media: freezed == media
+          ? _value.media
+          : media // ignore: cast_nullable_to_non_nullable
+              as Uint8List?,
       toDoListRelation: null == toDoListRelation
           ? _value.toDoListRelation
           : toDoListRelation // ignore: cast_nullable_to_non_nullable
@@ -140,6 +148,7 @@ abstract class _$$ToDoTaskImplCopyWith<$Res>
       bool complete,
       @Property(type: PropertyType.date) DateTime? creationDate,
       @Property(type: PropertyType.date) DateTime? completionDate,
+      @Transient() Uint8List? media,
       ToOne<ToDoList> toDoListRelation});
 }
 
@@ -163,6 +172,7 @@ class __$$ToDoTaskImplCopyWithImpl<$Res>
     Object? complete = null,
     Object? creationDate = freezed,
     Object? completionDate = freezed,
+    Object? media = freezed,
     Object? toDoListRelation = null,
   }) {
     return _then(_$ToDoTaskImpl(
@@ -202,6 +212,10 @@ class __$$ToDoTaskImplCopyWithImpl<$Res>
           ? _value.completionDate
           : completionDate // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      media: freezed == media
+          ? _value.media
+          : media // ignore: cast_nullable_to_non_nullable
+              as Uint8List?,
       toDoListRelation: null == toDoListRelation
           ? _value.toDoListRelation
           : toDoListRelation // ignore: cast_nullable_to_non_nullable
@@ -224,6 +238,7 @@ class _$ToDoTaskImpl extends _ToDoTask {
       this.complete = false,
       @Property(type: PropertyType.date) this.creationDate,
       @Property(type: PropertyType.date) this.completionDate,
+      @Transient() this.media,
       required this.toDoListRelation})
       : super._();
 
@@ -252,11 +267,14 @@ class _$ToDoTaskImpl extends _ToDoTask {
   @Property(type: PropertyType.date)
   final DateTime? completionDate;
   @override
+  @Transient()
+  final Uint8List? media;
+  @override
   final ToOne<ToDoList> toDoListRelation;
 
   @override
   String toString() {
-    return 'ToDoTask(id: $id, toDoListId: $toDoListId, parentIndex: $parentIndex, task: $task, description: $description, isDaily: $isDaily, complete: $complete, creationDate: $creationDate, completionDate: $completionDate, toDoListRelation: $toDoListRelation)';
+    return 'ToDoTask(id: $id, toDoListId: $toDoListId, parentIndex: $parentIndex, task: $task, description: $description, isDaily: $isDaily, complete: $complete, creationDate: $creationDate, completionDate: $completionDate, media: $media, toDoListRelation: $toDoListRelation)';
   }
 
   @override
@@ -279,6 +297,7 @@ class _$ToDoTaskImpl extends _ToDoTask {
                 other.creationDate == creationDate) &&
             (identical(other.completionDate, completionDate) ||
                 other.completionDate == completionDate) &&
+            const DeepCollectionEquality().equals(other.media, media) &&
             (identical(other.toDoListRelation, toDoListRelation) ||
                 other.toDoListRelation == toDoListRelation));
   }
@@ -295,6 +314,7 @@ class _$ToDoTaskImpl extends _ToDoTask {
       complete,
       creationDate,
       completionDate,
+      const DeepCollectionEquality().hash(media),
       toDoListRelation);
 
   @JsonKey(ignore: true)
@@ -315,6 +335,7 @@ abstract class _ToDoTask extends ToDoTask {
       final bool complete,
       @Property(type: PropertyType.date) final DateTime? creationDate,
       @Property(type: PropertyType.date) final DateTime? completionDate,
+      @Transient() final Uint8List? media,
       required final ToOne<ToDoList> toDoListRelation}) = _$ToDoTaskImpl;
   _ToDoTask._() : super._();
 
@@ -339,6 +360,9 @@ abstract class _ToDoTask extends ToDoTask {
   @override
   @Property(type: PropertyType.date)
   DateTime? get completionDate;
+  @override
+  @Transient()
+  Uint8List? get media;
   @override
   ToOne<ToDoList> get toDoListRelation;
   @override

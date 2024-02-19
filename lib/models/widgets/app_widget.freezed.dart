@@ -12,7 +12,7 @@ part of 'app_widget.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$AppWidget {
@@ -22,6 +22,10 @@ mixin _$AppWidget {
   int get parentIndex => throw _privateConstructorUsedError;
   int get containedObjectTypeIndex => throw _privateConstructorUsedError;
   Map<String, dynamic>? get widgetSettingsMap =>
+      throw _privateConstructorUsedError;
+  ToOne<ToDoWidget> get toDoWidgetRelation =>
+      throw _privateConstructorUsedError;
+  ToOne<WalletWidget> get walletWidgetRelation =>
       throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -39,7 +43,9 @@ abstract class $AppWidgetCopyWith<$Res> {
       String parentId,
       int parentIndex,
       int containedObjectTypeIndex,
-      Map<String, dynamic>? widgetSettingsMap});
+      Map<String, dynamic>? widgetSettingsMap,
+      ToOne<ToDoWidget> toDoWidgetRelation,
+      ToOne<WalletWidget> walletWidgetRelation});
 }
 
 /// @nodoc
@@ -60,6 +66,8 @@ class _$AppWidgetCopyWithImpl<$Res, $Val extends AppWidget>
     Object? parentIndex = null,
     Object? containedObjectTypeIndex = null,
     Object? widgetSettingsMap = freezed,
+    Object? toDoWidgetRelation = null,
+    Object? walletWidgetRelation = null,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -82,6 +90,14 @@ class _$AppWidgetCopyWithImpl<$Res, $Val extends AppWidget>
           ? _value.widgetSettingsMap
           : widgetSettingsMap // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>?,
+      toDoWidgetRelation: null == toDoWidgetRelation
+          ? _value.toDoWidgetRelation
+          : toDoWidgetRelation // ignore: cast_nullable_to_non_nullable
+              as ToOne<ToDoWidget>,
+      walletWidgetRelation: null == walletWidgetRelation
+          ? _value.walletWidgetRelation
+          : walletWidgetRelation // ignore: cast_nullable_to_non_nullable
+              as ToOne<WalletWidget>,
     ) as $Val);
   }
 }
@@ -99,7 +115,9 @@ abstract class _$$AppWidgetImplCopyWith<$Res>
       String parentId,
       int parentIndex,
       int containedObjectTypeIndex,
-      Map<String, dynamic>? widgetSettingsMap});
+      Map<String, dynamic>? widgetSettingsMap,
+      ToOne<ToDoWidget> toDoWidgetRelation,
+      ToOne<WalletWidget> walletWidgetRelation});
 }
 
 /// @nodoc
@@ -118,6 +136,8 @@ class __$$AppWidgetImplCopyWithImpl<$Res>
     Object? parentIndex = null,
     Object? containedObjectTypeIndex = null,
     Object? widgetSettingsMap = freezed,
+    Object? toDoWidgetRelation = null,
+    Object? walletWidgetRelation = null,
   }) {
     return _then(_$AppWidgetImpl(
       id: freezed == id
@@ -140,6 +160,14 @@ class __$$AppWidgetImplCopyWithImpl<$Res>
           ? _value._widgetSettingsMap
           : widgetSettingsMap // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>?,
+      toDoWidgetRelation: null == toDoWidgetRelation
+          ? _value.toDoWidgetRelation
+          : toDoWidgetRelation // ignore: cast_nullable_to_non_nullable
+              as ToOne<ToDoWidget>,
+      walletWidgetRelation: null == walletWidgetRelation
+          ? _value.walletWidgetRelation
+          : walletWidgetRelation // ignore: cast_nullable_to_non_nullable
+              as ToOne<WalletWidget>,
     ));
   }
 }
@@ -153,7 +181,9 @@ class _$AppWidgetImpl extends _AppWidget with DiagnosticableTreeMixin {
       required this.parentId,
       required this.parentIndex,
       required this.containedObjectTypeIndex,
-      final Map<String, dynamic>? widgetSettingsMap})
+      final Map<String, dynamic>? widgetSettingsMap,
+      required this.toDoWidgetRelation,
+      required this.walletWidgetRelation})
       : _widgetSettingsMap = widgetSettingsMap,
         super._();
 
@@ -179,8 +209,13 @@ class _$AppWidgetImpl extends _AppWidget with DiagnosticableTreeMixin {
   }
 
   @override
+  final ToOne<ToDoWidget> toDoWidgetRelation;
+  @override
+  final ToOne<WalletWidget> walletWidgetRelation;
+
+  @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'AppWidget(id: $id, parentId: $parentId, parentIndex: $parentIndex, containedObjectTypeIndex: $containedObjectTypeIndex, widgetSettingsMap: $widgetSettingsMap)';
+    return 'AppWidget(id: $id, parentId: $parentId, parentIndex: $parentIndex, containedObjectTypeIndex: $containedObjectTypeIndex, widgetSettingsMap: $widgetSettingsMap, toDoWidgetRelation: $toDoWidgetRelation, walletWidgetRelation: $walletWidgetRelation)';
   }
 
   @override
@@ -193,7 +228,9 @@ class _$AppWidgetImpl extends _AppWidget with DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('parentIndex', parentIndex))
       ..add(DiagnosticsProperty(
           'containedObjectTypeIndex', containedObjectTypeIndex))
-      ..add(DiagnosticsProperty('widgetSettingsMap', widgetSettingsMap));
+      ..add(DiagnosticsProperty('widgetSettingsMap', widgetSettingsMap))
+      ..add(DiagnosticsProperty('toDoWidgetRelation', toDoWidgetRelation))
+      ..add(DiagnosticsProperty('walletWidgetRelation', walletWidgetRelation));
   }
 
   @override
@@ -210,7 +247,11 @@ class _$AppWidgetImpl extends _AppWidget with DiagnosticableTreeMixin {
                     other.containedObjectTypeIndex, containedObjectTypeIndex) ||
                 other.containedObjectTypeIndex == containedObjectTypeIndex) &&
             const DeepCollectionEquality()
-                .equals(other._widgetSettingsMap, _widgetSettingsMap));
+                .equals(other._widgetSettingsMap, _widgetSettingsMap) &&
+            (identical(other.toDoWidgetRelation, toDoWidgetRelation) ||
+                other.toDoWidgetRelation == toDoWidgetRelation) &&
+            (identical(other.walletWidgetRelation, walletWidgetRelation) ||
+                other.walletWidgetRelation == walletWidgetRelation));
   }
 
   @override
@@ -220,7 +261,9 @@ class _$AppWidgetImpl extends _AppWidget with DiagnosticableTreeMixin {
       parentId,
       parentIndex,
       containedObjectTypeIndex,
-      const DeepCollectionEquality().hash(_widgetSettingsMap));
+      const DeepCollectionEquality().hash(_widgetSettingsMap),
+      toDoWidgetRelation,
+      walletWidgetRelation);
 
   @JsonKey(ignore: true)
   @override
@@ -231,11 +274,14 @@ class _$AppWidgetImpl extends _AppWidget with DiagnosticableTreeMixin {
 
 abstract class _AppWidget extends AppWidget {
   factory _AppWidget(
-      {@Id(assignable: true) final int? id,
-      required final String parentId,
-      required final int parentIndex,
-      required final int containedObjectTypeIndex,
-      final Map<String, dynamic>? widgetSettingsMap}) = _$AppWidgetImpl;
+          {@Id(assignable: true) final int? id,
+          required final String parentId,
+          required final int parentIndex,
+          required final int containedObjectTypeIndex,
+          final Map<String, dynamic>? widgetSettingsMap,
+          required final ToOne<ToDoWidget> toDoWidgetRelation,
+          required final ToOne<WalletWidget> walletWidgetRelation}) =
+      _$AppWidgetImpl;
   _AppWidget._() : super._();
 
   @override
@@ -249,6 +295,10 @@ abstract class _AppWidget extends AppWidget {
   int get containedObjectTypeIndex;
   @override
   Map<String, dynamic>? get widgetSettingsMap;
+  @override
+  ToOne<ToDoWidget> get toDoWidgetRelation;
+  @override
+  ToOne<WalletWidget> get walletWidgetRelation;
   @override
   @JsonKey(ignore: true)
   _$$AppWidgetImplCopyWith<_$AppWidgetImpl> get copyWith =>

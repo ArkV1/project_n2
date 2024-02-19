@@ -6,7 +6,7 @@ part of 'app_widget.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$appWidgetsHash() => r'8b1f2ec74f938057fdf80475be5d10a8a3401219';
+String _$appWidgetsHash() => r'63b7096997a90098aa18abda425c307de7aeeeb9';
 
 /// See also [AppWidgets].
 @ProviderFor(AppWidgets)
@@ -22,7 +22,7 @@ final appWidgetsProvider =
 
 typedef _$AppWidgets = AsyncNotifier<List<AppWidget>>;
 String _$appWidgetByParentIdHash() =>
-    r'79f7b1ab834a1cd915df99402e1c1ce45a39dde9';
+    r'dba6a37ff464a23360025484e87f8e49168a893b';
 
 /// Copied from Dart SDK
 class _SystemHash {

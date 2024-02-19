@@ -13,7 +13,7 @@ class PrimaryColorDropdown extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     String primaryColorListDropdownValue =
-        ref.watch(themeManagerProvider).value!.primaryColor['color'];
+        ref.watch(themeManagerProvider).primaryColor['color'];
 
     return DropdownButtonFormField<String>(
       decoration: const InputDecoration(

@@ -24,12 +24,12 @@ class _ComponentsDialogState extends ConsumerState<ComponentsDialog> {
   @override
   Widget build(BuildContext context) {
     //final userData = ref.watch(userDataProvider);
-    final components = ref.watch(componentMapProvider).valueOrNull ?? {};
+    final components = ref.watch(componentMapProvider);
     return AlertDialog(
-      // title: const Text(
-      //   'App Components',
-      //   textAlign: TextAlign.center,
-      // ),
+      title: const Text(
+        "App's components",
+        textAlign: TextAlign.center,
+      ),
       content: SizedBox(
         width: double.minPositive,
         //constraints: const BoxConstraints(minHeight: 100),

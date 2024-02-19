@@ -1,6 +1,8 @@
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
+
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:project_n2/models/data_manager.dart';
 import 'package:project_n2/models/shared_prefs.dart';
 import 'package:project_n2/tools/enums/settings.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -56,102 +58,99 @@ class CustomTheme with _$CustomTheme {
 @Riverpod(keepAlive: true)
 class ThemeManager extends _$ThemeManager {
   @override
-  FutureOr<CustomTheme> build() {
+  CustomTheme build() {
     return initialize();
   }
 
-  Future<CustomTheme> initialize() async {
-    return await ref.read(sharedPrefsProvider.future).then((_) async {
-      debugPrint('Initializing Theme');
-      final prefs = ref.read(sharedPrefsProvider.notifier);
-      // Ergonomics
-      final ergonomicsString = await prefs.getString('ergonomics');
-      Ergonomics ergonomics;
-      switch (ergonomicsString) {
-        case null:
-          ergonomics = Ergonomics.right;
-          break;
-        case 'Right-handed':
-          ergonomics = Ergonomics.right;
-          break;
-        case 'Left-handed':
-          ergonomics = Ergonomics.left;
-          break;
-        // case 'Other':
-        //   return Ergonomics.other;
-        default:
-          ergonomics = Ergonomics.right;
-      }
-      // ThemeMode
-      final themeModeString = await prefs.getString('theme');
-      ThemeMode themeMode;
-      switch (themeModeString) {
-        case null:
-          themeMode = ThemeMode.system;
-          break;
-        case 'Light':
-          themeMode = ThemeMode.light;
-          break;
-        case 'Dark':
-          themeMode = ThemeMode.dark;
-          break;
-        case 'Black (OLED)':
-          themeMode = ThemeMode.dark;
-          break;
-        default:
-          themeMode = ThemeMode.system;
-          break;
-      }
-      // Colors
-      final primaryColorString = await prefs.getString('primaryColor');
-      Map primaryColor;
-      final primaryContrastingColorString =
-          await prefs.getString('primaryContrastingColor');
-      Map primaryContrastingColor;
+  CustomTheme initialize() {
+    debugPrint('Initializing Theme');
+    final prefs = ref.read(sharedPrefsProvider.notifier);
+    // Ergonomics
+    final ergonomicsString = prefs.getString('ergonomics');
+    Ergonomics ergonomics;
+    switch (ergonomicsString) {
+      case null:
+        ergonomics = Ergonomics.right;
+        break;
+      case 'Right-handed':
+        ergonomics = Ergonomics.right;
+        break;
+      case 'Left-handed':
+        ergonomics = Ergonomics.left;
+        break;
+      // case 'Other':
+      //   return Ergonomics.other;
+      default:
+        ergonomics = Ergonomics.right;
+    }
+    // ThemeMode
+    final themeModeString = prefs.getString('theme');
+    ThemeMode themeMode;
+    switch (themeModeString) {
+      case null:
+        themeMode = ThemeMode.system;
+        break;
+      case 'Light':
+        themeMode = ThemeMode.light;
+        break;
+      case 'Dark':
+        themeMode = ThemeMode.dark;
+        break;
+      case 'Black (OLED)':
+        themeMode = ThemeMode.dark;
+        break;
+      default:
+        themeMode = ThemeMode.system;
+        break;
+    }
+    // Colors
+    final primaryColorString = prefs.getString('primaryColor');
+    Map primaryColor;
+    final primaryContrastingColorString =
+        prefs.getString('primaryContrastingColor');
+    Map primaryContrastingColor;
 
-      if (primaryColorString != null) {
-        primaryColor = primaryColorList
-            .firstWhere((element) => element['color'] == primaryColorString);
-      } else {
-        primaryColor = primaryColorList
-            .firstWhere((element) => element['color'] == 'Grey');
-      }
-      if (primaryContrastingColorString != null) {
-        primaryContrastingColor = secondaryColorList.firstWhere(
-            (element) => element['color'] == primaryContrastingColorString);
-      } else {
-        primaryContrastingColor = secondaryColorList
-            .firstWhere((element) => element['color'] == 'Grey');
-      }
-      //////////////////////////////////////////////////////////////////////////////////
-      return CustomTheme(
-        ergonomics: ergonomics,
-        themeMode: themeMode,
-        primaryColor: primaryColor,
-        primaryContrastingColor: primaryContrastingColor,
-      );
-    });
+    if (primaryColorString != null) {
+      primaryColor = primaryColorList
+          .firstWhere((element) => element['color'] == primaryColorString);
+    } else {
+      primaryColor =
+          primaryColorList.firstWhere((element) => element['color'] == 'Grey');
+    }
+    if (primaryContrastingColorString != null) {
+      primaryContrastingColor = secondaryColorList.firstWhere(
+          (element) => element['color'] == primaryContrastingColorString);
+    } else {
+      primaryContrastingColor = secondaryColorList
+          .firstWhere((element) => element['color'] == 'Grey');
+    }
+    //////////////////////////////////////////////////////////////////////////////////
+    return CustomTheme(
+      ergonomics: ergonomics,
+      themeMode: themeMode,
+      primaryColor: primaryColor,
+      primaryContrastingColor: primaryContrastingColor,
+    );
   }
 
   setThemeMode(ThemeModes themeMode) async {
     final prefs = ref.watch(sharedPrefsProvider.notifier);
     switch (themeMode) {
       case ThemeModes.system:
-        await prefs.remove('theme');
-        state = AsyncData(state.value!.copyWith(themeMode: ThemeMode.system));
+        prefs.remove('theme');
+        state = state.copyWith(themeMode: ThemeMode.system);
         break;
       case ThemeModes.light:
-        await prefs.setString('theme', 'Light');
-        state = AsyncData(state.value!.copyWith(themeMode: ThemeMode.light));
+        prefs.setString('theme', 'Light');
+        state = state.copyWith(themeMode: ThemeMode.light);
         break;
       case ThemeModes.dark:
-        await prefs.setString('theme', 'Dark');
-        state = AsyncData(state.value!.copyWith(themeMode: ThemeMode.dark));
+        prefs.setString('theme', 'Dark');
+        state = state.copyWith(themeMode: ThemeMode.dark);
         break;
       case ThemeModes.black:
-        await prefs.setString('theme', 'Black (OLED)');
-        state =
-            state = AsyncData(state.value!.copyWith(themeMode: ThemeMode.dark));
+        prefs.setString('theme', 'Black (OLED)');
+        state = state = state.copyWith(themeMode: ThemeMode.dark);
         break;
     }
   }
@@ -164,13 +163,12 @@ class ThemeManager extends _$ThemeManager {
     if (!isContrastingColor) {
       final primaryColor = primaryColorList
           .firstWhere((element) => element['color'] == newColor);
-      state = AsyncData(state.value!.copyWith(primaryColor: primaryColor));
+      state = state.copyWith(primaryColor: primaryColor);
       prefs.setString('primaryColor', primaryColor['color']);
     } else {
       final primaryContrastingColor = secondaryColorList
           .firstWhere((element) => element['color'] == newColor);
-      state = AsyncData(state.value!
-          .copyWith(primaryContrastingColor: primaryContrastingColor));
+      state = state.copyWith(primaryContrastingColor: primaryContrastingColor);
       prefs.setString(
           'primaryContrastingColor', primaryContrastingColor['color']);
     }
@@ -178,7 +176,7 @@ class ThemeManager extends _$ThemeManager {
 
   void setErgonomics(Ergonomics ergonomics) async {
     final prefs = ref.watch(sharedPrefsProvider.notifier);
-    state = AsyncData(state.value!.copyWith(ergonomics: ergonomics));
+    state = state.copyWith(ergonomics: ergonomics);
     prefs.setString('ergonomics', ergonomics.text);
   }
 }
@@ -208,6 +206,18 @@ class ScreenEditing extends _$ScreenEditing {
 }
 
 @riverpod
+class WidgetEditing extends _$WidgetEditing {
+  @override
+  bool build() {
+    return false;
+  }
+
+  void toggle({bool? optionalValue}) {
+    optionalValue != null ? state = optionalValue : state = !state;
+  }
+}
+
+@riverpod
 class ScreenIndex extends _$ScreenIndex {
   @override
   int build() {
@@ -222,13 +232,12 @@ class ScreenIndex extends _$ScreenIndex {
 @Riverpod(keepAlive: true)
 class ComponentMap extends _$ComponentMap {
   @override
-  Future<Map<String, bool>> build() async {
+  Map<String, bool> build() {
     final appComponentsNames =
         AppComponents.values.map((component) => component.name).toList();
-    List<String> componentsBinaryBoolList = await ref
-            .read(sharedPrefsProvider.notifier)
-            .getStringList('appComponents') ??
-        [];
+    List<String> componentsBinaryBoolList =
+        ref.read(sharedPrefsProvider.notifier).getStringList('appComponents') ??
+            [];
     List<bool> convertedBoolList = [];
     for (var i = 0; i < appComponentsNames.length; i++) {
       if (i < componentsBinaryBoolList.length) {
@@ -245,13 +254,23 @@ class ComponentMap extends _$ComponentMap {
   }
 
   componentSwitch(String component) {
-    final componentMap = state.value!;
+    final componentMap = state;
     componentMap[component] = !componentMap[component]!;
     ref.read(sharedPrefsProvider.notifier).setStringList(
           'appComponents',
           componentMap.values.map((e) => e ? '1' : '0').toList(),
         );
 
-    state = AsyncData(Map.from(componentMap));
+    state = Map.from(componentMap);
   }
+}
+
+@riverpod
+class CurrentDirectory extends _$CurrentDirectory {
+  @override
+  Future<Directory> build() {
+    return getApplicationDocumentsDirectory();
+  }
+
+  // Add methods to mutate the state}
 }
