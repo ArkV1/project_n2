@@ -21,8 +21,7 @@ class WalletWidgetBuilder extends ConsumerStatefulWidget {
   }) : super(key: key);
 
   @override
-  ConsumerState<WalletWidgetBuilder> createState() =>
-      _WalletWidgetBuilderState();
+  ConsumerState<WalletWidgetBuilder> createState() => _WalletWidgetBuilderState();
 }
 
 class _WalletWidgetBuilderState extends ConsumerState<WalletWidgetBuilder> {
@@ -37,46 +36,30 @@ class _WalletWidgetBuilderState extends ConsumerState<WalletWidgetBuilder> {
       // ),
       child: Card(
         key: ValueKey('${walletWidget.id}totalWidget'),
-        child: Padding(
-          padding: const EdgeInsets.only(top: 6.0),
-          child: Column(
+        child: ListTile(
+          contentPadding: const EdgeInsets.symmetric(horizontal: 48, vertical: 0),
+          // subtitle: Text("${isEditing ? 'Wallet:' : ''} ${wallet.name}'s total:"),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 18.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      'Total',
-                    ),
-                    Text('${isEditing ? 'Wallet:' : ''} ${wallet.name}'),
-                  ],
-                ),
-              ),
-              ListTile(
-                contentPadding: const EdgeInsets.symmetric(
-                  horizontal: 48,
-                ),
-
-                title: total.when(data: (total) {
-                  return Text(
-                    total != null
-                        ? total.toStringAsFixed(2)
-                        : 'Calculations failed',
-                    textAlign: TextAlign.center,
-                  );
-                }, error: (error, stacktrace) {
-                  debugPrint(stacktrace.toString());
-                  return Text(error.toString());
-                  //
-                }, loading: () {
-                  return CircularProgressIndicator();
-                }),
-                visualDensity: VisualDensity.comfortable,
-                // dense: true,
-              ),
+              Text("${isEditing ? 'Wallet:' : ''} ${wallet.name}'s total: "),
+              total.when(data: (total) {
+                return Text(
+                  total != null ? total.toStringAsFixed(2) : 'Calculations failed',
+                  textAlign: TextAlign.center,
+                );
+              }, error: (error, stacktrace) {
+                debugPrint(stacktrace.toString());
+                return Text(error.toString());
+                //
+              }, loading: () {
+                return CircularProgressIndicator();
+              }),
             ],
           ),
+          // trailing: Text('${isEditing ? 'Wallet:' : ''} ${wallet.name}'),
+          visualDensity: VisualDensity.compact,
+          // dense: true,
         ),
       ),
     );
@@ -92,7 +75,7 @@ class _WalletWidgetBuilderState extends ConsumerState<WalletWidgetBuilder> {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.fromLTRB(18.0, 0, 18.0, 4.0),
+              padding: const EdgeInsets.fromLTRB(24.0, 0, 28.0, 4.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -103,22 +86,15 @@ class _WalletWidgetBuilderState extends ConsumerState<WalletWidgetBuilder> {
                 ],
               ),
             ),
-            for (var currentTransaction
-                in wallet.transactions!.reversed.take(5))
+            for (var currentTransaction in wallet.transactions!.reversed.take(5))
               ListTile(
-                contentPadding: const EdgeInsets.fromLTRB(
-                  16,
-                  0,
-                  32,
-                  0,
-                ),
+                contentPadding: const EdgeInsets.fromLTRB(16, 0, 32, 0),
                 leading: Text(
                   currentTransaction.date != null
-                      ? DateFormat.Md()
-                          .add_Hm()
-                          .format(currentTransaction.date!)
+                      ? DateFormat.Md().add_Hm().format(currentTransaction.date!)
                       : 'Unknown',
                 ),
+                // subtitle: Text(currentTransaction.category ?? 'No category'),
                 title: Text(currentTransaction.name ?? 'Undefined name'),
                 trailing: Text(
                   currentTransaction.amount?.toString() ?? '0',
@@ -301,8 +277,7 @@ class _WalletWidgetBuilderState extends ConsumerState<WalletWidgetBuilder> {
         ),
       );
     }
-    final wallet =
-        ref.watch(walletByIdProvider(walletId: walletWidget.walletId));
+    final wallet = ref.watch(walletByIdProvider(walletId: walletWidget.walletId));
     if (wallet == null) return const Text('Wallet was not found');
     switch (walletWidget.widgetType) {
       case WalletWidgetType.total:
@@ -312,8 +287,7 @@ class _WalletWidgetBuilderState extends ConsumerState<WalletWidgetBuilder> {
       case WalletWidgetType.dailySpendings:
         return _buildDailySpendingsWidget(wallet, walletWidget);
       default:
-        return Text(
-            'Unknown wallet widget of type: ${walletWidget.widgetType}');
+        return Text('Unknown wallet widget of type: ${walletWidget.widgetType}');
     }
   }
 }

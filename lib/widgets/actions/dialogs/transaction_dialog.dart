@@ -26,6 +26,7 @@ class _TransactionDialogState extends ConsumerState<TransactionDialog> {
   TextEditingController transactionNameController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   TextEditingController amountController = TextEditingController();
+  WalletBudget? budget;
   String? category;
 
   final DateFormat dateFormatter = DateFormat('dd/MM/yyyy');
@@ -83,13 +84,30 @@ class _TransactionDialogState extends ConsumerState<TransactionDialog> {
   @override
   void initState() {
     super.initState();
+    if (widget.transaction != null) {
+      Future.microtask(
+        () => ref.read(budgetValueProvider.notifier).setBudget(
+              widget.transaction?.budget,
+            ),
+      );
+      // Future.delayed(Duration.zero, () {
+      //   ref.read(budgetValueProvider.notifier).setBudget(
+      //         widget.transaction?.budget,
+      //       );
+      // });
+      // WidgetsBinding.instance.addPostFrameCallback((_) {
+      //   ref.read(budgetValueProvider.notifier).setBudget(
+      //         widget.transaction?.budget,
+      //       );
+      // });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     // final wallets = ref.watch(dataManagerProvider).wallets;
     final transaction = widget.transaction;
-    WalletBudget? budget;
+    WalletBudget? budget = ref.watch(budgetValueProvider);
     final wallets = ref.watch(walletsProvider);
     final currentWallet = wallets[ref.read(screenIndexProvider)];
     // TODO - fix this
@@ -100,15 +118,10 @@ class _TransactionDialogState extends ConsumerState<TransactionDialog> {
       amountController.text = widget.transaction!.amount?.toString() ?? '';
       category = widget.transaction!.category;
       selectedDate = widget.transaction!.date;
-    } else {
-      budget = ref.watch(budgetValueProvider);
-      // selectedDate = DateTime.now();
     }
     return AlertDialog(
       title: Text(
-        transaction == null
-            ? 'New transaction'
-            : 'Edit transaction\nID: ${transaction.id}',
+        transaction == null ? 'New transaction' : 'Edit transaction\nID: ${transaction.id}',
       ),
       content: SingleChildScrollView(
         child: Column(
@@ -195,9 +208,7 @@ class _TransactionDialogState extends ConsumerState<TransactionDialog> {
                           ),
                         ),
                         controller: TextEditingController(
-                          text: selectedDate == null
-                              ? ''
-                              : timeFormatter.format(selectedDate!),
+                          text: selectedDate == null ? '' : timeFormatter.format(selectedDate!),
                         ),
                         readOnly: true,
                         onTap: () => _selectTime(context),
@@ -226,9 +237,7 @@ class _TransactionDialogState extends ConsumerState<TransactionDialog> {
                           ),
                         ),
                         controller: TextEditingController(
-                          text: selectedDate == null
-                              ? ''
-                              : dateFormatter.format(selectedDate!),
+                          text: selectedDate == null ? '' : dateFormatter.format(selectedDate!),
                         ),
                         readOnly: true,
                         onTap: () => _selectDate(context),
@@ -278,12 +287,10 @@ class _TransactionDialogState extends ConsumerState<TransactionDialog> {
                   // }
                   // print(currentWallet.id!);
                   print(amountController.text);
-                  final formattedAmount =
-                      amountController.text.replaceAll(" ", "");
+                  final formattedAmount = amountController.text.replaceAll(" ", "");
                   double amount = double.tryParse(formattedAmount) ?? 0;
                   // If the amount does not start with '+' or '-', make it negative
-                  if (!formattedAmount.startsWith('+') &&
-                      !formattedAmount.startsWith('-')) {
+                  if (!formattedAmount.startsWith('+') && !formattedAmount.startsWith('-')) {
                     amount = -amount.abs();
                   }
                   if (widget.transaction == null) {
@@ -294,6 +301,7 @@ class _TransactionDialogState extends ConsumerState<TransactionDialog> {
                             name: transactionNameController.text,
                             amount: amount,
                           ),
+                          budget: budget,
                         );
                   } else {
                     // SAVE EDITED TRANSACTION
@@ -304,6 +312,7 @@ class _TransactionDialogState extends ConsumerState<TransactionDialog> {
                             amount: amount,
                             // category: category,
                           ),
+                          budget: budget,
                         );
                   }
                   Navigator.pop(context);
@@ -328,5 +337,6 @@ class BudgetValue extends _$BudgetValue {
   void setBudget(WalletBudget? budget) {
     state = budget;
   }
+
   // Add methods to mutate the state
 }

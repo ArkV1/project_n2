@@ -70,8 +70,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                           onTap: () {
                             showDialog(
                               context: context,
-                              builder: (BuildContext context) =>
-                                  const ComponentsDialog(),
+                              builder: (BuildContext context) => const ComponentsDialog(),
                             );
                           },
                         ),
@@ -125,8 +124,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                             ],
                           ),
                         for (var i = 0; i < AppComponents.values.length; i++)
-                          if (components
-                                  .containsKey(AppComponents.values[i].name) &&
+                          if (components.containsKey(AppComponents.values[i].name) &&
                               components[AppComponents.values[i].name]!)
                             ListTile(
                               title: Text(
@@ -135,11 +133,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                               trailing: () {
                                 switch (AppComponents.values[i]) {
                                   case AppComponents.todo:
-                                    return const Icon(
-                                        Icons.format_list_bulleted);
+                                    return const Icon(Icons.format_list_bulleted);
                                   case AppComponents.wallet:
-                                    return const Icon(
-                                        Icons.account_balance_wallet);
+                                    return const Icon(Icons.account_balance_wallet);
                                   // case AppComponents.notebook:
                                   //   return const Icon(Icons.edit_note);
                                   // case AppComponents.calendar:
@@ -153,15 +149,13 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                                   case AppComponents.todo:
                                     showDialog(
                                       context: context,
-                                      builder: (BuildContext context) =>
-                                          const ToDoListsDialog(),
+                                      builder: (BuildContext context) => const ToDoListsDialog(),
                                     );
                                     break;
                                   case AppComponents.wallet:
                                     showDialog(
                                       context: context,
-                                      builder: (BuildContext context) =>
-                                          const WalletsDialog(),
+                                      builder: (BuildContext context) => const WalletsDialog(),
                                     );
                                     break;
                                   // case AppComponents.notebook:
@@ -233,10 +227,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                         ListTile(
                           leading: const Icon(Icons.dashboard_customize),
                           title: const Text('Personalization'),
-                          onTap: () => {
-                            Navigator.pushNamed(
-                                context, '/settings/personalization'),
-                          },
+                          onTap: () => {context.push(Screens.personaliztion.path)},
                         ),
                       ],
                     ),
@@ -249,8 +240,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                           children: [
                             Container(
                               margin: const EdgeInsets.fromLTRB(48, 16, 48, 0),
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 32, vertical: 32),
+                              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 32),
                               decoration: BoxDecoration(
                                 border: Border.all(color: Colors.grey),
                                 borderRadius: BorderRadius.circular(12),
@@ -288,8 +278,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                               children: [
                                 Container(
                                   margin: const EdgeInsets.only(top: 16),
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 32, vertical: 16),
+                                  padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
                                   decoration: BoxDecoration(
                                     border: Border.all(color: Colors.grey),
                                     borderRadius: BorderRadius.circular(12),
@@ -301,10 +290,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                                         case ConnectionState.done:
                                           return Column(
                                             children: [
-                                              Text(
-                                                  'Version: ${snapshot.data!.version}'),
-                                              Text(
-                                                  'Build number: ${snapshot.data!.buildNumber}'),
+                                              Text('Version: ${snapshot.data!.version}'),
+                                              Text('Build number: ${snapshot.data!.buildNumber}'),
                                             ],
                                           );
                                         default:

@@ -52,15 +52,12 @@ class _ToDoScreenState extends ConsumerState<ToDoScreen> {
                                       Row(
                                         children: [
                                           AnimatedCrossFade(
-                                            key: ValueKey(
-                                                '${toDoLists[i].tasks[y].id}dragHandle'),
-                                            duration: const Duration(
-                                                milliseconds: 125),
+                                            key: ValueKey('${toDoLists[i].tasks[y].id}dragHandle'),
+                                            duration: const Duration(milliseconds: 125),
                                             firstChild: const Icon(
                                               Icons.drag_handle,
                                             ),
-                                            secondChild:
-                                                const SizedBox.shrink(),
+                                            secondChild: const SizedBox.shrink(),
                                             crossFadeState: isEditing
                                                 ? CrossFadeState.showFirst
                                                 : CrossFadeState.showSecond,
@@ -69,22 +66,15 @@ class _ToDoScreenState extends ConsumerState<ToDoScreen> {
                                             child: Card(
                                               child: CheckboxListTile(
                                                 enabled: !isEditing,
-                                                title: Text(toDoLists[i]
-                                                        .tasks[y]
-                                                        .task ??
-                                                    ''),
-                                                value: toDoLists[i]
-                                                    .tasks[y]
-                                                    .complete,
+                                                title: Text(toDoLists[i].tasks[y].task ?? ''),
+                                                value: toDoLists[i].tasks[y].complete,
                                                 onChanged: (newComplete) {
-                                                  ToDoTask newTask =
-                                                      toDoLists[i].tasks[y];
+                                                  ToDoTask newTask = toDoLists[i].tasks[y];
                                                   newTask = newTask.copyWith(
                                                     complete: newComplete!,
                                                   );
                                                   ref
-                                                      .read(toDoListsProvider
-                                                          .notifier)
+                                                      .read(toDoListsProvider.notifier)
                                                       .insertToDoTask(
                                                         newTask,
                                                       );
@@ -93,34 +83,25 @@ class _ToDoScreenState extends ConsumerState<ToDoScreen> {
                                             ),
                                           ),
                                           AnimatedCrossFade(
-                                            key: ValueKey(
-                                                '${toDoLists[i].tasks[y].id}removeButton'),
-                                            duration: const Duration(
-                                                milliseconds: 125),
+                                            key:
+                                                ValueKey('${toDoLists[i].tasks[y].id}removeButton'),
+                                            duration: const Duration(milliseconds: 125),
                                             firstChild: IntrinsicHeight(
                                               child: Container(
                                                 padding: EdgeInsets.zero,
-                                                margin: const EdgeInsets.only(
-                                                    right: 4.0),
+                                                margin: const EdgeInsets.only(right: 4.0),
                                                 child: ElevatedButton(
-                                                  style:
-                                                      ElevatedButton.styleFrom(
+                                                  style: ElevatedButton.styleFrom(
                                                     padding: EdgeInsets.zero,
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
+                                                    shape: RoundedRectangleBorder(
+                                                      borderRadius: BorderRadius.circular(10),
                                                     ),
                                                     foregroundColor: Colors.red,
                                                   ),
                                                   onPressed: () {
                                                     ref
-                                                        .read(toDoListsProvider
-                                                            .notifier)
-                                                        .deleteToDoTask(
-                                                            toDoLists[i]
-                                                                .tasks[y]);
+                                                        .read(toDoListsProvider.notifier)
+                                                        .deleteToDoTask(toDoLists[i].tasks[y]);
                                                   },
                                                   child: const Icon(
                                                     Icons.delete,
@@ -128,20 +109,17 @@ class _ToDoScreenState extends ConsumerState<ToDoScreen> {
                                                 ),
                                               ),
                                             ),
-                                            secondChild:
-                                                const SizedBox.shrink(),
+                                            secondChild: const SizedBox.shrink(),
                                             crossFadeState: isEditing
                                                 ? CrossFadeState.showFirst
                                                 : CrossFadeState.showSecond,
                                           ),
                                         ],
                                       ),
-                                      if (toDoLists[i].tasks[y].isDaily &&
-                                          isEditing)
+                                      if (toDoLists[i].tasks[y].isDaily && isEditing)
                                         Text(
                                             'Creation Date: ${toDoLists[i].tasks[y].creationDate.toString()}'),
-                                      if (toDoLists[i].tasks[y].isDaily &&
-                                          isEditing)
+                                      if (toDoLists[i].tasks[y].isDaily && isEditing)
                                         Text(
                                             'Completion Date: ${toDoLists[i].tasks[y].completionDate.toString()}'),
                                     ],
@@ -149,13 +127,10 @@ class _ToDoScreenState extends ConsumerState<ToDoScreen> {
                                 );
                               },
                               onReorder: (int oldIndex, int newIndex) {
-                                newIndex = newIndex > oldIndex
-                                    ? newIndex - 1
-                                    : newIndex;
+                                newIndex = newIndex > oldIndex ? newIndex - 1 : newIndex;
                                 ref
                                     .read(toDoListsProvider.notifier)
-                                    .reorderToDoTask(
-                                        oldIndex, newIndex, toDoLists[i].tasks);
+                                    .reorderToDoTask(oldIndex, newIndex, toDoLists[i].tasks);
                               },
                               itemCount: toDoLists[i].tasks.length,
                             )
@@ -185,8 +160,7 @@ class _ToDoScreenState extends ConsumerState<ToDoScreen> {
                       onPressed: () {
                         showDialog(
                           context: context,
-                          builder: (BuildContext context) =>
-                              const ToDoListsDialog(),
+                          builder: (BuildContext context) => const ToDoListsDialog(),
                         );
                       },
                       child: const Padding(

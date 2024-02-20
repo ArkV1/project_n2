@@ -2,13 +2,16 @@ import 'dart:ffi';
 
 import 'package:collection/collection.dart';
 
+// Static class model, db model, provider
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:objectbox/objectbox.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+//
+
 import 'package:project_n2/models/objectbox.dart';
 import 'package:project_n2/models/shared_prefs.dart';
 import 'package:project_n2/models/wallet/wallet_currency.dart';
 import 'package:project_n2/objectbox.g.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:project_n2/models/wallet/wallet_transaction.dart';
 import 'package:project_n2/models/wallet/wallet_budget.dart';
@@ -76,12 +79,7 @@ class Wallets extends _$Wallets {
     // TODO Add cached id for improving speed and performance
     int? id = wallet.id;
     if (id == null || id == 0) {
-      id = (wallets
-                  .query()
-                  .order(Wallet_.id, flags: Order.descending)
-                  .build()
-                  .findFirst()
-                  ?.id ??
+      id = (wallets.query().order(Wallet_.id, flags: Order.descending).build().findFirst()?.id ??
               0) +
           1;
     }
@@ -94,8 +92,10 @@ class Wallets extends _$Wallets {
 
   Future<void> insertWalletTransaction(
     Wallet wallet,
-    WalletTransaction transaction,
-  ) async {
+    WalletTransaction transaction, {
+    WalletBudget? budget,
+  }) async {
+    print(budget);
     final transactions = db.box<WalletTransaction>();
     final wallets = db.box<Wallet>();
     // TODO Add cached id for improving speed and performance
@@ -112,6 +112,7 @@ class Wallets extends _$Wallets {
     }
     // wallet ??= wallets.get(transaction.walletId);
     transaction.walletRelation.target = wallet;
+    if (budget != null) transaction.walletBudgetRelation.target = budget;
     wallet.transactionsRelation.add(
       await transactions.putAndGetAsync(
         transaction.copyWith(id: id),
@@ -123,8 +124,7 @@ class Wallets extends _$Wallets {
     updateWallets();
   }
 
-  Future<void> insertWalletBudget(
-      Wallet wallet, List<WalletBudget> budgetsToInsert,
+  Future<void> insertWalletBudget(Wallet wallet, List<WalletBudget> budgetsToInsert,
       {bool silent = false}) async {
     final wallets = db.box<Wallet>();
     final budgets = db.box<WalletBudget>();
@@ -153,8 +153,7 @@ class Wallets extends _$Wallets {
     if (!silent) updateWallets();
   }
 
-  Future<void> setDefaultCurrency(
-      Wallet wallet, WalletCurrency currency) async {
+  Future<void> setDefaultCurrency(Wallet wallet, WalletCurrency currency) async {
     wallet.defaultCurrencyRelation.target = currency;
     final wallets = db.box<Wallet>();
     wallets.put(wallet);
@@ -167,8 +166,7 @@ class Wallets extends _$Wallets {
     updateWallets();
   }
 
-  Future<void> deleteWalletTransaction(
-      WalletTransaction transactionToRemove) async {
+  Future<void> deleteWalletTransaction(WalletTransaction transactionToRemove) async {
     final transacions = db.box<WalletTransaction>();
     await transacions.removeAsync(transactionToRemove.id!);
     updateWallets();
@@ -238,8 +236,7 @@ class WalletById extends _$WalletById {
 class DefaultWallet extends _$DefaultWallet {
   @override
   Wallet? build() {
-    final defaultWalletId =
-        ref.read(sharedPrefsProvider.notifier).getInt('defaultWalletId');
+    final defaultWalletId = ref.read(sharedPrefsProvider.notifier).getInt('defaultWalletId');
     return defaultWalletId != null
         ? ref.read(walletByIdProvider(walletId: defaultWalletId))
         : ref.read(walletsProvider).firstOrNull;
@@ -249,9 +246,7 @@ class DefaultWallet extends _$DefaultWallet {
   setDefaultWallet({required int? walletId}) {
     final newDefaultWallet = ref.read(walletByIdProvider(walletId: walletId));
     if (newDefaultWallet != null) {
-      ref
-          .read(sharedPrefsProvider.notifier)
-          .setInt('defaultWalletId', walletId!);
+      ref.read(sharedPrefsProvider.notifier).setInt('defaultWalletId', walletId!);
       state = newDefaultWallet;
     }
   }

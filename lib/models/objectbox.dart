@@ -28,8 +28,7 @@ class ObjectBox {
       try {
         initialData = await rootBundle.load("assets/objectbox/data.mdb");
         await Directory(defaultPath).create(recursive: true);
-        await File(defaultDatabasePath)
-            .writeAsBytes(initialData.buffer.asUint8List());
+        await File(defaultDatabasePath).writeAsBytes(initialData.buffer.asUint8List());
       } catch (_) {
         debugPrint("Error loading data.mdb from assets");
       }

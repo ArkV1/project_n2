@@ -375,24 +375,34 @@ final _entities = <obx_int.ModelEntity>[
       ],
       backlinks: <obx_int.ModelBacklink>[]),
   obx_int.ModelEntity(
-      id: const obx_int.IdUid(12, 873187228517734403),
+      id: const obx_int.IdUid(13, 5374781355521429170),
       name: 'WalletCurrency',
-      lastPropertyId: const obx_int.IdUid(3, 8048288058256323695),
+      lastPropertyId: const obx_int.IdUid(5, 27204080817677679),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(1, 6708241344326514675),
+            id: const obx_int.IdUid(1, 8542937848453677721),
             name: 'id',
             type: 6,
             flags: 129),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(2, 1209053600011843678),
+            id: const obx_int.IdUid(2, 8635472021647705432),
             name: 'name',
             type: 9,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(3, 8048288058256323695),
+            id: const obx_int.IdUid(3, 3482134224390630646),
             name: 'symbol',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(4, 987272628998721905),
+            name: 'shortName',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(5, 27204080817677679),
+            name: 'flagEmoji',
             type: 9,
             flags: 0)
       ],
@@ -435,11 +445,15 @@ Future<obx.Store> openStore(
 obx_int.ModelDefinition getObjectBoxModel() {
   final model = obx_int.ModelInfo(
       entities: _entities,
-      lastEntityId: const obx_int.IdUid(12, 873187228517734403),
+      lastEntityId: const obx_int.IdUid(13, 5374781355521429170),
       lastIndexId: const obx_int.IdUid(12, 2915980899998334738),
       lastRelationId: const obx_int.IdUid(7, 3903551576499518993),
       lastSequenceId: const obx_int.IdUid(0, 0),
-      retiredEntityUids: const [1033878434954156121, 7512441033247668160],
+      retiredEntityUids: const [
+        1033878434954156121,
+        7512441033247668160,
+        873187228517734403
+      ],
       retiredIndexUids: const [8353849674073803988, 7655630016403149639],
       retiredPropertyUids: const [
         1201488677116599168,
@@ -454,7 +468,10 @@ obx_int.ModelDefinition getObjectBoxModel() {
         3275337746389202670,
         2169576759790571685,
         2604316460306013263,
-        8992915649916968924
+        8992915649916968924,
+        6708241344326514675,
+        1209053600011843678,
+        8048288058256323695
       ],
       retiredRelationUids: const [3903551576499518993],
       modelVersion: 5,
@@ -969,10 +986,16 @@ obx_int.ModelDefinition getObjectBoxModel() {
         objectToFB: (WalletCurrency object, fb.Builder fbb) {
           final nameOffset = fbb.writeString(object.name);
           final symbolOffset = fbb.writeString(object.symbol);
-          fbb.startTable(4);
+          final shortNameOffset = fbb.writeString(object.shortName);
+          final flagEmojiOffset = object.flagEmoji == null
+              ? null
+              : fbb.writeString(object.flagEmoji!);
+          fbb.startTable(6);
           fbb.addInt64(0, object.id ?? 0);
           fbb.addOffset(1, nameOffset);
           fbb.addOffset(2, symbolOffset);
+          fbb.addOffset(3, shortNameOffset);
+          fbb.addOffset(4, flagEmojiOffset);
           fbb.finish(fbb.endTable());
           return object.id ?? 0;
         },
@@ -983,10 +1006,18 @@ obx_int.ModelDefinition getObjectBoxModel() {
               const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 4);
           final nameParam = const fb.StringReader(asciiOptimization: true)
               .vTableGet(buffer, rootOffset, 6, '');
+          final shortNameParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 10, '');
           final symbolParam = const fb.StringReader(asciiOptimization: true)
               .vTableGet(buffer, rootOffset, 8, '');
-          final object =
-              WalletCurrency(id: idParam, name: nameParam, symbol: symbolParam);
+          final flagEmojiParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 12);
+          final object = WalletCurrency(
+              id: idParam,
+              name: nameParam,
+              shortName: shortNameParam,
+              symbol: symbolParam,
+              flagEmoji: flagEmojiParam);
 
           return object;
         })
@@ -1239,4 +1270,12 @@ class WalletCurrency_ {
   /// see [WalletCurrency.symbol]
   static final symbol =
       obx.QueryStringProperty<WalletCurrency>(_entities[9].properties[2]);
+
+  /// see [WalletCurrency.shortName]
+  static final shortName =
+      obx.QueryStringProperty<WalletCurrency>(_entities[9].properties[3]);
+
+  /// see [WalletCurrency.flagEmoji]
+  static final flagEmoji =
+      obx.QueryStringProperty<WalletCurrency>(_entities[9].properties[4]);
 }

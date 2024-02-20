@@ -56,7 +56,7 @@ class WalletTransaction with _$WalletTransaction {
   Wallet? get wallet => walletRelation.target;
   WalletCurrency? get currency => currencyRelation.target;
   String? get category => walletBudgetRelation.target?.name;
-  WalletBudget? get walletBudget => walletBudgetRelation.target;
+  WalletBudget? get budget => walletBudgetRelation.target;
 
   //final wallet = ToOne<Wallet>();
 }

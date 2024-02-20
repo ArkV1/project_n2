@@ -2,6 +2,7 @@ import 'package:go_router/go_router.dart';
 
 import 'package:flutter/material.dart';
 import 'package:animations/animations.dart';
+import 'package:project_n2/screens/personalization_settings_screen.dart';
 import 'package:project_n2/screens/to_do_screen.dart';
 import 'package:project_n2/screens/wallets_screen.dart';
 
@@ -20,9 +21,8 @@ final _shellNavigatorKey = GlobalKey<NavigatorState>();
 extension GoRouterLocation on GoRouter {
   String get location {
     final RouteMatch lastMatch = routerDelegate.currentConfiguration.last;
-    final RouteMatchList matchList = lastMatch is ImperativeRouteMatch
-        ? lastMatch.matches
-        : routerDelegate.currentConfiguration;
+    final RouteMatchList matchList =
+        lastMatch is ImperativeRouteMatch ? lastMatch.matches : routerDelegate.currentConfiguration;
     return matchList.uri.toString();
   }
 }
@@ -95,6 +95,15 @@ final router = GoRouter(
             //   child: child,
             // );
           }),
+    ),
+    GoRoute(
+      path: Screens.personaliztion.path,
+      pageBuilder: (context, state) {
+        return const FadeThroughTransitionPageWrapper(
+          transitionKey: ValueKey('personalization'),
+          screen: PersonalizationSettingsScreen(),
+        );
+      },
     ),
     GoRoute(
       path: '/dialog',
@@ -215,8 +224,7 @@ class SharedAxisHorizontalTransitionPageWrapper extends Page {
 
 // Scaled Shared Z-Axis transition (Motion)
 class SharedAxisScaledTransitionPageWrapper extends Page {
-  const SharedAxisScaledTransitionPageWrapper(
-      {required this.screen, required this.transitionKey})
+  const SharedAxisScaledTransitionPageWrapper({required this.screen, required this.transitionKey})
       : super(key: transitionKey);
 
   final Widget screen;
@@ -246,8 +254,7 @@ class SharedAxisScaledTransitionPageWrapper extends Page {
 
 // Fade through transition (Motion)
 class FadeThroughTransitionPageWrapper extends Page {
-  const FadeThroughTransitionPageWrapper(
-      {required this.screen, required this.transitionKey})
+  const FadeThroughTransitionPageWrapper({required this.screen, required this.transitionKey})
       : super(key: transitionKey);
 
   final Widget screen;

@@ -8,6 +8,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -141,10 +142,8 @@ class _MyAppState extends ConsumerState<MyApp> {
       fontFamily: 'Quicksand',
     );
     // CUPERTINO THEME
-    final cupertinoLightTheme =
-        MaterialBasedCupertinoThemeData(materialTheme: materialLightTheme);
-    const darkDefaultCupertinoTheme =
-        CupertinoThemeData(brightness: Brightness.dark);
+    final cupertinoLightTheme = MaterialBasedCupertinoThemeData(materialTheme: materialLightTheme);
+    const darkDefaultCupertinoTheme = CupertinoThemeData(brightness: Brightness.dark);
     final cupertinoDarkTheme = MaterialBasedCupertinoThemeData(
       materialTheme: materialDarkTheme.copyWith(
         cupertinoOverrideTheme: CupertinoThemeData(
@@ -152,12 +151,10 @@ class _MyAppState extends ConsumerState<MyApp> {
           barBackgroundColor: darkDefaultCupertinoTheme.barBackgroundColor,
           textTheme: CupertinoTextThemeData(
             primaryColor: Colors.white,
-            navActionTextStyle:
-                darkDefaultCupertinoTheme.textTheme.navActionTextStyle.copyWith(
+            navActionTextStyle: darkDefaultCupertinoTheme.textTheme.navActionTextStyle.copyWith(
               color: const Color(0xF0F9F9F9),
             ),
-            navLargeTitleTextStyle: darkDefaultCupertinoTheme
-                .textTheme.navLargeTitleTextStyle
+            navLargeTitleTextStyle: darkDefaultCupertinoTheme.textTheme.navLargeTitleTextStyle
                 .copyWith(color: const Color(0xF0F9F9F9)),
           ),
         ),

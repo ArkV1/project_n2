@@ -19,7 +19,9 @@ mixin _$WalletCurrency {
   @Id(assignable: true)
   int? get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
+  String get shortName => throw _privateConstructorUsedError;
   String get symbol => throw _privateConstructorUsedError;
+  String? get flagEmoji => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $WalletCurrencyCopyWith<WalletCurrency> get copyWith =>
@@ -32,7 +34,12 @@ abstract class $WalletCurrencyCopyWith<$Res> {
           WalletCurrency value, $Res Function(WalletCurrency) then) =
       _$WalletCurrencyCopyWithImpl<$Res, WalletCurrency>;
   @useResult
-  $Res call({@Id(assignable: true) int? id, String name, String symbol});
+  $Res call(
+      {@Id(assignable: true) int? id,
+      String name,
+      String shortName,
+      String symbol,
+      String? flagEmoji});
 }
 
 /// @nodoc
@@ -50,7 +57,9 @@ class _$WalletCurrencyCopyWithImpl<$Res, $Val extends WalletCurrency>
   $Res call({
     Object? id = freezed,
     Object? name = null,
+    Object? shortName = null,
     Object? symbol = null,
+    Object? flagEmoji = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -61,10 +70,18 @@ class _$WalletCurrencyCopyWithImpl<$Res, $Val extends WalletCurrency>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      shortName: null == shortName
+          ? _value.shortName
+          : shortName // ignore: cast_nullable_to_non_nullable
+              as String,
       symbol: null == symbol
           ? _value.symbol
           : symbol // ignore: cast_nullable_to_non_nullable
               as String,
+      flagEmoji: freezed == flagEmoji
+          ? _value.flagEmoji
+          : flagEmoji // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -77,7 +94,12 @@ abstract class _$$WalletCurrencyImplCopyWith<$Res>
       __$$WalletCurrencyImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({@Id(assignable: true) int? id, String name, String symbol});
+  $Res call(
+      {@Id(assignable: true) int? id,
+      String name,
+      String shortName,
+      String symbol,
+      String? flagEmoji});
 }
 
 /// @nodoc
@@ -93,7 +115,9 @@ class __$$WalletCurrencyImplCopyWithImpl<$Res>
   $Res call({
     Object? id = freezed,
     Object? name = null,
+    Object? shortName = null,
     Object? symbol = null,
+    Object? flagEmoji = freezed,
   }) {
     return _then(_$WalletCurrencyImpl(
       id: freezed == id
@@ -104,10 +128,18 @@ class __$$WalletCurrencyImplCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      shortName: null == shortName
+          ? _value.shortName
+          : shortName // ignore: cast_nullable_to_non_nullable
+              as String,
       symbol: null == symbol
           ? _value.symbol
           : symbol // ignore: cast_nullable_to_non_nullable
               as String,
+      flagEmoji: freezed == flagEmoji
+          ? _value.flagEmoji
+          : flagEmoji // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -119,7 +151,9 @@ class _$WalletCurrencyImpl extends _WalletCurrency {
   _$WalletCurrencyImpl(
       {@Id(assignable: true) this.id = 0,
       required this.name,
-      required this.symbol})
+      required this.shortName,
+      required this.symbol,
+      this.flagEmoji})
       : super._();
 
   @override
@@ -129,11 +163,15 @@ class _$WalletCurrencyImpl extends _WalletCurrency {
   @override
   final String name;
   @override
+  final String shortName;
+  @override
   final String symbol;
+  @override
+  final String? flagEmoji;
 
   @override
   String toString() {
-    return 'WalletCurrency(id: $id, name: $name, symbol: $symbol)';
+    return 'WalletCurrency(id: $id, name: $name, shortName: $shortName, symbol: $symbol, flagEmoji: $flagEmoji)';
   }
 
   @override
@@ -143,11 +181,16 @@ class _$WalletCurrencyImpl extends _WalletCurrency {
             other is _$WalletCurrencyImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
-            (identical(other.symbol, symbol) || other.symbol == symbol));
+            (identical(other.shortName, shortName) ||
+                other.shortName == shortName) &&
+            (identical(other.symbol, symbol) || other.symbol == symbol) &&
+            (identical(other.flagEmoji, flagEmoji) ||
+                other.flagEmoji == flagEmoji));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, symbol);
+  int get hashCode =>
+      Object.hash(runtimeType, id, name, shortName, symbol, flagEmoji);
 
   @JsonKey(ignore: true)
   @override
@@ -161,7 +204,9 @@ abstract class _WalletCurrency extends WalletCurrency {
   factory _WalletCurrency(
       {@Id(assignable: true) final int? id,
       required final String name,
-      required final String symbol}) = _$WalletCurrencyImpl;
+      required final String shortName,
+      required final String symbol,
+      final String? flagEmoji}) = _$WalletCurrencyImpl;
   _WalletCurrency._() : super._();
 
   @override
@@ -170,7 +215,11 @@ abstract class _WalletCurrency extends WalletCurrency {
   @override
   String get name;
   @override
+  String get shortName;
+  @override
   String get symbol;
+  @override
+  String? get flagEmoji;
   @override
   @JsonKey(ignore: true)
   _$$WalletCurrencyImplCopyWith<_$WalletCurrencyImpl> get copyWith =>

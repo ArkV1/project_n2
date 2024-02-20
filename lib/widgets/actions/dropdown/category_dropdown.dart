@@ -16,8 +16,7 @@ class CategoryDropdown extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() =>
-      _CategoryDropdownState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _CategoryDropdownState();
 }
 
 class _CategoryDropdownState extends ConsumerState<CategoryDropdown> {
@@ -38,8 +37,7 @@ class _CategoryDropdownState extends ConsumerState<CategoryDropdown> {
           borderRadius: BorderRadius.circular(26.0),
         ),
         isDense: true,
-        contentPadding:
-            const EdgeInsets.symmetric(vertical: 12.0, horizontal: 12.0),
+        contentPadding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 12.0),
       ),
       value: budget?.id,
       icon: const Icon(Icons.arrow_drop_down),
@@ -50,6 +48,9 @@ class _CategoryDropdownState extends ConsumerState<CategoryDropdown> {
       // ),
       onChanged: (int? value) {
         // TODO
+        ref
+            .read(budgetValueProvider.notifier)
+            .setBudget(widget.budgets.firstWhere((element) => element.id == value));
         // ref.read(categoryValueProvider.notifier).setCategory(value!);
         // This is called when the user selects an item.
         // ref.read(themeManagerProvider.notifier).setBackground(value!);
