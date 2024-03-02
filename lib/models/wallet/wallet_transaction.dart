@@ -7,8 +7,6 @@ import 'package:project_n2/models/wallet/wallet.dart';
 import 'package:project_n2/models/wallet/wallet_currency.dart';
 import 'package:project_n2/models/wallet/wallet_budget.dart';
 
-import 'package:project_n2/widgets/actions/dialogs/transaction_dialog.dart';
-
 part 'wallet_transaction.freezed.dart';
 
 @freezed

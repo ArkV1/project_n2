@@ -26,7 +26,7 @@ class WalletBudget with _$WalletBudget {
     @Id(assignable: true) @Default(0) int? id,
     required String name,
     double? amount,
-    int? recurranceIndex,
+    int? recurranceInDays,
     required ToOne<Wallet> walletRelation,
     required ToMany<WalletTransaction> transactionsRelation,
   }) = _WalletBudget;
@@ -35,24 +35,25 @@ class WalletBudget with _$WalletBudget {
     @Id(assignable: true) @Default(0) int? id,
     required String name,
     double? amount,
-    int? recurranceIndex,
+    int? recurranceInDays,
   }) {
     return WalletBudget(
       id: id,
       name: name,
       amount: amount,
-      recurranceIndex: recurranceIndex,
+      recurranceInDays: recurranceInDays,
       walletRelation: ToOne<Wallet>(),
       transactionsRelation: ToMany<WalletTransaction>(),
     );
   }
 
+  bool get isCategory => amount == null;
   Wallet? get wallet => walletRelation.target;
   List<WalletTransaction>? get transactions => transactionsRelation.toList();
 
   Recurrance? get reccurrance {
     _ensureStableEnumValues();
-    return Recurrance.values[recurranceIndex ?? 0];
+    return Recurrance.values[recurranceInDays ?? 0];
   }
 
   void _ensureStableEnumValues() {

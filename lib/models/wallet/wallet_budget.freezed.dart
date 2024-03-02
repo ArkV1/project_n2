@@ -20,7 +20,7 @@ mixin _$WalletBudget {
   int? get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   double? get amount => throw _privateConstructorUsedError;
-  int? get recurranceIndex => throw _privateConstructorUsedError;
+  int? get recurranceInDays => throw _privateConstructorUsedError;
   ToOne<Wallet> get walletRelation => throw _privateConstructorUsedError;
   ToMany<WalletTransaction> get transactionsRelation =>
       throw _privateConstructorUsedError;
@@ -40,7 +40,7 @@ abstract class $WalletBudgetCopyWith<$Res> {
       {@Id(assignable: true) int? id,
       String name,
       double? amount,
-      int? recurranceIndex,
+      int? recurranceInDays,
       ToOne<Wallet> walletRelation,
       ToMany<WalletTransaction> transactionsRelation});
 }
@@ -61,7 +61,7 @@ class _$WalletBudgetCopyWithImpl<$Res, $Val extends WalletBudget>
     Object? id = freezed,
     Object? name = null,
     Object? amount = freezed,
-    Object? recurranceIndex = freezed,
+    Object? recurranceInDays = freezed,
     Object? walletRelation = null,
     Object? transactionsRelation = null,
   }) {
@@ -78,9 +78,9 @@ class _$WalletBudgetCopyWithImpl<$Res, $Val extends WalletBudget>
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as double?,
-      recurranceIndex: freezed == recurranceIndex
-          ? _value.recurranceIndex
-          : recurranceIndex // ignore: cast_nullable_to_non_nullable
+      recurranceInDays: freezed == recurranceInDays
+          ? _value.recurranceInDays
+          : recurranceInDays // ignore: cast_nullable_to_non_nullable
               as int?,
       walletRelation: null == walletRelation
           ? _value.walletRelation
@@ -106,7 +106,7 @@ abstract class _$$WalletBudgetImplCopyWith<$Res>
       {@Id(assignable: true) int? id,
       String name,
       double? amount,
-      int? recurranceIndex,
+      int? recurranceInDays,
       ToOne<Wallet> walletRelation,
       ToMany<WalletTransaction> transactionsRelation});
 }
@@ -125,7 +125,7 @@ class __$$WalletBudgetImplCopyWithImpl<$Res>
     Object? id = freezed,
     Object? name = null,
     Object? amount = freezed,
-    Object? recurranceIndex = freezed,
+    Object? recurranceInDays = freezed,
     Object? walletRelation = null,
     Object? transactionsRelation = null,
   }) {
@@ -142,9 +142,9 @@ class __$$WalletBudgetImplCopyWithImpl<$Res>
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as double?,
-      recurranceIndex: freezed == recurranceIndex
-          ? _value.recurranceIndex
-          : recurranceIndex // ignore: cast_nullable_to_non_nullable
+      recurranceInDays: freezed == recurranceInDays
+          ? _value.recurranceInDays
+          : recurranceInDays // ignore: cast_nullable_to_non_nullable
               as int?,
       walletRelation: null == walletRelation
           ? _value.walletRelation
@@ -166,7 +166,7 @@ class _$WalletBudgetImpl extends _WalletBudget {
       {@Id(assignable: true) this.id = 0,
       required this.name,
       this.amount,
-      this.recurranceIndex,
+      this.recurranceInDays,
       required this.walletRelation,
       required this.transactionsRelation})
       : super._();
@@ -180,7 +180,7 @@ class _$WalletBudgetImpl extends _WalletBudget {
   @override
   final double? amount;
   @override
-  final int? recurranceIndex;
+  final int? recurranceInDays;
   @override
   final ToOne<Wallet> walletRelation;
   @override
@@ -188,7 +188,7 @@ class _$WalletBudgetImpl extends _WalletBudget {
 
   @override
   String toString() {
-    return 'WalletBudget(id: $id, name: $name, amount: $amount, recurranceIndex: $recurranceIndex, walletRelation: $walletRelation, transactionsRelation: $transactionsRelation)';
+    return 'WalletBudget(id: $id, name: $name, amount: $amount, recurranceInDays: $recurranceInDays, walletRelation: $walletRelation, transactionsRelation: $transactionsRelation)';
   }
 
   @override
@@ -199,8 +199,8 @@ class _$WalletBudgetImpl extends _WalletBudget {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.amount, amount) || other.amount == amount) &&
-            (identical(other.recurranceIndex, recurranceIndex) ||
-                other.recurranceIndex == recurranceIndex) &&
+            (identical(other.recurranceInDays, recurranceInDays) ||
+                other.recurranceInDays == recurranceInDays) &&
             (identical(other.walletRelation, walletRelation) ||
                 other.walletRelation == walletRelation) &&
             const DeepCollectionEquality()
@@ -213,7 +213,7 @@ class _$WalletBudgetImpl extends _WalletBudget {
       id,
       name,
       amount,
-      recurranceIndex,
+      recurranceInDays,
       walletRelation,
       const DeepCollectionEquality().hash(transactionsRelation));
 
@@ -229,7 +229,7 @@ abstract class _WalletBudget extends WalletBudget {
           {@Id(assignable: true) final int? id,
           required final String name,
           final double? amount,
-          final int? recurranceIndex,
+          final int? recurranceInDays,
           required final ToOne<Wallet> walletRelation,
           required final ToMany<WalletTransaction> transactionsRelation}) =
       _$WalletBudgetImpl;
@@ -243,7 +243,7 @@ abstract class _WalletBudget extends WalletBudget {
   @override
   double? get amount;
   @override
-  int? get recurranceIndex;
+  int? get recurranceInDays;
   @override
   ToOne<Wallet> get walletRelation;
   @override

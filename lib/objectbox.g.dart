@@ -215,7 +215,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
       id: const obx_int.IdUid(7, 9148906301733428383),
       name: 'WalletBudget',
-      lastPropertyId: const obx_int.IdUid(5, 7740384849166324429),
+      lastPropertyId: const obx_int.IdUid(6, 6344215847343056418),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
@@ -234,17 +234,17 @@ final _entities = <obx_int.ModelEntity>[
             type: 8,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(4, 4261757094601220023),
-            name: 'recurranceIndex',
-            type: 6,
-            flags: 0),
-        obx_int.ModelProperty(
             id: const obx_int.IdUid(5, 7740384849166324429),
             name: 'walletRelationId',
             type: 11,
             flags: 520,
             indexId: const obx_int.IdUid(5, 212965328453001932),
-            relationTarget: 'Wallet')
+            relationTarget: 'Wallet'),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(6, 6344215847343056418),
+            name: 'recurranceInDays',
+            type: 6,
+            flags: 0)
       ],
       relations: <obx_int.ModelRelation>[
         obx_int.ModelRelation(
@@ -471,7 +471,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
         8992915649916968924,
         6708241344326514675,
         1209053600011843678,
-        8048288058256323695
+        8048288058256323695,
+        4261757094601220023
       ],
       retiredRelationUids: const [3903551576499518993],
       modelVersion: 5,
@@ -755,12 +756,12 @@ obx_int.ModelDefinition getObjectBoxModel() {
         },
         objectToFB: (WalletBudget object, fb.Builder fbb) {
           final nameOffset = fbb.writeString(object.name);
-          fbb.startTable(6);
+          fbb.startTable(7);
           fbb.addInt64(0, object.id ?? 0);
           fbb.addOffset(1, nameOffset);
           fbb.addFloat64(2, object.amount);
-          fbb.addInt64(3, object.recurranceIndex);
           fbb.addInt64(4, object.walletRelation.targetId);
+          fbb.addInt64(5, object.recurranceInDays);
           fbb.finish(fbb.endTable());
           return object.id ?? 0;
         },
@@ -773,8 +774,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
               .vTableGet(buffer, rootOffset, 6, '');
           final amountParam =
               const fb.Float64Reader().vTableGetNullable(buffer, rootOffset, 8);
-          final recurranceIndexParam =
-              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 10);
+          final recurranceInDaysParam =
+              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 14);
           final walletRelationParam = obx.ToOne<Wallet>(
               targetId:
                   const fb.Int64Reader().vTableGet(buffer, rootOffset, 12, 0));
@@ -783,7 +784,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
               id: idParam,
               name: nameParam,
               amount: amountParam,
-              recurranceIndex: recurranceIndexParam,
+              recurranceInDays: recurranceInDaysParam,
               walletRelation: walletRelationParam,
               transactionsRelation: transactionsRelationParam);
           object.walletRelation.attach(store);
@@ -1160,13 +1161,13 @@ class WalletBudget_ {
   static final amount =
       obx.QueryDoubleProperty<WalletBudget>(_entities[5].properties[2]);
 
-  /// see [WalletBudget.recurranceIndex]
-  static final recurranceIndex =
-      obx.QueryIntegerProperty<WalletBudget>(_entities[5].properties[3]);
-
   /// see [WalletBudget.walletRelation]
   static final walletRelation =
-      obx.QueryRelationToOne<WalletBudget, Wallet>(_entities[5].properties[4]);
+      obx.QueryRelationToOne<WalletBudget, Wallet>(_entities[5].properties[3]);
+
+  /// see [WalletBudget.recurranceInDays]
+  static final recurranceInDays =
+      obx.QueryIntegerProperty<WalletBudget>(_entities[5].properties[4]);
 
   /// see [WalletBudget.transactionsRelation]
   static final transactionsRelation =
