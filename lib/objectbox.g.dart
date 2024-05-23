@@ -215,7 +215,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
       id: const obx_int.IdUid(7, 9148906301733428383),
       name: 'WalletBudget',
-      lastPropertyId: const obx_int.IdUid(6, 6344215847343056418),
+      lastPropertyId: const obx_int.IdUid(11, 6914856353031215149),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
@@ -241,8 +241,20 @@ final _entities = <obx_int.ModelEntity>[
             indexId: const obx_int.IdUid(5, 212965328453001932),
             relationTarget: 'Wallet'),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(6, 6344215847343056418),
-            name: 'recurranceInDays',
+            id: const obx_int.IdUid(8, 4557785275445918933),
+            name: 'currencyRelationId',
+            type: 11,
+            flags: 520,
+            indexId: const obx_int.IdUid(13, 3860936800174154621),
+            relationTarget: 'Wallet'),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(10, 1674252798084276716),
+            name: 'recurranceTimeUnitsIndex',
+            type: 6,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(11, 6914856353031215149),
+            name: 'recurranceTimeUnitsAmount',
             type: 6,
             flags: 0)
       ],
@@ -375,34 +387,34 @@ final _entities = <obx_int.ModelEntity>[
       ],
       backlinks: <obx_int.ModelBacklink>[]),
   obx_int.ModelEntity(
-      id: const obx_int.IdUid(13, 5374781355521429170),
+      id: const obx_int.IdUid(15, 2457136326134115318),
       name: 'WalletCurrency',
-      lastPropertyId: const obx_int.IdUid(5, 27204080817677679),
+      lastPropertyId: const obx_int.IdUid(5, 4452826407188834220),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(1, 8542937848453677721),
+            id: const obx_int.IdUid(1, 2377043671145863006),
             name: 'id',
             type: 6,
             flags: 129),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(2, 8635472021647705432),
+            id: const obx_int.IdUid(2, 6195545317177764386),
+            name: 'emoji',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(3, 1831189735997651072),
+            name: 'code',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(4, 4766728300595805087),
             name: 'name',
             type: 9,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(3, 3482134224390630646),
+            id: const obx_int.IdUid(5, 4452826407188834220),
             name: 'symbol',
-            type: 9,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(4, 987272628998721905),
-            name: 'shortName',
-            type: 9,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(5, 27204080817677679),
-            name: 'flagEmoji',
             type: 9,
             flags: 0)
       ],
@@ -445,14 +457,16 @@ Future<obx.Store> openStore(
 obx_int.ModelDefinition getObjectBoxModel() {
   final model = obx_int.ModelInfo(
       entities: _entities,
-      lastEntityId: const obx_int.IdUid(13, 5374781355521429170),
-      lastIndexId: const obx_int.IdUid(12, 2915980899998334738),
+      lastEntityId: const obx_int.IdUid(15, 2457136326134115318),
+      lastIndexId: const obx_int.IdUid(13, 3860936800174154621),
       lastRelationId: const obx_int.IdUid(7, 3903551576499518993),
       lastSequenceId: const obx_int.IdUid(0, 0),
       retiredEntityUids: const [
         1033878434954156121,
         7512441033247668160,
-        873187228517734403
+        873187228517734403,
+        5374781355521429170,
+        6885284620087688971
       ],
       retiredIndexUids: const [8353849674073803988, 7655630016403149639],
       retiredPropertyUids: const [
@@ -472,7 +486,22 @@ obx_int.ModelDefinition getObjectBoxModel() {
         6708241344326514675,
         1209053600011843678,
         8048288058256323695,
-        4261757094601220023
+        4261757094601220023,
+        987272628998721905,
+        27204080817677679,
+        8542937848453677721,
+        8635472021647705432,
+        3482134224390630646,
+        532892817008766361,
+        5667454440387419283,
+        2306857239655948301,
+        2235825242476689393,
+        2944475266370125642,
+        5704120354277499715,
+        7426799451706035312,
+        7793835375932973327,
+        6344215847343056418,
+        6422032173653107849
       ],
       retiredRelationUids: const [3903551576499518993],
       modelVersion: 5,
@@ -739,7 +768,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
         }),
     WalletBudget: obx_int.EntityDefinition<WalletBudget>(
         model: _entities[5],
-        toOneRelations: (WalletBudget object) => [object.walletRelation],
+        toOneRelations: (WalletBudget object) =>
+            [object.walletRelation, object.currencyRelation],
         toManyRelations: (WalletBudget object) => {
               obx_int.RelInfo<WalletBudget>.toMany(4, object.id!):
                   object.transactionsRelation
@@ -756,12 +786,14 @@ obx_int.ModelDefinition getObjectBoxModel() {
         },
         objectToFB: (WalletBudget object, fb.Builder fbb) {
           final nameOffset = fbb.writeString(object.name);
-          fbb.startTable(7);
+          fbb.startTable(12);
           fbb.addInt64(0, object.id ?? 0);
           fbb.addOffset(1, nameOffset);
           fbb.addFloat64(2, object.amount);
           fbb.addInt64(4, object.walletRelation.targetId);
-          fbb.addInt64(5, object.recurranceInDays);
+          fbb.addInt64(7, object.currencyRelation.targetId);
+          fbb.addInt64(9, object.recurranceTimeUnitsIndex);
+          fbb.addInt64(10, object.recurranceTimeUnitsAmount);
           fbb.finish(fbb.endTable());
           return object.id ?? 0;
         },
@@ -772,22 +804,30 @@ obx_int.ModelDefinition getObjectBoxModel() {
               const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 4);
           final nameParam = const fb.StringReader(asciiOptimization: true)
               .vTableGet(buffer, rootOffset, 6, '');
-          final amountParam =
-              const fb.Float64Reader().vTableGetNullable(buffer, rootOffset, 8);
-          final recurranceInDaysParam =
-              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 14);
           final walletRelationParam = obx.ToOne<Wallet>(
               targetId:
                   const fb.Int64Reader().vTableGet(buffer, rootOffset, 12, 0));
+          final amountParam =
+              const fb.Float64Reader().vTableGetNullable(buffer, rootOffset, 8);
+          final currencyRelationParam = obx.ToOne<Wallet>(
+              targetId:
+                  const fb.Int64Reader().vTableGet(buffer, rootOffset, 18, 0));
+          final recurranceTimeUnitsIndexParam =
+              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 22);
+          final recurranceTimeUnitsAmountParam =
+              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 24);
           final transactionsRelationParam = obx.ToMany<WalletTransaction>();
           final object = WalletBudget(
               id: idParam,
               name: nameParam,
-              amount: amountParam,
-              recurranceInDays: recurranceInDaysParam,
               walletRelation: walletRelationParam,
+              amount: amountParam,
+              currencyRelation: currencyRelationParam,
+              recurranceTimeUnitsIndex: recurranceTimeUnitsIndexParam,
+              recurranceTimeUnitsAmount: recurranceTimeUnitsAmountParam,
               transactionsRelation: transactionsRelationParam);
           object.walletRelation.attach(store);
+          object.currencyRelation.attach(store);
           obx_int.InternalToManyAccess.setRelInfo<WalletBudget>(
               object.transactionsRelation,
               store,
@@ -985,18 +1025,17 @@ obx_int.ModelDefinition getObjectBoxModel() {
           }
         },
         objectToFB: (WalletCurrency object, fb.Builder fbb) {
+          final emojiOffset =
+              object.emoji == null ? null : fbb.writeString(object.emoji!);
+          final codeOffset = fbb.writeString(object.code);
           final nameOffset = fbb.writeString(object.name);
           final symbolOffset = fbb.writeString(object.symbol);
-          final shortNameOffset = fbb.writeString(object.shortName);
-          final flagEmojiOffset = object.flagEmoji == null
-              ? null
-              : fbb.writeString(object.flagEmoji!);
           fbb.startTable(6);
           fbb.addInt64(0, object.id ?? 0);
-          fbb.addOffset(1, nameOffset);
-          fbb.addOffset(2, symbolOffset);
-          fbb.addOffset(3, shortNameOffset);
-          fbb.addOffset(4, flagEmojiOffset);
+          fbb.addOffset(1, emojiOffset);
+          fbb.addOffset(2, codeOffset);
+          fbb.addOffset(3, nameOffset);
+          fbb.addOffset(4, symbolOffset);
           fbb.finish(fbb.endTable());
           return object.id ?? 0;
         },
@@ -1005,20 +1044,20 @@ obx_int.ModelDefinition getObjectBoxModel() {
           final rootOffset = buffer.derefObject(0);
           final idParam =
               const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 4);
+          final emojiParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 6);
+          final codeParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 8, '');
           final nameParam = const fb.StringReader(asciiOptimization: true)
-              .vTableGet(buffer, rootOffset, 6, '');
-          final shortNameParam = const fb.StringReader(asciiOptimization: true)
               .vTableGet(buffer, rootOffset, 10, '');
           final symbolParam = const fb.StringReader(asciiOptimization: true)
-              .vTableGet(buffer, rootOffset, 8, '');
-          final flagEmojiParam = const fb.StringReader(asciiOptimization: true)
-              .vTableGetNullable(buffer, rootOffset, 12);
+              .vTableGet(buffer, rootOffset, 12, '');
           final object = WalletCurrency(
               id: idParam,
+              emoji: emojiParam,
+              code: codeParam,
               name: nameParam,
-              shortName: shortNameParam,
-              symbol: symbolParam,
-              flagEmoji: flagEmojiParam);
+              symbol: symbolParam);
 
           return object;
         })
@@ -1165,9 +1204,17 @@ class WalletBudget_ {
   static final walletRelation =
       obx.QueryRelationToOne<WalletBudget, Wallet>(_entities[5].properties[3]);
 
-  /// see [WalletBudget.recurranceInDays]
-  static final recurranceInDays =
-      obx.QueryIntegerProperty<WalletBudget>(_entities[5].properties[4]);
+  /// see [WalletBudget.currencyRelation]
+  static final currencyRelation =
+      obx.QueryRelationToOne<WalletBudget, Wallet>(_entities[5].properties[4]);
+
+  /// see [WalletBudget.recurranceTimeUnitsIndex]
+  static final recurranceTimeUnitsIndex =
+      obx.QueryIntegerProperty<WalletBudget>(_entities[5].properties[5]);
+
+  /// see [WalletBudget.recurranceTimeUnitsAmount]
+  static final recurranceTimeUnitsAmount =
+      obx.QueryIntegerProperty<WalletBudget>(_entities[5].properties[6]);
 
   /// see [WalletBudget.transactionsRelation]
   static final transactionsRelation =
@@ -1264,19 +1311,19 @@ class WalletCurrency_ {
   static final id =
       obx.QueryIntegerProperty<WalletCurrency>(_entities[9].properties[0]);
 
+  /// see [WalletCurrency.emoji]
+  static final emoji =
+      obx.QueryStringProperty<WalletCurrency>(_entities[9].properties[1]);
+
+  /// see [WalletCurrency.code]
+  static final code =
+      obx.QueryStringProperty<WalletCurrency>(_entities[9].properties[2]);
+
   /// see [WalletCurrency.name]
   static final name =
-      obx.QueryStringProperty<WalletCurrency>(_entities[9].properties[1]);
+      obx.QueryStringProperty<WalletCurrency>(_entities[9].properties[3]);
 
   /// see [WalletCurrency.symbol]
   static final symbol =
-      obx.QueryStringProperty<WalletCurrency>(_entities[9].properties[2]);
-
-  /// see [WalletCurrency.shortName]
-  static final shortName =
-      obx.QueryStringProperty<WalletCurrency>(_entities[9].properties[3]);
-
-  /// see [WalletCurrency.flagEmoji]
-  static final flagEmoji =
       obx.QueryStringProperty<WalletCurrency>(_entities[9].properties[4]);
 }

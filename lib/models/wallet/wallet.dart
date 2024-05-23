@@ -279,7 +279,7 @@ Set<String> defaultCategories = {
 
 final defaultBudgets = defaultCategories
     .map(
-      (category) => WalletBudget.def(
+      (category) => WalletBudget.smart(
         name: category,
       ),
     )

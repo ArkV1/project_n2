@@ -214,7 +214,9 @@ class _TransactionDialogState extends ConsumerState<TransactionDialog> {
                         onTap: () => _selectTime(context),
                       ),
                     ),
-                    const VerticalDivider(),
+                    const VerticalDivider(
+                      width: 6,
+                    ),
                     Expanded(
                       flex: selectedDate == null ? 1 : 4,
                       child: TextField(

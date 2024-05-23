@@ -10,7 +10,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:project_n2/views/settings_view/dialogs/wallet_dialog/wallets_dialog.dart';
 
 class CurrenciesListView extends ConsumerStatefulWidget {
-  const CurrenciesListView({super.key});
+  final Function(WalletCurrency?) onSaved;
+  const CurrenciesListView({required this.onSaved, super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _CurrenciesListViewState();
@@ -21,12 +22,37 @@ class _CurrenciesListViewState extends ConsumerState<CurrenciesListView> {
 
   @override
   Widget build(BuildContext context) {
-    final currencies = ref.watch(currenciesProvider);
+    // Protect from overwriting the list
+    // Which shouldnt be possible, but still happends when doing in-memory reorder
+    final currencies = List.from(
+      ref.watch(currenciesProvider),
+    );
+
+    void onReorder(oldIndex, newIndex) {
+      newIndex = newIndex > oldIndex ? newIndex - 1 : newIndex;
+      debugPrint('Old index: $oldIndex, New index: $newIndex');
+      // Perform the in-memory reorder
+      final movedWidget = currencies.removeAt(oldIndex);
+      currencies.insert(newIndex, movedWidget);
+      ref.read(currenciesProvider.notifier).reorder(oldIndex, newIndex);
+    }
+
     return SizedBox(
       width: double.maxFinite,
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          Expanded(
+          if (currencies.isEmpty)
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 32.0),
+              child: ElevatedButton(
+                onPressed: () {
+                  ref.read(currenciesProvider.notifier).spawnDefaultCurrencies();
+                },
+                child: const Text('Add default currencies'),
+              ),
+            ),
+          Flexible(
             child: ReorderableListView.builder(
               shrinkWrap: true,
               itemCount: currencies.length,
@@ -38,10 +64,10 @@ class _CurrenciesListViewState extends ConsumerState<CurrenciesListView> {
                   firstChild: ListTile(
                     key: ValueKey(currencies[index].id),
                     leading: Text(
-                      currencies[index].flagEmoji ?? '',
+                      currencies[index].emoji ?? '',
                       style: const TextStyle(fontSize: 22),
                     ),
-                    title: Text(currencies[index].shortName),
+                    title: Text(currencies[index].code),
                     subtitle: Text(currencies[index].name),
                     trailing: Text(
                       currencies[index].symbol,
@@ -59,20 +85,25 @@ class _CurrenciesListViewState extends ConsumerState<CurrenciesListView> {
                         Padding(
                           padding: const EdgeInsets.only(left: 12.0),
                           child: Text(
-                            currencies[index].flagEmoji ?? '',
+                            currencies[index].emoji ?? '',
                             style: const TextStyle(fontSize: 22),
                           ),
                         ),
                       ],
                     ),
                     title: Text(
-                      currencies[index].shortName,
+                      currencies[index].code,
                       overflow: TextOverflow.ellipsis,
                     ),
                     subtitle: Text(
                       currencies[index].name,
                       overflow: TextOverflow.ellipsis,
                     ),
+                    // Replace for debuging subtitle
+                    // subtitle: Text(
+                    //   currencies[index].id!.toString(),
+                    //   overflow: TextOverflow.ellipsis,
+                    // ),
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -89,7 +120,13 @@ class _CurrenciesListViewState extends ConsumerState<CurrenciesListView> {
                             customBorder: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12),
                             ),
-                            onTap: () {},
+                            onTap: () {
+                              //
+                              widget.onSaved(currencies[index]);
+                              ref
+                                  .read(walletsDialogStateProvider.notifier)
+                                  .setDialogState(WalletsDialogStates.currenciesCreation);
+                            },
                             child: const Padding(
                               padding: EdgeInsets.all(3),
                               child: Icon(Icons.edit, size: 24),
@@ -109,7 +146,11 @@ class _CurrenciesListViewState extends ConsumerState<CurrenciesListView> {
                             customBorder: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12),
                             ),
-                            onTap: () {},
+                            onTap: () {
+                              ref
+                                  .read(currenciesProvider.notifier)
+                                  .deleteCurrency(currencies[index]);
+                            },
                             child: const Padding(
                               padding: EdgeInsets.all(3),
                               child: Icon(color: Colors.red, Icons.delete_forever, size: 24),
@@ -122,25 +163,7 @@ class _CurrenciesListViewState extends ConsumerState<CurrenciesListView> {
                   ),
                 );
               },
-              // shrinkWrap: true,
-              // children: [
-              //   for (final currency in currencies)
-              //     ListTile(
-              //       key: ValueKey(currency.id),
-              //       leading: Text(
-              //         currency.flagEmoji ?? '',
-              //         style: const TextStyle(fontSize: 22),
-              //       ),
-              //       title: Text(currency.name),
-              //       trailing: Text(
-              //         currency.symbol,
-              //         style: GoogleFonts.notoSans(fontSize: 18),
-              //       ),
-              //     ),
-              // ],
-              onReorder: (oldIndex, newIndex) {
-                // ref.read(currenciesProvider.notifier).reorder(oldIndex, newIndex);
-              },
+              onReorder: onReorder,
             ),
           ),
           Row(
@@ -167,6 +190,7 @@ class _CurrenciesListViewState extends ConsumerState<CurrenciesListView> {
               Expanded(
                 child: ElevatedButton(
                   onPressed: () {
+                    widget.onSaved(null);
                     ref
                         .read(walletsDialogStateProvider.notifier)
                         .setDialogState(WalletsDialogStates.currenciesCreation);
@@ -214,7 +238,7 @@ class _CurrenciesListViewState extends ConsumerState<CurrenciesListView> {
                 flex: 1,
               ),
             ],
-          )
+          ),
         ],
       ),
     );

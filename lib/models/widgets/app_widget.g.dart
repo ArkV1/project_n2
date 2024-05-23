@@ -6,7 +6,7 @@ part of 'app_widget.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$appWidgetsHash() => r'63b7096997a90098aa18abda425c307de7aeeeb9';
+String _$appWidgetsHash() => r'1b5bbdca441310625a81217604a2f3816a8167a3';
 
 /// See also [AppWidgets].
 @ProviderFor(AppWidgets)

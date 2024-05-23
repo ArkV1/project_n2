@@ -5,7 +5,7 @@ import 'package:project_n2/views/settings_view/dialogs/wallet_dialog/wallets_dia
 
 final _formKey = GlobalKey<FormState>();
 
-enum ChosenField { none, emoji, shortName, name, symbol }
+enum ChosenField { none, emoji, code, name, symbol }
 
 class CurrenciesCreationView extends ConsumerStatefulWidget {
   final WalletCurrency? currency;
@@ -16,15 +16,26 @@ class CurrenciesCreationView extends ConsumerStatefulWidget {
 }
 
 class _CurrenciesCreationViewState extends ConsumerState<CurrenciesCreationView> {
-  TextEditingController currencyNameController = TextEditingController();
+  TextEditingController emojiController = TextEditingController();
+  TextEditingController shortNameController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController symbolController = TextEditingController();
 
   ChosenField? chosenField = ChosenField.none;
 
   @override
+  void initState() {
+    if (widget.currency != null) {
+      emojiController.text = widget.currency!.emoji ?? '';
+      shortNameController.text = widget.currency!.code;
+      nameController.text = widget.currency!.name;
+      symbolController.text = widget.currency!.symbol;
+    }
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    widget.currency != null
-        ? currencyNameController.text = widget.currency!.name
-        : currencyNameController.text = '';
     return Form(
       key: _formKey,
       child: Container(
@@ -59,7 +70,7 @@ class _CurrenciesCreationViewState extends ConsumerState<CurrenciesCreationView>
                                 overflow: TextOverflow.visible,
                               ),
                             ),
-                            controller: currencyNameController,
+                            controller: emojiController,
                             onTap: () {
                               setState(() {
                                 chosenField = ChosenField.emoji;
@@ -70,25 +81,23 @@ class _CurrenciesCreationViewState extends ConsumerState<CurrenciesCreationView>
                         AnimatedContainer(
                           duration: const Duration(milliseconds: 300),
                           padding: const EdgeInsets.only(right: 8.0),
-                          width: chosenField == ChosenField.shortName
+                          width: chosenField == ChosenField.code
                               ? cons.maxWidth / 4.35
                               : cons.maxWidth / 5.25,
                           child: TextFormField(
-                            decoration: InputDecoration(
-                              labelText: chosenField == ChosenField.shortName
-                                  ? 'Short name'
-                                  : 'Short\nname',
-                              labelStyle: const TextStyle(fontSize: 12),
+                            decoration: const InputDecoration(
+                              labelText: 'Code',
+                              labelStyle: TextStyle(fontSize: 12, overflow: TextOverflow.fade),
                               hintText: '  USD  ',
                               errorMaxLines: 3,
-                              errorStyle: const TextStyle(
+                              errorStyle: TextStyle(
                                 overflow: TextOverflow.visible,
                               ),
                             ),
-                            controller: currencyNameController,
+                            controller: shortNameController,
                             onTap: () {
                               setState(() {
-                                chosenField = ChosenField.shortName;
+                                chosenField = ChosenField.code;
                               });
                             },
                           ),
@@ -110,7 +119,7 @@ class _CurrenciesCreationViewState extends ConsumerState<CurrenciesCreationView>
                                 overflow: TextOverflow.visible,
                               ),
                             ),
-                            controller: currencyNameController,
+                            controller: nameController,
                             onTap: () {
                               setState(() {
                                 chosenField = ChosenField.name;
@@ -134,7 +143,7 @@ class _CurrenciesCreationViewState extends ConsumerState<CurrenciesCreationView>
                                 overflow: TextOverflow.visible,
                               ),
                             ),
-                            controller: currencyNameController,
+                            controller: symbolController,
                             onTap: () {
                               setState(() {
                                 chosenField = ChosenField.symbol;
@@ -171,27 +180,17 @@ class _CurrenciesCreationViewState extends ConsumerState<CurrenciesCreationView>
                 children: [
                   ElevatedButton(
                     onPressed: () => setState(() {
-                      if (widget.currency == null) {
-                        // ref.read(currenciesProvider.notifier).insertCurrency(
-                        //       Wallet.smart(
-                        //         name: walletsNameController.text,
-                        //         // defaultCurrency: Currencies.usd,
-                        //         // categories: defaultCategories.toList(),
-                        //         // transactionsRelation:
-                        //         //     ToMany<WalletTransaction>(),
-                        //       ),
-                        //       budgets: defaultBudgets,
-                        //     );
-                      } else {
-                        // ref.read(currenciesProvider.notifier).insertCurrency(
-                        //       widget.wallet!.copyWith(
-                        //         name: walletsNameController.text,
-                        //       ),
-                        //     );
-                      }
-                      // ref
-                      //     .read(walletsDialogStateProvider.notifier)
-                      //     .setDialogState(WalletsDialogStates.currenciesList);
+                      ref.read(currenciesProvider.notifier).insertCurrency(
+                            WalletCurrency(
+                              emoji: emojiController.text,
+                              code: shortNameController.text,
+                              name: nameController.text,
+                              symbol: symbolController.text,
+                            ),
+                          );
+                      ref
+                          .read(walletsDialogStateProvider.notifier)
+                          .setDialogState(WalletsDialogStates.currenciesList);
                     }),
                     child: const Row(
                       children: [

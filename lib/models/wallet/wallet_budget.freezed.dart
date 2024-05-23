@@ -19,9 +19,11 @@ mixin _$WalletBudget {
   @Id(assignable: true)
   int? get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
-  double? get amount => throw _privateConstructorUsedError;
-  int? get recurranceInDays => throw _privateConstructorUsedError;
   ToOne<Wallet> get walletRelation => throw _privateConstructorUsedError;
+  double? get amount => throw _privateConstructorUsedError;
+  ToOne<Wallet> get currencyRelation => throw _privateConstructorUsedError;
+  int? get recurranceTimeUnitsIndex => throw _privateConstructorUsedError;
+  int? get recurranceTimeUnitsAmount => throw _privateConstructorUsedError;
   ToMany<WalletTransaction> get transactionsRelation =>
       throw _privateConstructorUsedError;
 
@@ -39,9 +41,11 @@ abstract class $WalletBudgetCopyWith<$Res> {
   $Res call(
       {@Id(assignable: true) int? id,
       String name,
-      double? amount,
-      int? recurranceInDays,
       ToOne<Wallet> walletRelation,
+      double? amount,
+      ToOne<Wallet> currencyRelation,
+      int? recurranceTimeUnitsIndex,
+      int? recurranceTimeUnitsAmount,
       ToMany<WalletTransaction> transactionsRelation});
 }
 
@@ -60,9 +64,11 @@ class _$WalletBudgetCopyWithImpl<$Res, $Val extends WalletBudget>
   $Res call({
     Object? id = freezed,
     Object? name = null,
-    Object? amount = freezed,
-    Object? recurranceInDays = freezed,
     Object? walletRelation = null,
+    Object? amount = freezed,
+    Object? currencyRelation = null,
+    Object? recurranceTimeUnitsIndex = freezed,
+    Object? recurranceTimeUnitsAmount = freezed,
     Object? transactionsRelation = null,
   }) {
     return _then(_value.copyWith(
@@ -74,18 +80,26 @@ class _$WalletBudgetCopyWithImpl<$Res, $Val extends WalletBudget>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      amount: freezed == amount
-          ? _value.amount
-          : amount // ignore: cast_nullable_to_non_nullable
-              as double?,
-      recurranceInDays: freezed == recurranceInDays
-          ? _value.recurranceInDays
-          : recurranceInDays // ignore: cast_nullable_to_non_nullable
-              as int?,
       walletRelation: null == walletRelation
           ? _value.walletRelation
           : walletRelation // ignore: cast_nullable_to_non_nullable
               as ToOne<Wallet>,
+      amount: freezed == amount
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as double?,
+      currencyRelation: null == currencyRelation
+          ? _value.currencyRelation
+          : currencyRelation // ignore: cast_nullable_to_non_nullable
+              as ToOne<Wallet>,
+      recurranceTimeUnitsIndex: freezed == recurranceTimeUnitsIndex
+          ? _value.recurranceTimeUnitsIndex
+          : recurranceTimeUnitsIndex // ignore: cast_nullable_to_non_nullable
+              as int?,
+      recurranceTimeUnitsAmount: freezed == recurranceTimeUnitsAmount
+          ? _value.recurranceTimeUnitsAmount
+          : recurranceTimeUnitsAmount // ignore: cast_nullable_to_non_nullable
+              as int?,
       transactionsRelation: null == transactionsRelation
           ? _value.transactionsRelation
           : transactionsRelation // ignore: cast_nullable_to_non_nullable
@@ -105,9 +119,11 @@ abstract class _$$WalletBudgetImplCopyWith<$Res>
   $Res call(
       {@Id(assignable: true) int? id,
       String name,
-      double? amount,
-      int? recurranceInDays,
       ToOne<Wallet> walletRelation,
+      double? amount,
+      ToOne<Wallet> currencyRelation,
+      int? recurranceTimeUnitsIndex,
+      int? recurranceTimeUnitsAmount,
       ToMany<WalletTransaction> transactionsRelation});
 }
 
@@ -124,9 +140,11 @@ class __$$WalletBudgetImplCopyWithImpl<$Res>
   $Res call({
     Object? id = freezed,
     Object? name = null,
-    Object? amount = freezed,
-    Object? recurranceInDays = freezed,
     Object? walletRelation = null,
+    Object? amount = freezed,
+    Object? currencyRelation = null,
+    Object? recurranceTimeUnitsIndex = freezed,
+    Object? recurranceTimeUnitsAmount = freezed,
     Object? transactionsRelation = null,
   }) {
     return _then(_$WalletBudgetImpl(
@@ -138,18 +156,26 @@ class __$$WalletBudgetImplCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      amount: freezed == amount
-          ? _value.amount
-          : amount // ignore: cast_nullable_to_non_nullable
-              as double?,
-      recurranceInDays: freezed == recurranceInDays
-          ? _value.recurranceInDays
-          : recurranceInDays // ignore: cast_nullable_to_non_nullable
-              as int?,
       walletRelation: null == walletRelation
           ? _value.walletRelation
           : walletRelation // ignore: cast_nullable_to_non_nullable
               as ToOne<Wallet>,
+      amount: freezed == amount
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as double?,
+      currencyRelation: null == currencyRelation
+          ? _value.currencyRelation
+          : currencyRelation // ignore: cast_nullable_to_non_nullable
+              as ToOne<Wallet>,
+      recurranceTimeUnitsIndex: freezed == recurranceTimeUnitsIndex
+          ? _value.recurranceTimeUnitsIndex
+          : recurranceTimeUnitsIndex // ignore: cast_nullable_to_non_nullable
+              as int?,
+      recurranceTimeUnitsAmount: freezed == recurranceTimeUnitsAmount
+          ? _value.recurranceTimeUnitsAmount
+          : recurranceTimeUnitsAmount // ignore: cast_nullable_to_non_nullable
+              as int?,
       transactionsRelation: null == transactionsRelation
           ? _value.transactionsRelation
           : transactionsRelation // ignore: cast_nullable_to_non_nullable
@@ -165,9 +191,11 @@ class _$WalletBudgetImpl extends _WalletBudget {
   _$WalletBudgetImpl(
       {@Id(assignable: true) this.id = 0,
       required this.name,
-      this.amount,
-      this.recurranceInDays,
       required this.walletRelation,
+      this.amount,
+      required this.currencyRelation,
+      this.recurranceTimeUnitsIndex,
+      this.recurranceTimeUnitsAmount,
       required this.transactionsRelation})
       : super._();
 
@@ -178,17 +206,21 @@ class _$WalletBudgetImpl extends _WalletBudget {
   @override
   final String name;
   @override
+  final ToOne<Wallet> walletRelation;
+  @override
   final double? amount;
   @override
-  final int? recurranceInDays;
+  final ToOne<Wallet> currencyRelation;
   @override
-  final ToOne<Wallet> walletRelation;
+  final int? recurranceTimeUnitsIndex;
+  @override
+  final int? recurranceTimeUnitsAmount;
   @override
   final ToMany<WalletTransaction> transactionsRelation;
 
   @override
   String toString() {
-    return 'WalletBudget(id: $id, name: $name, amount: $amount, recurranceInDays: $recurranceInDays, walletRelation: $walletRelation, transactionsRelation: $transactionsRelation)';
+    return 'WalletBudget(id: $id, name: $name, walletRelation: $walletRelation, amount: $amount, currencyRelation: $currencyRelation, recurranceTimeUnitsIndex: $recurranceTimeUnitsIndex, recurranceTimeUnitsAmount: $recurranceTimeUnitsAmount, transactionsRelation: $transactionsRelation)';
   }
 
   @override
@@ -198,11 +230,17 @@ class _$WalletBudgetImpl extends _WalletBudget {
             other is _$WalletBudgetImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
-            (identical(other.amount, amount) || other.amount == amount) &&
-            (identical(other.recurranceInDays, recurranceInDays) ||
-                other.recurranceInDays == recurranceInDays) &&
             (identical(other.walletRelation, walletRelation) ||
                 other.walletRelation == walletRelation) &&
+            (identical(other.amount, amount) || other.amount == amount) &&
+            (identical(other.currencyRelation, currencyRelation) ||
+                other.currencyRelation == currencyRelation) &&
+            (identical(
+                    other.recurranceTimeUnitsIndex, recurranceTimeUnitsIndex) ||
+                other.recurranceTimeUnitsIndex == recurranceTimeUnitsIndex) &&
+            (identical(other.recurranceTimeUnitsAmount,
+                    recurranceTimeUnitsAmount) ||
+                other.recurranceTimeUnitsAmount == recurranceTimeUnitsAmount) &&
             const DeepCollectionEquality()
                 .equals(other.transactionsRelation, transactionsRelation));
   }
@@ -212,9 +250,11 @@ class _$WalletBudgetImpl extends _WalletBudget {
       runtimeType,
       id,
       name,
-      amount,
-      recurranceInDays,
       walletRelation,
+      amount,
+      currencyRelation,
+      recurranceTimeUnitsIndex,
+      recurranceTimeUnitsAmount,
       const DeepCollectionEquality().hash(transactionsRelation));
 
   @JsonKey(ignore: true)
@@ -228,9 +268,11 @@ abstract class _WalletBudget extends WalletBudget {
   factory _WalletBudget(
           {@Id(assignable: true) final int? id,
           required final String name,
-          final double? amount,
-          final int? recurranceInDays,
           required final ToOne<Wallet> walletRelation,
+          final double? amount,
+          required final ToOne<Wallet> currencyRelation,
+          final int? recurranceTimeUnitsIndex,
+          final int? recurranceTimeUnitsAmount,
           required final ToMany<WalletTransaction> transactionsRelation}) =
       _$WalletBudgetImpl;
   _WalletBudget._() : super._();
@@ -241,11 +283,15 @@ abstract class _WalletBudget extends WalletBudget {
   @override
   String get name;
   @override
+  ToOne<Wallet> get walletRelation;
+  @override
   double? get amount;
   @override
-  int? get recurranceInDays;
+  ToOne<Wallet> get currencyRelation;
   @override
-  ToOne<Wallet> get walletRelation;
+  int? get recurranceTimeUnitsIndex;
+  @override
+  int? get recurranceTimeUnitsAmount;
   @override
   ToMany<WalletTransaction> get transactionsRelation;
   @override

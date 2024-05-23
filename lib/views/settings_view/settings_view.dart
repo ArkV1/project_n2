@@ -132,6 +132,8 @@ class _SettingsViewState extends ConsumerState<SettingsView> {
                                 switch (AppComponents.values[i]) {
                                   case AppComponents.todo:
                                     return const Icon(Icons.format_list_bulleted);
+                                  case AppComponents.calendar:
+                                    return const Icon(Icons.calendar_month);
                                   case AppComponents.wallet:
                                     return const Icon(Icons.account_balance_wallet);
                                   // case AppComponents.notebook:
@@ -149,6 +151,12 @@ class _SettingsViewState extends ConsumerState<SettingsView> {
                                       context: context,
                                       builder: (BuildContext context) => const ToDoListsDialog(),
                                     );
+                                    break;
+                                  case AppComponents.calendar:
+                                    // showDialog(
+                                    //   context: context,
+                                    //   builder: (BuildContext context) => const ToDoListsDialog(),
+                                    // );
                                     break;
                                   case AppComponents.wallet:
                                     showDialog(

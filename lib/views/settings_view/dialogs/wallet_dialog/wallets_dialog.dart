@@ -106,7 +106,9 @@ class _WalletsDialogState extends ConsumerState<WalletsDialog> {
                 onSaved: (WalletBudget? budget) => setState(() => this.budget = budget),
               );
             case WalletsDialogStates.currenciesList:
-              return const CurrenciesListView();
+              return CurrenciesListView(
+                onSaved: (WalletCurrency? currency) => this.currency = currency,
+              );
             case WalletsDialogStates.currenciesCreation:
               return CurrenciesCreationView(
                 currency: currency,

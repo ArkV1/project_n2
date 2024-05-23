@@ -65,8 +65,7 @@ class AppWidgets extends _$AppWidgets {
     state = AsyncData(await getAppWidgets());
   }
 
-  Future<void> insertAppWidget(
-      AppWidget parentWidget, WidgetUnion childWidget) async {
+  Future<void> insertAppWidget(AppWidget parentWidget, WidgetUnion childWidget) async {
     final appWidgets = db.box<AppWidget>();
     int? parentWidgetId = parentWidget.id;
     // TODO Add cached id for improving speed and performance
@@ -119,8 +118,7 @@ class AppWidgets extends _$AppWidgets {
         }
         walletWidget = walletWidget.copyWith(id: childWidgetId);
 
-        WalletWidget addedChildWidget =
-            await walletWidgets.putAndGetAsync(walletWidget);
+        WalletWidget addedChildWidget = await walletWidgets.putAndGetAsync(walletWidget);
         parentWidget.walletWidgetRelation.target = addedChildWidget;
       },
     );
@@ -147,12 +145,7 @@ class AppWidgets extends _$AppWidgets {
     for (int i = start; i <= end; i++) {
       parentWidgetsList[i] = parentWidgetsList[i].copyWith(parentIndex: i);
     }
-
-    for (int i = start; i <= end; i++) {
-      AppWidget widget = parentWidgetsList[i];
-      await appWidgets.putAsync(widget);
-    }
-
+    await appWidgets.putManyAsync(parentWidgetsList);
     await updateAppWidgets();
   }
 
@@ -162,9 +155,8 @@ class AppWidgets extends _$AppWidgets {
       case ContainedObjectType.unknown:
         break;
       case ContainedObjectType.toDoList:
-        childWidgetId = appWidget.toDoWidgetRelation.hasValue
-            ? appWidget.toDoWidgetRelation.targetId
-            : null;
+        childWidgetId =
+            appWidget.toDoWidgetRelation.hasValue ? appWidget.toDoWidgetRelation.targetId : null;
         break;
       case ContainedObjectType.wallet:
         childWidgetId = appWidget.walletWidgetRelation.hasValue
@@ -211,11 +203,10 @@ class AppWidgetByParentId extends _$AppWidgetByParentId {
     debugPrint('AppWidgetByParentId REFRESHED');
     final appWidgets = await ref.watch(appWidgetsProvider.future);
     print(appWidgets);
-    final sortedList =
-        appWidgets.where((appWidget) => appWidget.parentId == parentId).toList()
-          ..sort(
-            (a, b) => a.parentIndex.compareTo(b.parentIndex),
-          );
+    final sortedList = appWidgets.where((appWidget) => appWidget.parentId == parentId).toList()
+      ..sort(
+        (a, b) => a.parentIndex.compareTo(b.parentIndex),
+      );
     return sortedList;
   }
   // Add methods to mutate the state

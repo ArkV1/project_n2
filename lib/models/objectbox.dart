@@ -36,9 +36,9 @@ class ObjectBox {
     _instance.store = await openStore(directory: defaultPath);
     // https://docs.objectbox.io/data-browser
     // $ adb forward tcp:8090 tcp:8090
-    if (Admin.isAvailable()) {
-      _admin = Admin(_instance.store);
-    }
+    // if (Admin.isAvailable()) {
+    //   _admin = Admin(_instance.store);
+    // }
   }
 
   Future<void> databaseOverwrite(Uint8List databaseBackupAsBytes) async {

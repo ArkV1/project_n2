@@ -49,6 +49,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
 
     return mainScreenWidgets.when(data: (widgets) {
       mainScreenWidgetsUI = List<AppWidget>.from(widgets);
+
       void onReorder(int oldIndex, int newIndex) {
         newIndex = newIndex > oldIndex ? newIndex - 1 : newIndex;
         // Perform the in-memory reorder
@@ -70,7 +71,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                 itemBuilder: (context, index) {
                   final appWidget = widgets
                       .singleWhere((appWidget) => mainScreenWidgetsUI[index].id == appWidget.id);
-                  //final appWidget = widgets[index];
+                  // final appWidget = widgets[index];
                   return ReorderableDragStartListener(
                     key: ValueKey('${widgets[index].id}rootContainer'),
                     index: index,

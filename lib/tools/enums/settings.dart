@@ -1,11 +1,18 @@
 import 'package:collection/collection.dart';
 
 enum AppComponents {
-  //calendar(publicName: 'Calendar'),
-  //notebook(publicName: 'Notebooks'),
+  // Time Management
+  //clock(publicName: 'Clock'), // -> Clock, Timer, Stopwatch
   todo(publicName: 'To Do Lists'),
+  calendar(publicName: 'Calendar'),
+  // Finance Management
   wallet(publicName: 'Wallets'),
   //converter(publicName: 'Currency\nConverter')
+  //finTrends(publicName: 'Financial Trends'), // -> Crypto trends, Stocks, etc
+  //expenseManager(publicName: 'Expense Manager'), // -> More complex wallet implementation with some AI functionality
+  // Information Management
+  //notebook(publicName: 'Notebooks'),
+
   ;
 
   const AppComponents({

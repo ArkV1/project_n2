@@ -23,8 +23,8 @@ class ToDoList with _$ToDoList {
     required ToMany<ToDoTask> tasksRelation,
   }) = _ToDoList;
 
-  List<ToDoTask> get tasks => tasksRelation.toList()
-    ..sort((a, b) => a.parentIndex.compareTo(b.parentIndex));
+  List<ToDoTask> get tasks =>
+      tasksRelation.toList()..sort((a, b) => a.parentIndex.compareTo(b.parentIndex));
 }
 
 @riverpod
@@ -49,14 +49,10 @@ class ToDoLists extends _$ToDoLists {
     int? id = toDoList.id;
     // TODO Add cached id for improving speed and performance
     if (id == null || id == 0) {
-      id = (toDoLists
-                  .query()
-                  .order(ToDoList_.id, flags: Order.descending)
-                  .build()
-                  .findFirst()
-                  ?.id ??
-              0) +
-          1;
+      id =
+          (toDoLists.query().order(ToDoList_.id, flags: Order.descending).build().findFirst()?.id ??
+                  0) +
+              1;
     }
     toDoLists.put(toDoList.copyWith(id: id));
     await updateToDoLists();
@@ -79,17 +75,12 @@ class ToDoLists extends _$ToDoLists {
     // TODO Add cached id for improving speed and performance
     int? id = toDoTask.id;
     if (id == null || id == 0) {
-      id = (toDoTasks
-                  .query()
-                  .order(ToDoTask_.id, flags: Order.descending)
-                  .build()
-                  .findFirst()
-                  ?.id ??
-              0) +
-          1;
+      id =
+          (toDoTasks.query().order(ToDoTask_.id, flags: Order.descending).build().findFirst()?.id ??
+                  0) +
+              1;
     }
-    ToDoTask addedTask =
-        await toDoTasks.putAndGetAsync(toDoTask.copyWith(id: id));
+    ToDoTask addedTask = await toDoTasks.putAndGetAsync(toDoTask.copyWith(id: id));
     toDoList ??= toDoLists.get(toDoTask.toDoListId);
     if (toDoList != null) {
       toDoList.tasksRelation.add(addedTask);
