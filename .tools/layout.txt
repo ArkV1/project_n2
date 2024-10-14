@@ -1,0 +1,174 @@
+Layout extraction started at: 2024-10-14 23:43:15
+
+.
+|-- assets
+|   |-- fonts
+|   |   |-- OpenSans-Bold.ttf
+|   |   |-- OpenSans-Regular.ttf
+|   |   |-- Quicksand-Bold.ttf
+|   |   |-- Quicksand-Light.ttf
+|   |   |-- Quicksand-Medium.ttf
+|   |   `-- Quicksand-Regular.ttf
+|   `-- images
+|       `-- waiting.png
+|-- lib
+|   |-- core
+|   |   `-- router.dart
+|   |-- models
+|   |   |-- calendar
+|   |   |   `-- calendar_event.dart
+|   |   |-- todo
+|   |   |   |-- todo_list.dart
+|   |   |   `-- todo_task.dart
+|   |   |-- wallet
+|   |   |   |-- wallet.dart
+|   |   |   |-- wallet_budget.dart
+|   |   |   |-- wallet_currency.dart
+|   |   |   `-- wallet_transaction.dart
+|   |   |-- widgets
+|   |   |   |-- app_widget.dart
+|   |   |   |-- todo_widget.dart
+|   |   |   |-- wallet_widget.dart
+|   |   |   `-- widget_union.dart
+|   |   |-- app_settings.dart
+|   |   |-- in_app_purchases.dart
+|   |   |-- objectbox.dart
+|   |   |-- shared_prefs.dart
+|   |   `-- user.dart
+|   |-- shared
+|   |   |-- app_widgets
+|   |   |   |-- todo_widget.dart
+|   |   |   `-- wallet_widget.dart
+|   |   |-- fab
+|   |   |   `-- dialogs
+|   |   |       |-- dropdown
+|   |   |       |-- todotask_dialog.dart
+|   |   |       |-- transaction_dialog.dart
+|   |   |       `-- widget_dialog.dart
+|   |   |-- wallet
+|   |   |   |-- currency_dropdown.dart
+|   |   |   `-- recurrance_dropdown.dart
+|   |   `-- main_layout.dart
+|   |-- tools
+|   |   |-- enums
+|   |   |   |-- app_components.dart
+|   |   |   |-- currencies.dart
+|   |   |   |-- settings.dart
+|   |   |   `-- widget_types.dart
+|   |   |-- constants.dart
+|   |   `-- extensions.dart
+|   |-- views
+|   |   |-- calendar_view
+|   |   |   `-- calendar_view.dart
+|   |   |-- home_view
+|   |   |   `-- home_view.dart
+|   |   |-- personalization_view
+|   |   |   |-- widgets
+|   |   |   |   |-- primary_color_dropdown.dart
+|   |   |   |   |-- secondary_color_dropdown.dart
+|   |   |   |   `-- theme_dropdown.dart
+|   |   |   `-- personalization_view.dart
+|   |   |-- settings_view
+|   |   |   |-- dialogs
+|   |   |   |   |-- wallet_dialog
+|   |   |   |   |-- components_dialog.dart
+|   |   |   |   |-- database_manager_dialog.dart
+|   |   |   |   `-- todo_dialog.dart
+|   |   |   `-- settings_view.dart
+|   |   |-- todo_view
+|   |   |   `-- todo_view.dart
+|   |   `-- wallet_view
+|   |       `-- wallets_view.dart
+|   |-- firebase_options.dart
+|   |-- main.dart
+|   `-- objectbox-model.json
+|-- linux
+|   |-- flutter
+|   |   |-- ephemeral
+|   |   |-- CMakeLists.txt
+|   |   |-- generated_plugin_registrant.cc
+|   |   |-- generated_plugin_registrant.h
+|   |   `-- generated_plugins.cmake
+|   |-- CMakeLists.txt
+|   |-- main.cc
+|   |-- my_application.cc
+|   `-- my_application.h
+|-- macos
+|   |-- Flutter
+|   |   |-- ephemeral
+|   |   |   |-- Flutter-Generated.xcconfig
+|   |   |   `-- flutter_export_environment.sh
+|   |   |-- Flutter-Debug.xcconfig
+|   |   |-- Flutter-Release.xcconfig
+|   |   `-- GeneratedPluginRegistrant.swift
+|   |-- Runner
+|   |   |-- Assets.xcassets
+|   |   |   `-- AppIcon.appiconset
+|   |   |       |-- Contents.json
+|   |   |       |-- app_icon_1024.png
+|   |   |       |-- app_icon_128.png
+|   |   |       |-- app_icon_16.png
+|   |   |       |-- app_icon_256.png
+|   |   |       |-- app_icon_32.png
+|   |   |       |-- app_icon_512.png
+|   |   |       `-- app_icon_64.png
+|   |   |-- Base.lproj
+|   |   |   `-- MainMenu.xib
+|   |   |-- Configs
+|   |   |   |-- AppInfo.xcconfig
+|   |   |   |-- Debug.xcconfig
+|   |   |   |-- Release.xcconfig
+|   |   |   `-- Warnings.xcconfig
+|   |   |-- AppDelegate.swift
+|   |   |-- DebugProfile.entitlements
+|   |   |-- GoogleService-Info.plist
+|   |   |-- Info.plist
+|   |   |-- MainFlutterWindow.swift
+|   |   `-- Release.entitlements
+|   |-- Runner.xcodeproj
+|   |   |-- project.xcworkspace
+|   |   |   `-- xcshareddata
+|   |   |       |-- swiftpm
+|   |   |       `-- IDEWorkspaceChecks.plist
+|   |   |-- xcshareddata
+|   |   |   `-- xcschemes
+|   |   |       `-- Runner.xcscheme
+|   |   `-- project.pbxproj
+|   |-- Runner.xcworkspace
+|   |   |-- xcshareddata
+|   |   |   |-- swiftpm
+|   |   |   |   `-- configuration
+|   |   |   `-- IDEWorkspaceChecks.plist
+|   |   `-- contents.xcworkspacedata
+|   |-- Podfile
+|   `-- firebase_app_id_file.json
+|-- windows
+|   |-- flutter
+|   |   |-- ephemeral
+|   |   |-- CMakeLists.txt
+|   |   |-- generated_plugin_registrant.cc
+|   |   |-- generated_plugin_registrant.h
+|   |   `-- generated_plugins.cmake
+|   |-- runner
+|   |   |-- resources
+|   |   |   `-- app_icon.ico
+|   |   |-- CMakeLists.txt
+|   |   |-- Runner.rc
+|   |   |-- flutter_window.cpp
+|   |   |-- flutter_window.h
+|   |   |-- main.cpp
+|   |   |-- resource.h
+|   |   |-- runner.exe.manifest
+|   |   |-- utils.cpp
+|   |   |-- utils.h
+|   |   |-- win32_window.cpp
+|   |   `-- win32_window.h
+|   `-- CMakeLists.txt
+|-- README.md
+|-- analysis_options.yaml
+|-- build.yaml
+|-- custom_widget_system.md
+|-- multitool.iml
+`-- pubspec.yaml
+
+55 directories, 115 files

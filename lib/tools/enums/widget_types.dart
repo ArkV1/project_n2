@@ -45,3 +45,10 @@ enum ToDoWidgetType {
   // });
   // final String name;
 }
+
+enum CalendarWidgetType {
+  unknown,
+  monthly,
+  weekly,
+  daily
+}

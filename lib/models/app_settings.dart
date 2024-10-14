@@ -4,6 +4,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:project_n2/models/shared_prefs.dart';
+import 'package:project_n2/tools/enums/app_components.dart';
 import 'package:project_n2/tools/enums/settings.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -106,23 +107,21 @@ class ThemeManager extends _$ThemeManager {
     // Colors
     final primaryColorString = prefs.getString('primaryColor');
     Map primaryColor;
-    final primaryContrastingColorString =
-        prefs.getString('primaryContrastingColor');
+    final primaryContrastingColorString = prefs.getString('primaryContrastingColor');
     Map primaryContrastingColor;
 
     if (primaryColorString != null) {
-      primaryColor = primaryColorList
-          .firstWhere((element) => element['color'] == primaryColorString);
-    } else {
       primaryColor =
-          primaryColorList.firstWhere((element) => element['color'] == 'Grey');
+          primaryColorList.firstWhere((element) => element['color'] == primaryColorString);
+    } else {
+      primaryColor = primaryColorList.firstWhere((element) => element['color'] == 'Grey');
     }
     if (primaryContrastingColorString != null) {
-      primaryContrastingColor = secondaryColorList.firstWhere(
-          (element) => element['color'] == primaryContrastingColorString);
-    } else {
       primaryContrastingColor = secondaryColorList
-          .firstWhere((element) => element['color'] == 'Grey');
+          .firstWhere((element) => element['color'] == primaryContrastingColorString);
+    } else {
+      primaryContrastingColor =
+          secondaryColorList.firstWhere((element) => element['color'] == 'Grey');
     }
     //////////////////////////////////////////////////////////////////////////////////
     return CustomTheme(
@@ -161,16 +160,14 @@ class ThemeManager extends _$ThemeManager {
   }) async {
     final prefs = ref.watch(sharedPrefsProvider.notifier);
     if (!isContrastingColor) {
-      final primaryColor = primaryColorList
-          .firstWhere((element) => element['color'] == newColor);
+      final primaryColor = primaryColorList.firstWhere((element) => element['color'] == newColor);
       state = state.copyWith(primaryColor: primaryColor);
       prefs.setString('primaryColor', primaryColor['color']);
     } else {
-      final primaryContrastingColor = secondaryColorList
-          .firstWhere((element) => element['color'] == newColor);
+      final primaryContrastingColor =
+          secondaryColorList.firstWhere((element) => element['color'] == newColor);
       state = state.copyWith(primaryContrastingColor: primaryContrastingColor);
-      prefs.setString(
-          'primaryContrastingColor', primaryContrastingColor['color']);
+      prefs.setString('primaryContrastingColor', primaryContrastingColor['color']);
     }
   }
 
@@ -233,16 +230,13 @@ class ScreenIndex extends _$ScreenIndex {
 class ComponentMap extends _$ComponentMap {
   @override
   Map<String, bool> build() {
-    final appComponentsNames =
-        AppComponents.values.map((component) => component.name).toList();
+    final appComponentsNames = AppComponents.values.map((component) => component.name).toList();
     List<String> componentsBinaryBoolList =
-        ref.read(sharedPrefsProvider.notifier).getStringList('appComponents') ??
-            [];
+        ref.read(sharedPrefsProvider.notifier).getStringList('appComponents') ?? [];
     List<bool> convertedBoolList = [];
     for (var i = 0; i < appComponentsNames.length; i++) {
       if (i < componentsBinaryBoolList.length) {
-        convertedBoolList
-            .add(componentsBinaryBoolList[i] == '0' ? false : true);
+        convertedBoolList.add(componentsBinaryBoolList[i] == '0' ? false : true);
       } else {
         convertedBoolList.add(false);
       }

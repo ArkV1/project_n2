@@ -2,6 +2,7 @@ import 'package:go_router/go_router.dart';
 
 import 'package:flutter/material.dart';
 import 'package:animations/animations.dart';
+import 'package:project_n2/views/calendar_view/calendar_view.dart';
 import 'package:project_n2/views/personalization_view/personalization_view.dart';
 import 'package:project_n2/views/todo_view/todo_view.dart';
 import 'package:project_n2/views/wallet_view/wallets_view.dart';
@@ -73,6 +74,14 @@ final router = GoRouter(
               return const FadeThroughTransitionPageWrapper(
                 transitionKey: ValueKey('toDo'),
                 screen: ToDoView(),
+              );
+            }),
+        GoRoute(
+            path: Screens.calendar.path,
+            pageBuilder: (context, state) {
+              return const FadeThroughTransitionPageWrapper(
+                transitionKey: ValueKey('calendar'),
+                screen: CalendarView(),
               );
             }),
       ],

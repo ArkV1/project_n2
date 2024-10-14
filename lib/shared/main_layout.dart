@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:project_n2/models/app_settings.dart';
 import 'package:project_n2/core/router.dart';
+import 'package:project_n2/tools/enums/app_components.dart';
 import 'package:project_n2/views/settings_view/dialogs/wallet_dialog/wallets_dialog.dart';
 import 'package:project_n2/views/todo_view/todo_view.dart';
 
@@ -68,36 +69,22 @@ class _MainLayoutState extends ConsumerState<MainLayout> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    if (componentsMap[AppComponents.wallet.name] == true)
-                      ListTile(
-                        leading: const Icon(Icons.wallet),
-                        title: const Text('Wallets'),
-                        onTap: () {
-                          setState(() {
-                            Scaffold.of(context).closeEndDrawer();
-                            if (currentRoutePath != Screens.home.path) {
-                              context.pushReplacement(Screens.wallets.path);
-                            } else {
-                              context.push(Screens.wallets.path);
-                            }
-                          });
-                        },
-                      ),
-                    if (componentsMap[AppComponents.todo.name] == true)
-                      ListTile(
-                        leading: const Icon(Icons.format_list_bulleted),
-                        title: const Text('To Do Notes'),
-                        onTap: () {
-                          setState(() {
-                            Scaffold.of(context).closeEndDrawer();
-                            if (currentRoutePath != Screens.home.path) {
-                              context.pushReplacement(Screens.toDo.path);
-                            } else {
-                              context.push(Screens.toDo.path);
-                            }
-                          });
-                        },
-                      ),
+                    for (var component in AppComponents.values)
+                      if (componentsMap[component.name] == true)
+                        ListTile(
+                          leading: Icon(component.icon),
+                          title: Text(component.publicName),
+                          onTap: () {
+                            setState(() {
+                              Scaffold.of(context).closeEndDrawer();
+                              if (currentRoutePath != Screens.home.path) {
+                                context.pushReplacement(component.route);
+                              } else {
+                                context.push(component.route);
+                              }
+                            });
+                          },
+                        ),
                     ListTile(
                       leading: const Icon(Icons.settings),
                       title: Text(Screens.settings.publicName),

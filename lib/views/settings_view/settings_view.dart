@@ -6,6 +6,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:project_n2/models/app_settings.dart';
+import 'package:project_n2/tools/enums/app_components.dart';
 import 'package:project_n2/tools/enums/settings.dart';
 import 'package:project_n2/views/settings_view/dialogs/components_dialog.dart';
 import 'package:project_n2/views/settings_view/dialogs/database_manager_dialog.dart';
@@ -121,31 +122,16 @@ class _SettingsViewState extends ConsumerState<SettingsView> {
                               Divider(),
                             ],
                           ),
-                        for (var i = 0; i < AppComponents.values.length; i++)
-                          if (components.containsKey(AppComponents.values[i].name) &&
-                              components[AppComponents.values[i].name]!)
+                        for (var component in AppComponents.values)
+                          if (components.containsKey(component.name) &&
+                              components[component.name]!)
                             ListTile(
                               title: Text(
-                                'Manage \n${AppComponents.values[i].publicName}',
+                                'Manage \n${component.publicName}',
                               ),
-                              trailing: () {
-                                switch (AppComponents.values[i]) {
-                                  case AppComponents.todo:
-                                    return const Icon(Icons.format_list_bulleted);
-                                  case AppComponents.calendar:
-                                    return const Icon(Icons.calendar_month);
-                                  case AppComponents.wallet:
-                                    return const Icon(Icons.account_balance_wallet);
-                                  // case AppComponents.notebook:
-                                  //   return const Icon(Icons.edit_note);
-                                  // case AppComponents.calendar:
-                                  //   return const Icon(Icons.calendar_today);
-                                  // case AppComponents.converter:
-                                  //   return const Icon(Icons.currency_exchange);
-                                }
-                              }(),
+                              trailing: Icon(component.icon),
                               onTap: () {
-                                switch (AppComponents.values[i]) {
+                                switch (component) {
                                   case AppComponents.todo:
                                     showDialog(
                                       context: context,
@@ -153,10 +139,7 @@ class _SettingsViewState extends ConsumerState<SettingsView> {
                                     );
                                     break;
                                   case AppComponents.calendar:
-                                    // showDialog(
-                                    //   context: context,
-                                    //   builder: (BuildContext context) => const ToDoListsDialog(),
-                                    // );
+                                    // Implement calendar settings dialog
                                     break;
                                   case AppComponents.wallet:
                                     showDialog(
@@ -164,15 +147,6 @@ class _SettingsViewState extends ConsumerState<SettingsView> {
                                       builder: (BuildContext context) => const WalletsDialog(),
                                     );
                                     break;
-                                  // case AppComponents.notebook:
-                                  //   // TODO: Handle this case.
-                                  //   break;
-                                  // case AppComponents.calendar:
-                                  //   // TODO: Handle this case.
-                                  //   break;
-                                  // case AppComponents.converter:
-                                  //   // TODO: Handle this case.
-                                  //   break;
                                 }
                               },
                             ),

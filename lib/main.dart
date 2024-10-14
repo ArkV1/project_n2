@@ -12,6 +12,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:project_n2/core/router.dart';
+import 'package:project_n2/tools/enums/app_components.dart';
 import 'package:project_n2/tools/enums/settings.dart';
 import 'firebase_options.dart';
 

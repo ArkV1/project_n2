@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:project_n2/models/app_settings.dart';
+import 'package:project_n2/tools/enums/app_components.dart';
 import 'package:project_n2/tools/enums/currencies.dart';
 import 'package:project_n2/tools/enums/settings.dart';
 

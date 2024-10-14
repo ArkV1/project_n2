@@ -1,4 +1,31 @@
-import 'package:collection/collection.dart';
+import 'package:flutter/material.dart';
+
+enum AppComponents {
+  todo(
+    publicName: 'To Do Lists',
+    icon: Icons.format_list_bulleted,
+    route: '/toDo',
+  ),
+  calendar(
+    publicName: 'Calendar',
+    icon: Icons.calendar_month,
+    route: '/calendar',
+  ),
+  wallet(
+    publicName: 'Wallets',
+    icon: Icons.account_balance_wallet,
+    route: '/wallets',
+  );
+
+  const AppComponents({
+    required this.publicName,
+    required this.icon,
+    required this.route,
+  });
+  final String publicName;
+  final IconData icon;
+  final String route;
+}
 
 // enum AppComponents {
 //   // Time Management
@@ -20,25 +47,3 @@ import 'package:collection/collection.dart';
 //   });
 //   final String publicName;
 // }
-
-enum Screens {
-  home(publicName: 'Home', path: '/home'),
-  wallets(publicName: 'Wallet', path: '/wallets'),
-  calendar(publicName: 'Calendar', path: '/calendar'),
-  toDo(publicName: 'To Do', path: '/toDo'),
-  settings(publicName: 'Settings', path: '/settings'),
-  personaliztion(publicName: 'Personalization', path: '/personalization'),
-  ;
-
-  const Screens({
-    required this.publicName,
-    required this.path,
-  });
-
-  final String publicName;
-  final String path;
-
-  static Screens? fromPath(String path) {
-    return Screens.values.singleWhereOrNull((element) => element.path == path);
-  }
-}

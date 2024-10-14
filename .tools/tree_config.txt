@@ -1,0 +1,1 @@
+-L 5 --charset ascii -I "node_modules|.dart_tool|.idea|.vscode|build|ios|android|web|test|*.log|*.lock|*.sum|*.mod|*.g.dart|*.freezed.dart" --dirsfirst

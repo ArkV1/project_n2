@@ -7,6 +7,7 @@ import 'package:project_n2/models/widgets/todo_widget.dart';
 import 'package:project_n2/models/widgets/wallet_widget.dart';
 import 'package:project_n2/models/widgets/widget_union.dart';
 import 'package:project_n2/objectbox.g.dart';
+import 'package:project_n2/tools/enums/app_components.dart';
 import 'package:project_n2/tools/enums/settings.dart';
 import 'package:project_n2/tools/enums/widget_types.dart';
 import 'package:project_n2/views/settings_view/dialogs/components_dialog.dart';

@@ -242,7 +242,7 @@ class _WalletWidgetBuilderState extends ConsumerState<WalletWidgetBuilder> {
                   barTouchData: BarTouchData(
                     touchTooltipData: BarTouchTooltipData(
                       fitInsideVertically: true,
-                      tooltipBgColor: Colors.grey,
+                      //tooltipBgColor: Colors.grey,
                       getTooltipItem: (group, groupIndex, rod, rodIndex) {
                         return BarTooltipItem(
                           rod.toY.round().toString(),
