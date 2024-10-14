@@ -13,8 +13,8 @@
 // ];
 
 import 'package:objectbox/objectbox.dart';
-import 'package:project_n2/models/wallet/wallet.dart';
-import 'package:project_n2/models/wallet/wallet_budget.dart';
+import 'package:project_n2/features/wallet/models/wallet.dart';
+import 'package:project_n2/features/wallet/models/wallet_budget.dart';
 
 ///////////////////////////////////////////////////////////////////////////////
 

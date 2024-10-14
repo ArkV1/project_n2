@@ -1,4 +1,4 @@
-Layout extraction started at: 2024-10-14 23:43:15
+Layout extraction started at: 2024-10-15 02:12:39
 
 .
 |-- assets
@@ -13,30 +13,60 @@ Layout extraction started at: 2024-10-14 23:43:15
 |       `-- waiting.png
 |-- lib
 |   |-- core
-|   |   `-- router.dart
-|   |-- models
-|   |   |-- calendar
-|   |   |   `-- calendar_event.dart
-|   |   |-- todo
-|   |   |   |-- todo_list.dart
-|   |   |   `-- todo_task.dart
-|   |   |-- wallet
-|   |   |   |-- wallet.dart
-|   |   |   |-- wallet_budget.dart
-|   |   |   |-- wallet_currency.dart
-|   |   |   `-- wallet_transaction.dart
-|   |   |-- widgets
+|   |   |-- models
+|   |   |   |-- app_components.dart
+|   |   |   |-- app_settings.dart
 |   |   |   |-- app_widget.dart
-|   |   |   |-- todo_widget.dart
-|   |   |   |-- wallet_widget.dart
-|   |   |   `-- widget_union.dart
-|   |   |-- app_settings.dart
-|   |   |-- in_app_purchases.dart
-|   |   |-- objectbox.dart
-|   |   |-- shared_prefs.dart
-|   |   `-- user.dart
+|   |   |   |-- in_app_purchases.dart
+|   |   |   |-- objectbox.dart
+|   |   |   |-- shared_prefs.dart
+|   |   |   `-- user.dart
+|   |   |-- views
+|   |   |   |-- home_view
+|   |   |   |   `-- home_view.dart
+|   |   |   |-- personalization_view
+|   |   |   |   |-- widgets
+|   |   |   |   `-- personalization_view.dart
+|   |   |   |-- settings_view
+|   |   |   |   |-- dialogs
+|   |   |   |   `-- settings_view.dart
+|   |   |   `-- wallet_view
+|   |   `-- router.dart
+|   |-- features
+|   |   |-- calendar
+|   |   |   |-- models
+|   |   |   |   `-- calendar_event.dart
+|   |   |   |-- providers
+|   |   |   |-- views
+|   |   |   |   `-- calendar_view.dart
+|   |   |   `-- widgets
+|   |   |       `-- calendar_widget.dart
+|   |   |-- notes
+|   |   |   |-- dialogs
+|   |   |   |   `-- notes_dialog.dart
+|   |   |   |-- models
+|   |   |   |   `-- note.dart
+|   |   |   |-- providers
+|   |   |   |   `-- notes_provider.dart
+|   |   |   |-- views
+|   |   |   |   `-- notes_view.dart
+|   |   |   `-- widgets
+|   |   |-- todo
+|   |   |   `-- models
+|   |   |       |-- views
+|   |   |       |-- todo_list.dart
+|   |   |       `-- todo_task.dart
+|   |   `-- wallet
+|   |       |-- models
+|   |       |   |-- wallet.dart
+|   |       |   |-- wallet_budget.dart
+|   |       |   |-- wallet_currency.dart
+|   |       |   `-- wallet_transaction.dart
+|   |       `-- views
+|   |           `-- wallets_view.dart
 |   |-- shared
 |   |   |-- app_widgets
+|   |   |   |-- calendar_widget.dart
 |   |   |   |-- todo_widget.dart
 |   |   |   `-- wallet_widget.dart
 |   |   |-- fab
@@ -51,34 +81,16 @@ Layout extraction started at: 2024-10-14 23:43:15
 |   |   `-- main_layout.dart
 |   |-- tools
 |   |   |-- enums
-|   |   |   |-- app_components.dart
 |   |   |   |-- currencies.dart
 |   |   |   |-- settings.dart
 |   |   |   `-- widget_types.dart
 |   |   |-- constants.dart
 |   |   `-- extensions.dart
 |   |-- views
-|   |   |-- calendar_view
-|   |   |   `-- calendar_view.dart
-|   |   |-- home_view
-|   |   |   `-- home_view.dart
-|   |   |-- personalization_view
-|   |   |   |-- widgets
-|   |   |   |   |-- primary_color_dropdown.dart
-|   |   |   |   |-- secondary_color_dropdown.dart
-|   |   |   |   `-- theme_dropdown.dart
-|   |   |   `-- personalization_view.dart
-|   |   |-- settings_view
-|   |   |   |-- dialogs
-|   |   |   |   |-- wallet_dialog
-|   |   |   |   |-- components_dialog.dart
-|   |   |   |   |-- database_manager_dialog.dart
-|   |   |   |   `-- todo_dialog.dart
-|   |   |   `-- settings_view.dart
-|   |   |-- todo_view
-|   |   |   `-- todo_view.dart
-|   |   `-- wallet_view
-|   |       `-- wallets_view.dart
+|   |   `-- settings_view
+|   |       |-- dialogs
+|   |       |   `-- components_dialog.dart
+|   |       `-- settings_view.dart
 |   |-- firebase_options.dart
 |   |-- main.dart
 |   `-- objectbox-model.json
@@ -167,8 +179,7 @@ Layout extraction started at: 2024-10-14 23:43:15
 |-- README.md
 |-- analysis_options.yaml
 |-- build.yaml
-|-- custom_widget_system.md
 |-- multitool.iml
 `-- pubspec.yaml
 
-55 directories, 115 files
+70 directories, 111 files

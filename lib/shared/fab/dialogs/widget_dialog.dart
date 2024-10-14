@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:project_n2/models/app_settings.dart';
-import 'package:project_n2/models/wallet/wallet.dart';
-import 'package:project_n2/models/widgets/app_widget.dart';
-import 'package:project_n2/models/widgets/todo_widget.dart';
-import 'package:project_n2/models/widgets/wallet_widget.dart';
-import 'package:project_n2/models/widgets/widget_union.dart';
-import 'package:project_n2/objectbox.g.dart';
-import 'package:project_n2/tools/enums/app_components.dart';
+import 'package:project_n2/core/models/app_settings.dart';
+import 'package:project_n2/features/wallet/models/wallet.dart';
+import 'package:project_n2/core/models/app_widget.dart';
+import 'package:project_n2/core/models/app_components.dart';
 import 'package:project_n2/tools/enums/settings.dart';
 import 'package:project_n2/tools/enums/widget_types.dart';
-import 'package:project_n2/views/settings_view/dialogs/components_dialog.dart';
-import 'package:project_n2/views/settings_view/dialogs/wallet_dialog/wallets_dialog.dart';
+import 'package:project_n2/core/views/settings_view/dialogs/components_dialog.dart';
+import 'package:project_n2/core/views/settings_view/dialogs/wallet_dialog/wallets_dialog.dart';
 
 class AppWidgetDialog extends ConsumerStatefulWidget {
   final String routePath;
@@ -79,6 +75,9 @@ class _AppWidgetDialogState extends ConsumerState<AppWidgetDialog> {
                     case ContainedObjectType.toDoList:
                       widgetWallet = null;
                       break;
+                    case ContainedObjectType.calendar:
+                      widgetWallet = null;
+                      break;
                     case ContainedObjectType.other:
                       break;
                     case ContainedObjectType.unknown:
@@ -96,6 +95,8 @@ class _AppWidgetDialogState extends ConsumerState<AppWidgetDialog> {
                         return componentMap[AppComponents.wallet.name] ?? false;
                       case ContainedObjectType.toDoList:
                         return componentMap[AppComponents.todo.name] ?? false;
+                      case ContainedObjectType.calendar:
+                        return componentMap[AppComponents.calendar.name] ?? false;
                       case ContainedObjectType.other:
                         return false;
                       case ContainedObjectType.unknown:
@@ -179,7 +180,6 @@ class _AppWidgetDialogState extends ConsumerState<AppWidgetDialog> {
               child: ElevatedButton(
                 onPressed: () {
                   late AppWidget appWidget;
-                  late WidgetUnion unionWidget;
                   switch (widgetType) {
                     case ContainedObjectType.wallet:
                       appWidget = AppWidget(
@@ -188,16 +188,16 @@ class _AppWidgetDialogState extends ConsumerState<AppWidgetDialog> {
                             .where((appWidget) => appWidget.parentId == 'mainScreen')
                             .length,
                         containedObjectTypeIndex: ContainedObjectType.wallet.index,
-                        toDoWidgetRelation: ToOne<ToDoWidget>(),
-                        walletWidgetRelation: ToOne<WalletWidget>(),
+                        containedObjectId: widgetWallet!.id!,
+                        widgetTypeIndex: widgetTypeWidget!.index,
                       );
-                      unionWidget = WidgetUnion.wallet(
-                        WalletWidget(
-                          walletId: widgetWallet!.id!,
-                          widgetTypeIndex: widgetTypeWidget!.index,
-                          appWidgetRelation: ToOne<AppWidget>(),
-                        ),
-                      );
+                      // unionWidget = WidgetUnion.wallet(
+                      //   WalletWidget(
+                      //     walletId: widgetWallet!.id!,
+                      //     widgetTypeIndex: widgetTypeWidget!.index,
+                      //     appWidgetRelation: ToOne<AppWidget>(),
+                      //   ),
+                      // );
 
                       // appWidget = WalletWidget(
                       //   walletId:
@@ -222,15 +222,26 @@ class _AppWidgetDialogState extends ConsumerState<AppWidgetDialog> {
                       //       .length,
                       // );
                       break;
+                    case ContainedObjectType.calendar:
+                      appWidget = AppWidget(
+                        containedObjectTypeIndex: ContainedObjectType.calendar.index,
+                        containedObjectId: 0,
+                        widgetTypeIndex: 0,
+                        parentId: 'calendarScreen',
+                        parentIndex: appWidgets
+                            .where((appWidget) => appWidget.parentId == 'calendarScreen')
+                            .length,
+                      );
+                      break;
                     case ContainedObjectType.other:
                       appWidget = AppWidget(
                         containedObjectTypeIndex: ContainedObjectType.other.index,
+                        containedObjectId: 0,
+                        widgetTypeIndex: 0,
                         parentId: 'mainScreen',
                         parentIndex: appWidgets
                             .where((appWidget) => appWidget.parentId == 'mainScreen')
                             .length,
-                        walletWidgetRelation: ToOne<WalletWidget>(),
-                        toDoWidgetRelation: ToOne<ToDoWidget>(),
                       );
                       break;
                     case null:
@@ -241,10 +252,7 @@ class _AppWidgetDialogState extends ConsumerState<AppWidgetDialog> {
                   }
                   // print(appWidget);
                   // print(unionWidget);
-                  ref.read(appWidgetsProvider.notifier).insertAppWidget(
-                        appWidget,
-                        unionWidget,
-                      );
+                  ref.read(appWidgetsProvider.notifier).insertAppWidget(appWidget);
 
                   // ref.read(dataManagerProvider).insertAppWidgetByListID(
                   //       AppWidget(

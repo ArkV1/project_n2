@@ -3,11 +3,11 @@ import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:project_n2/models/app_settings.dart';
+import 'package:project_n2/core/models/app_settings.dart';
 import 'package:project_n2/core/router.dart';
-import 'package:project_n2/tools/enums/app_components.dart';
-import 'package:project_n2/views/settings_view/dialogs/wallet_dialog/wallets_dialog.dart';
-import 'package:project_n2/views/todo_view/todo_view.dart';
+import 'package:project_n2/core/models/app_components.dart';
+import 'package:project_n2/core/views/settings_view/dialogs/wallet_dialog/wallets_dialog.dart';
+import 'package:project_n2/features/todo/models/views/todo_view.dart';
 
 import 'package:project_n2/tools/enums/settings.dart';
 

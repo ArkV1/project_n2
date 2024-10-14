@@ -12,24 +12,24 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:project_n2/core/router.dart';
-import 'package:project_n2/tools/enums/app_components.dart';
+import 'package:project_n2/core/models/app_components.dart';
 import 'package:project_n2/tools/enums/settings.dart';
 import 'firebase_options.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
-import 'package:project_n2/models/in_app_purchases.dart';
-import 'package:project_n2/models/objectbox.dart';
-import 'package:project_n2/models/shared_prefs.dart';
-import 'package:project_n2/models/app_settings.dart';
-import 'package:project_n2/models/todo/todo_list.dart';
+import 'package:project_n2/core/models/in_app_purchases.dart';
+import 'package:project_n2/core/models/objectbox.dart';
+import 'package:project_n2/core/models/shared_prefs.dart';
+import 'package:project_n2/core/models/app_settings.dart';
+import 'package:project_n2/features/todo/models/todo_list.dart';
 
 // import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import 'package:project_n2/shared/main_layout.dart';
-import 'package:project_n2/views/settings_view/settings_view.dart';
-import 'package:project_n2/views/personalization_view/personalization_view.dart';
+import 'package:project_n2/core/views/settings_view/settings_view.dart';
+import 'package:project_n2/core/views/personalization_view/personalization_view.dart';
 
 import 'package:project_n2/tools/constants.dart';
 

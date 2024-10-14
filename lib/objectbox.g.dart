@@ -14,82 +14,67 @@ import 'package:objectbox/internal.dart'
 import 'package:objectbox/objectbox.dart' as obx;
 import 'package:objectbox_flutter_libs/objectbox_flutter_libs.dart';
 
-import 'models/calendar/calendar_event.dart';
-import 'models/shared_prefs.dart';
-import 'models/todo/todo_list.dart';
-import 'models/todo/todo_task.dart';
-import 'models/wallet/wallet.dart';
-import 'models/wallet/wallet_budget.dart';
-import 'models/wallet/wallet_currency.dart';
-import 'models/wallet/wallet_transaction.dart';
-import 'models/widgets/app_widget.dart';
-import 'models/widgets/todo_widget.dart';
-import 'models/widgets/wallet_widget.dart';
+import 'core/models/app_widget.dart';
+import 'core/models/shared_prefs.dart';
+import 'features/calendar/models/calendar_event.dart';
+import 'features/notes/models/note.dart';
+import 'features/todo/models/todo_list.dart';
+import 'features/todo/models/todo_task.dart';
+import 'features/wallet/models/wallet.dart';
+import 'features/wallet/models/wallet_budget.dart';
+import 'features/wallet/models/wallet_currency.dart';
+import 'features/wallet/models/wallet_transaction.dart';
 
 export 'package:objectbox/objectbox.dart'; // so that callers only have to import this file
 
 final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
-      id: const obx_int.IdUid(1, 5331271996343349597),
-      name: 'AppWidget',
-      lastPropertyId: const obx_int.IdUid(19, 8083245046168630576),
+      id: const obx_int.IdUid(19, 8088769811033069197),
+      name: 'Note',
+      lastPropertyId: const obx_int.IdUid(4, 1787633114969828604),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(1, 6457689504871557993),
+            id: const obx_int.IdUid(1, 8034295002105267595),
             name: 'id',
             type: 6,
             flags: 129),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(2, 6950571597644317763),
-            name: 'parentId',
+            id: const obx_int.IdUid(2, 6044408327101274562),
+            name: 'title',
             type: 9,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(3, 7195556833308857094),
-            name: 'parentIndex',
-            type: 6,
+            id: const obx_int.IdUid(3, 6397386596063223106),
+            name: 'content',
+            type: 9,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(4, 1875920273361910157),
-            name: 'containedObjectTypeIndex',
-            type: 6,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(18, 6541583480664246971),
-            name: 'toDoWidgetRelationId',
-            type: 11,
-            flags: 520,
-            indexId: const obx_int.IdUid(16, 2179252015400729357),
-            relationTarget: 'ToDoWidget'),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(19, 8083245046168630576),
-            name: 'walletWidgetRelationId',
-            type: 11,
-            flags: 520,
-            indexId: const obx_int.IdUid(17, 5291265469996558132),
-            relationTarget: 'WalletWidget')
+            id: const obx_int.IdUid(4, 1787633114969828604),
+            name: 'createdAt',
+            type: 10,
+            flags: 0)
       ],
       relations: <obx_int.ModelRelation>[],
       backlinks: <obx_int.ModelBacklink>[]),
   obx_int.ModelEntity(
-      id: const obx_int.IdUid(2, 7244195633849597312),
+      id: const obx_int.IdUid(20, 5781202419053906468),
       name: 'SharedPref',
-      lastPropertyId: const obx_int.IdUid(3, 3300820978115500379),
+      lastPropertyId: const obx_int.IdUid(3, 1345209865302604165),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(1, 4130435477418363989),
+            id: const obx_int.IdUid(1, 4124998421686912587),
             name: 'id',
             type: 6,
             flags: 129),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(2, 977172739320433740),
+            id: const obx_int.IdUid(2, 6391945611353793981),
             name: 'key',
             type: 9,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(3, 3300820978115500379),
+            id: const obx_int.IdUid(3, 1345209865302604165),
             name: 'value',
             type: 9,
             flags: 0)
@@ -97,323 +82,72 @@ final _entities = <obx_int.ModelEntity>[
       relations: <obx_int.ModelRelation>[],
       backlinks: <obx_int.ModelBacklink>[]),
   obx_int.ModelEntity(
-      id: const obx_int.IdUid(3, 6435387909061635442),
-      name: 'ToDoList',
-      lastPropertyId: const obx_int.IdUid(2, 3029719666812876297),
+      id: const obx_int.IdUid(21, 3432188676741249555),
+      name: 'AppWidget',
+      lastPropertyId: const obx_int.IdUid(6, 1060984039227713654),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(1, 5890823935446602654),
+            id: const obx_int.IdUid(1, 9104809076702016902),
             name: 'id',
             type: 6,
             flags: 129),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(2, 3029719666812876297),
-            name: 'name',
+            id: const obx_int.IdUid(2, 3923810104549411002),
+            name: 'parentId',
             type: 9,
-            flags: 0)
-      ],
-      relations: <obx_int.ModelRelation>[
-        obx_int.ModelRelation(
-            id: const obx_int.IdUid(1, 2823079157152116156),
-            name: 'tasksRelation',
-            targetId: const obx_int.IdUid(4, 6608140996126626449))
-      ],
-      backlinks: <obx_int.ModelBacklink>[]),
-  obx_int.ModelEntity(
-      id: const obx_int.IdUid(4, 6608140996126626449),
-      name: 'ToDoTask',
-      lastPropertyId: const obx_int.IdUid(10, 3833339341654908598),
-      flags: 0,
-      properties: <obx_int.ModelProperty>[
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(1, 2402475699697689141),
-            name: 'id',
-            type: 6,
-            flags: 129),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(2, 3012369723299695016),
-            name: 'toDoListId',
-            type: 6,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(3, 1520673191714364309),
+            id: const obx_int.IdUid(3, 4063808488749083537),
             name: 'parentIndex',
             type: 6,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(4, 6414819446895359864),
-            name: 'task',
-            type: 9,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(5, 6501920413451824585),
-            name: 'description',
-            type: 9,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(6, 8242889797343440169),
-            name: 'isDaily',
-            type: 1,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(7, 928238160357807138),
-            name: 'complete',
-            type: 1,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(8, 5446611371241584135),
-            name: 'creationDate',
-            type: 10,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(9, 8166032640211384111),
-            name: 'completionDate',
-            type: 10,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(10, 3833339341654908598),
-            name: 'toDoListRelationId',
-            type: 11,
-            flags: 520,
-            indexId: const obx_int.IdUid(3, 8641803819444182709),
-            relationTarget: 'ToDoList')
-      ],
-      relations: <obx_int.ModelRelation>[],
-      backlinks: <obx_int.ModelBacklink>[]),
-  obx_int.ModelEntity(
-      id: const obx_int.IdUid(5, 6986369458234013113),
-      name: 'ToDoWidget',
-      lastPropertyId: const obx_int.IdUid(4, 986223660061492480),
-      flags: 0,
-      properties: <obx_int.ModelProperty>[
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(1, 8566087495788751576),
-            name: 'id',
-            type: 6,
-            flags: 129),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(2, 5714652772845847450),
-            name: 'toDoListId',
+            id: const obx_int.IdUid(4, 4993959548008566091),
+            name: 'containedObjectTypeIndex',
             type: 6,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(3, 7614821078682242670),
+            id: const obx_int.IdUid(5, 192181605089216464),
+            name: 'containedObjectId',
+            type: 6,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(6, 1060984039227713654),
             name: 'widgetTypeIndex',
-            type: 6,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(4, 986223660061492480),
-            name: 'appWidgetRelationId',
-            type: 11,
-            flags: 520,
-            indexId: const obx_int.IdUid(4, 177913220248288406),
-            relationTarget: 'AppWidget')
-      ],
-      relations: <obx_int.ModelRelation>[],
-      backlinks: <obx_int.ModelBacklink>[]),
-  obx_int.ModelEntity(
-      id: const obx_int.IdUid(7, 9148906301733428383),
-      name: 'WalletBudget',
-      lastPropertyId: const obx_int.IdUid(11, 6914856353031215149),
-      flags: 0,
-      properties: <obx_int.ModelProperty>[
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(1, 5845210713491834675),
-            name: 'id',
-            type: 6,
-            flags: 129),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(2, 9203963378895986721),
-            name: 'name',
-            type: 9,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(3, 949352151825877903),
-            name: 'amount',
-            type: 8,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(5, 7740384849166324429),
-            name: 'walletRelationId',
-            type: 11,
-            flags: 520,
-            indexId: const obx_int.IdUid(5, 212965328453001932),
-            relationTarget: 'Wallet'),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(8, 4557785275445918933),
-            name: 'currencyRelationId',
-            type: 11,
-            flags: 520,
-            indexId: const obx_int.IdUid(13, 3860936800174154621),
-            relationTarget: 'Wallet'),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(10, 1674252798084276716),
-            name: 'recurranceTimeUnitsIndex',
-            type: 6,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(11, 6914856353031215149),
-            name: 'recurranceTimeUnitsAmount',
             type: 6,
             flags: 0)
       ],
-      relations: <obx_int.ModelRelation>[
-        obx_int.ModelRelation(
-            id: const obx_int.IdUid(4, 2523446566374688569),
-            name: 'transactionsRelation',
-            targetId: const obx_int.IdUid(8, 3634365497101070477))
-      ],
-      backlinks: <obx_int.ModelBacklink>[]),
-  obx_int.ModelEntity(
-      id: const obx_int.IdUid(8, 3634365497101070477),
-      name: 'WalletTransaction',
-      lastPropertyId: const obx_int.IdUid(11, 2707064199835878531),
-      flags: 0,
-      properties: <obx_int.ModelProperty>[
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(1, 3201455128781481524),
-            name: 'id',
-            type: 6,
-            flags: 129),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(3, 2626342174323938933),
-            name: 'name',
-            type: 9,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(4, 7273779787986494375),
-            name: 'description',
-            type: 9,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(5, 5129592670844940462),
-            name: 'amount',
-            type: 8,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(7, 9014425468967354119),
-            name: 'date',
-            type: 10,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(8, 148514805009437240),
-            name: 'walletRelationId',
-            type: 11,
-            flags: 520,
-            indexId: const obx_int.IdUid(6, 2031997909298278772),
-            relationTarget: 'Wallet'),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(9, 8281955523892501684),
-            name: 'walletBudgetRelationId',
-            type: 11,
-            flags: 520,
-            indexId: const obx_int.IdUid(7, 4635427240642435522),
-            relationTarget: 'WalletBudget'),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(11, 2707064199835878531),
-            name: 'currencyRelationId',
-            type: 11,
-            flags: 520,
-            indexId: const obx_int.IdUid(10, 2520536219678240099),
-            relationTarget: 'WalletCurrency')
-      ],
       relations: <obx_int.ModelRelation>[],
       backlinks: <obx_int.ModelBacklink>[]),
   obx_int.ModelEntity(
-      id: const obx_int.IdUid(9, 8463202728945990323),
-      name: 'WalletWidget',
-      lastPropertyId: const obx_int.IdUid(4, 7568895983279833339),
-      flags: 0,
-      properties: <obx_int.ModelProperty>[
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(1, 8663426916310049291),
-            name: 'id',
-            type: 6,
-            flags: 129),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(2, 1910522529690274193),
-            name: 'walletId',
-            type: 6,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(3, 8692945248693206749),
-            name: 'widgetTypeIndex',
-            type: 6,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(4, 7568895983279833339),
-            name: 'appWidgetRelationId',
-            type: 11,
-            flags: 520,
-            indexId: const obx_int.IdUid(8, 3240683814132758781),
-            relationTarget: 'AppWidget')
-      ],
-      relations: <obx_int.ModelRelation>[],
-      backlinks: <obx_int.ModelBacklink>[]),
-  obx_int.ModelEntity(
-      id: const obx_int.IdUid(10, 6420105964681760111),
-      name: 'Wallet',
-      lastPropertyId: const obx_int.IdUid(4, 4169838353477178460),
-      flags: 0,
-      properties: <obx_int.ModelProperty>[
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(1, 5425753169418433982),
-            name: 'id',
-            type: 6,
-            flags: 129),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(2, 3771741560495757569),
-            name: 'name',
-            type: 9,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(4, 4169838353477178460),
-            name: 'defaultCurrencyRelationId',
-            type: 11,
-            flags: 520,
-            indexId: const obx_int.IdUid(12, 2915980899998334738),
-            relationTarget: 'WalletCurrency')
-      ],
-      relations: <obx_int.ModelRelation>[
-        obx_int.ModelRelation(
-            id: const obx_int.IdUid(5, 6722636413285042725),
-            name: 'budgetsRelation',
-            targetId: const obx_int.IdUid(7, 9148906301733428383)),
-        obx_int.ModelRelation(
-            id: const obx_int.IdUid(6, 7694302009719570896),
-            name: 'transactionsRelation',
-            targetId: const obx_int.IdUid(8, 3634365497101070477))
-      ],
-      backlinks: <obx_int.ModelBacklink>[]),
-  obx_int.ModelEntity(
-      id: const obx_int.IdUid(15, 2457136326134115318),
+      id: const obx_int.IdUid(22, 8345475982575797723),
       name: 'WalletCurrency',
-      lastPropertyId: const obx_int.IdUid(5, 4452826407188834220),
+      lastPropertyId: const obx_int.IdUid(5, 1497781219481930861),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(1, 2377043671145863006),
+            id: const obx_int.IdUid(1, 3609510495099229529),
             name: 'id',
             type: 6,
             flags: 129),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(2, 6195545317177764386),
+            id: const obx_int.IdUid(2, 7455070604299736249),
             name: 'emoji',
             type: 9,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(3, 1831189735997651072),
+            id: const obx_int.IdUid(3, 2031549423737032856),
             name: 'code',
             type: 9,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(4, 4766728300595805087),
+            id: const obx_int.IdUid(4, 8780043399075636564),
             name: 'name',
             type: 9,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(5, 4452826407188834220),
+            id: const obx_int.IdUid(5, 1497781219481930861),
             name: 'symbol',
             type: 9,
             flags: 0)
@@ -421,38 +155,266 @@ final _entities = <obx_int.ModelEntity>[
       relations: <obx_int.ModelRelation>[],
       backlinks: <obx_int.ModelBacklink>[]),
   obx_int.ModelEntity(
-      id: const obx_int.IdUid(16, 131535792013574485),
-      name: 'CalendarEvent',
-      lastPropertyId: const obx_int.IdUid(6, 4797051511522136653),
+      id: const obx_int.IdUid(23, 5156260015844958238),
+      name: 'WalletTransaction',
+      lastPropertyId: const obx_int.IdUid(8, 9133010582871654812),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(1, 1484162377619374708),
+            id: const obx_int.IdUid(1, 1972929305966323906),
             name: 'id',
             type: 6,
             flags: 129),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(2, 9037298455210268828),
-            name: 'title',
+            id: const obx_int.IdUid(2, 7436268673280580424),
+            name: 'name',
             type: 9,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(3, 5954675508101611010),
+            id: const obx_int.IdUid(3, 379068173482767903),
             name: 'description',
             type: 9,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(4, 6414388827830701757),
+            id: const obx_int.IdUid(4, 384745967161630490),
+            name: 'amount',
+            type: 8,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(5, 6605752847149346570),
+            name: 'date',
+            type: 10,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(6, 8130552145962560006),
+            name: 'walletRelationId',
+            type: 11,
+            flags: 520,
+            indexId: const obx_int.IdUid(20, 5802608780183971969),
+            relationTarget: 'Wallet'),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(7, 4938802295196355787),
+            name: 'currencyRelationId',
+            type: 11,
+            flags: 520,
+            indexId: const obx_int.IdUid(21, 4874686490248241392),
+            relationTarget: 'WalletCurrency'),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(8, 9133010582871654812),
+            name: 'walletBudgetRelationId',
+            type: 11,
+            flags: 520,
+            indexId: const obx_int.IdUid(22, 7804767322878950947),
+            relationTarget: 'WalletBudget')
+      ],
+      relations: <obx_int.ModelRelation>[],
+      backlinks: <obx_int.ModelBacklink>[]),
+  obx_int.ModelEntity(
+      id: const obx_int.IdUid(24, 6604321751873006840),
+      name: 'Wallet',
+      lastPropertyId: const obx_int.IdUid(3, 6242814865284745434),
+      flags: 0,
+      properties: <obx_int.ModelProperty>[
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(1, 6530555381652260334),
+            name: 'id',
+            type: 6,
+            flags: 129),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(2, 3852522113043585222),
+            name: 'name',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(3, 6242814865284745434),
+            name: 'defaultCurrencyRelationId',
+            type: 11,
+            flags: 520,
+            indexId: const obx_int.IdUid(23, 3643612872756377621),
+            relationTarget: 'WalletCurrency')
+      ],
+      relations: <obx_int.ModelRelation>[
+        obx_int.ModelRelation(
+            id: const obx_int.IdUid(8, 7916877516171069949),
+            name: 'budgetsRelation',
+            targetId: const obx_int.IdUid(25, 2289794742193127883)),
+        obx_int.ModelRelation(
+            id: const obx_int.IdUid(9, 4756323166703751623),
+            name: 'transactionsRelation',
+            targetId: const obx_int.IdUid(23, 5156260015844958238))
+      ],
+      backlinks: <obx_int.ModelBacklink>[]),
+  obx_int.ModelEntity(
+      id: const obx_int.IdUid(25, 2289794742193127883),
+      name: 'WalletBudget',
+      lastPropertyId: const obx_int.IdUid(7, 8519656941665037710),
+      flags: 0,
+      properties: <obx_int.ModelProperty>[
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(1, 2403559680392714644),
+            name: 'id',
+            type: 6,
+            flags: 129),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(2, 1045313646265059900),
+            name: 'name',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(3, 4401309005464720378),
+            name: 'walletRelationId',
+            type: 11,
+            flags: 520,
+            indexId: const obx_int.IdUid(24, 1555582174028262690),
+            relationTarget: 'Wallet'),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(4, 2132639666851340917),
+            name: 'amount',
+            type: 8,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(5, 832880196103868756),
+            name: 'currencyRelationId',
+            type: 11,
+            flags: 520,
+            indexId: const obx_int.IdUid(25, 2375382975376416774),
+            relationTarget: 'Wallet'),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(6, 1377955341318974352),
+            name: 'recurranceTimeUnitsIndex',
+            type: 6,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(7, 8519656941665037710),
+            name: 'recurranceTimeUnitsAmount',
+            type: 6,
+            flags: 0)
+      ],
+      relations: <obx_int.ModelRelation>[
+        obx_int.ModelRelation(
+            id: const obx_int.IdUid(10, 2181958075181237059),
+            name: 'transactionsRelation',
+            targetId: const obx_int.IdUid(23, 5156260015844958238))
+      ],
+      backlinks: <obx_int.ModelBacklink>[]),
+  obx_int.ModelEntity(
+      id: const obx_int.IdUid(26, 1992906683529191000),
+      name: 'ToDoTask',
+      lastPropertyId: const obx_int.IdUid(10, 5901858809435204588),
+      flags: 0,
+      properties: <obx_int.ModelProperty>[
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(1, 8912933307826067519),
+            name: 'id',
+            type: 6,
+            flags: 129),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(2, 8114062281923664403),
+            name: 'toDoListId',
+            type: 6,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(3, 3197838904016974513),
+            name: 'parentIndex',
+            type: 6,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(4, 8813422133255095560),
+            name: 'task',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(5, 2255393233400331747),
+            name: 'description',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(6, 7442825901427557534),
+            name: 'isDaily',
+            type: 1,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(7, 5773405992772074686),
+            name: 'complete',
+            type: 1,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(8, 5098947546212344891),
+            name: 'creationDate',
+            type: 10,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(9, 4887669712728525717),
+            name: 'completionDate',
+            type: 10,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(10, 5901858809435204588),
+            name: 'toDoListRelationId',
+            type: 11,
+            flags: 520,
+            indexId: const obx_int.IdUid(26, 4808469070598375797),
+            relationTarget: 'ToDoList')
+      ],
+      relations: <obx_int.ModelRelation>[],
+      backlinks: <obx_int.ModelBacklink>[]),
+  obx_int.ModelEntity(
+      id: const obx_int.IdUid(27, 1604716499510242161),
+      name: 'ToDoList',
+      lastPropertyId: const obx_int.IdUid(2, 1320310068317285419),
+      flags: 0,
+      properties: <obx_int.ModelProperty>[
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(1, 8224682415263146311),
+            name: 'id',
+            type: 6,
+            flags: 129),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(2, 1320310068317285419),
+            name: 'name',
+            type: 9,
+            flags: 0)
+      ],
+      relations: <obx_int.ModelRelation>[
+        obx_int.ModelRelation(
+            id: const obx_int.IdUid(11, 3975172704108882624),
+            name: 'tasksRelation',
+            targetId: const obx_int.IdUid(26, 1992906683529191000))
+      ],
+      backlinks: <obx_int.ModelBacklink>[]),
+  obx_int.ModelEntity(
+      id: const obx_int.IdUid(28, 2322306977204365835),
+      name: 'CalendarEvent',
+      lastPropertyId: const obx_int.IdUid(6, 445435360146914567),
+      flags: 0,
+      properties: <obx_int.ModelProperty>[
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(1, 7885975922002424301),
+            name: 'id',
+            type: 6,
+            flags: 129),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(2, 508466935986676364),
+            name: 'title',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(3, 2482861744787735745),
+            name: 'description',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(4, 3626168946003895864),
             name: 'startTime',
             type: 10,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(5, 8840420083455857741),
+            id: const obx_int.IdUid(5, 6072371533317916025),
             name: 'endTime',
             type: 10,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(6, 4797051511522136653),
+            id: const obx_int.IdUid(6, 445435360146914567),
             name: 'isAllDay',
             type: 1,
             flags: 0)
@@ -496,16 +458,29 @@ Future<obx.Store> openStore(
 obx_int.ModelDefinition getObjectBoxModel() {
   final model = obx_int.ModelInfo(
       entities: _entities,
-      lastEntityId: const obx_int.IdUid(16, 131535792013574485),
-      lastIndexId: const obx_int.IdUid(17, 5291265469996558132),
-      lastRelationId: const obx_int.IdUid(7, 3903551576499518993),
+      lastEntityId: const obx_int.IdUid(28, 2322306977204365835),
+      lastIndexId: const obx_int.IdUid(26, 4808469070598375797),
+      lastRelationId: const obx_int.IdUid(11, 3975172704108882624),
       lastSequenceId: const obx_int.IdUid(0, 0),
       retiredEntityUids: const [
         1033878434954156121,
         7512441033247668160,
         873187228517734403,
         5374781355521429170,
-        6885284620087688971
+        6885284620087688971,
+        6986369458234013113,
+        8463202728945990323,
+        131535792013574485,
+        6435387909061635442,
+        6608140996126626449,
+        9148906301733428383,
+        3634365497101070477,
+        6420105964681760111,
+        2457136326134115318,
+        6430127013954888415,
+        4657612447442976715,
+        5331271996343349597,
+        7244195633849597312
       ],
       retiredIndexUids: const [
         8353849674073803988,
@@ -513,7 +488,9 @@ obx_int.ModelDefinition getObjectBoxModel() {
         8281064934403763811,
         2939235052273622907,
         9096030001158160129,
-        8545733931484058530
+        8545733931484058530,
+        2179252015400729357,
+        5291265469996558132
       ],
       retiredPropertyUids: const [
         1201488677116599168,
@@ -560,7 +537,75 @@ obx_int.ModelDefinition getObjectBoxModel() {
         2116973778782350038,
         2290171416533461416,
         539194660407872173,
-        9049344075571666484
+        9049344075571666484,
+        6541583480664246971,
+        8083245046168630576,
+        8566087495788751576,
+        5714652772845847450,
+        7614821078682242670,
+        986223660061492480,
+        8663426916310049291,
+        1910522529690274193,
+        8692945248693206749,
+        7568895983279833339,
+        1484162377619374708,
+        9037298455210268828,
+        5954675508101611010,
+        6414388827830701757,
+        8840420083455857741,
+        4797051511522136653,
+        5890823935446602654,
+        3029719666812876297,
+        2402475699697689141,
+        3012369723299695016,
+        1520673191714364309,
+        6414819446895359864,
+        6501920413451824585,
+        8242889797343440169,
+        928238160357807138,
+        5446611371241584135,
+        8166032640211384111,
+        3833339341654908598,
+        5845210713491834675,
+        9203963378895986721,
+        949352151825877903,
+        7740384849166324429,
+        4557785275445918933,
+        1674252798084276716,
+        6914856353031215149,
+        3201455128781481524,
+        2626342174323938933,
+        7273779787986494375,
+        5129592670844940462,
+        9014425468967354119,
+        148514805009437240,
+        8281955523892501684,
+        2707064199835878531,
+        5425753169418433982,
+        3771741560495757569,
+        4169838353477178460,
+        2377043671145863006,
+        6195545317177764386,
+        1831189735997651072,
+        4766728300595805087,
+        4452826407188834220,
+        3376784703834480430,
+        2998322973763184599,
+        7792467485928978496,
+        7061294457296242896,
+        5839655127998894975,
+        4554840853593067665,
+        2134691592052573297,
+        2111361521512105761,
+        6457689504871557993,
+        6950571597644317763,
+        7195556833308857094,
+        1875920273361910157,
+        6697191308049144108,
+        6526390174700894674,
+        4130435477418363989,
+        977172739320433740,
+        3300820978115500379
       ],
       retiredRelationUids: const [3903551576499518993],
       modelVersion: 5,
@@ -568,30 +613,28 @@ obx_int.ModelDefinition getObjectBoxModel() {
       version: 1);
 
   final bindings = <Type, obx_int.EntityDefinition>{
-    AppWidget: obx_int.EntityDefinition<AppWidget>(
+    Note: obx_int.EntityDefinition<Note>(
         model: _entities[0],
-        toOneRelations: (AppWidget object) =>
-            [object.toDoWidgetRelation, object.walletWidgetRelation],
-        toManyRelations: (AppWidget object) => {},
-        getId: (AppWidget object) => object.id,
-        setId: (AppWidget object, int id) {
+        toOneRelations: (Note object) => [],
+        toManyRelations: (Note object) => {},
+        getId: (Note object) => object.id,
+        setId: (Note object, int id) {
           if (object.id != id) {
-            throw ArgumentError('Field AppWidget.id is read-only '
+            throw ArgumentError('Field Note.id is read-only '
                 '(final or getter-only) and it was declared to be self-assigned. '
                 'However, the currently inserted object (.id=${object.id}) '
                 "doesn't match the inserted ID (ID $id). "
                 'You must assign an ID before calling [box.put()].');
           }
         },
-        objectToFB: (AppWidget object, fb.Builder fbb) {
-          final parentIdOffset = fbb.writeString(object.parentId);
-          fbb.startTable(20);
+        objectToFB: (Note object, fb.Builder fbb) {
+          final titleOffset = fbb.writeString(object.title);
+          final contentOffset = fbb.writeString(object.content);
+          fbb.startTable(5);
           fbb.addInt64(0, object.id ?? 0);
-          fbb.addOffset(1, parentIdOffset);
-          fbb.addInt64(2, object.parentIndex);
-          fbb.addInt64(3, object.containedObjectTypeIndex);
-          fbb.addInt64(17, object.toDoWidgetRelation.targetId);
-          fbb.addInt64(18, object.walletWidgetRelation.targetId);
+          fbb.addOffset(1, titleOffset);
+          fbb.addOffset(2, contentOffset);
+          fbb.addInt64(3, object.createdAt.millisecondsSinceEpoch);
           fbb.finish(fbb.endTable());
           return object.id ?? 0;
         },
@@ -600,27 +643,18 @@ obx_int.ModelDefinition getObjectBoxModel() {
           final rootOffset = buffer.derefObject(0);
           final idParam =
               const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 4);
-          final parentIdParam = const fb.StringReader(asciiOptimization: true)
+          final titleParam = const fb.StringReader(asciiOptimization: true)
               .vTableGet(buffer, rootOffset, 6, '');
-          final parentIndexParam =
-              const fb.Int64Reader().vTableGet(buffer, rootOffset, 8, 0);
-          final containedObjectTypeIndexParam =
-              const fb.Int64Reader().vTableGet(buffer, rootOffset, 10, 0);
-          final toDoWidgetRelationParam = obx.ToOne<ToDoWidget>(
-              targetId:
-                  const fb.Int64Reader().vTableGet(buffer, rootOffset, 38, 0));
-          final walletWidgetRelationParam = obx.ToOne<WalletWidget>(
-              targetId:
-                  const fb.Int64Reader().vTableGet(buffer, rootOffset, 40, 0));
-          final object = AppWidget(
+          final contentParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 8, '');
+          final createdAtParam = DateTime.fromMillisecondsSinceEpoch(
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 10, 0));
+          final object = Note(
               id: idParam,
-              parentId: parentIdParam,
-              parentIndex: parentIndexParam,
-              containedObjectTypeIndex: containedObjectTypeIndexParam,
-              toDoWidgetRelation: toDoWidgetRelationParam,
-              walletWidgetRelation: walletWidgetRelationParam);
-          object.toDoWidgetRelation.attach(store);
-          object.walletWidgetRelation.attach(store);
+              title: titleParam,
+              content: contentParam,
+              createdAt: createdAtParam);
+
           return object;
         }),
     SharedPref: obx_int.EntityDefinition<SharedPref>(
@@ -662,28 +696,209 @@ obx_int.ModelDefinition getObjectBoxModel() {
 
           return object;
         }),
-    ToDoList: obx_int.EntityDefinition<ToDoList>(
+    AppWidget: obx_int.EntityDefinition<AppWidget>(
         model: _entities[2],
-        toOneRelations: (ToDoList object) => [],
-        toManyRelations: (ToDoList object) => {
-              obx_int.RelInfo<ToDoList>.toMany(1, object.id!):
-                  object.tasksRelation
-            },
-        getId: (ToDoList object) => object.id,
-        setId: (ToDoList object, int id) {
+        toOneRelations: (AppWidget object) => [],
+        toManyRelations: (AppWidget object) => {},
+        getId: (AppWidget object) => object.id,
+        setId: (AppWidget object, int id) {
           if (object.id != id) {
-            throw ArgumentError('Field ToDoList.id is read-only '
+            throw ArgumentError('Field AppWidget.id is read-only '
                 '(final or getter-only) and it was declared to be self-assigned. '
                 'However, the currently inserted object (.id=${object.id}) '
                 "doesn't match the inserted ID (ID $id). "
                 'You must assign an ID before calling [box.put()].');
           }
         },
-        objectToFB: (ToDoList object, fb.Builder fbb) {
+        objectToFB: (AppWidget object, fb.Builder fbb) {
+          final parentIdOffset = fbb.writeString(object.parentId);
+          fbb.startTable(7);
+          fbb.addInt64(0, object.id ?? 0);
+          fbb.addOffset(1, parentIdOffset);
+          fbb.addInt64(2, object.parentIndex);
+          fbb.addInt64(3, object.containedObjectTypeIndex);
+          fbb.addInt64(4, object.containedObjectId);
+          fbb.addInt64(5, object.widgetTypeIndex);
+          fbb.finish(fbb.endTable());
+          return object.id ?? 0;
+        },
+        objectFromFB: (obx.Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+          final idParam =
+              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 4);
+          final parentIdParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 6, '');
+          final parentIndexParam =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 8, 0);
+          final containedObjectTypeIndexParam =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 10, 0);
+          final containedObjectIdParam =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 12, 0);
+          final widgetTypeIndexParam =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 14, 0);
+          final object = AppWidget(
+              id: idParam,
+              parentId: parentIdParam,
+              parentIndex: parentIndexParam,
+              containedObjectTypeIndex: containedObjectTypeIndexParam,
+              containedObjectId: containedObjectIdParam,
+              widgetTypeIndex: widgetTypeIndexParam);
+
+          return object;
+        }),
+    WalletCurrency: obx_int.EntityDefinition<WalletCurrency>(
+        model: _entities[3],
+        toOneRelations: (WalletCurrency object) => [],
+        toManyRelations: (WalletCurrency object) => {},
+        getId: (WalletCurrency object) => object.id,
+        setId: (WalletCurrency object, int id) {
+          if (object.id != id) {
+            throw ArgumentError('Field WalletCurrency.id is read-only '
+                '(final or getter-only) and it was declared to be self-assigned. '
+                'However, the currently inserted object (.id=${object.id}) '
+                "doesn't match the inserted ID (ID $id). "
+                'You must assign an ID before calling [box.put()].');
+          }
+        },
+        objectToFB: (WalletCurrency object, fb.Builder fbb) {
+          final emojiOffset =
+              object.emoji == null ? null : fbb.writeString(object.emoji!);
+          final codeOffset = fbb.writeString(object.code);
           final nameOffset = fbb.writeString(object.name);
-          fbb.startTable(3);
+          final symbolOffset = fbb.writeString(object.symbol);
+          fbb.startTable(6);
+          fbb.addInt64(0, object.id ?? 0);
+          fbb.addOffset(1, emojiOffset);
+          fbb.addOffset(2, codeOffset);
+          fbb.addOffset(3, nameOffset);
+          fbb.addOffset(4, symbolOffset);
+          fbb.finish(fbb.endTable());
+          return object.id ?? 0;
+        },
+        objectFromFB: (obx.Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+          final idParam =
+              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 4);
+          final emojiParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 6);
+          final codeParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 8, '');
+          final nameParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 10, '');
+          final symbolParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 12, '');
+          final object = WalletCurrency(
+              id: idParam,
+              emoji: emojiParam,
+              code: codeParam,
+              name: nameParam,
+              symbol: symbolParam);
+
+          return object;
+        }),
+    WalletTransaction: obx_int.EntityDefinition<WalletTransaction>(
+        model: _entities[4],
+        toOneRelations: (WalletTransaction object) => [
+              object.walletRelation,
+              object.currencyRelation,
+              object.walletBudgetRelation
+            ],
+        toManyRelations: (WalletTransaction object) => {},
+        getId: (WalletTransaction object) => object.id,
+        setId: (WalletTransaction object, int id) {
+          if (object.id != id) {
+            throw ArgumentError('Field WalletTransaction.id is read-only '
+                '(final or getter-only) and it was declared to be self-assigned. '
+                'However, the currently inserted object (.id=${object.id}) '
+                "doesn't match the inserted ID (ID $id). "
+                'You must assign an ID before calling [box.put()].');
+          }
+        },
+        objectToFB: (WalletTransaction object, fb.Builder fbb) {
+          final nameOffset =
+              object.name == null ? null : fbb.writeString(object.name!);
+          final descriptionOffset = object.description == null
+              ? null
+              : fbb.writeString(object.description!);
+          fbb.startTable(9);
           fbb.addInt64(0, object.id ?? 0);
           fbb.addOffset(1, nameOffset);
+          fbb.addOffset(2, descriptionOffset);
+          fbb.addFloat64(3, object.amount);
+          fbb.addInt64(4, object.date?.millisecondsSinceEpoch);
+          fbb.addInt64(5, object.walletRelation.targetId);
+          fbb.addInt64(6, object.currencyRelation.targetId);
+          fbb.addInt64(7, object.walletBudgetRelation.targetId);
+          fbb.finish(fbb.endTable());
+          return object.id ?? 0;
+        },
+        objectFromFB: (obx.Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+          final dateValue =
+              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 12);
+          final idParam =
+              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 4);
+          final nameParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 6);
+          final descriptionParam =
+              const fb.StringReader(asciiOptimization: true)
+                  .vTableGetNullable(buffer, rootOffset, 8);
+          final amountParam = const fb.Float64Reader()
+              .vTableGetNullable(buffer, rootOffset, 10);
+          final dateParam = dateValue == null
+              ? null
+              : DateTime.fromMillisecondsSinceEpoch(dateValue);
+          final walletRelationParam = obx.ToOne<Wallet>(
+              targetId:
+                  const fb.Int64Reader().vTableGet(buffer, rootOffset, 14, 0));
+          final currencyRelationParam = obx.ToOne<WalletCurrency>(
+              targetId:
+                  const fb.Int64Reader().vTableGet(buffer, rootOffset, 16, 0));
+          final walletBudgetRelationParam = obx.ToOne<WalletBudget>(
+              targetId:
+                  const fb.Int64Reader().vTableGet(buffer, rootOffset, 18, 0));
+          final object = WalletTransaction(
+              id: idParam,
+              name: nameParam,
+              description: descriptionParam,
+              amount: amountParam,
+              date: dateParam,
+              walletRelation: walletRelationParam,
+              currencyRelation: currencyRelationParam,
+              walletBudgetRelation: walletBudgetRelationParam);
+          object.walletRelation.attach(store);
+          object.currencyRelation.attach(store);
+          object.walletBudgetRelation.attach(store);
+          return object;
+        }),
+    Wallet: obx_int.EntityDefinition<Wallet>(
+        model: _entities[5],
+        toOneRelations: (Wallet object) => [object.defaultCurrencyRelation],
+        toManyRelations: (Wallet object) => {
+              obx_int.RelInfo<Wallet>.toMany(8, object.id!):
+                  object.budgetsRelation,
+              obx_int.RelInfo<Wallet>.toMany(9, object.id!):
+                  object.transactionsRelation
+            },
+        getId: (Wallet object) => object.id,
+        setId: (Wallet object, int id) {
+          if (object.id != id) {
+            throw ArgumentError('Field Wallet.id is read-only '
+                '(final or getter-only) and it was declared to be self-assigned. '
+                'However, the currently inserted object (.id=${object.id}) '
+                "doesn't match the inserted ID (ID $id). "
+                'You must assign an ID before calling [box.put()].');
+          }
+        },
+        objectToFB: (Wallet object, fb.Builder fbb) {
+          final nameOffset = fbb.writeString(object.name);
+          fbb.startTable(4);
+          fbb.addInt64(0, object.id ?? 0);
+          fbb.addOffset(1, nameOffset);
+          fbb.addInt64(2, object.defaultCurrencyRelation.targetId);
           fbb.finish(fbb.endTable());
           return object.id ?? 0;
         },
@@ -694,17 +909,98 @@ obx_int.ModelDefinition getObjectBoxModel() {
               const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 4);
           final nameParam = const fb.StringReader(asciiOptimization: true)
               .vTableGet(buffer, rootOffset, 6, '');
-          final tasksRelationParam = obx.ToMany<ToDoTask>();
-          final object = ToDoList(
-              id: idParam, name: nameParam, tasksRelation: tasksRelationParam);
-          obx_int.InternalToManyAccess.setRelInfo<ToDoList>(
-              object.tasksRelation,
+          final defaultCurrencyRelationParam = obx.ToOne<WalletCurrency>(
+              targetId:
+                  const fb.Int64Reader().vTableGet(buffer, rootOffset, 8, 0));
+          final budgetsRelationParam = obx.ToMany<WalletBudget>();
+          final transactionsRelationParam = obx.ToMany<WalletTransaction>();
+          final object = Wallet(
+              id: idParam,
+              name: nameParam,
+              defaultCurrencyRelation: defaultCurrencyRelationParam,
+              budgetsRelation: budgetsRelationParam,
+              transactionsRelation: transactionsRelationParam);
+          object.defaultCurrencyRelation.attach(store);
+          obx_int.InternalToManyAccess.setRelInfo<Wallet>(
+              object.budgetsRelation,
               store,
-              obx_int.RelInfo<ToDoList>.toMany(1, object.id!));
+              obx_int.RelInfo<Wallet>.toMany(8, object.id!));
+          obx_int.InternalToManyAccess.setRelInfo<Wallet>(
+              object.transactionsRelation,
+              store,
+              obx_int.RelInfo<Wallet>.toMany(9, object.id!));
+          return object;
+        }),
+    WalletBudget: obx_int.EntityDefinition<WalletBudget>(
+        model: _entities[6],
+        toOneRelations: (WalletBudget object) =>
+            [object.walletRelation, object.currencyRelation],
+        toManyRelations: (WalletBudget object) => {
+              obx_int.RelInfo<WalletBudget>.toMany(10, object.id!):
+                  object.transactionsRelation
+            },
+        getId: (WalletBudget object) => object.id,
+        setId: (WalletBudget object, int id) {
+          if (object.id != id) {
+            throw ArgumentError('Field WalletBudget.id is read-only '
+                '(final or getter-only) and it was declared to be self-assigned. '
+                'However, the currently inserted object (.id=${object.id}) '
+                "doesn't match the inserted ID (ID $id). "
+                'You must assign an ID before calling [box.put()].');
+          }
+        },
+        objectToFB: (WalletBudget object, fb.Builder fbb) {
+          final nameOffset = fbb.writeString(object.name);
+          fbb.startTable(8);
+          fbb.addInt64(0, object.id ?? 0);
+          fbb.addOffset(1, nameOffset);
+          fbb.addInt64(2, object.walletRelation.targetId);
+          fbb.addFloat64(3, object.amount);
+          fbb.addInt64(4, object.currencyRelation.targetId);
+          fbb.addInt64(5, object.recurranceTimeUnitsIndex);
+          fbb.addInt64(6, object.recurranceTimeUnitsAmount);
+          fbb.finish(fbb.endTable());
+          return object.id ?? 0;
+        },
+        objectFromFB: (obx.Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+          final idParam =
+              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 4);
+          final nameParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 6, '');
+          final walletRelationParam = obx.ToOne<Wallet>(
+              targetId:
+                  const fb.Int64Reader().vTableGet(buffer, rootOffset, 8, 0));
+          final amountParam = const fb.Float64Reader()
+              .vTableGetNullable(buffer, rootOffset, 10);
+          final currencyRelationParam = obx.ToOne<Wallet>(
+              targetId:
+                  const fb.Int64Reader().vTableGet(buffer, rootOffset, 12, 0));
+          final recurranceTimeUnitsIndexParam =
+              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 14);
+          final recurranceTimeUnitsAmountParam =
+              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 16);
+          final transactionsRelationParam = obx.ToMany<WalletTransaction>();
+          final object = WalletBudget(
+              id: idParam,
+              name: nameParam,
+              walletRelation: walletRelationParam,
+              amount: amountParam,
+              currencyRelation: currencyRelationParam,
+              recurranceTimeUnitsIndex: recurranceTimeUnitsIndexParam,
+              recurranceTimeUnitsAmount: recurranceTimeUnitsAmountParam,
+              transactionsRelation: transactionsRelationParam);
+          object.walletRelation.attach(store);
+          object.currencyRelation.attach(store);
+          obx_int.InternalToManyAccess.setRelInfo<WalletBudget>(
+              object.transactionsRelation,
+              store,
+              obx_int.RelInfo<WalletBudget>.toMany(10, object.id!));
           return object;
         }),
     ToDoTask: obx_int.EntityDefinition<ToDoTask>(
-        model: _entities[3],
+        model: _entities[7],
         toOneRelations: (ToDoTask object) => [object.toDoListRelation],
         toManyRelations: (ToDoTask object) => {},
         getId: (ToDoTask object) => object.id,
@@ -782,261 +1078,28 @@ obx_int.ModelDefinition getObjectBoxModel() {
           object.toDoListRelation.attach(store);
           return object;
         }),
-    ToDoWidget: obx_int.EntityDefinition<ToDoWidget>(
-        model: _entities[4],
-        toOneRelations: (ToDoWidget object) => [object.appWidgetRelation],
-        toManyRelations: (ToDoWidget object) => {},
-        getId: (ToDoWidget object) => object.id,
-        setId: (ToDoWidget object, int id) {
-          if (object.id != id) {
-            throw ArgumentError('Field ToDoWidget.id is read-only '
-                '(final or getter-only) and it was declared to be self-assigned. '
-                'However, the currently inserted object (.id=${object.id}) '
-                "doesn't match the inserted ID (ID $id). "
-                'You must assign an ID before calling [box.put()].');
-          }
-        },
-        objectToFB: (ToDoWidget object, fb.Builder fbb) {
-          fbb.startTable(5);
-          fbb.addInt64(0, object.id ?? 0);
-          fbb.addInt64(1, object.toDoListId);
-          fbb.addInt64(2, object.widgetTypeIndex);
-          fbb.addInt64(3, object.appWidgetRelation.targetId);
-          fbb.finish(fbb.endTable());
-          return object.id ?? 0;
-        },
-        objectFromFB: (obx.Store store, ByteData fbData) {
-          final buffer = fb.BufferContext(fbData);
-          final rootOffset = buffer.derefObject(0);
-          final idParam =
-              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 4);
-          final toDoListIdParam =
-              const fb.Int64Reader().vTableGet(buffer, rootOffset, 6, 0);
-          final widgetTypeIndexParam =
-              const fb.Int64Reader().vTableGet(buffer, rootOffset, 8, 0);
-          final appWidgetRelationParam = obx.ToOne<AppWidget>(
-              targetId:
-                  const fb.Int64Reader().vTableGet(buffer, rootOffset, 10, 0));
-          final object = ToDoWidget(
-              id: idParam,
-              toDoListId: toDoListIdParam,
-              widgetTypeIndex: widgetTypeIndexParam,
-              appWidgetRelation: appWidgetRelationParam);
-          object.appWidgetRelation.attach(store);
-          return object;
-        }),
-    WalletBudget: obx_int.EntityDefinition<WalletBudget>(
-        model: _entities[5],
-        toOneRelations: (WalletBudget object) =>
-            [object.walletRelation, object.currencyRelation],
-        toManyRelations: (WalletBudget object) => {
-              obx_int.RelInfo<WalletBudget>.toMany(4, object.id!):
-                  object.transactionsRelation
-            },
-        getId: (WalletBudget object) => object.id,
-        setId: (WalletBudget object, int id) {
-          if (object.id != id) {
-            throw ArgumentError('Field WalletBudget.id is read-only '
-                '(final or getter-only) and it was declared to be self-assigned. '
-                'However, the currently inserted object (.id=${object.id}) '
-                "doesn't match the inserted ID (ID $id). "
-                'You must assign an ID before calling [box.put()].');
-          }
-        },
-        objectToFB: (WalletBudget object, fb.Builder fbb) {
-          final nameOffset = fbb.writeString(object.name);
-          fbb.startTable(12);
-          fbb.addInt64(0, object.id ?? 0);
-          fbb.addOffset(1, nameOffset);
-          fbb.addFloat64(2, object.amount);
-          fbb.addInt64(4, object.walletRelation.targetId);
-          fbb.addInt64(7, object.currencyRelation.targetId);
-          fbb.addInt64(9, object.recurranceTimeUnitsIndex);
-          fbb.addInt64(10, object.recurranceTimeUnitsAmount);
-          fbb.finish(fbb.endTable());
-          return object.id ?? 0;
-        },
-        objectFromFB: (obx.Store store, ByteData fbData) {
-          final buffer = fb.BufferContext(fbData);
-          final rootOffset = buffer.derefObject(0);
-          final idParam =
-              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 4);
-          final nameParam = const fb.StringReader(asciiOptimization: true)
-              .vTableGet(buffer, rootOffset, 6, '');
-          final walletRelationParam = obx.ToOne<Wallet>(
-              targetId:
-                  const fb.Int64Reader().vTableGet(buffer, rootOffset, 12, 0));
-          final amountParam =
-              const fb.Float64Reader().vTableGetNullable(buffer, rootOffset, 8);
-          final currencyRelationParam = obx.ToOne<Wallet>(
-              targetId:
-                  const fb.Int64Reader().vTableGet(buffer, rootOffset, 18, 0));
-          final recurranceTimeUnitsIndexParam =
-              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 22);
-          final recurranceTimeUnitsAmountParam =
-              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 24);
-          final transactionsRelationParam = obx.ToMany<WalletTransaction>();
-          final object = WalletBudget(
-              id: idParam,
-              name: nameParam,
-              walletRelation: walletRelationParam,
-              amount: amountParam,
-              currencyRelation: currencyRelationParam,
-              recurranceTimeUnitsIndex: recurranceTimeUnitsIndexParam,
-              recurranceTimeUnitsAmount: recurranceTimeUnitsAmountParam,
-              transactionsRelation: transactionsRelationParam);
-          object.walletRelation.attach(store);
-          object.currencyRelation.attach(store);
-          obx_int.InternalToManyAccess.setRelInfo<WalletBudget>(
-              object.transactionsRelation,
-              store,
-              obx_int.RelInfo<WalletBudget>.toMany(4, object.id!));
-          return object;
-        }),
-    WalletTransaction: obx_int.EntityDefinition<WalletTransaction>(
-        model: _entities[6],
-        toOneRelations: (WalletTransaction object) => [
-              object.walletRelation,
-              object.walletBudgetRelation,
-              object.currencyRelation
-            ],
-        toManyRelations: (WalletTransaction object) => {},
-        getId: (WalletTransaction object) => object.id,
-        setId: (WalletTransaction object, int id) {
-          if (object.id != id) {
-            throw ArgumentError('Field WalletTransaction.id is read-only '
-                '(final or getter-only) and it was declared to be self-assigned. '
-                'However, the currently inserted object (.id=${object.id}) '
-                "doesn't match the inserted ID (ID $id). "
-                'You must assign an ID before calling [box.put()].');
-          }
-        },
-        objectToFB: (WalletTransaction object, fb.Builder fbb) {
-          final nameOffset =
-              object.name == null ? null : fbb.writeString(object.name!);
-          final descriptionOffset = object.description == null
-              ? null
-              : fbb.writeString(object.description!);
-          fbb.startTable(12);
-          fbb.addInt64(0, object.id ?? 0);
-          fbb.addOffset(2, nameOffset);
-          fbb.addOffset(3, descriptionOffset);
-          fbb.addFloat64(4, object.amount);
-          fbb.addInt64(6, object.date?.millisecondsSinceEpoch);
-          fbb.addInt64(7, object.walletRelation.targetId);
-          fbb.addInt64(8, object.walletBudgetRelation.targetId);
-          fbb.addInt64(10, object.currencyRelation.targetId);
-          fbb.finish(fbb.endTable());
-          return object.id ?? 0;
-        },
-        objectFromFB: (obx.Store store, ByteData fbData) {
-          final buffer = fb.BufferContext(fbData);
-          final rootOffset = buffer.derefObject(0);
-          final dateValue =
-              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 16);
-          final idParam =
-              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 4);
-          final nameParam = const fb.StringReader(asciiOptimization: true)
-              .vTableGetNullable(buffer, rootOffset, 8);
-          final descriptionParam =
-              const fb.StringReader(asciiOptimization: true)
-                  .vTableGetNullable(buffer, rootOffset, 10);
-          final amountParam = const fb.Float64Reader()
-              .vTableGetNullable(buffer, rootOffset, 12);
-          final dateParam = dateValue == null
-              ? null
-              : DateTime.fromMillisecondsSinceEpoch(dateValue);
-          final walletRelationParam = obx.ToOne<Wallet>(
-              targetId:
-                  const fb.Int64Reader().vTableGet(buffer, rootOffset, 18, 0));
-          final currencyRelationParam = obx.ToOne<WalletCurrency>(
-              targetId:
-                  const fb.Int64Reader().vTableGet(buffer, rootOffset, 24, 0));
-          final walletBudgetRelationParam = obx.ToOne<WalletBudget>(
-              targetId:
-                  const fb.Int64Reader().vTableGet(buffer, rootOffset, 20, 0));
-          final object = WalletTransaction(
-              id: idParam,
-              name: nameParam,
-              description: descriptionParam,
-              amount: amountParam,
-              date: dateParam,
-              walletRelation: walletRelationParam,
-              currencyRelation: currencyRelationParam,
-              walletBudgetRelation: walletBudgetRelationParam);
-          object.walletRelation.attach(store);
-          object.walletBudgetRelation.attach(store);
-          object.currencyRelation.attach(store);
-          return object;
-        }),
-    WalletWidget: obx_int.EntityDefinition<WalletWidget>(
-        model: _entities[7],
-        toOneRelations: (WalletWidget object) => [object.appWidgetRelation],
-        toManyRelations: (WalletWidget object) => {},
-        getId: (WalletWidget object) => object.id,
-        setId: (WalletWidget object, int id) {
-          if (object.id != id) {
-            throw ArgumentError('Field WalletWidget.id is read-only '
-                '(final or getter-only) and it was declared to be self-assigned. '
-                'However, the currently inserted object (.id=${object.id}) '
-                "doesn't match the inserted ID (ID $id). "
-                'You must assign an ID before calling [box.put()].');
-          }
-        },
-        objectToFB: (WalletWidget object, fb.Builder fbb) {
-          fbb.startTable(5);
-          fbb.addInt64(0, object.id ?? 0);
-          fbb.addInt64(1, object.walletId);
-          fbb.addInt64(2, object.widgetTypeIndex);
-          fbb.addInt64(3, object.appWidgetRelation.targetId);
-          fbb.finish(fbb.endTable());
-          return object.id ?? 0;
-        },
-        objectFromFB: (obx.Store store, ByteData fbData) {
-          final buffer = fb.BufferContext(fbData);
-          final rootOffset = buffer.derefObject(0);
-          final idParam =
-              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 4);
-          final walletIdParam =
-              const fb.Int64Reader().vTableGet(buffer, rootOffset, 6, 0);
-          final widgetTypeIndexParam =
-              const fb.Int64Reader().vTableGet(buffer, rootOffset, 8, 0);
-          final appWidgetRelationParam = obx.ToOne<AppWidget>(
-              targetId:
-                  const fb.Int64Reader().vTableGet(buffer, rootOffset, 10, 0));
-          final object = WalletWidget(
-              id: idParam,
-              walletId: walletIdParam,
-              widgetTypeIndex: widgetTypeIndexParam,
-              appWidgetRelation: appWidgetRelationParam);
-          object.appWidgetRelation.attach(store);
-          return object;
-        }),
-    Wallet: obx_int.EntityDefinition<Wallet>(
+    ToDoList: obx_int.EntityDefinition<ToDoList>(
         model: _entities[8],
-        toOneRelations: (Wallet object) => [object.defaultCurrencyRelation],
-        toManyRelations: (Wallet object) => {
-              obx_int.RelInfo<Wallet>.toMany(5, object.id!):
-                  object.budgetsRelation,
-              obx_int.RelInfo<Wallet>.toMany(6, object.id!):
-                  object.transactionsRelation
+        toOneRelations: (ToDoList object) => [],
+        toManyRelations: (ToDoList object) => {
+              obx_int.RelInfo<ToDoList>.toMany(11, object.id!):
+                  object.tasksRelation
             },
-        getId: (Wallet object) => object.id,
-        setId: (Wallet object, int id) {
+        getId: (ToDoList object) => object.id,
+        setId: (ToDoList object, int id) {
           if (object.id != id) {
-            throw ArgumentError('Field Wallet.id is read-only '
+            throw ArgumentError('Field ToDoList.id is read-only '
                 '(final or getter-only) and it was declared to be self-assigned. '
                 'However, the currently inserted object (.id=${object.id}) '
                 "doesn't match the inserted ID (ID $id). "
                 'You must assign an ID before calling [box.put()].');
           }
         },
-        objectToFB: (Wallet object, fb.Builder fbb) {
+        objectToFB: (ToDoList object, fb.Builder fbb) {
           final nameOffset = fbb.writeString(object.name);
-          fbb.startTable(5);
+          fbb.startTable(3);
           fbb.addInt64(0, object.id ?? 0);
           fbb.addOffset(1, nameOffset);
-          fbb.addInt64(3, object.defaultCurrencyRelation.targetId);
           fbb.finish(fbb.endTable());
           return object.id ?? 0;
         },
@@ -1047,81 +1110,17 @@ obx_int.ModelDefinition getObjectBoxModel() {
               const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 4);
           final nameParam = const fb.StringReader(asciiOptimization: true)
               .vTableGet(buffer, rootOffset, 6, '');
-          final defaultCurrencyRelationParam = obx.ToOne<WalletCurrency>(
-              targetId:
-                  const fb.Int64Reader().vTableGet(buffer, rootOffset, 10, 0));
-          final budgetsRelationParam = obx.ToMany<WalletBudget>();
-          final transactionsRelationParam = obx.ToMany<WalletTransaction>();
-          final object = Wallet(
-              id: idParam,
-              name: nameParam,
-              defaultCurrencyRelation: defaultCurrencyRelationParam,
-              budgetsRelation: budgetsRelationParam,
-              transactionsRelation: transactionsRelationParam);
-          object.defaultCurrencyRelation.attach(store);
-          obx_int.InternalToManyAccess.setRelInfo<Wallet>(
-              object.budgetsRelation,
+          final tasksRelationParam = obx.ToMany<ToDoTask>();
+          final object = ToDoList(
+              id: idParam, name: nameParam, tasksRelation: tasksRelationParam);
+          obx_int.InternalToManyAccess.setRelInfo<ToDoList>(
+              object.tasksRelation,
               store,
-              obx_int.RelInfo<Wallet>.toMany(5, object.id!));
-          obx_int.InternalToManyAccess.setRelInfo<Wallet>(
-              object.transactionsRelation,
-              store,
-              obx_int.RelInfo<Wallet>.toMany(6, object.id!));
-          return object;
-        }),
-    WalletCurrency: obx_int.EntityDefinition<WalletCurrency>(
-        model: _entities[9],
-        toOneRelations: (WalletCurrency object) => [],
-        toManyRelations: (WalletCurrency object) => {},
-        getId: (WalletCurrency object) => object.id,
-        setId: (WalletCurrency object, int id) {
-          if (object.id != id) {
-            throw ArgumentError('Field WalletCurrency.id is read-only '
-                '(final or getter-only) and it was declared to be self-assigned. '
-                'However, the currently inserted object (.id=${object.id}) '
-                "doesn't match the inserted ID (ID $id). "
-                'You must assign an ID before calling [box.put()].');
-          }
-        },
-        objectToFB: (WalletCurrency object, fb.Builder fbb) {
-          final emojiOffset =
-              object.emoji == null ? null : fbb.writeString(object.emoji!);
-          final codeOffset = fbb.writeString(object.code);
-          final nameOffset = fbb.writeString(object.name);
-          final symbolOffset = fbb.writeString(object.symbol);
-          fbb.startTable(6);
-          fbb.addInt64(0, object.id ?? 0);
-          fbb.addOffset(1, emojiOffset);
-          fbb.addOffset(2, codeOffset);
-          fbb.addOffset(3, nameOffset);
-          fbb.addOffset(4, symbolOffset);
-          fbb.finish(fbb.endTable());
-          return object.id ?? 0;
-        },
-        objectFromFB: (obx.Store store, ByteData fbData) {
-          final buffer = fb.BufferContext(fbData);
-          final rootOffset = buffer.derefObject(0);
-          final idParam =
-              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 4);
-          final emojiParam = const fb.StringReader(asciiOptimization: true)
-              .vTableGetNullable(buffer, rootOffset, 6);
-          final codeParam = const fb.StringReader(asciiOptimization: true)
-              .vTableGet(buffer, rootOffset, 8, '');
-          final nameParam = const fb.StringReader(asciiOptimization: true)
-              .vTableGet(buffer, rootOffset, 10, '');
-          final symbolParam = const fb.StringReader(asciiOptimization: true)
-              .vTableGet(buffer, rootOffset, 12, '');
-          final object = WalletCurrency(
-              id: idParam,
-              emoji: emojiParam,
-              code: codeParam,
-              name: nameParam,
-              symbol: symbolParam);
-
+              obx_int.RelInfo<ToDoList>.toMany(11, object.id!));
           return object;
         }),
     CalendarEvent: obx_int.EntityDefinition<CalendarEvent>(
-        model: _entities[10],
+        model: _entities[9],
         toOneRelations: (CalendarEvent object) => [],
         toManyRelations: (CalendarEvent object) => {},
         getId: (CalendarEvent object) => object.id,
@@ -1180,32 +1179,22 @@ obx_int.ModelDefinition getObjectBoxModel() {
   return obx_int.ModelDefinition(model, bindings);
 }
 
-/// [AppWidget] entity fields to define ObjectBox queries.
-class AppWidget_ {
-  /// See [AppWidget.id].
-  static final id =
-      obx.QueryIntegerProperty<AppWidget>(_entities[0].properties[0]);
+/// [Note] entity fields to define ObjectBox queries.
+class Note_ {
+  /// See [Note.id].
+  static final id = obx.QueryIntegerProperty<Note>(_entities[0].properties[0]);
 
-  /// See [AppWidget.parentId].
-  static final parentId =
-      obx.QueryStringProperty<AppWidget>(_entities[0].properties[1]);
+  /// See [Note.title].
+  static final title =
+      obx.QueryStringProperty<Note>(_entities[0].properties[1]);
 
-  /// See [AppWidget.parentIndex].
-  static final parentIndex =
-      obx.QueryIntegerProperty<AppWidget>(_entities[0].properties[2]);
+  /// See [Note.content].
+  static final content =
+      obx.QueryStringProperty<Note>(_entities[0].properties[2]);
 
-  /// See [AppWidget.containedObjectTypeIndex].
-  static final containedObjectTypeIndex =
-      obx.QueryIntegerProperty<AppWidget>(_entities[0].properties[3]);
-
-  /// See [AppWidget.toDoWidgetRelation].
-  static final toDoWidgetRelation =
-      obx.QueryRelationToOne<AppWidget, ToDoWidget>(_entities[0].properties[4]);
-
-  /// See [AppWidget.walletWidgetRelation].
-  static final walletWidgetRelation =
-      obx.QueryRelationToOne<AppWidget, WalletWidget>(
-          _entities[0].properties[5]);
+  /// See [Note.createdAt].
+  static final createdAt =
+      obx.QueryDateProperty<Note>(_entities[0].properties[3]);
 }
 
 /// [SharedPref] entity fields to define ObjectBox queries.
@@ -1223,248 +1212,236 @@ class SharedPref_ {
       obx.QueryStringProperty<SharedPref>(_entities[1].properties[2]);
 }
 
-/// [ToDoList] entity fields to define ObjectBox queries.
-class ToDoList_ {
-  /// See [ToDoList.id].
+/// [AppWidget] entity fields to define ObjectBox queries.
+class AppWidget_ {
+  /// See [AppWidget.id].
   static final id =
-      obx.QueryIntegerProperty<ToDoList>(_entities[2].properties[0]);
+      obx.QueryIntegerProperty<AppWidget>(_entities[2].properties[0]);
 
-  /// See [ToDoList.name].
-  static final name =
-      obx.QueryStringProperty<ToDoList>(_entities[2].properties[1]);
+  /// See [AppWidget.parentId].
+  static final parentId =
+      obx.QueryStringProperty<AppWidget>(_entities[2].properties[1]);
 
-  /// see [ToDoList.tasksRelation]
-  static final tasksRelation =
-      obx.QueryRelationToMany<ToDoList, ToDoTask>(_entities[2].relations[0]);
-}
-
-/// [ToDoTask] entity fields to define ObjectBox queries.
-class ToDoTask_ {
-  /// See [ToDoTask.id].
-  static final id =
-      obx.QueryIntegerProperty<ToDoTask>(_entities[3].properties[0]);
-
-  /// See [ToDoTask.toDoListId].
-  static final toDoListId =
-      obx.QueryIntegerProperty<ToDoTask>(_entities[3].properties[1]);
-
-  /// See [ToDoTask.parentIndex].
+  /// See [AppWidget.parentIndex].
   static final parentIndex =
-      obx.QueryIntegerProperty<ToDoTask>(_entities[3].properties[2]);
+      obx.QueryIntegerProperty<AppWidget>(_entities[2].properties[2]);
 
-  /// See [ToDoTask.task].
-  static final task =
-      obx.QueryStringProperty<ToDoTask>(_entities[3].properties[3]);
+  /// See [AppWidget.containedObjectTypeIndex].
+  static final containedObjectTypeIndex =
+      obx.QueryIntegerProperty<AppWidget>(_entities[2].properties[3]);
 
-  /// See [ToDoTask.description].
-  static final description =
-      obx.QueryStringProperty<ToDoTask>(_entities[3].properties[4]);
+  /// See [AppWidget.containedObjectId].
+  static final containedObjectId =
+      obx.QueryIntegerProperty<AppWidget>(_entities[2].properties[4]);
 
-  /// See [ToDoTask.isDaily].
-  static final isDaily =
-      obx.QueryBooleanProperty<ToDoTask>(_entities[3].properties[5]);
-
-  /// See [ToDoTask.complete].
-  static final complete =
-      obx.QueryBooleanProperty<ToDoTask>(_entities[3].properties[6]);
-
-  /// See [ToDoTask.creationDate].
-  static final creationDate =
-      obx.QueryDateProperty<ToDoTask>(_entities[3].properties[7]);
-
-  /// See [ToDoTask.completionDate].
-  static final completionDate =
-      obx.QueryDateProperty<ToDoTask>(_entities[3].properties[8]);
-
-  /// See [ToDoTask.toDoListRelation].
-  static final toDoListRelation =
-      obx.QueryRelationToOne<ToDoTask, ToDoList>(_entities[3].properties[9]);
-}
-
-/// [ToDoWidget] entity fields to define ObjectBox queries.
-class ToDoWidget_ {
-  /// See [ToDoWidget.id].
-  static final id =
-      obx.QueryIntegerProperty<ToDoWidget>(_entities[4].properties[0]);
-
-  /// See [ToDoWidget.toDoListId].
-  static final toDoListId =
-      obx.QueryIntegerProperty<ToDoWidget>(_entities[4].properties[1]);
-
-  /// See [ToDoWidget.widgetTypeIndex].
+  /// See [AppWidget.widgetTypeIndex].
   static final widgetTypeIndex =
-      obx.QueryIntegerProperty<ToDoWidget>(_entities[4].properties[2]);
-
-  /// See [ToDoWidget.appWidgetRelation].
-  static final appWidgetRelation =
-      obx.QueryRelationToOne<ToDoWidget, AppWidget>(_entities[4].properties[3]);
-}
-
-/// [WalletBudget] entity fields to define ObjectBox queries.
-class WalletBudget_ {
-  /// See [WalletBudget.id].
-  static final id =
-      obx.QueryIntegerProperty<WalletBudget>(_entities[5].properties[0]);
-
-  /// See [WalletBudget.name].
-  static final name =
-      obx.QueryStringProperty<WalletBudget>(_entities[5].properties[1]);
-
-  /// See [WalletBudget.amount].
-  static final amount =
-      obx.QueryDoubleProperty<WalletBudget>(_entities[5].properties[2]);
-
-  /// See [WalletBudget.walletRelation].
-  static final walletRelation =
-      obx.QueryRelationToOne<WalletBudget, Wallet>(_entities[5].properties[3]);
-
-  /// See [WalletBudget.currencyRelation].
-  static final currencyRelation =
-      obx.QueryRelationToOne<WalletBudget, Wallet>(_entities[5].properties[4]);
-
-  /// See [WalletBudget.recurranceTimeUnitsIndex].
-  static final recurranceTimeUnitsIndex =
-      obx.QueryIntegerProperty<WalletBudget>(_entities[5].properties[5]);
-
-  /// See [WalletBudget.recurranceTimeUnitsAmount].
-  static final recurranceTimeUnitsAmount =
-      obx.QueryIntegerProperty<WalletBudget>(_entities[5].properties[6]);
-
-  /// see [WalletBudget.transactionsRelation]
-  static final transactionsRelation =
-      obx.QueryRelationToMany<WalletBudget, WalletTransaction>(
-          _entities[5].relations[0]);
-}
-
-/// [WalletTransaction] entity fields to define ObjectBox queries.
-class WalletTransaction_ {
-  /// See [WalletTransaction.id].
-  static final id =
-      obx.QueryIntegerProperty<WalletTransaction>(_entities[6].properties[0]);
-
-  /// See [WalletTransaction.name].
-  static final name =
-      obx.QueryStringProperty<WalletTransaction>(_entities[6].properties[1]);
-
-  /// See [WalletTransaction.description].
-  static final description =
-      obx.QueryStringProperty<WalletTransaction>(_entities[6].properties[2]);
-
-  /// See [WalletTransaction.amount].
-  static final amount =
-      obx.QueryDoubleProperty<WalletTransaction>(_entities[6].properties[3]);
-
-  /// See [WalletTransaction.date].
-  static final date =
-      obx.QueryDateProperty<WalletTransaction>(_entities[6].properties[4]);
-
-  /// See [WalletTransaction.walletRelation].
-  static final walletRelation =
-      obx.QueryRelationToOne<WalletTransaction, Wallet>(
-          _entities[6].properties[5]);
-
-  /// See [WalletTransaction.walletBudgetRelation].
-  static final walletBudgetRelation =
-      obx.QueryRelationToOne<WalletTransaction, WalletBudget>(
-          _entities[6].properties[6]);
-
-  /// See [WalletTransaction.currencyRelation].
-  static final currencyRelation =
-      obx.QueryRelationToOne<WalletTransaction, WalletCurrency>(
-          _entities[6].properties[7]);
-}
-
-/// [WalletWidget] entity fields to define ObjectBox queries.
-class WalletWidget_ {
-  /// See [WalletWidget.id].
-  static final id =
-      obx.QueryIntegerProperty<WalletWidget>(_entities[7].properties[0]);
-
-  /// See [WalletWidget.walletId].
-  static final walletId =
-      obx.QueryIntegerProperty<WalletWidget>(_entities[7].properties[1]);
-
-  /// See [WalletWidget.widgetTypeIndex].
-  static final widgetTypeIndex =
-      obx.QueryIntegerProperty<WalletWidget>(_entities[7].properties[2]);
-
-  /// See [WalletWidget.appWidgetRelation].
-  static final appWidgetRelation =
-      obx.QueryRelationToOne<WalletWidget, AppWidget>(
-          _entities[7].properties[3]);
-}
-
-/// [Wallet] entity fields to define ObjectBox queries.
-class Wallet_ {
-  /// See [Wallet.id].
-  static final id =
-      obx.QueryIntegerProperty<Wallet>(_entities[8].properties[0]);
-
-  /// See [Wallet.name].
-  static final name =
-      obx.QueryStringProperty<Wallet>(_entities[8].properties[1]);
-
-  /// See [Wallet.defaultCurrencyRelation].
-  static final defaultCurrencyRelation =
-      obx.QueryRelationToOne<Wallet, WalletCurrency>(
-          _entities[8].properties[2]);
-
-  /// see [Wallet.budgetsRelation]
-  static final budgetsRelation =
-      obx.QueryRelationToMany<Wallet, WalletBudget>(_entities[8].relations[0]);
-
-  /// see [Wallet.transactionsRelation]
-  static final transactionsRelation =
-      obx.QueryRelationToMany<Wallet, WalletTransaction>(
-          _entities[8].relations[1]);
+      obx.QueryIntegerProperty<AppWidget>(_entities[2].properties[5]);
 }
 
 /// [WalletCurrency] entity fields to define ObjectBox queries.
 class WalletCurrency_ {
   /// See [WalletCurrency.id].
   static final id =
-      obx.QueryIntegerProperty<WalletCurrency>(_entities[9].properties[0]);
+      obx.QueryIntegerProperty<WalletCurrency>(_entities[3].properties[0]);
 
   /// See [WalletCurrency.emoji].
   static final emoji =
-      obx.QueryStringProperty<WalletCurrency>(_entities[9].properties[1]);
+      obx.QueryStringProperty<WalletCurrency>(_entities[3].properties[1]);
 
   /// See [WalletCurrency.code].
   static final code =
-      obx.QueryStringProperty<WalletCurrency>(_entities[9].properties[2]);
+      obx.QueryStringProperty<WalletCurrency>(_entities[3].properties[2]);
 
   /// See [WalletCurrency.name].
   static final name =
-      obx.QueryStringProperty<WalletCurrency>(_entities[9].properties[3]);
+      obx.QueryStringProperty<WalletCurrency>(_entities[3].properties[3]);
 
   /// See [WalletCurrency.symbol].
   static final symbol =
-      obx.QueryStringProperty<WalletCurrency>(_entities[9].properties[4]);
+      obx.QueryStringProperty<WalletCurrency>(_entities[3].properties[4]);
+}
+
+/// [WalletTransaction] entity fields to define ObjectBox queries.
+class WalletTransaction_ {
+  /// See [WalletTransaction.id].
+  static final id =
+      obx.QueryIntegerProperty<WalletTransaction>(_entities[4].properties[0]);
+
+  /// See [WalletTransaction.name].
+  static final name =
+      obx.QueryStringProperty<WalletTransaction>(_entities[4].properties[1]);
+
+  /// See [WalletTransaction.description].
+  static final description =
+      obx.QueryStringProperty<WalletTransaction>(_entities[4].properties[2]);
+
+  /// See [WalletTransaction.amount].
+  static final amount =
+      obx.QueryDoubleProperty<WalletTransaction>(_entities[4].properties[3]);
+
+  /// See [WalletTransaction.date].
+  static final date =
+      obx.QueryDateProperty<WalletTransaction>(_entities[4].properties[4]);
+
+  /// See [WalletTransaction.walletRelation].
+  static final walletRelation =
+      obx.QueryRelationToOne<WalletTransaction, Wallet>(
+          _entities[4].properties[5]);
+
+  /// See [WalletTransaction.currencyRelation].
+  static final currencyRelation =
+      obx.QueryRelationToOne<WalletTransaction, WalletCurrency>(
+          _entities[4].properties[6]);
+
+  /// See [WalletTransaction.walletBudgetRelation].
+  static final walletBudgetRelation =
+      obx.QueryRelationToOne<WalletTransaction, WalletBudget>(
+          _entities[4].properties[7]);
+}
+
+/// [Wallet] entity fields to define ObjectBox queries.
+class Wallet_ {
+  /// See [Wallet.id].
+  static final id =
+      obx.QueryIntegerProperty<Wallet>(_entities[5].properties[0]);
+
+  /// See [Wallet.name].
+  static final name =
+      obx.QueryStringProperty<Wallet>(_entities[5].properties[1]);
+
+  /// See [Wallet.defaultCurrencyRelation].
+  static final defaultCurrencyRelation =
+      obx.QueryRelationToOne<Wallet, WalletCurrency>(
+          _entities[5].properties[2]);
+
+  /// see [Wallet.budgetsRelation]
+  static final budgetsRelation =
+      obx.QueryRelationToMany<Wallet, WalletBudget>(_entities[5].relations[0]);
+
+  /// see [Wallet.transactionsRelation]
+  static final transactionsRelation =
+      obx.QueryRelationToMany<Wallet, WalletTransaction>(
+          _entities[5].relations[1]);
+}
+
+/// [WalletBudget] entity fields to define ObjectBox queries.
+class WalletBudget_ {
+  /// See [WalletBudget.id].
+  static final id =
+      obx.QueryIntegerProperty<WalletBudget>(_entities[6].properties[0]);
+
+  /// See [WalletBudget.name].
+  static final name =
+      obx.QueryStringProperty<WalletBudget>(_entities[6].properties[1]);
+
+  /// See [WalletBudget.walletRelation].
+  static final walletRelation =
+      obx.QueryRelationToOne<WalletBudget, Wallet>(_entities[6].properties[2]);
+
+  /// See [WalletBudget.amount].
+  static final amount =
+      obx.QueryDoubleProperty<WalletBudget>(_entities[6].properties[3]);
+
+  /// See [WalletBudget.currencyRelation].
+  static final currencyRelation =
+      obx.QueryRelationToOne<WalletBudget, Wallet>(_entities[6].properties[4]);
+
+  /// See [WalletBudget.recurranceTimeUnitsIndex].
+  static final recurranceTimeUnitsIndex =
+      obx.QueryIntegerProperty<WalletBudget>(_entities[6].properties[5]);
+
+  /// See [WalletBudget.recurranceTimeUnitsAmount].
+  static final recurranceTimeUnitsAmount =
+      obx.QueryIntegerProperty<WalletBudget>(_entities[6].properties[6]);
+
+  /// see [WalletBudget.transactionsRelation]
+  static final transactionsRelation =
+      obx.QueryRelationToMany<WalletBudget, WalletTransaction>(
+          _entities[6].relations[0]);
+}
+
+/// [ToDoTask] entity fields to define ObjectBox queries.
+class ToDoTask_ {
+  /// See [ToDoTask.id].
+  static final id =
+      obx.QueryIntegerProperty<ToDoTask>(_entities[7].properties[0]);
+
+  /// See [ToDoTask.toDoListId].
+  static final toDoListId =
+      obx.QueryIntegerProperty<ToDoTask>(_entities[7].properties[1]);
+
+  /// See [ToDoTask.parentIndex].
+  static final parentIndex =
+      obx.QueryIntegerProperty<ToDoTask>(_entities[7].properties[2]);
+
+  /// See [ToDoTask.task].
+  static final task =
+      obx.QueryStringProperty<ToDoTask>(_entities[7].properties[3]);
+
+  /// See [ToDoTask.description].
+  static final description =
+      obx.QueryStringProperty<ToDoTask>(_entities[7].properties[4]);
+
+  /// See [ToDoTask.isDaily].
+  static final isDaily =
+      obx.QueryBooleanProperty<ToDoTask>(_entities[7].properties[5]);
+
+  /// See [ToDoTask.complete].
+  static final complete =
+      obx.QueryBooleanProperty<ToDoTask>(_entities[7].properties[6]);
+
+  /// See [ToDoTask.creationDate].
+  static final creationDate =
+      obx.QueryDateProperty<ToDoTask>(_entities[7].properties[7]);
+
+  /// See [ToDoTask.completionDate].
+  static final completionDate =
+      obx.QueryDateProperty<ToDoTask>(_entities[7].properties[8]);
+
+  /// See [ToDoTask.toDoListRelation].
+  static final toDoListRelation =
+      obx.QueryRelationToOne<ToDoTask, ToDoList>(_entities[7].properties[9]);
+}
+
+/// [ToDoList] entity fields to define ObjectBox queries.
+class ToDoList_ {
+  /// See [ToDoList.id].
+  static final id =
+      obx.QueryIntegerProperty<ToDoList>(_entities[8].properties[0]);
+
+  /// See [ToDoList.name].
+  static final name =
+      obx.QueryStringProperty<ToDoList>(_entities[8].properties[1]);
+
+  /// see [ToDoList.tasksRelation]
+  static final tasksRelation =
+      obx.QueryRelationToMany<ToDoList, ToDoTask>(_entities[8].relations[0]);
 }
 
 /// [CalendarEvent] entity fields to define ObjectBox queries.
 class CalendarEvent_ {
   /// See [CalendarEvent.id].
   static final id =
-      obx.QueryIntegerProperty<CalendarEvent>(_entities[10].properties[0]);
+      obx.QueryIntegerProperty<CalendarEvent>(_entities[9].properties[0]);
 
   /// See [CalendarEvent.title].
   static final title =
-      obx.QueryStringProperty<CalendarEvent>(_entities[10].properties[1]);
+      obx.QueryStringProperty<CalendarEvent>(_entities[9].properties[1]);
 
   /// See [CalendarEvent.description].
   static final description =
-      obx.QueryStringProperty<CalendarEvent>(_entities[10].properties[2]);
+      obx.QueryStringProperty<CalendarEvent>(_entities[9].properties[2]);
 
   /// See [CalendarEvent.startTime].
   static final startTime =
-      obx.QueryDateProperty<CalendarEvent>(_entities[10].properties[3]);
+      obx.QueryDateProperty<CalendarEvent>(_entities[9].properties[3]);
 
   /// See [CalendarEvent.endTime].
   static final endTime =
-      obx.QueryDateProperty<CalendarEvent>(_entities[10].properties[4]);
+      obx.QueryDateProperty<CalendarEvent>(_entities[9].properties[4]);
 
   /// See [CalendarEvent.isAllDay].
   static final isAllDay =
-      obx.QueryBooleanProperty<CalendarEvent>(_entities[10].properties[5]);
+      obx.QueryBooleanProperty<CalendarEvent>(_entities[9].properties[5]);
 }

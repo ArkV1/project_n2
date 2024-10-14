@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:project_n2/models/wallet/wallet.dart';
-import 'package:project_n2/models/wallet/wallet_currency.dart';
+import 'package:project_n2/features/wallet/models/wallet.dart';
+import 'package:project_n2/features/wallet/models/wallet_currency.dart';
 
 class CurrencyDropdown extends ConsumerStatefulWidget {
   final WalletCurrency? currency;

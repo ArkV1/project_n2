@@ -2,19 +2,20 @@ import 'package:go_router/go_router.dart';
 
 import 'package:flutter/material.dart';
 import 'package:animations/animations.dart';
-import 'package:project_n2/views/calendar_view/calendar_view.dart';
-import 'package:project_n2/views/personalization_view/personalization_view.dart';
-import 'package:project_n2/views/todo_view/todo_view.dart';
-import 'package:project_n2/views/wallet_view/wallets_view.dart';
+import 'package:project_n2/features/calendar/views/calendar_view.dart';
+import 'package:project_n2/core/views/personalization_view/personalization_view.dart';
+import 'package:project_n2/features/todo/models/views/todo_view.dart';
+import 'package:project_n2/features/wallet/views/wallets_view.dart';
+import 'package:project_n2/core/models/app_components.dart';
 
 // MODELS & ENUMS
 
 import 'package:project_n2/tools/enums/settings.dart';
 
 // SCREENS & WIDGETS
-import 'package:project_n2/views/settings_view/settings_view.dart';
+import 'package:project_n2/core/views/settings_view/settings_view.dart';
 import 'package:project_n2/shared/main_layout.dart';
-import 'package:project_n2/views/home_view/home_view.dart';
+import 'package:project_n2/core/views/home_view/home_view.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _shellNavigatorKey = GlobalKey<NavigatorState>();
@@ -68,22 +69,13 @@ final router = GoRouter(
             );
           },
         ),
-        GoRoute(
-            path: Screens.toDo.path,
-            pageBuilder: (context, state) {
-              return const FadeThroughTransitionPageWrapper(
-                transitionKey: ValueKey('toDo'),
-                screen: ToDoView(),
-              );
-            }),
-        GoRoute(
-            path: Screens.calendar.path,
-            pageBuilder: (context, state) {
-              return const FadeThroughTransitionPageWrapper(
-                transitionKey: ValueKey('calendar'),
-                screen: CalendarView(),
-              );
-            }),
+        for (final component in AppComponents.values)
+          GoRoute(
+            path: component.route,
+            pageBuilder: (context, state) => NoTransitionPage(
+              child: component.viewBuilder(context),
+            ),
+          ),
       ],
     ),
     GoRoute(

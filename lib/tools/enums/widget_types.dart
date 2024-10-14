@@ -2,6 +2,7 @@ enum ContainedObjectType {
   unknown(publicName: 'Unknown'),
   toDoList(publicName: 'To Do List'),
   wallet(publicName: 'Wallet'),
+  calendar(publicName: 'Calendar'),
   other(publicName: 'Other');
 
   const ContainedObjectType({
@@ -47,8 +48,27 @@ enum ToDoWidgetType {
 }
 
 enum CalendarWidgetType {
-  unknown,
-  monthly,
-  weekly,
-  daily
+  unknown(
+    publicName: 'Unknown',
+    hasSettings: false,
+  ),
+  monthView(
+    publicName: 'Month View',
+    hasSettings: true,
+  ),
+  weekView(
+    publicName: 'Week View',
+    hasSettings: true,
+  ),
+  dayView(
+    publicName: 'Day View',
+    hasSettings: true,
+  );
+
+  const CalendarWidgetType({
+    required this.publicName,
+    this.hasSettings = false,
+  });
+  final String publicName;
+  final bool hasSettings;
 }

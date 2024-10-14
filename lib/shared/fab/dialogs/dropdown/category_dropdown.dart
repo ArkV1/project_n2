@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:project_n2/models/app_settings.dart';
-import 'package:project_n2/models/wallet/wallet_budget.dart';
+import 'package:project_n2/core/models/app_settings.dart';
+import 'package:project_n2/features/wallet/models/wallet_budget.dart';
 import 'package:project_n2/shared/fab/dialogs/transaction_dialog.dart';
 
 import '/tools/constants.dart';
